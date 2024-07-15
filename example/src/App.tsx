@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'react-native-omh-storage';
+import { multiply } from '@openmobilehub/storage-googledrive';
 
 export default function App() {
   const [result, setResult] = useState<number | undefined>();

@@ -1,0 +1,92 @@
+{
+  "name": "@openmobilehub/storage-googledrive",
+  "version": "0.0.0",
+  "description": "React Native OMH Storage - Google Drive",
+  "scripts": {
+    "test": "jest",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint \"**/*.{js,ts,tsx}\"",
+    "prepare": "bob build",
+    "release": "release-it"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/openmobilehub/react-native-omh-storage.git"
+  },
+  "author": "OpenMobileHub <contact@openmobilehub.org> (https://openmobilehub.org)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/openmobilehub/react-native-omh-storage/issues"
+  },
+  "homepage": "https://github.com/openmobilehub/react-native-omh-storage#readme",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "keywords": [
+    "react-native",
+    "ios",
+    "android"
+  ],
+  "source": "./src/index.tsx",
+  "main": "./lib/commonjs/index.js",
+  "module": "./lib/module/index.js",
+  "types": "./lib/typescript/packages/googledrive/src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/typescript/packages/googledrive/src/index.d.ts",
+      "import": "./lib/module/index.js",
+      "require": "./lib/commonjs/index.js"
+    }
+  },
+  "files": [
+    "src",
+    "lib",
+    "android",
+    "ios",
+    "cpp",
+    "*.podspec",
+    "!ios/build",
+    "!android/build",
+    "!android/gradle",
+    "!android/gradlew",
+    "!android/gradlew.bat",
+    "!android/local.properties",
+    "!**/__tests__",
+    "!**/__fixtures__",
+    "!**/__mocks__",
+    "!**/.*"
+  ],
+  "devDependencies": {
+    "react": "18.2.0",
+    "react-native": "0.74.3"
+  },
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      [
+        "commonjs",
+        {
+          "esm": true
+        }
+      ],
+      [
+        "module",
+        {
+          "esm": true
+        }
+      ],
+      [
+        "typescript",
+        {
+          "project": "tsconfig.build.json"
+        }
+      ]
+    ]
+  },
+  "create-react-native-library": {
+    "type": "module-mixed",
+    "languages": "kotlin-objc",
+    "version": "0.38.2"
+  }
+}

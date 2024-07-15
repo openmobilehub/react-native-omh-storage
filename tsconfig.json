@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "react-native-omh-storage": ["./src/index"]
+      "@openmobilehub/storage-googledrive": ["./packages/googledrive/src"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

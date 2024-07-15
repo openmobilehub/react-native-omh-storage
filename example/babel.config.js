@@ -1,5 +1,18 @@
 const path = require('path');
-const pak = require('../package.json');
+const fs = require('fs');
+const root = path.resolve(__dirname, '..');
+
+const alias = {};
+
+const packagesPath = path.join(root, 'packages');
+
+for (const file of fs.readdirSync(packagesPath)) {
+  const packageDirPath = path.join(packagesPath, file);
+  const packageJsonPath = path.join(packageDirPath, 'package.json');
+  const pak = require(packageJsonPath);
+
+  alias[pak.name] = path.join(packageDirPath, pak.source);
+}
 
 module.exports = {
   presets: ['module:@react-native/babel-preset'],
@@ -8,9 +21,7 @@ module.exports = {
       'module-resolver',
       {
         extensions: ['.tsx', '.ts', '.js', '.json'],
-        alias: {
-          [pak.name]: path.join(__dirname, '..', pak.source),
-        },
+        alias,
       },
     ],
   ],
