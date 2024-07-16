@@ -1,6 +1,6 @@
 {
   "name": "@openmobilehub/storage-googledrive",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "React Native OMH Storage - Google Drive",
   "scripts": {
     "test": "jest",
@@ -56,9 +56,17 @@
     "!**/__mocks__",
     "!**/.*"
   ],
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
   "devDependencies": {
     "react": "18.2.0",
-    "react-native": "0.74.3"
+    "react-native": "0.74.3",
+    "react-native-builder-bob": "^0.26.0"
+  },
+  "resolutions": {
+    "@types/react": "^18.2.44"
   },
   "react-native-builder-bob": {
     "source": "src",
