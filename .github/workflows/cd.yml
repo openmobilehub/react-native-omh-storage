@@ -21,7 +21,7 @@ jobs:
 
       - name: Setup secrets
         run: |
-          bash .github/scripts/env-secrets.sh "${{ secrets.GOOGLE_CLIENT_ID}}" "${{ secrets.MICROSOFT_CLIENT_ID }}" "${{ secrets.MICROSOFT_SIGNATURE_HASH }}" "${{ secrets.DROPBOX_CLIENT_ID }}"
+          bash .github/scripts/env-secrets.sh "${{ secrets.GOOGLE_CLIENT_ID}}" "${{ secrets.MICROSOFT_CLIENT_ID }}" "${{ secrets.MICROSOFT_SIGNATURE_HASH }}" "${{ secrets.DROPBOX_CLIENT_ID }}" "${{ secrets.DROPBOX_CLIENT_SECRET }}"
 
       - name: Cache turborepo for Android
         uses: actions/cache@v4
@@ -87,7 +87,7 @@ jobs:
 
       - name: Setup secrets
         run: |
-          bash .github/scripts/env-secrets.sh "${{ secrets.GOOGLE_CLIENT_ID}}" "${{ secrets.MICROSOFT_CLIENT_ID }}" "${{ secrets.MICROSOFT_SIGNATURE_HASH }}" "${{ secrets.DROPBOX_CLIENT_ID }}"
+          bash .github/scripts/env-secrets.sh "${{ secrets.GOOGLE_CLIENT_ID}}" "${{ secrets.MICROSOFT_CLIENT_ID }}" "${{ secrets.MICROSOFT_SIGNATURE_HASH }}" "${{ secrets.DROPBOX_CLIENT_ID }}" "${{ secrets.DROPBOX_CLIENT_SECRET }}"
 
       - name: Cache turborepo for iOS
         uses: actions/cache@v4

@@ -3,7 +3,10 @@ import React from 'react';
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { Providers, SignedInProviderContext } from '@/app/SignedInProvider';
+import {
+  SignedInProviderContext,
+  type Providers,
+} from '@/app/SignedInProvider';
 import HomeScreen from '@/screens/HomeScreen';
 import SignedInScreen from '@/screens/SignedInScreen';
 
@@ -25,10 +28,6 @@ const MyTheme = {
 function RootStack() {
   const { signedInProvider } = React.useContext(SignedInProviderContext);
 
-  const signedInProviderName = signedInProvider
-    ? signedInProvider.charAt(0).toUpperCase() + signedInProvider.slice(1)
-    : '';
-
   return (
     <Stack.Navigator>
       {!signedInProvider ? (
@@ -42,7 +41,7 @@ function RootStack() {
           name="SignedIn"
           component={SignedInScreen}
           options={{
-            title: signedInProviderName,
+            title: signedInProvider,
           }}
           initialParams={{ provider: signedInProvider }}
         />

@@ -1,6 +1,18 @@
 #!/bin/bash
 
-echo "GOOGLE_CLIENT_ID=$1" >> apps/sample-app/.env
-echo "MICROSOFT_CLIENT_ID=$2" >> apps/sample-app/.env
-echo "MICROSOFT_SIGNATURE_HASH=$3" >> apps/sample-app/.env
-echo "DROPBOX_CLIENT_ID=$4" >> apps/sample-app/.env
+ENV_FILE="apps/sample-app/.env"
+LOCAL_PROPERTIES_FILE="apps/sample-app/android/local.properties"
+
+ENV_CONTENT="GOOGLE_CLIENT_ID=$1
+MICROSOFT_CLIENT_ID=$2
+DROPBOX_CLIENT_ID=$4
+DROPBOX_CLIENT_SECRET=$5"
+
+LOCAL_PROPERTIES_CONTENT="GOOGLE_CLIENT_ID=$1
+MICROSOFT_CLIENT_ID=$2
+MICROSOFT_HOST_PATH=com.openmobilehub.reactnative.storage.sample
+MICROSOFT_SIGNATURE_HASH=$3
+DROPBOX_CLIENT_ID=$4"
+
+echo "$ENV_CONTENT" >> "$ENV_FILE"
+echo "$LOCAL_PROPERTIES_CONTENT" >> "$LOCAL_PROPERTIES_FILE"

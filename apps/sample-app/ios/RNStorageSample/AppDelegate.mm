@@ -28,6 +28,7 @@
 #endif
 }
 
+// https://commerce.nearform.com/open-source/react-native-app-auth/docs#define-openurl-callback-in-appdelegate
 - (BOOL) application: (UIApplication *)application
              openURL: (NSURL *)url
              options: (NSDictionary<UIApplicationOpenURLOptionsKey, id> *) options

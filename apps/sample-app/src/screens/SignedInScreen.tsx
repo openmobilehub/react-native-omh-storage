@@ -3,9 +3,10 @@ import { Alert, Button, Image, StyleSheet, Text, View } from 'react-native';
 
 import { type OmhUserProfile } from '@openmobilehub/auth-core';
 import { useRoute } from '@react-navigation/native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { type NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { RootStackParamList } from '@/app/navigation';
+import { type RootStackParamList } from '@/app/navigation';
 import {
   getAuthProvider,
   SignedInProviderContext,
@@ -15,6 +16,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'SignedIn'>;
 type SignedInRouteProp = Props['route'];
 
 export default function SignedInScreen() {
+  const insets = useSafeAreaInsets();
   const route = useRoute<SignedInRouteProp>();
 
   const { provider } = route.params;
@@ -94,7 +96,7 @@ export default function SignedInScreen() {
     'https://www.btklsby.go.id/images/placeholder/avatar.png';
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingBottom: insets.bottom }]}>
       <View style={styles.userProfileContainer}>
         <Image
           style={styles.userProfileImage}

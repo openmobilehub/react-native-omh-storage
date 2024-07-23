@@ -15,9 +15,9 @@ export default function HomeScreen() {
 
   async function onSignIn(PROVIDER_NAME: Providers) {
     try {
-      const googleAuthProvider = await getAuthProvider(PROVIDER_NAME);
+      const authProvider = await getAuthProvider(PROVIDER_NAME);
 
-      await googleAuthProvider.signIn();
+      await authProvider.signIn();
 
       signInWithProvider(PROVIDER_NAME);
     } catch (error: any) {
@@ -29,25 +29,25 @@ export default function HomeScreen() {
     <View style={styles.container}>
       <Button
         mode="contained"
-        onPress={() => onSignIn(PROVIDER_NAMES.GOOGLE)}
-        testID="sign-in-google"
+        onPress={() => onSignIn(PROVIDER_NAMES.GOOGLEDRIVE)}
+        testID="sign-in-googledrive"
       >
-        Sign in with Google
+        Sign in to Google Drive
       </Button>
-      {/* <Button
+      <Button
         mode="contained"
-        onPress={() => onSignIn(PROVIDER_NAMES.MICROSOFT)}
-        testID="sign-in-microsoft"
+        onPress={() => onSignIn(PROVIDER_NAMES.ONEDRIVE)}
+        testID="sign-in-onedrive"
       >
-        Sign in with Microsoft
+        Sign in to OneDrive
       </Button>
       <Button
         mode="contained"
         onPress={() => onSignIn(PROVIDER_NAMES.DROPBOX)}
         testID="sign-in-dropbox"
       >
-        Sign in with Dropbox
-      </Button> */}
+        Sign in to Dropbox
+      </Button>
     </View>
   );
 }

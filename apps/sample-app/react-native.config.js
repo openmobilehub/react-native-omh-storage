@@ -15,16 +15,16 @@ for (const file of fs.readdirSync(packagesPath)) {
 }
 
 module.exports = {
-  project: {
-    ios: {
-      // automaticPodsInstallation: true,
-    },
-  },
   dependencies: {
     ...dependencies,
     'react-native-app-auth': {
       platforms: {
         android: null,
+      },
+    },
+    'react-native-vector-icons': {
+      platforms: {
+        ios: null,
       },
     },
   },
