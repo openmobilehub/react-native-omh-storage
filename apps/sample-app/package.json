@@ -3,16 +3,25 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "start": "react-native start",
     "android": "react-native run-android",
-    "build:android": "npm run mkdist && react-native bundle --entry-file index.js --platform android --dev false --bundle-output dist/main.android.jsbundle --assets-dest dist && cd android && ./gradlew assembleRelease --no-daemon --console=plain -PreactNativeArchitectures=arm64-v8a",
-    "build:ios": "npm run mkdist && react-native bundle --entry-file index.js --platform ios --dev false --bundle-output dist/main.ios.jsbundle --assets-dest dist && react-native build-ios --scheme RNStorageSample --mode Release --extra-params \"-sdk iphoneos -destination generic/platform=iOS -archivePath build/RNStorageSample.xcarchive archive CODE_SIGNING_ALLOWED=NO CC=clang CPLUSPLUS=clang++ LD=clang LDPLUSPLUS=clang++ GCC_OPTIMIZATION_LEVEL=0 GCC_PRECOMPILE_PREFIX_HEADER=YES ASSETCATALOG_COMPILER_OPTIMIZATION=time DEBUG_INFORMATION_FORMAT=dwarf COMPILER_INDEX_STORE_ENABLE=NO\"",
     "ios": "react-native run-ios",
-    "mkdist": "node -e \"require('node:fs').mkdirSync('dist', { recursive: true, mode: 0o755 })\"",
-    "start": "react-native start"
+    "build:android": "cd android && ./gradlew assembleRelease --no-daemon --console=plain -PreactNativeArchitectures=arm64-v8a",
+    "build:ios": "react-native build-ios --scheme RNStorageSample --mode Release --extra-params \"-sdk iphoneos -destination generic/platform=iOS -archivePath build/RNStorageSample.xcarchive archive\""
   },
   "dependencies": {
+    "@openmobilehub/auth-google": "^1.0.1",
+    "@react-native-async-storage/async-storage": "^1.24.0",
+    "@react-navigation/native": "^6.1.18",
+    "@react-navigation/native-stack": "^6.10.1",
     "react": "18.2.0",
-    "react-native": "0.74.3"
+    "react-native": "0.74.3",
+    "react-native-app-auth": "^7.2.0",
+    "react-native-paper": "^5.12.3",
+    "react-native-root-toast": "^3.6.0",
+    "react-native-safe-area-context": "^4.10.8",
+    "react-native-screens": "^3.32.0",
+    "redaxios": "^0.5.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -21,9 +30,10 @@
     "@react-native/babel-preset": "0.74.85",
     "@react-native/metro-config": "0.74.85",
     "@react-native/typescript-config": "0.74.85",
-    "@rnx-kit/metro-config": "^1.3.15",
+    "babel-jest": "^29.6.3",
     "babel-plugin-module-resolver": "^5.0.0",
-    "react-native-test-app": "^3.8.7"
+    "react-native-dotenv": "^3.4.11",
+    "react-test-renderer": "18.2.0"
   },
   "engines": {
     "node": ">=18"

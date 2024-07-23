@@ -1,6 +1,5 @@
 const path = require('path');
 const fs = require('fs');
-const { configureProjects } = require('react-native-test-app');
 const root = path.resolve(__dirname, '../..');
 
 const dependencies = {};
@@ -16,14 +15,17 @@ for (const file of fs.readdirSync(packagesPath)) {
 }
 
 module.exports = {
-  project: configureProjects({
-    android: {
-      sourceDir: 'android',
-    },
+  project: {
     ios: {
-      sourceDir: 'ios',
-      automaticPodsInstallation: true,
+      // automaticPodsInstallation: true,
     },
-  }),
-  dependencies,
+  },
+  dependencies: {
+    ...dependencies,
+    'react-native-app-auth': {
+      platforms: {
+        android: null,
+      },
+    },
+  },
 };

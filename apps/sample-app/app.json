@@ -1,25 +1,4 @@
 {
   "name": "RNStorageSample",
-  "displayName": "RNStorageSample",
-  "components": [
-    {
-      "appKey": "RNStorageSample",
-      "displayName": "RNStorageSample"
-    }
-  ],
-  "resources": {
-    "android": ["dist/res", "dist/main.android.jsbundle"],
-    "ios": ["dist/assets", "dist/main.ios.jsbundle"],
-    "macos": ["dist/assets", "dist/main.macos.jsbundle"],
-    "visionos": ["dist/assets", "dist/main.visionos.jsbundle"],
-    "windows": ["dist/assets", "dist/main.windows.bundle"]
-  },
-  "android": {
-    "package": "com.openmobilehub.reactnative.storage.sample"
-  },
-  "ios": {
-    "bundleIdentifier": "com.openmobilehub.reactnative.storage.sample",
-    "codeSignIdentity": "Apple Distribution",
-    "developmentTeam": "PJL7DA2X5F"
-  }
+  "displayName": "RNStorageSample"
 }
