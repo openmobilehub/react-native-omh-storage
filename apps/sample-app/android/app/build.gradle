@@ -120,3 +120,6 @@ dependencies {
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+
+// https://github.com/oblador/react-native-vector-icons?tab=readme-ov-file#option-with-gradle-recommended
+apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")
