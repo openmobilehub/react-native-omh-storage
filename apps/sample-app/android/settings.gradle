@@ -6,7 +6,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = "OmhStorageExample"
+rootProject.name = "RNStorageSample"
 
 apply(from: {
     def searchDir = rootDir.toPath()

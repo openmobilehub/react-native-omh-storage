@@ -2,33 +2,16 @@
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
     "build:android": {
-      "inputs": [
-        "package.json",
-        "android",
-        "!android/build",
-        "src/*.ts",
-        "src/*.tsx",
-        "apps/sample-app/package.json",
-        "apps/sample-app/android",
-        "!apps/sample-app/android/.gradle",
-        "!apps/sample-app/android/build",
-        "!apps/sample-app/android/app/build"
-      ],
-      "outputs": []
+      "outputs": [
+        "dist/main.android.jsbundle",
+        "android/app/build/outputs/apk/release/**"
+      ]
     },
     "build:ios": {
-      "inputs": [
-        "package.json",
-        "*.podspec",
-        "ios",
-        "src/*.ts",
-        "src/*.tsx",
-        "apps/sample-app/package.json",
-        "apps/sample-app/ios",
-        "!apps/sample-app/ios/build",
-        "!apps/sample-app/ios/Pods"
-      ],
-      "outputs": []
+      "outputs": [
+        "dist/main.ios.jsbundle",
+        "ios/build/RNStorageSample.xcarchive/**"
+      ]
     }
   }
 }

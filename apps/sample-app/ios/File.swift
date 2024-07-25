@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  OmhStorageExample
+//  RNStorageSample
 //
 
 import Foundation
