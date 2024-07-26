@@ -21,7 +21,17 @@ module.exports = {
       'module-resolver',
       {
         extensions: ['.tsx', '.ts', '.js', '.json'],
-        alias,
+        alias: {
+          ...alias,
+          '@/app': './src/app',
+          '@/screens': './src/screens',
+        },
+      },
+    ],
+    [
+      'module:react-native-dotenv',
+      {
+        allowUndefined: false,
       },
     ],
   ],

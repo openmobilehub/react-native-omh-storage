@@ -21,7 +21,7 @@ jobs:
 
       - name: Setup secrets
         run: |
-          bash .github/scripts/env-secrets.sh "${{ secrets.GOOGLE_CLIENT_ID}}" "${{ secrets.MICROSOFT_CLIENT_ID }}" "${{ secrets.MICROSOFT_SIGNATURE_HASH }}" "${{ secrets.DROPBOX_CLIENT_ID }}"
+          bash .github/scripts/env-secrets.sh "${{ secrets.GOOGLE_CLIENT_ID}}" "${{ secrets.MICROSOFT_CLIENT_ID }}" "${{ secrets.MICROSOFT_SIGNATURE_HASH }}" "${{ secrets.DROPBOX_CLIENT_ID }}" "${{ secrets.DROPBOX_CLIENT_SECRET }}"
 
       - name: Cache turborepo for Android
         uses: actions/cache@v4
@@ -87,7 +87,7 @@ jobs:
 
       - name: Setup secrets
         run: |
-          bash .github/scripts/env-secrets.sh "${{ secrets.GOOGLE_CLIENT_ID}}" "${{ secrets.MICROSOFT_CLIENT_ID }}" "${{ secrets.MICROSOFT_SIGNATURE_HASH }}" "${{ secrets.DROPBOX_CLIENT_ID }}"
+          bash .github/scripts/env-secrets.sh "${{ secrets.GOOGLE_CLIENT_ID}}" "${{ secrets.MICROSOFT_CLIENT_ID }}" "${{ secrets.MICROSOFT_SIGNATURE_HASH }}" "${{ secrets.DROPBOX_CLIENT_ID }}" "${{ secrets.DROPBOX_CLIENT_SECRET }}"
 
       - name: Cache turborepo for iOS
         uses: actions/cache@v4
@@ -105,17 +105,16 @@ jobs:
             echo "turbo_cache_hit=1" >> $GITHUB_ENV
           fi
 
-      # TODO: Fix https://github.com/openmobilehub/react-native-omh-storage/actions/runs/10041339193/job/27749207978
-      # - name: Cache cocoapods
-      #   if: env.turbo_cache_hit != 1
-      #   id: cocoapods-cache
-      #   uses: actions/cache@v4
-      #   with:
-      #     path: |
-      #       **/ios/Pods
-      #     key: ${{ runner.os }}-cocoapods-${{ hashFiles('apps/sample-app/ios/Podfile.lock') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-cocoapods-
+      - name: Cache cocoapods
+        if: env.turbo_cache_hit != 1
+        id: cocoapods-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            **/ios/Pods
+          key: ${{ runner.os }}-cocoapods-${{ hashFiles('apps/sample-app/ios/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cocoapods-
 
       - name: Install cocoapods
         if: env.turbo_cache_hit != 1
@@ -178,7 +177,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ipa
-          path: ${{ runner.temp }}/build/ReactTestApp.ipa
+          path: ${{ runner.temp }}/build/RNStorageSample.ipa
 
   deploy-android-and-ios:
     runs-on: ubuntu-latest
@@ -211,7 +210,7 @@ jobs:
           appName: ${{ secrets.APP_CENTER_IOS_APP_NAME }}
           group: Testers
           token: ${{ secrets.APP_CENTER_TOKEN }}
-          file: ReactTestApp.ipa
+          file: RNStorageSample.ipa
           notifyTesters: true
           debug: true
           gitReleaseNotes: true
@@ -285,7 +284,7 @@ jobs:
   #     - name: Rename .apk & .ipa files
   #       run: |
   #         mv app-release.apk sample-app.apk
-  #         mv ReactTestApp.ipa sample-app.ipa
+  #         mv RNStorageSample.ipa sample-app.ipa
 
   #     - name: Create GitHub release
   #       uses: softprops/action-gh-release@v2

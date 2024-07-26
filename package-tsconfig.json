@@ -2,10 +2,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "@openmobilehub/storage-core": ["./packages/core/src"],
-      "@openmobilehub/storage-googledrive": ["./packages/googledrive/src"],
-      "@openmobilehub/storage-onedrive": ["./packages/onedrive/src"],
-      "@openmobilehub/storage-dropbox": ["./packages/dropbox/src"]
+      "@openmobilehub/storage-core": ["../../packages/core/src"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

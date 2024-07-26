@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "description": "React Native OMH Storage - Google Drive",
   "scripts": {
-    "test": "jest",
-    "typecheck": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
+    "typecheck": "tsc --noEmit",
     "prepare": "bob build",
     "release": "release-it"
   },
@@ -63,10 +62,8 @@
   "devDependencies": {
     "react": "18.2.0",
     "react-native": "0.74.3",
-    "react-native-builder-bob": "^0.26.0"
-  },
-  "resolutions": {
-    "@types/react": "^18.2.44"
+    "react-native-builder-bob": "^0.26.0",
+    "typescript": "5.2.2"
   },
   "react-native-builder-bob": {
     "source": "src",

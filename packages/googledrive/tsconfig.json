@@ -1,1 +1,1 @@
-{ "extends": "../../tsconfig" }
+{ "extends": "../../package-tsconfig" }

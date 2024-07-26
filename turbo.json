@@ -2,16 +2,10 @@
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
     "build:android": {
-      "outputs": [
-        "dist/main.android.jsbundle",
-        "android/app/build/outputs/apk/release/**"
-      ]
+      "outputs": ["android/app/build/outputs/apk/release/**"]
     },
     "build:ios": {
-      "outputs": [
-        "dist/main.ios.jsbundle",
-        "ios/build/RNStorageSample.xcarchive/**"
-      ]
+      "outputs": ["ios/build/RNStorageSample.xcarchive/**"]
     }
   }
 }
