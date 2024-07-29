@@ -1,29 +1,23 @@
-import { NativeModules, Platform } from 'react-native';
+import { Platform } from 'react-native';
 
-const LINKING_ERROR =
-  `The package '@openmobilehub/storage-googledrive' doesn't seem to be linked. Make sure: \n\n` +
-  Platform.select({ ios: "- You have run 'pod install'\n", default: '' }) +
-  '- You rebuilt the app after installing the package\n' +
-  '- You are not using Expo Go\n';
+import { AndroidClient } from '@openmobilehub/storage-core';
 
-// @ts-expect-error
-const isTurboModuleEnabled = global.__turboModuleProxy != null;
+import IOSClient from './IOSClient';
 
-const StorageGoogledriveModule = isTurboModuleEnabled
-  ? require('./NativeStorageGoogledrive').default
-  : NativeModules.StorageGoogledrive;
+export default function createModule() {
+  const moduleName = 'GoogleDrive';
+  const packageName = '@openmobilehub/storage-googledrive';
 
-const StorageGoogledrive = StorageGoogledriveModule
-  ? StorageGoogledriveModule
-  : new Proxy(
-      {},
-      {
-        get() {
-          throw new Error(LINKING_ERROR);
-        },
-      }
-    );
-
-export function multiply(a: number, b: number): Promise<number> {
-  return StorageGoogledrive.multiply(a, b);
+  return Platform.select({
+    android: () =>
+      new AndroidClient({
+        moduleName,
+        packageName,
+        turboModule: require('./NativeGoogleDrive').default,
+      }),
+    ios: () => new IOSClient(),
+    default: () => {
+      throw new Error(`Module ${moduleName} is not available on this platform`);
+    },
+  })();
 }

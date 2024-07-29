@@ -1,6 +1,6 @@
 buildscript {
   // Buildscript is evaluated before everything else so we can't use getExtOrDefault
-  def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["StorageGoogledrive_kotlinVersion"]
+  def kotlin_version = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["GoogleDrive_kotlinVersion"]
 
   repositories {
     google()
@@ -31,11 +31,11 @@ if (isNewArchitectureEnabled()) {
 }
 
 def getExtOrDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties["StorageGoogledrive_" + name]
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties["GoogleDrive_" + name]
 }
 
 def getExtOrIntegerDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties["StorageGoogledrive_" + name]).toInteger()
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties["GoogleDrive_" + name]).toInteger()
 }
 
 def supportsNamespace() {
@@ -49,7 +49,7 @@ def supportsNamespace() {
 
 android {
   if (supportsNamespace()) {
-    namespace "com.openmobilehub.storagegoogledrive"
+    namespace "com.openmobilehub.reactnative.storage.googledrive"
 
     sourceSets {
       main {
@@ -119,7 +119,7 @@ dependencies {
 if (isNewArchitectureEnabled()) {
   react {
     jsRootDir = file("../src/")
-    libraryName = "StorageGoogledrive"
-    codegenJavaPackageName = "com.openmobilehub.storagegoogledrive"
+    libraryName = "GoogleDrive"
+    codegenJavaPackageName = "com.openmobilehub.reactnative.storage.googledrive"
   }
 }

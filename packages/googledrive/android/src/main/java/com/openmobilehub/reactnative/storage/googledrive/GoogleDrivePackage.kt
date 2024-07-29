@@ -1,4 +1,4 @@
-package com.openmobilehub.storagegoogledrive
+package com.openmobilehub.reactnative.storage.googledrive
 
 import com.facebook.react.TurboReactPackage
 import com.facebook.react.bridge.ReactApplicationContext
@@ -7,10 +7,10 @@ import com.facebook.react.module.model.ReactModuleInfoProvider
 import com.facebook.react.module.model.ReactModuleInfo
 import java.util.HashMap
 
-class StorageGoogledrivePackage : TurboReactPackage() {
+class GoogleDrivePackage : TurboReactPackage() {
   override fun getModule(name: String, reactContext: ReactApplicationContext): NativeModule? {
-    return if (name == StorageGoogledriveModule.NAME) {
-      StorageGoogledriveModule(reactContext)
+    return if (name == GoogleDriveModule.NAME) {
+      GoogleDriveModule(reactContext)
     } else {
       null
     }
@@ -20,9 +20,9 @@ class StorageGoogledrivePackage : TurboReactPackage() {
     return ReactModuleInfoProvider {
       val moduleInfos: MutableMap<String, ReactModuleInfo> = HashMap()
       val isTurboModule: Boolean = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED
-      moduleInfos[StorageGoogledriveModule.NAME] = ReactModuleInfo(
-        StorageGoogledriveModule.NAME,
-        StorageGoogledriveModule.NAME,
+      moduleInfos[GoogleDriveModule.NAME] = ReactModuleInfo(
+        GoogleDriveModule.NAME,
+        GoogleDriveModule.NAME,
         false,  // canOverrideExistingModule
         false,  // needsEagerInit
         true,  // hasConstants
