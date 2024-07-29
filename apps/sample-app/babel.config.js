@@ -25,6 +25,7 @@ module.exports = {
           ...alias,
           '@/app': './src/app',
           '@/screens': './src/screens',
+          '@/components': './src/components',
         },
       },
     ],
@@ -34,5 +35,6 @@ module.exports = {
         allowUndefined: false,
       },
     ],
+    'react-native-reanimated/plugin',
   ],
 };
