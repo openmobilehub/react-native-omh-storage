@@ -26,6 +26,8 @@ export const BottomSheetContent: React.FC<BottomSheetContentProps> = ({
         return <Text>Update {fileData.name}</Text>;
       case BottomSheetContentType.Delete:
         return <Text>Delete {fileData.name}</Text>;
+      case BottomSheetContentType.PermanentDelete:
+        return <Text>Permanently Delete {fileData.name}</Text>;
       default:
         return (
           <BottomSheetOptions fileName={fileData?.name} setView={setView} />
