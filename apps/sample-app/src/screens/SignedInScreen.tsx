@@ -41,9 +41,6 @@ export default function SignedInScreen() {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const [selectedFile, setSelectedFile] = useState<any>(null); //TODO: Define proper type for file data once fetching is implemented
 
-  const handleBottomSheetOpen = () => {
-    bottomSheetModalRef.current?.present();
-  };
   const handleBottomSheetClose = () => {
     setSelectedFile(null);
   };
@@ -195,7 +192,6 @@ export default function SignedInScreen() {
           title="Revoke access token"
           testID="revoke-access-token"
         />
-        <Button title="Open Bottom Sheet" onPress={handleBottomSheetOpen} />
 
         <Button onPress={onSignOut} title="Sign out" testID="sign-out" />
       </View>
