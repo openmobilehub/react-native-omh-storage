@@ -1,5 +1,3 @@
-import React from 'react';
-
 import {
   DROPBOX_CLIENT_ID,
   DROPBOX_CLIENT_SECRET,
@@ -10,21 +8,11 @@ import DropboxAuth from '@openmobilehub/auth-dropbox';
 import GoogleAuth from '@openmobilehub/auth-google';
 import MicrosoftAuth from '@openmobilehub/auth-microsoft';
 
-import storage from '@/app/storage';
+import { Provider } from '@/constants/provider';
 
-export const PROVIDER_NAMES = {
-  GOOGLEDRIVE: 'Google Drive',
-  ONEDRIVE: 'OneDrive',
-  DROPBOX: 'Dropbox',
-} as const;
-
-type ObjectValues<T> = T[keyof T];
-
-export type Providers = ObjectValues<typeof PROVIDER_NAMES>;
-
-export async function getAuthProvider(provider: Providers) {
+export async function initAuthClient(provider: Provider) {
   switch (provider) {
-    case PROVIDER_NAMES.GOOGLEDRIVE:
+    case Provider.GOOGLEDRIVE:
       await GoogleAuth.initialize({
         android: {
           scopes: [
@@ -50,7 +38,7 @@ export async function getAuthProvider(provider: Providers) {
         },
       });
       return GoogleAuth;
-    case PROVIDER_NAMES.ONEDRIVE:
+    case Provider.ONEDRIVE:
       await MicrosoftAuth.initialize({
         android: {
           scopes: ['User.Read', 'Files.ReadWrite.All'],
@@ -71,7 +59,7 @@ export async function getAuthProvider(provider: Providers) {
         },
       });
       return MicrosoftAuth;
-    case PROVIDER_NAMES.DROPBOX:
+    case Provider.DROPBOX:
       await DropboxAuth.initialize({
         android: {
           scopes: [
@@ -97,51 +85,4 @@ export async function getAuthProvider(provider: Providers) {
       });
       return DropboxAuth;
   }
-}
-
-type SignedInProviderContextValue = {
-  signedInProvider: Providers | null;
-  signInWithProvider: (provider: Providers | null) => void;
-};
-
-export const SignedInProviderContext =
-  React.createContext<SignedInProviderContextValue>({
-    signedInProvider: null,
-    signInWithProvider: (_: Providers | null) => {},
-  });
-
-export default function SignedInProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const [signedInProvider, setSignedInProvider] =
-    React.useState<Providers | null>(null);
-
-  React.useEffect(() => {
-    (async () => {
-      const provider = (storage.getString('signed-in-provider') ??
-        null) as Providers | null;
-
-      setSignedInProvider(provider);
-    })();
-  }, []);
-
-  async function signInWithProvider(provider: Providers | null) {
-    if (provider == null) {
-      storage.delete('signed-in-provider');
-    } else {
-      storage.set('signed-in-provider', provider);
-    }
-
-    setSignedInProvider(provider);
-  }
-
-  return (
-    <SignedInProviderContext.Provider
-      value={{ signedInProvider, signInWithProvider }}
-    >
-      {children}
-    </SignedInProviderContext.Provider>
-  );
 }
