@@ -3,7 +3,7 @@ import { View } from 'react-native';
 
 import { Button } from 'react-native-paper';
 
-import { Provider } from '@/constants/provider';
+import { Provider } from '@/constants/Provider';
 import { useAuthContext } from '@/contexts/auth/AuthContext';
 
 import { styles } from './LoginScreen.styles';
@@ -22,6 +22,7 @@ export const LoginScreen = () => {
       </Button>
       <Button
         mode="contained"
+        disabled //TODO: Implement OneDrive login
         onPress={() => login(Provider.ONEDRIVE)}
         testID="sign-in-onedrive"
       >
@@ -29,6 +30,7 @@ export const LoginScreen = () => {
       </Button>
       <Button
         mode="contained"
+        disabled // TODO: Implement Dropbox login
         onPress={() => login(Provider.DROPBOX)}
         testID="sign-in-dropbox"
       >

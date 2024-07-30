@@ -8,8 +8,9 @@ import { useQuery } from '@tanstack/react-query';
 export const useFileListQuery = (
   storageClient: IOmhStorageClient,
   folderId: string
-) =>
-  useQuery<OmhStorageEntity[], OmhStorageException>({
+) => {
+  return useQuery<OmhStorageEntity[], OmhStorageException>({
     queryKey: ['fileList', folderId],
     queryFn: () => storageClient.listFiles(folderId),
   });
+};

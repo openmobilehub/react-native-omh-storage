@@ -2,7 +2,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { ActivityIndicator } from 'react-native-paper';
 
-export const FullScreenLoadingIndicator = () => {
+export const FullScreenLoadingState = () => {
   return (
     <View style={styles.container}>
       <ActivityIndicator size="large" />

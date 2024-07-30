@@ -3,7 +3,8 @@ export abstract class OmhStorageException extends Error {
     message: string,
     public cause?: Error
   ) {
-    super(message);
+    // @ts-ignore - this is a workaround for a bug in the TypeScript compiler
+    super(message, cause);
 
     this.name = this.constructor.name;
     this.cause = cause;

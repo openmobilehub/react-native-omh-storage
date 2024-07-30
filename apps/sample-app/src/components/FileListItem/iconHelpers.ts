@@ -1,4 +1,3 @@
-// Define URLs for icons
 export const URL_FOLDER =
   'https://drive-thirdparty.googleusercontent.com/32/type/application/vnd.google-apps.folder';
 const URL_DOCUMENT =
@@ -17,7 +16,7 @@ const URL_VIDEO =
   'https://drive-thirdparty.googleusercontent.com/32/type/video/mp4';
 const URL_OTHER = 'https://static.thenounproject.com/png/3482632-200.png';
 
-enum FileType {
+enum MimeType {
   GOOGLE_DOCUMENT = 'application/vnd.google-apps.document',
   GOOGLE_SPREADSHEET = 'application/vnd.google-apps.spreadsheet',
   GOOGLE_PRESENTATION = 'application/vnd.google-apps.presentation',
@@ -33,33 +32,31 @@ enum FileType {
   MICROSOFT_POWERPOINT = 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
   OPEN_DOCUMENT_PRESENTATION = 'application/vnd.oasis.opendocument.presentation',
   MP4 = 'video/mp4',
-  OTHER = '',
 }
 
-// Function to get icon URL based on MIME type
 export const getIconForMimeType = (mimeType?: string) => {
   switch (mimeType) {
-    case FileType.PDF:
+    case MimeType.PDF:
       return URL_PDF;
-    case FileType.GOOGLE_DOCUMENT:
-    case FileType.MICROSOFT_WORD:
-    case FileType.OPEN_DOCUMENT_TEXT:
+    case MimeType.GOOGLE_DOCUMENT:
+    case MimeType.MICROSOFT_WORD:
+    case MimeType.OPEN_DOCUMENT_TEXT:
       return URL_DOCUMENT;
-    case FileType.GOOGLE_SPREADSHEET:
-    case FileType.MICROSOFT_EXCEL:
-    case FileType.OPEN_DOCUMENT_SPREADSHEET:
+    case MimeType.GOOGLE_SPREADSHEET:
+    case MimeType.MICROSOFT_EXCEL:
+    case MimeType.OPEN_DOCUMENT_SPREADSHEET:
       return URL_SHEET;
-    case FileType.GOOGLE_PRESENTATION:
-    case FileType.MICROSOFT_POWERPOINT:
-    case FileType.OPEN_DOCUMENT_PRESENTATION:
+    case MimeType.GOOGLE_PRESENTATION:
+    case MimeType.MICROSOFT_POWERPOINT:
+    case MimeType.OPEN_DOCUMENT_PRESENTATION:
       return URL_PRESENTATION;
-    case FileType.PNG:
-    case FileType.JPEG:
+    case MimeType.PNG:
+    case MimeType.JPEG:
       return URL_PNG;
-    case FileType.ZIP:
+    case MimeType.ZIP:
       return URL_ZIP;
-    case FileType.GOOGLE_VIDEO:
-    case FileType.MP4:
+    case MimeType.GOOGLE_VIDEO:
+    case MimeType.MP4:
       return URL_VIDEO;
     default:
       return URL_OTHER;

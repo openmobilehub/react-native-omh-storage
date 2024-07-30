@@ -6,7 +6,7 @@ import {
   useState,
 } from 'react';
 
-import { Provider } from '@/constants/provider';
+import { Provider } from '@/constants/Provider';
 import { SIGNED_WITH_PROVIDER } from '@/storage/keys';
 import storage from '@/storage/storage';
 import { AuthProvider } from '@/types/AuthProvider';
@@ -23,7 +23,7 @@ type AuthContextValue = {
   login(provider: Provider): Promise<void>;
   logout(): Promise<void>;
   refreshToken(): Promise<void>;
-  retrieveAuthProvider(): Promise<void>;
+  silentLogin(): Promise<void>;
 } | null;
 
 export const AuthContext = createContext<AuthContextValue>(null);
@@ -34,10 +34,8 @@ interface Props {
 
 export const AuthContextProvider = ({ children }: Props) => {
   const [provider, setProvider] = useState<Provider | null>(null);
-
   const [authProvider, setAuthProvider] = useState<AuthProvider | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
-
   const [initializationStatus, setInitializationStatus] =
     useState<InitializationStatus>('idle');
 
@@ -92,7 +90,7 @@ export const AuthContextProvider = ({ children }: Props) => {
     setAccessToken(refreshedAccessToken);
   }, [authProvider]);
 
-  const retrieveAuthProvider = useCallback(async () => {
+  const silentLogin = useCallback(async () => {
     setInitializationStatus('initializing');
 
     const storedProvider = storage.getString(SIGNED_WITH_PROVIDER) as
@@ -127,7 +125,7 @@ export const AuthContextProvider = ({ children }: Props) => {
         login,
         logout,
         refreshToken,
-        retrieveAuthProvider,
+        silentLogin,
         initializationStatus,
         accessToken,
       }}

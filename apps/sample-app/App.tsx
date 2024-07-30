@@ -27,7 +27,7 @@ const Providers = ({ children }: ProvidersProps) => {
   );
 };
 
-const App = () => {
+export const App = () => {
   return (
     <ContextsProvider>
       <QueryClientProvider>
@@ -38,5 +38,3 @@ const App = () => {
     </ContextsProvider>
   );
 };
-
-export default App;

@@ -8,7 +8,7 @@ import { Style } from 'react-native-paper/lib/typescript/components/List/utils';
 
 import { BottomSheet } from '../bottomSheet';
 import { BottomSheetContent } from '../bottomSheetContent';
-import { styles } from './FileListItem.style';
+import { styles } from './FileListItem.styles';
 import { getIconForMimeType, URL_FOLDER } from './iconHelpers';
 
 interface Props {
@@ -22,29 +22,35 @@ export const FileListItem = ({ file, onPress }: Props) => {
   const icon =
     file instanceof OmhFile ? getIconForMimeType(file.mimeType) : URL_FOLDER;
 
-  const handlePresentModalPress = useCallback(() => {
+  const handleRightIconPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
 
-  const renderLeftIcon = (props: { color: string; style: Style }) => {
-    return (
-      <Image
-        resizeMode="contain"
-        source={{ uri: icon }}
-        style={[props.style, styles.leftIcon]}
-      />
-    );
-  };
+  const renderLeftIcon = useCallback(
+    (props: { color: string; style: Style }) => {
+      return (
+        <Image
+          resizeMode="contain"
+          source={{ uri: icon }}
+          style={[props.style, styles.leftIcon]}
+        />
+      );
+    },
+    [icon]
+  );
 
-  const renderRightIcon = (props: { color: string; style?: Style }) => {
-    return (
-      <IconButton
-        {...props}
-        icon="dots-vertical"
-        onPress={handlePresentModalPress}
-      />
-    );
-  };
+  const renderRightIcon = useCallback(
+    (props: { color: string; style?: Style }) => {
+      return (
+        <IconButton
+          {...props}
+          icon="dots-vertical"
+          onPress={handleRightIconPress}
+        />
+      );
+    },
+    [handleRightIconPress]
+  );
 
   return (
     <>

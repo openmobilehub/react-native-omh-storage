@@ -4,16 +4,16 @@ type ErrorWithMessage = {
   message: string;
 };
 
-function isErrorWithMessage(error: unknown): error is ErrorWithMessage {
+const isErrorWithMessage = (error: unknown): error is ErrorWithMessage => {
   return (
     typeof error === 'object' &&
     error !== null &&
     'message' in error &&
     typeof (error as Record<string, unknown>).message === 'string'
   );
-}
+};
 
-function toErrorWithMessage(maybeError: unknown): ErrorWithMessage {
+const toErrorWithMessage = (maybeError: unknown): ErrorWithMessage => {
   if (isErrorWithMessage(maybeError)) return maybeError;
 
   try {
@@ -23,11 +23,12 @@ function toErrorWithMessage(maybeError: unknown): ErrorWithMessage {
     // like with circular references for example.
     return new Error(String(maybeError));
   }
-}
+};
 
-function getErrorMessage(error: unknown) {
+const getErrorMessage = (error: unknown) => {
+  // https://kentcdodds.com/blog/get-a-catch-block-error-message-with-typescript
   return toErrorWithMessage(error).message;
-}
+};
 
 export const showError = (error: unknown) => {
   Alert.alert('Error', getErrorMessage(error));

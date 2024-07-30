@@ -8,9 +8,9 @@ import DropboxAuth from '@openmobilehub/auth-dropbox';
 import GoogleAuth from '@openmobilehub/auth-google';
 import MicrosoftAuth from '@openmobilehub/auth-microsoft';
 
-import { Provider } from '@/constants/provider';
+import { Provider } from '@/constants/Provider';
 
-export async function initAuthClient(provider: Provider) {
+export const initAuthClient = async (provider: Provider) => {
   switch (provider) {
     case Provider.GOOGLEDRIVE:
       await GoogleAuth.initialize({
@@ -85,4 +85,4 @@ export async function initAuthClient(provider: Provider) {
       });
       return DropboxAuth;
   }
-}
+};

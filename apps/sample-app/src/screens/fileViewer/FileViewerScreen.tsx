@@ -6,9 +6,9 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { type NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { FileListItem } from '@/components/FileListItem/FileListItem';
-import { FullScreenEmptySpace } from '@/components/FullScreenEmptySpace';
-import { FullScreenLoadingIndicator } from '@/components/FullScreenLoadingIndicator';
+import { FileListItem } from '@/components/fileListItem/FileListItem';
+import { FullScreenEmptyState } from '@/components/fullScreenEmptyState/FullScreenEmptyState';
+import { FullScreenLoadingState } from '@/components/fullScreenLoadingState/FullScreenLoadingState';
 import { useRequireStorageClient } from '@/contexts/storage/useRequireStorageClient';
 import { useFileListQuery } from '@/data/query/fileListQuery';
 import { type RootStackParamList } from '@/navigation/RootNavigationContainer';
@@ -19,7 +19,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'FileViewer'>;
 type SignedInRouteProp = Props['route'];
 type SignedInNavigationProp = Props['navigation'];
 
-export default function FileViewerScreen() {
+export const FileViewerScreen = () => {
   const insets = useSafeAreaInsets();
 
   const route = useRoute<SignedInRouteProp>();
@@ -47,10 +47,10 @@ export default function FileViewerScreen() {
 
   const renderEmptyListComponent = useCallback(() => {
     if (fileListQuery.isLoading) {
-      return <FullScreenLoadingIndicator />;
+      return <FullScreenLoadingState />;
     }
 
-    return <FullScreenEmptySpace />;
+    return <FullScreenEmptyState />;
   }, [fileListQuery.isLoading]);
 
   return (
@@ -66,4 +66,4 @@ export default function FileViewerScreen() {
       />
     </View>
   );
-}
+};

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Alert } from 'react-native';
 
 import { Divider, IconButton, Menu } from 'react-native-paper';
 
@@ -11,19 +12,25 @@ export const ContextMenu = () => {
 
   const [visible, setVisible] = useState(false);
 
-  const openMenu = () => setVisible(true);
+  const handleMenuOpen = () => setVisible(true);
 
-  const closeMenu = () => setVisible(false);
+  const handleMenuClose = () => setVisible(false);
+
+  const handleNotImplemented = () => {
+    Alert.alert('Not implemented yet');
+  };
 
   return (
     <Menu
       visible={visible}
-      onDismiss={closeMenu}
-      anchor={<IconButton icon="dots-vertical" size={24} onPress={openMenu} />}
+      onDismiss={handleMenuClose}
+      anchor={
+        <IconButton icon="dots-vertical" size={24} onPress={handleMenuOpen} />
+      }
       style={styles.menu}
     >
-      <Menu.Item onPress={() => {}} title="Upload File" />
-      <Menu.Item onPress={() => {}} title="Create File" />
+      <Menu.Item onPress={handleNotImplemented} title="Upload File" />
+      <Menu.Item onPress={handleNotImplemented} title="Create File" />
       <Divider />
       <Menu.Item onPress={logout} title="Logout" />
     </Menu>

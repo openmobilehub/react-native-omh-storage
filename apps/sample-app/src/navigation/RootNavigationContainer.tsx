@@ -3,10 +3,10 @@ import React, { useEffect } from 'react';
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { ContextMenu } from '@/components/contextMenu/ContexMenu';
-import { FullScreenLoadingIndicator } from '@/components/FullScreenLoadingIndicator';
+import { FullScreenLoadingState } from '@/components/fullScreenLoadingState/FullScreenLoadingState';
 import { useAuthContext } from '@/contexts/auth/AuthContext';
-import FileViewerScreen from '@/screens/fileViewer/FileViewerScreen';
+import { ContextMenu } from '@/navigation/contextMenu/ContexMenu';
+import { FileViewerScreen } from '@/screens/fileViewer/FileViewerScreen';
 import { LoginScreen } from '@/screens/login/LoginScreen';
 
 export type RootStackParamList = {
@@ -25,20 +25,20 @@ const MyTheme = {
 };
 
 const RootStack = () => {
-  const { retrieveAuthProvider, initializationStatus, accessToken, provider } =
+  const { silentLogin, initializationStatus, accessToken, provider } =
     useAuthContext();
 
   useEffect(() => {
     if (initializationStatus === 'idle') {
-      retrieveAuthProvider();
+      silentLogin();
     }
-  }, [retrieveAuthProvider, initializationStatus]);
+  }, [silentLogin, initializationStatus]);
 
   if (
     initializationStatus === 'initializing' ||
     initializationStatus === 'idle'
   ) {
-    return <FullScreenLoadingIndicator />;
+    return <FullScreenLoadingState />;
   }
 
   return (
