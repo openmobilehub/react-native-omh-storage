@@ -3103,6 +3103,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@openmobilehub/storage-core@workspace:packages/core":
+  version: 0.0.0-use.local
+  resolution: "@openmobilehub/storage-core@workspace:packages/core"
+  dependencies:
+    react: 18.2.0
+    react-native: 0.74.3
+    react-native-builder-bob: ^0.26.0
+    typescript: 5.2.2
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  languageName: unknown
+  linkType: soft
+
 "@openmobilehub/storage-googledrive@workspace:packages/googledrive":
   version: 0.0.0-use.local
   resolution: "@openmobilehub/storage-googledrive@workspace:packages/googledrive"
@@ -3112,6 +3126,7 @@ __metadata:
     react-native-builder-bob: ^0.26.0
     typescript: 5.2.2
   peerDependencies:
+    "@openmobilehub/storage-core": "*"
     react: "*"
     react-native: "*"
   languageName: unknown
