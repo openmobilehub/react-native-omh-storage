@@ -1,23 +1,50 @@
-import React from 'react';
-import { Alert, Button, Image, StyleSheet, Text, View } from 'react-native';
+import React, { useRef, useState } from 'react';
+import {
+  Alert,
+  Button,
+  FlatList,
+  Image,
+  Pressable,
+  Text,
+  View,
+} from 'react-native';
 
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { type OmhUserProfile } from '@openmobilehub/auth-core';
 import { useRoute } from '@react-navigation/native';
 import { type NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { type RootStackParamList } from '@/app/navigation';
 import {
   getAuthProvider,
   SignedInProviderContext,
 } from '@/app/SignedInProvider';
+import { BottomSheet } from '@/components/bottomSheet';
+import { BottomSheetContent } from '@/components/bottomSheetContent';
+
+import { styles } from './SignedInScreen.styles';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SignedIn'>;
 type SignedInRouteProp = Props['route'];
 
-export default function SignedInScreen() {
+//TODO: Remove mock data once fetching is implemented
+const mockFiles = [
+  { id: '1', name: 'File 1' },
+  { id: '2', name: 'File 2' },
+  { id: '3', name: 'File 3' },
+];
+
+export const SignedInScreen = () => {
   const insets = useSafeAreaInsets();
   const route = useRoute<SignedInRouteProp>();
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const [selectedFile, setSelectedFile] = useState<any>(null); //TODO: Define proper type for file data once fetching is implemented
+
+  const handleBottomSheetClose = () => {
+    setSelectedFile(null);
+  };
 
   const { provider } = route.params;
 
@@ -95,6 +122,12 @@ export default function SignedInScreen() {
     userProfile?.profileImage ??
     'https://www.btklsby.go.id/images/placeholder/avatar.png';
 
+  //TODO: Define proper type for file data once fetching is implemented
+  const handleFilePress = (file: any) => {
+    setSelectedFile(file);
+    bottomSheetModalRef.current?.present();
+  };
+
   return (
     <View style={[styles.container, { paddingBottom: insets.bottom }]}>
       <View style={styles.userProfileContainer}>
@@ -124,7 +157,22 @@ export default function SignedInScreen() {
       <Text style={styles.label} testID="token" numberOfLines={10}>
         {accessToken}
       </Text>
-
+      <FlatList
+        data={mockFiles}
+        keyExtractor={(item) => item.id}
+        numColumns={2}
+        contentContainerStyle={styles.list}
+        renderItem={({ item }) => (
+          <View style={styles.itemContainer}>
+            <View style={styles.fileItem}>
+              <Text>{item.name}</Text>
+              <Pressable onPress={() => handleFilePress(item)}>
+                <Icon name="dots-vertical" size={16} />
+              </Pressable>
+            </View>
+          </View>
+        )}
+      />
       <View style={styles.actionButtons}>
         <Button
           onPress={onGetAccessToken}
@@ -148,33 +196,9 @@ export default function SignedInScreen() {
 
         <Button onPress={onSignOut} title="Sign out" testID="sign-out" />
       </View>
+      <BottomSheet ref={bottomSheetModalRef} onDismiss={handleBottomSheetClose}>
+        {selectedFile && <BottomSheetContent fileData={selectedFile} />}
+      </BottomSheet>
     </View>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10,
-    rowGap: 5,
-  },
-  userProfileContainer: {
-    flexDirection: 'row',
-  },
-  userProfileImage: {
-    width: 100,
-    aspectRatio: 1,
-  },
-  userProfileContents: {
-    justifyContent: 'space-between',
-    marginHorizontal: 5,
-  },
-  actionButtons: {
-    marginTop: 'auto',
-    alignItems: 'flex-start',
-    rowGap: 7.5,
-  },
-  label: {
-    color: 'black',
-  },
-});
+};

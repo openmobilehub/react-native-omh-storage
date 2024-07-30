@@ -7,8 +7,8 @@ import {
   SignedInProviderContext,
   type Providers,
 } from '@/app/SignedInProvider';
-import HomeScreen from '@/screens/HomeScreen';
-import SignedInScreen from '@/screens/SignedInScreen';
+import { HomeScreen } from '@/screens/homeScreen';
+import { SignedInScreen } from '@/screens/signedInScreen';
 
 export type RootStackParamList = {
   Home: undefined;

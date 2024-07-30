@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, View } from 'react-native';
 
 import { Button } from 'react-native-paper';
 
@@ -10,7 +10,9 @@ import {
   type Providers,
 } from '@/app/SignedInProvider';
 
-export default function HomeScreen() {
+import { styles } from './HomeScreen.styles';
+
+export const HomeScreen = () => {
   const { signInWithProvider } = React.useContext(SignedInProviderContext);
 
   async function onSignIn(PROVIDER_NAME: Providers) {
@@ -50,13 +52,4 @@ export default function HomeScreen() {
       </Button>
     </View>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    rowGap: 20,
-  },
-});
+};
