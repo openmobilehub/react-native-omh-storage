@@ -1,9 +1,11 @@
 {
   "compilerOptions": {
     "rootDir": ".",
+    "baseUrl": ".",
     "paths": {
-      "@openmobilehub/storage-core": ["../../packages/core/src"]
+      "@openmobilehub/storage-core": ["packages/core/src"]
     },
+    "moduleSuffixes": [".android", ".ios", ""],
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "esModuleInterop": true,
