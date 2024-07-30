@@ -1,8 +1,9 @@
 name: Deploy Docs
-on:
-  push:
-    branches:
-      - main
+# TODO: Uncomment once docs are ready
+# on:
+#   push:
+#     branches:
+#       - main
 
 jobs:
   build:

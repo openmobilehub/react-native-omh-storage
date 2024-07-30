@@ -1,7 +1,7 @@
 {
-  "name": "@openmobilehub/storage-googledrive",
+  "name": "@openmobilehub/storage-core",
   "version": "1.0.0",
-  "description": "React Native OMH Storage - Google Drive",
+  "description": "React Native OMH Storage - Core",
   "scripts": {
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "typecheck": "tsc --noEmit",
@@ -29,10 +29,10 @@
   "source": "./src/index.tsx",
   "main": "./lib/commonjs/index.js",
   "module": "./lib/module/index.js",
-  "types": "./lib/typescript/packages/googledrive/src/index.d.ts",
+  "types": "./lib/typescript/packages/core/src/index.d.ts",
   "exports": {
     ".": {
-      "types": "./lib/typescript/packages/googledrive/src/index.d.ts",
+      "types": "./lib/typescript/packages/core/src/index.d.ts",
       "import": "./lib/module/index.js",
       "require": "./lib/commonjs/index.js"
     }
@@ -56,7 +56,6 @@
     "!**/.*"
   ],
   "peerDependencies": {
-    "@openmobilehub/storage-core": "*",
     "react": "*",
     "react-native": "*"
   },
@@ -94,8 +93,5 @@
     "type": "module-mixed",
     "languages": "kotlin-objc",
     "version": "0.38.2"
-  },
-  "dependencies": {
-    "axios": "^1.7.2"
   }
 }
