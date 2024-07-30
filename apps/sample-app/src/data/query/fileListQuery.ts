@@ -1,8 +1,9 @@
+import {
+  OmhStorageException,
+  StorageClient,
+  StorageEntity,
+} from '@openmobilehub/storage-core';
 import { useQuery } from '@tanstack/react-query';
-
-import { StorageClient } from '../../../../../packages/googledrive/src/model/StorageClient';
-import { StorageEntity } from '../../../../../packages/googledrive/src/model/StorageEntity';
-import { OmhStorageException } from '../../../../../packages/googledrive/src/model/StorageException';
 
 export const useFileListQuery = (
   storageClient: StorageClient,

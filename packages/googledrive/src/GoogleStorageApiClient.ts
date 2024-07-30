@@ -1,7 +1,7 @@
+import { ApiException } from '@openmobilehub/storage-core';
 import Axios, { AxiosError, type AxiosInstance } from 'axios';
 
 import { BASE_URL } from './data/constants/constants';
-import { ApiException } from './model/StorageException';
 
 export class GoogleStorageApiClient {
   axiosClient: AxiosInstance;

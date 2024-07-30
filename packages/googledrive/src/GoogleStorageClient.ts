@@ -1,8 +1,9 @@
+import type { StorageClient } from '@openmobilehub/storage-core';
+
 import { ROOT_FOLDER } from './data/constants/constants';
 import { GoogleStorageApiClient } from './GoogleStorageApiClient';
 import { GoogleStorageApiService } from './GoogleStorageApiService';
 import { GoogleStorageRepository } from './GoogleStorageRepository';
-import type { StorageClient } from './model/StorageClient';
 
 export class GoogleStorageClient implements StorageClient {
   private client: GoogleStorageApiClient;

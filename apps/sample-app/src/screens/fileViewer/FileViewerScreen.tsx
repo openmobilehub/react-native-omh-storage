@@ -1,19 +1,18 @@
 import React, { useCallback } from 'react';
 import { FlatList, View } from 'react-native';
 
+import { File, StorageEntity } from '@openmobilehub/storage-core';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { type NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { FileListItem } from '@/components/fileListItem/FileListItem';
+import { FileListItem } from '@/components/FileListItem/FileListItem';
 import { FullScreenEmptySpace } from '@/components/FullScreenEmptySpace';
 import { FullScreenLoadingIndicator } from '@/components/FullScreenLoadingIndicator';
 import { useRequireStorageClient } from '@/contexts/storage/useRequireStorageClient';
 import { useFileListQuery } from '@/data/query/fileListQuery';
 import { type RootStackParamList } from '@/navigation/RootNavigationContainer';
 
-import { File } from '../../../../../packages/googledrive/src/model/File';
-import { StorageEntity } from '../../../../../packages/googledrive/src/model/StorageEntity';
 import { styles } from './FileViewerScreen.styles';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'FileViewer'>;

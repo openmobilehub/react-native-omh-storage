@@ -2,11 +2,10 @@ import { useCallback, useRef } from 'react';
 import { Image } from 'react-native';
 
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { File, StorageEntity } from '@openmobilehub/storage-core';
 import { IconButton, List } from 'react-native-paper';
 import { Style } from 'react-native-paper/lib/typescript/components/List/utils';
 
-import { File } from '../../../../../packages/googledrive/src/model/File';
-import { StorageEntity } from '../../../../../packages/googledrive/src/model/StorageEntity';
 import { BottomSheet } from '../bottomSheet';
 import { BottomSheetContent } from '../bottomSheetContent';
 import { styles } from './FileListItem.style';

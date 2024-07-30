@@ -1,8 +1,7 @@
+import { StorageClient } from '@openmobilehub/storage-core';
 import { GoogleStorageClient } from '@openmobilehub/storage-googledrive';
 
 import { Provider } from '@/constants/provider';
-
-import { StorageClient } from '../../../../../packages/googledrive/src/model/StorageClient';
 
 export const getStorageProvider = (provider: Provider): StorageClient => {
   switch (provider) {

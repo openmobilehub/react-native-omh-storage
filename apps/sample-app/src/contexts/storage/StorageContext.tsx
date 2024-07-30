@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useContext, useMemo } from 'react';
 
-import { StorageClient } from '../../../../../packages/googledrive/src/model/StorageClient';
+import { StorageClient } from '@openmobilehub/storage-core';
+
 import { useAuthContext } from '../auth/AuthContext';
 import { getStorageProvider } from './getStorageProvider';
 

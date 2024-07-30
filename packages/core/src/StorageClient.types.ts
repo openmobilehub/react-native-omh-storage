@@ -1,4 +1,4 @@
-import type { StorageEntity } from './StorageEntity';
+import type { StorageEntity } from './model/StorageEntity';
 
 export interface StorageClient {
   readonly rootFolderId: string;

@@ -1,6 +1,6 @@
-import { File } from '../../model/File';
-import { Folder } from '../../model/Folder';
-import type { StorageEntity } from '../../model/StorageEntity';
+import { File, Folder } from '@openmobilehub/storage-core';
+import type { StorageEntity } from '@openmobilehub/storage-core';
+
 import { FOLDER_MIME_TYPE } from '../constants/constants';
 import type { FileRemote } from '../response/FileRemote';
 

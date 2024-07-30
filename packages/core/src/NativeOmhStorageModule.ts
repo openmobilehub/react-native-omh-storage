@@ -5,4 +5,4 @@ export interface Spec extends TurboModule {
   listFiles(): Promise<string[]>;
 }
 
-export default TurboModuleRegistry.getEnforcing<Spec>('Core');
+export default TurboModuleRegistry.getEnforcing<Spec>('RNOmhStorageModule');

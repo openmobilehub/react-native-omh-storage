@@ -68,9 +68,9 @@ export const AuthContextProvider = ({ children }: Props) => {
       }
 
       setAccessToken(token);
-
       setAuthProvider(initializedAuthProvider);
       setProvider(withProvider);
+
       storage.set(SIGNED_WITH_PROVIDER, withProvider);
     },
     [logout]
@@ -94,13 +94,13 @@ export const AuthContextProvider = ({ children }: Props) => {
 
   const retrieveAuthProvider = useCallback(async () => {
     setInitializationStatus('initializing');
+
     const storedProvider = storage.getString(SIGNED_WITH_PROVIDER) as
       | Provider
       | undefined;
 
     if (!storedProvider) {
-      setInitializationStatus('error');
-      showError(new Error('No provider found in storage'));
+      setInitializationStatus('success');
       return;
     }
 
@@ -114,7 +114,6 @@ export const AuthContextProvider = ({ children }: Props) => {
     }
 
     setAccessToken(token);
-
     setAuthProvider(initializedAuthProvider);
     setProvider(storedProvider);
 

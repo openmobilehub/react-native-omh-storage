@@ -27,6 +27,6 @@ class CoreModule internal constructor(context: ReactApplicationContext) :
   }
 
   companion object {
-    const val NAME = "Core"
+    const val NAME = "RNOmhStorageModule"
   }
 }
