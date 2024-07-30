@@ -1,4 +1,4 @@
-export class StorageEntity {
+export class OmhStorageEntity {
   id: string;
   name: string;
   createdTime?: Date;

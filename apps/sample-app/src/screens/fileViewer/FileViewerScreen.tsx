@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { FlatList, View } from 'react-native';
 
-import { File, StorageEntity } from '@openmobilehub/storage-core';
+import { OmhFile, OmhStorageEntity } from '@openmobilehub/storage-core';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { type NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -34,8 +34,8 @@ export default function FileViewerScreen() {
     folderId || storageClient.rootFolderId
   );
 
-  const handleStorageEntityPress = (file: StorageEntity) => {
-    if (file instanceof File) {
+  const handleStorageEntityPress = (file: OmhStorageEntity) => {
+    if (file instanceof OmhFile) {
       //TODO: Handle file press
     } else {
       navigation.push('FileViewer', {

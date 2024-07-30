@@ -1,14 +1,18 @@
-import { File, Folder } from '@openmobilehub/storage-core';
-import type { StorageEntity } from '@openmobilehub/storage-core';
+import {
+  OmhApiException,
+  OmhFile,
+  OmhFolder,
+} from '@openmobilehub/storage-core';
+import type { OmhStorageEntity } from '@openmobilehub/storage-core';
 
 import { FOLDER_MIME_TYPE } from '../constants/constants';
 import type { FileRemote } from '../response/FileRemote';
 
 export const mapFileRemoteToStorageEntity = (
   fileRemote: FileRemote
-): StorageEntity => {
+): OmhStorageEntity => {
   if (!fileRemote.id || !fileRemote.mimeType || !fileRemote.name) {
-    throw new Error('Invalid remote file data');
+    throw new OmhApiException('Invalid remote file data');
   }
 
   const isFolder = fileRemote.mimeType === FOLDER_MIME_TYPE;
@@ -22,7 +26,7 @@ export const mapFileRemoteToStorageEntity = (
     : undefined;
 
   if (isFolder) {
-    return new Folder({
+    return new OmhFolder({
       id: fileRemote.id,
       name: fileRemote.name,
       createdTime,
@@ -30,7 +34,7 @@ export const mapFileRemoteToStorageEntity = (
       parentId: fileRemote.parents?.[0],
     });
   } else {
-    return new File({
+    return new OmhFile({
       id: fileRemote.id,
       name: fileRemote.name,
       createdTime,

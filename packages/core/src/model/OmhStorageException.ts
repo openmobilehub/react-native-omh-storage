@@ -10,19 +10,19 @@ export abstract class OmhStorageException extends Error {
   }
 }
 
-export class InvalidCredentialsException extends OmhStorageException {
+export class OmhInvalidCredentialsException extends OmhStorageException {
   constructor(message: string, cause?: Error) {
     super(message, cause);
   }
 }
 
-export class DeveloperErrorException extends OmhStorageException {
+export class OmhDeveloperErrorException extends OmhStorageException {
   constructor(message: string, cause?: Error) {
     super(message, cause);
   }
 }
 
-export class ApiException extends OmhStorageException {
+export class OmhApiException extends OmhStorageException {
   code?: number;
 
   constructor(message: string, code?: number, cause?: Error) {

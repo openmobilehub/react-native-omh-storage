@@ -1,12 +1,12 @@
 import { createContext, ReactNode, useContext, useMemo } from 'react';
 
-import { StorageClient } from '@openmobilehub/storage-core';
+import { IOmhStorageClient } from '@openmobilehub/storage-core';
 
 import { useAuthContext } from '../auth/AuthContext';
 import { getStorageProvider } from './getStorageProvider';
 
 type StorageContextValue = {
-  storageClient: StorageClient | null;
+  storageClient: IOmhStorageClient | null;
 } | null;
 
 export const StorageContext = createContext<StorageContextValue>(null);

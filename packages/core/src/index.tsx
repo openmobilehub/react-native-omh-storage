@@ -1,6 +1,6 @@
-export * from './StorageClient.types';
+export * from './OmhStorageClient.types';
 
-export * from './model/StorageEntity';
-export * from './model/Folder';
-export * from './model/File';
-export * from './model/StorageException';
+export * from './model/OmhStorageEntity';
+export * from './model/OmhFolder';
+export * from './model/OmhFile';
+export * from './model/OmhStorageException';
