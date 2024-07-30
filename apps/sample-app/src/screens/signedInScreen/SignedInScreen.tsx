@@ -5,7 +5,6 @@ import {
   FlatList,
   Image,
   Pressable,
-  StyleSheet,
   Text,
   View,
 } from 'react-native';
@@ -15,7 +14,7 @@ import { type OmhUserProfile } from '@openmobilehub/auth-core';
 import { useRoute } from '@react-navigation/native';
 import { type NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; // Adjust the import based on your icon library
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { type RootStackParamList } from '@/app/navigation';
 import {
@@ -24,6 +23,8 @@ import {
 } from '@/app/SignedInProvider';
 import { BottomSheet } from '@/components/bottomSheet';
 import { BottomSheetContent } from '@/components/bottomSheetContent';
+
+import { styles } from './SignedInScreen.styles';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SignedIn'>;
 type SignedInRouteProp = Props['route'];
@@ -35,7 +36,7 @@ const mockFiles = [
   { id: '3', name: 'File 3' },
 ];
 
-export default function SignedInScreen() {
+export const SignedInScreen = () => {
   const insets = useSafeAreaInsets();
   const route = useRoute<SignedInRouteProp>();
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -200,52 +201,4 @@ export default function SignedInScreen() {
       </BottomSheet>
     </View>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10,
-    rowGap: 5,
-  },
-  userProfileContainer: {
-    flexDirection: 'row',
-  },
-  userProfileImage: {
-    width: 100,
-    aspectRatio: 1,
-  },
-  userProfileContents: {
-    justifyContent: 'space-between',
-    marginHorizontal: 5,
-  },
-  actionButtons: {
-    marginTop: 'auto',
-    alignItems: 'flex-start',
-    rowGap: 7.5,
-  },
-  label: {
-    color: 'black',
-  },
-  sheetContent: {
-    flex: 1,
-    padding: 16,
-  },
-  fileItem: {
-    flex: 1,
-    margin: 5,
-    padding: 10,
-    minHeight: 100,
-    flexDirection: 'row',
-    textAlign: 'center',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
-    backgroundColor: '#f0f0f0',
-  },
-  itemContainer: {
-    flex: 1 / 2,
-  },
-  list: {
-    flexGrow: 1,
-  },
-});
+};
