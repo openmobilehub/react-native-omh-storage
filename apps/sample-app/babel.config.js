@@ -24,11 +24,11 @@ module.exports = {
         alias: {
           ...alias,
           '@/app': './src/app',
-          '@/data': './src/data',
-          '@/screens': './src/screens',
           '@/components': './src/components',
           '@/constants': './src/constants',
           '@/contexts': './src/contexts',
+          '@/data': './src/data',
+          '@/screens': './src/screens',
           '@/storage': './src/storage',
           '@/types': './src/@types',
           '@/utils': './src/utils',
@@ -41,5 +41,6 @@ module.exports = {
         allowUndefined: false,
       },
     ],
+    'react-native-reanimated/plugin',
   ],
 };

@@ -1,11 +1,15 @@
 import { ReactNode } from 'react';
 
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PaperProvider } from 'react-native-paper';
 import { RootSiblingParent } from 'react-native-root-siblings';
 
 import { RootNavigationContainer } from '@/app/RootNavigationContainer';
 import { ContextsProvider } from '@/contexts/provider/ContextsProvider';
 import { QueryClientProvider } from '@/data/client/QueryClientProvider';
+
+import { styles } from './App.styles';
 
 interface ProvidersProps {
   children: ReactNode;
@@ -14,7 +18,11 @@ interface ProvidersProps {
 const Providers = ({ children }: ProvidersProps) => {
   return (
     <RootSiblingParent>
-      <PaperProvider>{children}</PaperProvider>
+      <GestureHandlerRootView style={styles.gestureHanlderContainer}>
+        <PaperProvider>
+          <BottomSheetModalProvider>{children}</BottomSheetModalProvider>
+        </PaperProvider>
+      </GestureHandlerRootView>
     </RootSiblingParent>
   );
 };
