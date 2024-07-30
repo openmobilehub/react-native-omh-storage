@@ -1,23 +1,21 @@
 import Axios, { AxiosError, type AxiosInstance } from 'axios';
 
+import { BASE_URL } from './data/constants/constants';
 import { ApiException } from './model/StorageException';
 
 export class GoogleStorageApiClient {
   axiosClient: AxiosInstance;
 
   constructor() {
-    // Setup axios
     this.axiosClient = Axios.create({
-      baseURL: 'https://www.googleapis.com/',
+      baseURL: BASE_URL,
     });
 
     this.axiosClient.interceptors.response.use(
       (response) => response,
       (error: AxiosError) => {
-        throw new ApiException(
-          error.message,
-          error.response?.status,
-          error.cause
+        Promise.reject(
+          new ApiException(error.message, error.response?.status, error)
         );
       }
     );

@@ -5,9 +5,9 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PaperProvider } from 'react-native-paper';
 import { RootSiblingParent } from 'react-native-root-siblings';
 
-import { RootNavigationContainer } from '@/app/RootNavigationContainer';
 import { ContextsProvider } from '@/contexts/provider/ContextsProvider';
 import { QueryClientProvider } from '@/data/client/QueryClientProvider';
+import { RootNavigationContainer } from '@/navigation/RootNavigationContainer';
 
 import { styles } from './App.styles';
 

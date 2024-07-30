@@ -1,10 +1,5 @@
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-  list: {
-    flexGrow: 1,
-  },
-  container: {
-    flex: 1,
-  },
+  leftIcon: { height: 24, width: 24 },
 });

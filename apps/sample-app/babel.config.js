@@ -23,11 +23,11 @@ module.exports = {
         extensions: ['.tsx', '.ts', '.js', '.json'],
         alias: {
           ...alias,
-          '@/app': './src/app',
           '@/components': './src/components',
           '@/constants': './src/constants',
           '@/contexts': './src/contexts',
           '@/data': './src/data',
+          '@/navigation': './src/navigation',
           '@/screens': './src/screens',
           '@/storage': './src/storage',
           '@/types': './src/@types',

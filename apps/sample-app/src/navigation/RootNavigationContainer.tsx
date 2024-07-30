@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import { ContextMenu } from '@/components/contextMenu/ContexMenu';
 import { FullScreenLoadingIndicator } from '@/components/FullScreenLoadingIndicator';
 import { useAuthContext } from '@/contexts/auth/AuthContext';
 import FileViewerScreen from '@/screens/fileViewer/FileViewerScreen';
@@ -10,7 +11,7 @@ import { LoginScreen } from '@/screens/login/LoginScreen';
 
 export type RootStackParamList = {
   Login: undefined;
-  FileViewer: { folderId?: string };
+  FileViewer: { folderId?: string; folderName?: string };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -24,14 +25,19 @@ const MyTheme = {
 };
 
 const RootStack = () => {
-  const { retrieveAuthProvider, isInitializing, accessToken } =
+  const { retrieveAuthProvider, initializationStatus, accessToken, provider } =
     useAuthContext();
 
   useEffect(() => {
-    retrieveAuthProvider();
-  }, [retrieveAuthProvider]);
+    if (initializationStatus === 'idle') {
+      retrieveAuthProvider();
+    }
+  }, [retrieveAuthProvider, initializationStatus]);
 
-  if (isInitializing) {
+  if (
+    initializationStatus === 'initializing' ||
+    initializationStatus === 'idle'
+  ) {
     return <FullScreenLoadingIndicator />;
   }
 
@@ -47,9 +53,10 @@ const RootStack = () => {
         <Stack.Screen
           name="FileViewer"
           component={FileViewerScreen}
-          options={{
-            title: 'test',
-          }}
+          options={({ route }) => ({
+            title: route.params.folderName || provider || 'File Viewer',
+            headerRight: ContextMenu,
+          })}
           initialParams={{}}
         />
       )}

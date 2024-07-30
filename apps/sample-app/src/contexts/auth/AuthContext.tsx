@@ -14,9 +14,11 @@ import { showError } from '@/utils/showError';
 
 import { initAuthClient } from './getAuthProvider';
 
+type InitializationStatus = 'idle' | 'initializing' | 'error' | 'success';
+
 type AuthContextValue = {
   accessToken: string | null;
-  isInitializing: boolean;
+  initializationStatus: InitializationStatus;
   provider: Provider | null;
   login(provider: Provider): Promise<void>;
   logout(): Promise<void>;
@@ -36,7 +38,8 @@ export const AuthContextProvider = ({ children }: Props) => {
   const [authProvider, setAuthProvider] = useState<AuthProvider | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
 
-  const [isInitializing, setIsInitializing] = useState(true);
+  const [initializationStatus, setInitializationStatus] =
+    useState<InitializationStatus>('idle');
 
   const logout = useCallback(async () => {
     authProvider?.signOut();
@@ -90,12 +93,13 @@ export const AuthContextProvider = ({ children }: Props) => {
   }, [authProvider]);
 
   const retrieveAuthProvider = useCallback(async () => {
+    setInitializationStatus('initializing');
     const storedProvider = storage.getString(SIGNED_WITH_PROVIDER) as
       | Provider
       | undefined;
 
     if (!storedProvider) {
-      setIsInitializing(false);
+      setInitializationStatus('error');
       showError(new Error('No provider found in storage'));
       return;
     }
@@ -104,6 +108,7 @@ export const AuthContextProvider = ({ children }: Props) => {
     const token = await initializedAuthProvider.getAccessToken();
 
     if (!token) {
+      setInitializationStatus('error');
       showError(new Error('Access token is not available after sign in'));
       return logout();
     }
@@ -113,7 +118,7 @@ export const AuthContextProvider = ({ children }: Props) => {
     setAuthProvider(initializedAuthProvider);
     setProvider(storedProvider);
 
-    setIsInitializing(false);
+    setInitializationStatus('success');
   }, [logout]);
 
   return (
@@ -124,7 +129,7 @@ export const AuthContextProvider = ({ children }: Props) => {
         logout,
         refreshToken,
         retrieveAuthProvider,
-        isInitializing,
+        initializationStatus,
         accessToken,
       }}
     >

@@ -1,20 +1,15 @@
-export class OmhStorageException extends Error {
-  cause?: Error;
-
+abstract class OmhStorageException extends Error {
   constructor(message: string, cause?: Error) {
     super(message);
 
     this.name = this.constructor.name;
     this.cause = cause;
-    if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, this.constructor);
-    }
   }
 }
 
 export class InvalidCredentialsException extends OmhStorageException {
-  constructor(message: string) {
-    super(message);
+  constructor(message: string, cause?: Error) {
+    super(message, cause);
   }
 }
 

@@ -1,3 +1,4 @@
+import { mapFileRemoteToStorageEntity } from './data/mappers/mapFileRemoteToStorageEntity';
 import type { GoogleStorageApiService } from './GoogleStorageApiService';
 
 export class GoogleStorageRepository {
@@ -7,7 +8,9 @@ export class GoogleStorageRepository {
     this.apiService = apiService;
   }
 
-  listFiles(folderId: string) {
-    return this.apiService.listFiles(folderId);
+  async listFiles(folderId: string) {
+    const response = await this.apiService.listFiles(folderId);
+
+    return response.data.files.map(mapFileRemoteToStorageEntity);
   }
 }

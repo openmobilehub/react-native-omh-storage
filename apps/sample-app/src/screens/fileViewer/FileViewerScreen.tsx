@@ -1,17 +1,16 @@
 import React, { useCallback } from 'react';
-import { Button, FlatList, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { type NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { type RootStackParamList } from '@/app/RootNavigationContainer';
-import { FileListItem } from '@/components/FileListItem/FileListItem';
+import { FileListItem } from '@/components/fileListItem/FileListItem';
 import { FullScreenEmptySpace } from '@/components/FullScreenEmptySpace';
 import { FullScreenLoadingIndicator } from '@/components/FullScreenLoadingIndicator';
-import { useAuthContext } from '@/contexts/auth/AuthContext';
 import { useRequireStorageClient } from '@/contexts/storage/useRequireStorageClient';
 import { useFileListQuery } from '@/data/query/fileListQuery';
+import { type RootStackParamList } from '@/navigation/RootNavigationContainer';
 
 import { File } from '../../../../../packages/googledrive/src/model/File';
 import { StorageEntity } from '../../../../../packages/googledrive/src/model/StorageEntity';
@@ -26,8 +25,6 @@ export default function FileViewerScreen() {
 
   const route = useRoute<SignedInRouteProp>();
   const navigation = useNavigation<SignedInNavigationProp>();
-
-  const { logout } = useAuthContext();
 
   const { folderId } = route.params;
 
@@ -44,6 +41,7 @@ export default function FileViewerScreen() {
     } else {
       navigation.push('FileViewer', {
         folderId: file.id,
+        folderName: file.name,
       });
     }
   };
@@ -67,7 +65,6 @@ export default function FileViewerScreen() {
           <FileListItem file={item} onPress={handleStorageEntityPress} />
         )}
       />
-      <Button onPress={logout} title="Sign out" testID="sign-out" />
     </View>
   );
 }
