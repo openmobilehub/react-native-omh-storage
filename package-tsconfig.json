@@ -5,6 +5,7 @@
     "paths": {
       "@openmobilehub/storage-core": ["packages/core/src"]
     },
+    "moduleSuffixes": [".android", ".ios", ""],
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "esModuleInterop": true,
