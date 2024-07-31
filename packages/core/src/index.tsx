@@ -1,2 +1,6 @@
-export * from './client.android';
-export * from './client.types';
+export * from './StorageClient.types';
+
+export * from './model/StorageEntity';
+export * from './model/Folder';
+export * from './model/File';
+export * from './model/StorageException';

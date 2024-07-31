@@ -1,1 +1,1 @@
-export { Client as default } from './client';
+export { GoogleDriveStorageClient } from './GoogleDriveStorageClient';
