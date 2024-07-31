@@ -9,11 +9,15 @@ interface Props {
   displayEntry: DisplayEntry;
 }
 
+const notAvailableLabel = 'N/A';
+
 export const DisplayRow = ({ displayEntry }: Props) => {
   return (
     <View style={styles.container}>
       <Text variant="labelMedium">{displayEntry.label}:</Text>
-      <Text variant="bodyMedium">{displayEntry.value}</Text>
+      <Text variant="bodyMedium">
+        {displayEntry.value || notAvailableLabel}
+      </Text>
     </View>
   );
 };

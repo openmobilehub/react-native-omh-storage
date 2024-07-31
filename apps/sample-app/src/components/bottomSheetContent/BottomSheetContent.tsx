@@ -9,14 +9,14 @@ import { PermissionsContent } from './content/permissions/PermissionsContent';
 import { BottomSheetOptions } from './parts/bottomSheetOptions';
 
 interface BottomSheetContentProps {
-  storageEntity: StorageEntity;
+  file: StorageEntity;
   onUpdatePress?: () => void;
   onDeletePress?: () => void;
   onPermanentDeletePress?: () => void;
 }
 
 export const BottomSheetContent: React.FC<BottomSheetContentProps> = ({
-  storageEntity,
+  file,
   onUpdatePress,
   onDeletePress,
   onPermanentDeletePress,
@@ -28,13 +28,13 @@ export const BottomSheetContent: React.FC<BottomSheetContentProps> = ({
   const renderContent = () => {
     switch (view) {
       case BottomSheetContentType.Metadata:
-        return <MetadataContent storageEntity={storageEntity} />;
+        return <MetadataContent file={file} />;
       case BottomSheetContentType.Permissions:
         return <PermissionsContent />;
       default:
         return (
           <BottomSheetOptions
-            fileName={storageEntity?.name}
+            fileName={file.name}
             setView={setView}
             onUpdatePress={onUpdatePress}
             onDeletePress={onDeletePress}

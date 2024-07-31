@@ -75,7 +75,7 @@ export const FileListItem = ({ file, onPress }: Props) => {
       <BottomSheet ref={bottomSheetModalRef}>
         {
           <BottomSheetContent
-            storageEntity={file}
+            file={file}
             onUpdatePress={handleUpdatePress}
             onDeletePress={handleDeletePress}
             onPermanentDeletePress={handlePermanentDeletePress}

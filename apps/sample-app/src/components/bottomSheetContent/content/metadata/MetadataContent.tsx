@@ -13,16 +13,13 @@ import { getDisplayData } from './getDisplayData';
 import { DisplayRow } from './parts/DisplayRow/DisplayRow';
 
 interface Props {
-  storageEntity: StorageEntity;
+  file: StorageEntity;
 }
 
-export const MetadataContent = ({ storageEntity }: Props) => {
+export const MetadataContent = ({ file }: Props) => {
   const storageClient = useRequireStorageClient();
 
-  const fileMetadataQuery = useFileMetadataQuery(
-    storageClient,
-    storageEntity.id
-  );
+  const fileMetadataQuery = useFileMetadataQuery(storageClient, file.id);
 
   const [showOriginalMetadata, setShowOriginalMetadata] = useState(false);
 
