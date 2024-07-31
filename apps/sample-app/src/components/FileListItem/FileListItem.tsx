@@ -9,7 +9,7 @@ import { Style } from 'react-native-paper/lib/typescript/components/List/utils';
 import { BottomSheet } from '../bottomSheet';
 import { BottomSheetContent } from '../bottomSheetContent';
 import { styles } from './FileListItem.styles';
-import { getIconForMimeType, URL_FOLDER } from './iconHelpers';
+import { getIconForFileListItem, URL_FOLDER } from './getIconForFileListItem';
 
 interface Props {
   file: OmhStorageEntity;
@@ -20,7 +20,9 @@ export const FileListItem = ({ file, onPress }: Props) => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const icon =
-    file instanceof OmhFile ? getIconForMimeType(file.mimeType) : URL_FOLDER;
+    file instanceof OmhFile
+      ? getIconForFileListItem(file.mimeType)
+      : URL_FOLDER;
 
   const handleRightIconPress = useCallback(() => {
     bottomSheetModalRef.current?.present();

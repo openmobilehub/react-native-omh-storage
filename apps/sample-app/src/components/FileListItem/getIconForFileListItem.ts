@@ -34,7 +34,7 @@ enum MimeType {
   MP4 = 'video/mp4',
 }
 
-export const getIconForMimeType = (mimeType?: string) => {
+export const getIconForFileListItem = (mimeType?: string) => {
   switch (mimeType) {
     case MimeType.PDF:
       return URL_PDF;
