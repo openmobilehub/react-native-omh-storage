@@ -29,6 +29,7 @@ export const getQueryClient = ({ onUnauthorizedError }: QueryClientOptions) =>
     },
     queryCache: new QueryCache({
       onError: async (error, query) => {
+        console.log('is error');
         if (error instanceof ApiException) {
           if (error.code === 401) {
             await onUnauthorizedError();
@@ -41,6 +42,8 @@ export const getQueryClient = ({ onUnauthorizedError }: QueryClientOptions) =>
     }),
     mutationCache: new MutationCache({
       onError: async (error) => {
+        console.log('is error');
+
         if (error instanceof ApiException) {
           if (error.code === 401) {
             await onUnauthorizedError();

@@ -1,36 +1,45 @@
 import { useState } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
+
+import { StorageEntity } from '@openmobilehub/storage-core';
 
 import { BottomSheetContentType } from './BottomSheetContent.types';
+import { MetadataContent } from './content/metadata/MetadataContent';
+import { PermissionsContent } from './content/permissions/PermissionsContent';
 import { BottomSheetOptions } from './parts/bottomSheetOptions';
 
 interface BottomSheetContentProps {
-  fileData: any; // TODO: Define proper type for file data once fetching is implemented
+  storageEntity: StorageEntity;
+  onUpdatePress?: () => void;
+  onDeletePress?: () => void;
+  onPermanentDeletePress?: () => void;
 }
 
 export const BottomSheetContent: React.FC<BottomSheetContentProps> = ({
-  fileData,
+  storageEntity,
+  onUpdatePress,
+  onDeletePress,
+  onPermanentDeletePress,
 }) => {
   const [view, setView] = useState<BottomSheetContentType>(
     BottomSheetContentType.Options
   );
 
-  //TODO: Implement proper views for metadata, permissions, update, and delete
   const renderContent = () => {
     switch (view) {
       case BottomSheetContentType.Metadata:
-        return <Text>Metadata for {fileData.name}</Text>;
+        return <MetadataContent storageEntity={storageEntity} />;
       case BottomSheetContentType.Permissions:
-        return <Text>Permissions for {fileData.name}</Text>;
-      case BottomSheetContentType.Update:
-        return <Text>Update {fileData.name}</Text>;
-      case BottomSheetContentType.Delete:
-        return <Text>Delete {fileData.name}</Text>;
-      case BottomSheetContentType.PermanentDelete:
-        return <Text>Permanently Delete {fileData.name}</Text>;
+        return <PermissionsContent />;
       default:
         return (
-          <BottomSheetOptions fileName={fileData?.name} setView={setView} />
+          <BottomSheetOptions
+            fileName={storageEntity?.name}
+            setView={setView}
+            onUpdatePress={onUpdatePress}
+            onDeletePress={onDeletePress}
+            onPermanentDeletePress={onPermanentDeletePress}
+          />
         );
     }
   };

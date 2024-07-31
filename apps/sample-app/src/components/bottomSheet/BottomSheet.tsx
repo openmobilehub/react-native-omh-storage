@@ -1,10 +1,10 @@
 import { forwardRef, ReactNode } from 'react';
-import { ViewStyle } from 'react-native';
+import { Dimensions, ViewStyle } from 'react-native';
 
 import {
   BottomSheetModal,
   BottomSheetModalProps,
-  BottomSheetView,
+  BottomSheetScrollView,
 } from '@gorhom/bottom-sheet';
 
 import { styles } from './BottomSheet.styles';
@@ -18,7 +18,7 @@ interface BottomSheetProps extends BottomSheetModalProps {
 
 export const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
   (
-    { children, contentContainerStyle, snapPoints = ['50%'], ...props },
+    { children, contentContainerStyle, snapPoints = ['50%', '90%'], ...props },
     ref
   ) => {
     return (
@@ -27,12 +27,14 @@ export const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
         ref={ref}
         snapPoints={snapPoints}
         backdropComponent={BottomSheetBackdrop}
+        enableDynamicSizing
+        maxDynamicContentSize={Dimensions.get('window').height * 0.9}
       >
-        <BottomSheetView
+        <BottomSheetScrollView
           style={[styles.contentContainer, contentContainerStyle]}
         >
           {children}
-        </BottomSheetView>
+        </BottomSheetScrollView>
       </BottomSheetModal>
     );
   }

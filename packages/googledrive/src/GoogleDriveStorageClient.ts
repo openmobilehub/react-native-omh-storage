@@ -18,11 +18,15 @@ export class GoogleDriveStorageClient implements IStorageClient {
 
   readonly rootFolderId = ROOT_FOLDER;
 
-  setAccessToken(accessToken: string) {
+  async setAccessToken(accessToken: string) {
     this.client.setAccessToken(accessToken);
   }
 
-  listFiles(folderId: string) {
+  async listFiles(folderId: string) {
     return this.repository.listFiles(folderId);
+  }
+
+  async getFileMetadata(fileId: string) {
+    return this.repository.getFileMetadata(fileId);
   }
 }

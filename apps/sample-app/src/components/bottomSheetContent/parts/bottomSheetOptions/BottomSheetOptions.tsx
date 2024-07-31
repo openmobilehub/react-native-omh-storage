@@ -1,27 +1,30 @@
-import { View } from 'react-native';
-
-import { Divider, Icon, Menu, Text } from 'react-native-paper';
+import { Divider, Icon, Menu } from 'react-native-paper';
 
 import { BottomSheetContentType } from '../../BottomSheetContent.types';
+import { BottomSheetContentWrapper } from '../BottomSheetContentWrapper/BottomSheetContentWrapper';
 import { styles } from './BottomSheetOptions.styles';
 
 interface BottomSheetOptionsProps {
-  setView: React.Dispatch<React.SetStateAction<BottomSheetContentType>>;
   fileName: string;
+  setView: React.Dispatch<React.SetStateAction<BottomSheetContentType>>;
+  onUpdatePress?: () => void;
+  onDeletePress?: () => void;
+  onPermanentDeletePress?: () => void;
 }
 
 export const BottomSheetOptions = ({
   setView,
   fileName,
+  onUpdatePress,
+  onDeletePress,
+  onPermanentDeletePress,
 }: BottomSheetOptionsProps) => {
   const leadingIcon = (props: any) => (
     <Icon {...props} source="trash-can" color="red" />
   );
 
   return (
-    <View>
-      <Text style={styles.fileName}>{fileName}</Text>
-      <Divider />
+    <BottomSheetContentWrapper title={fileName} titleVariant="titleSmall">
       <Menu.Item
         leadingIcon="information"
         onPress={() => setView(BottomSheetContentType.Metadata)}
@@ -38,26 +41,25 @@ export const BottomSheetOptions = ({
       <Divider />
       <Menu.Item
         leadingIcon="pencil"
-        onPress={() => setView(BottomSheetContentType.Update)}
+        onPress={onUpdatePress}
         title="Update"
         style={styles.menuItem}
       />
       <Divider />
       <Menu.Item
         leadingIcon="trash-can"
-        onPress={() => setView(BottomSheetContentType.Delete)}
+        onPress={onDeletePress}
         title="Delete"
         style={styles.menuItem}
       />
       <Divider />
       <Menu.Item
         leadingIcon={leadingIcon}
-        onPress={() => setView(BottomSheetContentType.PermanentDelete)}
+        onPress={onPermanentDeletePress}
         title="Permanently delete"
         style={styles.menuItem}
         titleStyle={styles.permanentDeleteItem}
       />
-      <Divider />
-    </View>
+    </BottomSheetContentWrapper>
   );
 };

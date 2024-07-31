@@ -1,5 +1,5 @@
 import { useCallback, useRef } from 'react';
-import { Image } from 'react-native';
+import { Alert, Image } from 'react-native';
 
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { File, StorageEntity } from '@openmobilehub/storage-core';
@@ -25,6 +25,18 @@ export const FileListItem = ({ file, onPress }: Props) => {
   const handleRightIconPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
+
+  const handleUpdatePress = () => {
+    Alert.alert('Not implemented', 'This feature is not implemented yet');
+  };
+
+  const handleDeletePress = () => {
+    Alert.alert('Not implemented', 'This feature is not implemented yet');
+  };
+
+  const handlePermanentDeletePress = () => {
+    Alert.alert('Not implemented', 'This feature is not implemented yet');
+  };
 
   const renderLeftIcon = useCallback(
     (props: { color: string; style: Style }) => {
@@ -61,7 +73,14 @@ export const FileListItem = ({ file, onPress }: Props) => {
         right={renderRightIcon}
       />
       <BottomSheet ref={bottomSheetModalRef}>
-        {<BottomSheetContent fileData={file} />}
+        {
+          <BottomSheetContent
+            storageEntity={file}
+            onUpdatePress={handleUpdatePress}
+            onDeletePress={handleDeletePress}
+            onPermanentDeletePress={handlePermanentDeletePress}
+          />
+        }
       </BottomSheet>
     </>
   );
