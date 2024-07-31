@@ -2,7 +2,7 @@ import { useCallback, useRef } from 'react';
 import { Image } from 'react-native';
 
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { OmhFile, OmhStorageEntity } from '@openmobilehub/storage-core';
+import { File, StorageEntity } from '@openmobilehub/storage-core';
 import { IconButton, List } from 'react-native-paper';
 import { Style } from 'react-native-paper/lib/typescript/components/List/utils';
 
@@ -12,17 +12,15 @@ import { styles } from './FileListItem.styles';
 import { getIconForFileListItem, URL_FOLDER } from './getIconForFileListItem';
 
 interface Props {
-  file: OmhStorageEntity;
-  onPress: (entity: OmhStorageEntity) => void;
+  file: StorageEntity;
+  onPress: (entity: StorageEntity) => void;
 }
 
 export const FileListItem = ({ file, onPress }: Props) => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const icon =
-    file instanceof OmhFile
-      ? getIconForFileListItem(file.mimeType)
-      : URL_FOLDER;
+    file instanceof File ? getIconForFileListItem(file.mimeType) : URL_FOLDER;
 
   const handleRightIconPress = useCallback(() => {
     bottomSheetModalRef.current?.present();

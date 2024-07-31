@@ -1,9 +1,9 @@
-import { IOmhStorageClient } from '@openmobilehub/storage-core';
+import { IStorageClient } from '@openmobilehub/storage-core';
 import { GoogleStorageClient } from '@openmobilehub/storage-googledrive';
 
 import { Provider } from '@/constants/Provider';
 
-export const getStorageProvider = (provider: Provider): IOmhStorageClient => {
+export const getStorageProvider = (provider: Provider): IStorageClient => {
   switch (provider) {
     case Provider.GOOGLEDRIVE:
       return new GoogleStorageClient();

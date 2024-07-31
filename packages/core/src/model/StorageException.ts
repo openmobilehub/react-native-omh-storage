@@ -1,4 +1,4 @@
-export abstract class OmhStorageException extends Error {
+export abstract class StorageException extends Error {
   constructor(
     message: string,
     public cause?: Error
@@ -11,19 +11,19 @@ export abstract class OmhStorageException extends Error {
   }
 }
 
-export class OmhInvalidCredentialsException extends OmhStorageException {
+export class InvalidCredentialsException extends StorageException {
   constructor(message: string, cause?: Error) {
     super(message, cause);
   }
 }
 
-export class OmhDeveloperErrorException extends OmhStorageException {
+export class DeveloperErrorException extends StorageException {
   constructor(message: string, cause?: Error) {
     super(message, cause);
   }
 }
 
-export class OmhApiException extends OmhStorageException {
+export class ApiException extends StorageException {
   code?: number;
 
   constructor(message: string, code?: number, cause?: Error) {

@@ -1,6 +1,6 @@
-import { OmhStorageEntity } from './OmhStorageEntity';
+import { StorageEntity } from './StorageEntity';
 
-export class OmhFolder extends OmhStorageEntity {
+export class Folder extends StorageEntity {
   constructor({
     id,
     name,

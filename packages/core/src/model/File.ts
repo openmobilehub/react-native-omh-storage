@@ -1,6 +1,6 @@
-import { OmhStorageEntity } from './OmhStorageEntity';
+import { StorageEntity } from './StorageEntity';
 
-export class OmhFile extends OmhStorageEntity {
+export class File extends StorageEntity {
   mimeType?: string;
   extension?: string;
   size?: number;

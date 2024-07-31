@@ -1,4 +1,4 @@
-import { OmhApiException } from '@openmobilehub/storage-core';
+import { ApiException } from '@openmobilehub/storage-core';
 import Axios, { AxiosError, type AxiosInstance } from 'axios';
 
 import { BASE_URL } from './data/constants/constants';
@@ -15,7 +15,7 @@ export class GoogleStorageApiClient {
       (response) => response,
       (error: AxiosError) => {
         Promise.reject(
-          new OmhApiException(error.message, error.response?.status, error)
+          new ApiException(error.message, error.response?.status, error)
         );
       }
     );

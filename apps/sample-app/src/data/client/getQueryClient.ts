@@ -1,4 +1,4 @@
-import { OmhApiException } from '@openmobilehub/storage-core';
+import { ApiException } from '@openmobilehub/storage-core';
 import { MutationCache, QueryCache, QueryClient } from '@tanstack/react-query';
 
 import { showError } from '@/utils/showError';
@@ -7,8 +7,8 @@ interface QueryClientOptions {
   onUnauthorizedError: () => void;
 }
 
-const handleRetry = (failureCount: number, error: OmhApiException) => {
-  if (error instanceof OmhApiException) {
+const handleRetry = (failureCount: number, error: ApiException) => {
+  if (error instanceof ApiException) {
     if (error.code === 401) {
       // If the error is a 401, we don't want to retry query
       return false;
@@ -29,7 +29,7 @@ export const getQueryClient = ({ onUnauthorizedError }: QueryClientOptions) =>
     },
     queryCache: new QueryCache({
       onError: async (error, query) => {
-        if (error instanceof OmhApiException) {
+        if (error instanceof ApiException) {
           if (error.code === 401) {
             await onUnauthorizedError();
             query.invalidate();
@@ -41,7 +41,7 @@ export const getQueryClient = ({ onUnauthorizedError }: QueryClientOptions) =>
     }),
     mutationCache: new MutationCache({
       onError: async (error) => {
-        if (error instanceof OmhApiException) {
+        if (error instanceof ApiException) {
           if (error.code === 401) {
             await onUnauthorizedError();
             return;

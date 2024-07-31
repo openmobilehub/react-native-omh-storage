@@ -1,11 +1,11 @@
-import type { IOmhStorageClient } from '@openmobilehub/storage-core';
+import type { IStorageClient } from '@openmobilehub/storage-core';
 
 import { ROOT_FOLDER } from './data/constants/constants';
 import { GoogleStorageApiClient } from './GoogleStorageApiClient';
 import { GoogleStorageApiService } from './GoogleStorageApiService';
 import { GoogleStorageRepository } from './GoogleStorageRepository';
 
-export class GoogleStorageClient implements IOmhStorageClient {
+export class GoogleStorageClient implements IStorageClient {
   private client: GoogleStorageApiClient;
   private repository: GoogleStorageRepository;
 

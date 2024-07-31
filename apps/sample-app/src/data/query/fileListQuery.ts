@@ -1,15 +1,15 @@
 import {
-  IOmhStorageClient,
-  OmhStorageEntity,
-  OmhStorageException,
+  IStorageClient,
+  StorageEntity,
+  StorageException,
 } from '@openmobilehub/storage-core';
 import { useQuery } from '@tanstack/react-query';
 
 export const useFileListQuery = (
-  storageClient: IOmhStorageClient,
+  storageClient: IStorageClient,
   folderId: string
 ) => {
-  return useQuery<OmhStorageEntity[], OmhStorageException>({
+  return useQuery<StorageEntity[], StorageException>({
     queryKey: ['fileList', folderId],
     queryFn: () => storageClient.listFiles(folderId),
   });
