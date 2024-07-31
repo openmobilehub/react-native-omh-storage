@@ -5,6 +5,7 @@ import {
   useContext,
   useState,
 } from 'react';
+import { unstable_batchedUpdates } from 'react-native';
 
 import { Provider } from '@/constants/Provider';
 import { SIGNED_WITH_PROVIDER } from '@/storage/keys';
@@ -65,9 +66,13 @@ export const AuthContextProvider = ({ children }: Props) => {
         return logout();
       }
 
-      setAccessToken(token);
-      setAuthProvider(initializedAuthProvider);
-      setProvider(withProvider);
+      // The updates supposed to be batched by default, but some reasons it does not always work.
+      // This is a workaround to make sure the updates are batched.
+      unstable_batchedUpdates(() => {
+        setProvider(withProvider);
+        setAccessToken(token);
+        setAuthProvider(initializedAuthProvider);
+      });
 
       storage.set(SIGNED_WITH_PROVIDER, withProvider);
     },
@@ -111,9 +116,13 @@ export const AuthContextProvider = ({ children }: Props) => {
       return logout();
     }
 
-    setAccessToken(token);
-    setAuthProvider(initializedAuthProvider);
-    setProvider(storedProvider);
+    // The updates supposed to be batched by default, but some reasons it does not always work.
+    // This is a workaround to make sure the updates are batched.
+    unstable_batchedUpdates(() => {
+      setAccessToken(token);
+      setAuthProvider(initializedAuthProvider);
+      setProvider(storedProvider);
+    });
 
     setInitializationStatus('success');
   }, [logout]);
