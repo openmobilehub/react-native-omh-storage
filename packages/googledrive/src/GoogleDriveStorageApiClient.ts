@@ -14,9 +14,7 @@ export class GoogleDriveStorageApiClient {
     this.axiosClient.interceptors.response.use(
       (response) => response,
       (error: AxiosError) => {
-        Promise.reject(
-          new ApiException(error.message, error.response?.status, error)
-        );
+        throw new ApiException(error.message, error.response?.status, error);
       }
     );
   }

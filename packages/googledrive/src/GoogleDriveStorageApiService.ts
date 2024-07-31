@@ -9,6 +9,8 @@ export class GoogleDriveStorageApiService {
   private fieldsParam =
     'files(id,name,createdTime,modifiedTime,parents,mimeType,fileExtension,size)';
 
+  private allFieldsParam = '*';
+
   private qParam = (folderId: string) =>
     `'${folderId}' in parents and trashed = false`;
 
@@ -21,6 +23,14 @@ export class GoogleDriveStorageApiService {
       params: {
         q: this.qParam(folderId),
         fields: this.fieldsParam,
+      },
+    });
+  }
+
+  async getFileMetadata(fileId: string) {
+    return this.client.axiosClient.get(`${FILES_PARTICLE}/${fileId}`, {
+      params: {
+        fields: this.allFieldsParam,
       },
     });
   }

@@ -22,7 +22,11 @@ export class GoogleDriveStorageClient implements IStorageClient {
     this.client.setAccessToken(accessToken);
   }
 
-  listFiles(folderId: string) {
+  async listFiles(folderId: string) {
     return this.repository.listFiles(folderId);
+  }
+
+  async getFileMetadata(fileId: string) {
+    return this.repository.getFileMetadata(fileId);
   }
 }
