@@ -2,7 +2,7 @@ import { View } from 'react-native';
 
 import { Button } from 'react-native-paper';
 
-import { Provider } from '@/constants/Provider';
+import { Provider } from '@/constants/provider';
 import { useAuthContext } from '@/contexts/auth/AuthContext';
 
 import { styles } from './LoginScreen.styles';

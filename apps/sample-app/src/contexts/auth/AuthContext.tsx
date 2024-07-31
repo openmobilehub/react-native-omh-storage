@@ -7,7 +7,7 @@ import {
 } from 'react';
 import { unstable_batchedUpdates } from 'react-native';
 
-import { Provider } from '@/constants/Provider';
+import { Provider } from '@/constants/provider';
 import { SIGNED_WITH_PROVIDER } from '@/storage/keys';
 import storage from '@/storage/storage';
 import { AuthProvider } from '@/types/AuthProvider';

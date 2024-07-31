@@ -8,7 +8,7 @@ import DropboxAuth from '@openmobilehub/auth-dropbox';
 import GoogleAuth from '@openmobilehub/auth-google';
 import MicrosoftAuth from '@openmobilehub/auth-microsoft';
 
-import { Provider } from '@/constants/Provider';
+import { Provider } from '@/constants/provider';
 
 export const initAuthClient = async (provider: Provider) => {
   switch (provider) {
