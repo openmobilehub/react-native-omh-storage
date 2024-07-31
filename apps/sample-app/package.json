@@ -11,7 +11,7 @@
     "build:ios": "react-native build-ios --scheme RNStorageSample --mode Release --extra-params \"-sdk iphoneos -destination generic/platform=iOS -archivePath build/RNStorageSample.xcarchive archive\""
   },
   "dependencies": {
-    "@gorhom/bottom-sheet": "^4",
+    "@gorhom/bottom-sheet": "^4.6.4",
     "@openmobilehub/auth-dropbox": "^1.0.1",
     "@openmobilehub/auth-google": "^1.0.1",
     "@openmobilehub/auth-microsoft": "^1.0.1",
