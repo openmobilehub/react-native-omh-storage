@@ -1,10 +1,10 @@
 import { mapFileRemoteToStorageEntity } from './data/mappers/mapFileRemoteToStorageEntity';
-import type { GoogleStorageApiService } from './GoogleStorageApiService';
+import type { GoogleDriveStorageApiService } from './GoogleDriveStorageApiService';
 
-export class GoogleStorageRepository {
-  private apiService: GoogleStorageApiService;
+export class GoogleDriveStorageRepository {
+  private apiService: GoogleDriveStorageApiService;
 
-  constructor(apiService: GoogleStorageApiService) {
+  constructor(apiService: GoogleDriveStorageApiService) {
     this.apiService = apiService;
   }
 

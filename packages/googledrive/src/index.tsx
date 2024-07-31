@@ -1,1 +1,1 @@
-export { GoogleStorageClient } from './GoogleStorageClient';
+export { GoogleDriveStorageClient } from './GoogleDriveStorageClient';

@@ -3,7 +3,7 @@ import Axios, { AxiosError, type AxiosInstance } from 'axios';
 
 import { BASE_URL } from './data/constants/constants';
 
-export class GoogleStorageApiClient {
+export class GoogleDriveStorageApiClient {
   axiosClient: AxiosInstance;
 
   constructor() {

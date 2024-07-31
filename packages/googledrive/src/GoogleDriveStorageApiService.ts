@@ -1,10 +1,10 @@
 import { type FileListRemote } from './data/response/FileListRemote';
-import type { GoogleStorageApiClient } from './GoogleStorageApiClient';
+import type { GoogleDriveStorageApiClient } from './GoogleDriveStorageApiClient';
 
 const FILES_PARTICLE = 'drive/v3/files';
 
-export class GoogleStorageApiService {
-  private client: GoogleStorageApiClient;
+export class GoogleDriveStorageApiService {
+  private client: GoogleDriveStorageApiClient;
 
   private fieldsParam =
     'files(id,name,createdTime,modifiedTime,parents,mimeType,fileExtension,size)';
@@ -12,7 +12,7 @@ export class GoogleStorageApiService {
   private qParam = (folderId: string) =>
     `'${folderId}' in parents and trashed = false`;
 
-  constructor(apiClient: GoogleStorageApiClient) {
+  constructor(apiClient: GoogleDriveStorageApiClient) {
     this.client = apiClient;
   }
 
