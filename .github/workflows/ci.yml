@@ -3,9 +3,6 @@ on:
   pull_request:
     branches:
       - main
-  push:
-    branches:
-      - fix/OMHD-519-ci-fixes
   merge_group:
     types:
       - checks_requested

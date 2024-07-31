@@ -3,15 +3,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@/components/*": ["./src/components/*"],
-      "@/constants/*": ["./src/constants/*"],
-      "@/contexts/*": ["./src/contexts/*"],
-      "@/data/*": ["./src/data/*"],
-      "@/navigation/*": ["./src/navigation/*"],
-      "@/screens/*": ["./src/screens/*"],
-      "@/storage/*": ["./src/storage/*"],
-      "@/types/*": ["./src/types/*"],
-      "@/utils/*": ["./src/utils/*"],
+      "@/*": ["src/*"],
       "@openmobilehub/storage-core": ["../../packages/core/src"],
       "@openmobilehub/storage-googledrive": ["../../packages/googledrive/src"],
       "@openmobilehub/storage-onedrive": ["../../packages/onedrive/src"],
