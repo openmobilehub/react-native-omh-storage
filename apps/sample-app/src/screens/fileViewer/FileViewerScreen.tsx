@@ -6,7 +6,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { type NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { FileListItem } from '@/components/fileListItem';
+import { FileListItem } from '@/components/FileListItem';
 import { FullScreenEmptyState } from '@/components/fullScreenEmptyState';
 import { FullScreenLoadingState } from '@/components/fullScreenLoadingState';
 import { useRequireStorageClient } from '@/contexts/storage/useRequireStorageClient';
