@@ -24,6 +24,8 @@ const MyTheme = {
   },
 };
 
+const headerRight = (folderId?: string) => <ContextMenu folderId={folderId} />;
+
 const RootStack = () => {
   const { silentLogin, initializationStatus, accessToken, provider } =
     useAuthContext();
@@ -55,7 +57,7 @@ const RootStack = () => {
           component={FileViewerScreen}
           options={({ route }) => ({
             title: route.params.folderName || provider || 'File Viewer',
-            headerRight: ContextMenu,
+            headerRight: () => headerRight(route.params.folderId),
           })}
           initialParams={{}}
         />

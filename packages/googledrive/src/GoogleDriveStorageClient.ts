@@ -1,4 +1,4 @@
-import type { IStorageClient } from '@openmobilehub/storage-core';
+import type { IStorageClient, LocalFile } from '@openmobilehub/storage-core';
 
 import { ROOT_FOLDER } from './data/constants/constants';
 import { GoogleDriveStorageApiClient } from './GoogleDriveStorageApiClient';
@@ -32,5 +32,9 @@ export class GoogleDriveStorageClient implements IStorageClient {
 
   async search(query: string) {
     return this.repository.search(query);
+  }
+
+  localFileUpload(file: LocalFile, folderId: string) {
+    return this.repository.localFileUpload(file, folderId);
   }
 }
