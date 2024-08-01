@@ -1,31 +1,52 @@
-import { PermissionsAndroid, Platform } from 'react-native';
+import { Platform } from 'react-native';
 
 import { LocalFile } from '@openmobilehub/storage-core';
 import RNBlobUtil from 'react-native-blob-util';
 import DocumentPicker from 'react-native-document-picker';
 import { launchImageLibrary } from 'react-native-image-picker';
+import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions';
 
 export const usePickFile = () => {
   const requestStoragePermission = async () => {
-    if (Platform.OS === 'android') {
-      try {
-        const granted = await PermissionsAndroid.requestMultiple([
-          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-          PermissionsAndroid.PERMISSIONS.CAMERA,
-        ]);
-        return Object.values(granted).every(
-          (status) => status === PermissionsAndroid.RESULTS.GRANTED
-        );
-      } catch (err) {
-        console.warn('Failed to request permissions', err);
-        return false;
-      }
+    const permissions = Platform.select({
+      android: [
+        PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
+        PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE,
+      ],
+      ios: [PERMISSIONS.IOS.PHOTO_LIBRARY],
+    });
+
+    if (!permissions) {
+      console.warn('Permissions are not defined for this platform');
+      return false;
     }
-    return true;
+
+    try {
+      const statuses = await Promise.all(
+        permissions.map((permission) => check(permission))
+      );
+      const allGranted = statuses.every((status) => status === RESULTS.GRANTED);
+
+      if (!allGranted) {
+        const requestStatuses = await Promise.all(
+          permissions.map((permission) => request(permission))
+        );
+        return requestStatuses.every((status) => status === RESULTS.GRANTED);
+      }
+
+      return true;
+    } catch (err) {
+      console.warn('Failed to request permissions', err);
+      return false;
+    }
   };
 
   const pickFromFiles = async (): Promise<LocalFile | undefined> => {
+    const hasPermission = await requestStoragePermission();
+    if (!hasPermission) {
+      return;
+    }
+
     try {
       const response = await DocumentPicker.pick({
         type: [DocumentPicker.types.allFiles],
@@ -50,6 +71,11 @@ export const usePickFile = () => {
   };
 
   const pickFromPhotoGallery = async (): Promise<LocalFile | null> => {
+    const hasPermission = await requestStoragePermission();
+    if (!hasPermission) {
+      return null;
+    }
+
     return new Promise((resolve, reject) => {
       launchImageLibrary({ mediaType: 'mixed' }, async (response) => {
         if (response.didCancel) {
