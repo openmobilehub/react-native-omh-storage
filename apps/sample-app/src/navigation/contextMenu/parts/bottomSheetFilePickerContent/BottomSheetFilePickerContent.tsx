@@ -40,8 +40,8 @@ export const BottomSheetFilePickerContent = ({
     }
   };
 
-  const renderContent = () => {
-    return (
+  return (
+    <View style={styles.container}>
       <>
         <Divider />
         <Menu.Item
@@ -57,12 +57,6 @@ export const BottomSheetFilePickerContent = ({
         />
         <Divider />
       </>
-    );
-  };
-
-  return (
-    <>
-      <View style={styles.container}>{renderContent()}</View>
-    </>
+    </View>
   );
 };

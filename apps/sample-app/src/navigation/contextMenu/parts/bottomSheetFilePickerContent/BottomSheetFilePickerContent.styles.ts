@@ -7,7 +7,8 @@ export const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     flex: 1,
-    paddingBottom: 16,
+    paddingTop: 16,
+    paddingBottom: 40,
   },
   activityIndicatorWrapper: {
     flexDirection: 'row',

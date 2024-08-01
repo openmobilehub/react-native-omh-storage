@@ -77,7 +77,7 @@ export const ContextMenu = ({ folderId }: ContextMenuProps) => {
         <Divider />
         <Menu.Item onPress={logout} title="Logout" />
       </Menu>
-      <BottomSheet ref={bottomSheetRef} snapPoints={['20%']}>
+      <BottomSheet ref={bottomSheetRef}>
         <BottomSheetFilePickerContent onFileUpload={handleFileUpload} />
       </BottomSheet>
     </>
