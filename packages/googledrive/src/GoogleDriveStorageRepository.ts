@@ -26,4 +26,10 @@ export class GoogleDriveStorageRepository {
       originalMetadata: response.data,
     });
   }
+
+  async search(query: string) {
+    const response = await this.apiService.search(query);
+
+    return response.data.files.map(mapFileRemoteToStorageEntity);
+  }
 }

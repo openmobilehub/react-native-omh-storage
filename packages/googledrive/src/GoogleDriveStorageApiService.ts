@@ -11,8 +11,11 @@ export class GoogleDriveStorageApiService {
 
   private allFieldsParam = '*';
 
-  private qParam = (folderId: string) =>
+  private inFolderParam = (folderId: string) =>
     `'${folderId}' in parents and trashed = false`;
+
+  private searchParam = (query: string) =>
+    `name contains '${query}' and trashed = false`;
 
   constructor(apiClient: GoogleDriveStorageApiClient) {
     this.client = apiClient;
@@ -21,7 +24,7 @@ export class GoogleDriveStorageApiService {
   async listFiles(folderId: string) {
     return await this.client.axiosClient.get<FileListRemote>(FILES_PARTICLE, {
       params: {
-        q: this.qParam(folderId),
+        q: this.inFolderParam(folderId),
         fields: this.fieldsParam,
       },
     });
@@ -31,6 +34,15 @@ export class GoogleDriveStorageApiService {
     return this.client.axiosClient.get(`${FILES_PARTICLE}/${fileId}`, {
       params: {
         fields: this.allFieldsParam,
+      },
+    });
+  }
+
+  async search(query: string) {
+    return await this.client.axiosClient.get<FileListRemote>(FILES_PARTICLE, {
+      params: {
+        q: this.searchParam(query),
+        fields: this.fieldsParam,
       },
     });
   }
