@@ -3056,50 +3056,50 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@openmobilehub/auth-core@npm:1.0.1":
-  version: 1.0.1
-  resolution: "@openmobilehub/auth-core@npm:1.0.1"
+"@openmobilehub/auth-core@npm:1.0.3":
+  version: 1.0.3
+  resolution: "@openmobilehub/auth-core@npm:1.0.3"
   peerDependencies:
     "@react-native-async-storage/async-storage": 1.23.x
     react-native: "*"
     react-native-app-auth: 7.x
-  checksum: 69d53dfed03449d2c38a5f2b0618c56614d2babdf177d2a023d016ba67233999839107426ffc3afecd39febb2f7079e2ef5156f0972af52a0e753bb4f13c9f51
+  checksum: 96732de0616e221b294a9b5b1fde8701236afcf87ae49fdd970534d355e3716a658a031960b5cef4cca1d589ff26979c607e2d73de68da4f2e95d1929b2b908f
   languageName: node
   linkType: hard
 
-"@openmobilehub/auth-dropbox@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "@openmobilehub/auth-dropbox@npm:1.0.1"
+"@openmobilehub/auth-dropbox@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "@openmobilehub/auth-dropbox@npm:1.0.3"
   dependencies:
-    "@openmobilehub/auth-core": 1.0.1
+    "@openmobilehub/auth-core": 1.0.3
     redaxios: ^0.5.1
   peerDependencies:
     react-native: "*"
-  checksum: b1076b1882f29946fb3f6e8c5973daeb67a8f940aa0bc3432fca0e4c1d108a120b72ad446cfb5839e00f8f09d4f56e6df8b836abdef35d77d9b6785a016348ef
+  checksum: 4c622faa66faf85a3421ec27df4436a97931776928f927307481e9a09fb98e2ec658e16ea5cc3c2dead7c7bc8edbac4c40fc1c8992be92cc16a8229066ca9666
   languageName: node
   linkType: hard
 
-"@openmobilehub/auth-google@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "@openmobilehub/auth-google@npm:1.0.1"
+"@openmobilehub/auth-google@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "@openmobilehub/auth-google@npm:1.0.3"
   dependencies:
-    "@openmobilehub/auth-core": 1.0.1
+    "@openmobilehub/auth-core": 1.0.3
     redaxios: ^0.5.1
   peerDependencies:
     react-native: "*"
-  checksum: 2dd6482053a4c4146c65fe5a64c2b5866177ba2f70f56c845339381f7f931047035a0cfb933fd4203f6ad952d47f2d457cbd3a3aea3150fe4ab807641f8852f8
+  checksum: 701f3700cb2bdfd42d4eb0492da52418562dd908d9894da12811cc3f3f0dbb8b7ad0a1cc90b9e3c11a990216bae4f9b403eadcba58697c2fa03553bf6c271130
   languageName: node
   linkType: hard
 
-"@openmobilehub/auth-microsoft@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "@openmobilehub/auth-microsoft@npm:1.0.1"
+"@openmobilehub/auth-microsoft@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "@openmobilehub/auth-microsoft@npm:1.0.3"
   dependencies:
-    "@openmobilehub/auth-core": 1.0.1
+    "@openmobilehub/auth-core": 1.0.3
     redaxios: ^0.5.1
   peerDependencies:
     react-native: "*"
-  checksum: 819eaaa0316b28dbc8fe70737a146aafc93af6a5d0d9f2eb3af4691369551b2ce26527adcb13b3c3d8a3debf447889e5bc1234a47eb545007ade4f49807c1774
+  checksum: 172c14907b4e27686fc6cc1be15d7d5396d62df560f9d09bc0f8d5ac665aad22d2069e6cca3f8be5d4629f34bcee224c1fb8a9d2f415dff7847de5ebc86ccfc5
   languageName: node
   linkType: hard
 
@@ -12981,9 +12981,9 @@ __metadata:
     "@babel/preset-env": ^7.20.0
     "@babel/runtime": ^7.20.0
     "@gorhom/bottom-sheet": ^4.6.4
-    "@openmobilehub/auth-dropbox": ^1.0.1
-    "@openmobilehub/auth-google": ^1.0.1
-    "@openmobilehub/auth-microsoft": ^1.0.1
+    "@openmobilehub/auth-dropbox": ^1.0.3
+    "@openmobilehub/auth-google": ^1.0.3
+    "@openmobilehub/auth-microsoft": ^1.0.3
     "@react-native-async-storage/async-storage": ^1.24.0
     "@react-native/babel-preset": 0.74.85
     "@react-native/metro-config": 0.74.85
