@@ -41,6 +41,6 @@ export class GoogleDriveStorageRepository {
       throw new Error('Upload failed, no response received');
     }
 
-    return mapFileRemoteToStorageEntity(response.data);
+    return mapFileRemoteToStorageEntity(response);
   }
 }
