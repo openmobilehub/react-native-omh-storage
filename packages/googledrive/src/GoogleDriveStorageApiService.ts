@@ -1,12 +1,11 @@
-import type { LocalFile } from '@openmobilehub/storage-core';
+import { ApiException, type LocalFile } from '@openmobilehub/storage-core';
 
 import { type FileListRemote } from './data/response/FileListRemote';
 import type { GoogleDriveStorageApiClient } from './GoogleDriveStorageApiClient';
-import { generateUniqeId } from './utils/generateUniqueId';
 
 const FILES_PARTICLE = 'drive/v3/files';
 const UPLOAD_PARTICLE = 'upload/drive/v3/files';
-
+const CHUNK_SIZE = 256 * 1024; // 256 KB
 export class GoogleDriveStorageApiService {
   private client: GoogleDriveStorageApiClient;
 
@@ -51,48 +50,89 @@ export class GoogleDriveStorageApiService {
     });
   }
 
-  async localFileUpload(file: LocalFile, folderId: string) {
+  private async initializeResumableUpload(file: LocalFile, folderId: string) {
     const metadata = {
       name: file.name,
       mimeType: file.type,
       parents: [folderId],
     };
-    const boundaryString = generateUniqeId();
 
-    const body =
-      `--${boundaryString}\r\n` +
-      'Content-Type: application/json; charset=UTF-8\r\n\r\n' +
-      `${JSON.stringify(metadata)}\r\n` +
-      `--${boundaryString}\r\n` +
-      `Content-Type: ${file.type}\r\n` +
-      'Content-Transfer-Encoding: base64\r\n\r\n' +
-      `${file.base64Data}\r\n` +
-      `--${boundaryString}--`;
+    const byteLength = atob(file.base64Data).length;
 
-    try {
-      const response = await this.client.axiosClient.post(
-        UPLOAD_PARTICLE,
-        body,
-        {
-          headers: {
-            'Content-Type': `multipart/related; boundary=${boundaryString}`,
-          },
-          params: {
-            uploadType: 'multipart',
-            fields:
-              'id,name,createdTime,modifiedTime,parents,mimeType,fileExtension,size',
-          },
-        }
-      );
-
-      if (response?.status === 200) {
-        return response.data;
-      } else {
-        throw new Error(`Upload failed with status ${response?.status}`);
+    const initResponse = await this.client.axiosClient.post(
+      UPLOAD_PARTICLE,
+      metadata,
+      {
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'X-Upload-Content-Type': file.type,
+          'X-Upload-Content-Length': byteLength,
+        },
+        params: {
+          uploadType: 'resumable',
+        },
       }
-    } catch (error) {
-      console.error('Upload error:', error);
-      throw error;
+    );
+
+    if (initResponse?.status !== 200) {
+      throw new Error(
+        `Failed to initiate upload session with status ${initResponse?.status}`
+      );
+    }
+
+    return initResponse.headers.location;
+  }
+
+  async localFileUpload(file: LocalFile, folderId: string) {
+    const binaryString = atob(file.base64Data);
+    const byteLength = binaryString.length;
+    const resumableSessionUri = await this.initializeResumableUpload(
+      file,
+      folderId
+    );
+    let uploadedBytes = 0;
+
+    while (uploadedBytes < byteLength) {
+      const bytesToRead = Math.min(byteLength - uploadedBytes, CHUNK_SIZE);
+      const chunk = binaryString.slice(
+        uploadedBytes,
+        uploadedBytes + bytesToRead
+      );
+      const contentRange = `bytes ${uploadedBytes}-${uploadedBytes + bytesToRead - 1}/${byteLength}`;
+
+      const chunkArray = new Uint8Array(chunk.length);
+      for (let i = 0; i < chunk.length; i++) {
+        chunkArray[i] = chunk.charCodeAt(i);
+      }
+
+      const chunkSize = chunkArray.byteLength;
+      if (chunkSize !== bytesToRead) {
+        throw new Error(
+          `Chunk size mismatch: expected ${bytesToRead}, got ${chunkSize}`
+        );
+      }
+
+      try {
+        const uploadResponse = await this.client.axiosClient.put(
+          resumableSessionUri,
+          chunkArray,
+          {
+            headers: {
+              'Content-Type': file.type,
+              'Content-Length': chunkSize,
+              'Content-Range': contentRange,
+            },
+          }
+        );
+
+        return uploadResponse.data;
+      } catch (error) {
+        if (error instanceof ApiException && error.code === 308) {
+          uploadedBytes += bytesToRead;
+        } else {
+          throw error;
+        }
+      }
     }
   }
 }
