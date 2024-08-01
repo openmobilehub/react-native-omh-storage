@@ -6,4 +6,5 @@ export interface IStorageClient {
   setAccessToken(accessToken: string): void;
   listFiles(folderId: string): Promise<StorageEntity[]>;
   getFileMetadata(fileId: string): Promise<StorageEntityMetadata>;
+  search(query: string): Promise<StorageEntity[]>;
 }

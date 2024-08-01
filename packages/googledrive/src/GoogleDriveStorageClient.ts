@@ -29,4 +29,8 @@ export class GoogleDriveStorageClient implements IStorageClient {
   async getFileMetadata(fileId: string) {
     return this.repository.getFileMetadata(fileId);
   }
+
+  async search(query: string) {
+    return this.repository.search(query);
+  }
 }
