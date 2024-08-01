@@ -130,12 +130,15 @@ export class GoogleDriveStorageApiService {
                 'Content-Length': chunkSize,
                 'Content-Range': contentRange,
               },
+              params: {
+                fields: this.fieldsParam,
+              },
             }
           );
 
           uploadedBytes += bytesToRead;
 
-          if (uploadedBytes >= byteLength) {
+          if (uploadResponse.status === 200) {
             return uploadResponse.data;
           }
         } catch (error) {
