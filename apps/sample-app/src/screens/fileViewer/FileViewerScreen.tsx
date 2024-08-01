@@ -17,6 +17,7 @@ import { useSearchFilesQuery } from '@/data/query/useSearchFilesQuery';
 import { type RootStackParamList } from '@/navigation/RootNavigationContainer';
 
 import { styles } from './FileViewerScreen.styles';
+import { CreateFileBottomSheet } from './parts/CreateFileBottomSheet/CreateFileBottomSheet';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'FileViewer'>;
 type SignedInRouteProp = Props['route'];
@@ -70,23 +71,26 @@ export const FileViewerScreen = () => {
     : fileListQuery.data;
 
   return (
-    <View style={[styles.container, { paddingBottom: insets.bottom }]}>
-      <Searchbar
-        placeholder="Search"
-        onChangeText={setSearchQuery}
-        style={styles.searchBar}
-        value={searchQuery}
-      />
-      <Divider />
-      <FlatList
-        contentContainerStyle={styles.list}
-        data={dataToShow}
-        keyExtractor={(item) => item.id}
-        ListEmptyComponent={renderEmptyListComponent}
-        renderItem={({ item }) => (
-          <FileListItem file={item} onPress={handleStorageEntityPress} />
-        )}
-      />
-    </View>
+    <>
+      <View style={[styles.container, { paddingBottom: insets.bottom }]}>
+        <Searchbar
+          placeholder="Search"
+          onChangeText={setSearchQuery}
+          style={styles.searchBar}
+          value={searchQuery}
+        />
+        <Divider />
+        <FlatList
+          contentContainerStyle={styles.list}
+          data={dataToShow}
+          keyExtractor={(item) => item.id}
+          ListEmptyComponent={renderEmptyListComponent}
+          renderItem={({ item }) => (
+            <FileListItem file={item} onPress={handleStorageEntityPress} />
+          )}
+        />
+      </View>
+      <CreateFileBottomSheet folderId={folderId} />
+    </>
   );
 };

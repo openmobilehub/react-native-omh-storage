@@ -1,5 +1,6 @@
 import { StorageEntityMetadata } from '@openmobilehub/storage-core';
 
+import type { CreateFileRequestBody } from './data/body/CreateFileRequestBody';
 import { mapFileRemoteToStorageEntity } from './data/mappers/mapFileRemoteToStorageEntity';
 import type { GoogleDriveStorageApiService } from './GoogleDriveStorageApiService';
 
@@ -31,5 +32,21 @@ export class GoogleDriveStorageRepository {
     const response = await this.apiService.search(query);
 
     return response.data.files.map(mapFileRemoteToStorageEntity);
+  }
+
+  async createFileWithMimeType(
+    name: string,
+    mimeType: string,
+    parentId?: string
+  ) {
+    const body: CreateFileRequestBody = {
+      name,
+      mimeType,
+      parents: parentId ? [parentId] : [],
+    };
+
+    const response = await this.apiService.createFileWithMimeType(body);
+
+    return mapFileRemoteToStorageEntity(response.data);
   }
 }

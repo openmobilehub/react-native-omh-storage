@@ -7,4 +7,14 @@ export interface IStorageClient {
   listFiles(folderId: string): Promise<StorageEntity[]>;
   getFileMetadata(fileId: string): Promise<StorageEntityMetadata>;
   search(query: string): Promise<StorageEntity[]>;
+  createFileWithMimeType(
+    name: string,
+    mimeType: string,
+    parentId?: string
+  ): Promise<StorageEntity>;
+  createFileWithExtension(
+    name: string,
+    fileExtension: string,
+    parentId?: string
+  ): Promise<StorageEntity>;
 }

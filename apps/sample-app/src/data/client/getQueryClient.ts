@@ -17,8 +17,8 @@ const handleRetry = (failureCount: number, error: ApiException) => {
   return failureCount < 3;
 };
 
-export const getQueryClient = ({ onUnauthorizedError }: QueryClientOptions) =>
-  new QueryClient({
+export const getQueryClient = ({ onUnauthorizedError }: QueryClientOptions) => {
+  const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
         retry: handleRetry,
@@ -32,7 +32,7 @@ export const getQueryClient = ({ onUnauthorizedError }: QueryClientOptions) =>
         if (error instanceof ApiException) {
           if (error.code === 401) {
             await onUnauthorizedError();
-            query.invalidate();
+            queryClient.refetchQueries({ queryKey: query.queryKey });
             return;
           }
         }
@@ -51,3 +51,6 @@ export const getQueryClient = ({ onUnauthorizedError }: QueryClientOptions) =>
       },
     }),
   });
+
+  return queryClient;
+};

@@ -1,4 +1,8 @@
-import type { IStorageClient } from '@openmobilehub/storage-core';
+import {
+  UnsupportedOperationException,
+  type IStorageClient,
+  type StorageEntity,
+} from '@openmobilehub/storage-core';
 
 import { ROOT_FOLDER } from './data/constants/constants';
 import { GoogleDriveStorageApiClient } from './GoogleDriveStorageApiClient';
@@ -32,5 +36,17 @@ export class GoogleDriveStorageClient implements IStorageClient {
 
   async search(query: string) {
     return this.repository.search(query);
+  }
+
+  async createFileWithExtension(): Promise<StorageEntity> {
+    throw new UnsupportedOperationException();
+  }
+
+  async createFileWithMimeType(
+    name: string,
+    mimeType: string,
+    parentId?: string
+  ) {
+    return this.repository.createFileWithMimeType(name, mimeType, parentId);
   }
 }
