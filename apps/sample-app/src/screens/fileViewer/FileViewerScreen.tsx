@@ -17,7 +17,7 @@ import { useSearchFilesQuery } from '@/data/query/useSearchFilesQuery';
 import { type RootStackParamList } from '@/navigation/RootNavigationContainer';
 
 import { styles } from './FileViewerScreen.styles';
-import { CreateFileBottomSheet } from './parts/CreateFileBottomSheet/CreateFileBottomSheet';
+import { CreateFileBottomSheet } from './parts/CreateFileBottomSheet';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'FileViewer'>;
 type SignedInRouteProp = Props['route'];

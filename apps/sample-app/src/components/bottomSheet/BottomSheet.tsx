@@ -40,6 +40,7 @@ export const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
         maxDynamicContentSize={maxDynamicContentSize}
       >
         <BottomSheetScrollView
+          keyboardShouldPersistTaps="handled"
           style={[styles.contentContainer, contentContainerStyle]}
         >
           {children}

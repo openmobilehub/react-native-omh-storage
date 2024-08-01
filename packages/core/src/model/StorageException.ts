@@ -32,7 +32,7 @@ export class ApiException extends StorageException {
   }
 }
 
-export class UnsupportedOperationException extends Error {
+export class UnsupportedOperationException extends StorageException {
   constructor() {
     super('This operation is not supported for selected provider!');
   }
