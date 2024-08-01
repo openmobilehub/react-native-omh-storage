@@ -1,47 +1,27 @@
-import { useEffect } from 'react';
 import { View } from 'react-native';
 
-import { ActivityIndicator, Divider, Menu, Text } from 'react-native-paper';
+import { LocalFile } from '@openmobilehub/storage-core';
+import { Divider, Menu } from 'react-native-paper';
 
-import { useRequireStorageClient } from '@/contexts/storage/useRequireStorageClient';
-import { useLocalFileUploadMutation } from '@/data/mutations/useLocalFileUploadMutation';
 import { usePickFile } from '@/hooks/usePickFile';
 
 import { styles } from './BottomSheetFilePickerContent.styles';
 
 interface BottomSheetFilePickerContentProps {
-  folderId?: string;
-  onClose: () => void;
+  onFileUpload: (file: LocalFile) => void;
 }
 
 export const BottomSheetFilePickerContent = ({
-  folderId,
-  onClose,
+  onFileUpload,
 }: BottomSheetFilePickerContentProps) => {
   const { pickFromFiles, pickFromPhotoGallery } = usePickFile();
-  const storageClient = useRequireStorageClient();
-
-  const {
-    mutate: localFileUpload,
-    isSuccess,
-    isPending,
-  } = useLocalFileUploadMutation(
-    storageClient,
-    folderId ?? storageClient.rootFolderId
-  );
-
-  useEffect(() => {
-    if (isSuccess) {
-      onClose();
-    }
-  }, [isSuccess, onClose]);
 
   const handlePickFromFiles = async () => {
     try {
       const file = await pickFromFiles();
 
       if (file) {
-        localFileUpload(file);
+        onFileUpload(file);
       }
     } catch (err) {
       console.warn(err);
@@ -53,7 +33,7 @@ export const BottomSheetFilePickerContent = ({
       const file = await pickFromPhotoGallery();
 
       if (file) {
-        localFileUpload(file);
+        onFileUpload(file);
       }
     } catch (err) {
       console.warn(err);
@@ -61,17 +41,6 @@ export const BottomSheetFilePickerContent = ({
   };
 
   const renderContent = () => {
-    if (isPending) {
-      return (
-        <View style={styles.activityIndicatorWrapper}>
-          <ActivityIndicator
-            animating={true}
-            style={styles.activityIndicator}
-          />
-          <Text>Uploading...</Text>
-        </View>
-      );
-    }
     return (
       <>
         <Divider />
@@ -91,5 +60,9 @@ export const BottomSheetFilePickerContent = ({
     );
   };
 
-  return <View style={styles.container}>{renderContent()}</View>;
+  return (
+    <>
+      <View style={styles.container}>{renderContent()}</View>
+    </>
+  );
 };

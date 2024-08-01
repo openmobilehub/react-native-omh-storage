@@ -2,10 +2,14 @@ import { useRef, useState } from 'react';
 import { Alert } from 'react-native';
 
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { Divider, IconButton, Menu } from 'react-native-paper';
+import { LocalFile } from '@openmobilehub/storage-core';
+import { Divider, IconButton, Menu, Portal } from 'react-native-paper';
 
 import { BottomSheet } from '@/components/bottomSheet';
+import { FullScreenLoadingState } from '@/components/fullScreenLoadingState';
 import { useAuthContext } from '@/contexts/auth/AuthContext';
+import { useRequireStorageClient } from '@/contexts/storage/useRequireStorageClient';
+import { useLocalFileUploadMutation } from '@/data/mutations/useLocalFileUploadMutation';
 
 import { styles } from './ContextMenu.styles';
 import { BottomSheetFilePickerContent } from './parts/bottomSheetFilePickerContent';
@@ -16,7 +20,16 @@ interface ContextMenuProps {
 
 export const ContextMenu = ({ folderId }: ContextMenuProps) => {
   const { logout } = useAuthContext();
+  const storageClient = useRequireStorageClient();
 
+  const {
+    mutate: localFileUpload,
+
+    isPending,
+  } = useLocalFileUploadMutation(
+    storageClient,
+    folderId ?? storageClient.rootFolderId
+  );
   const bottomSheetRef = useRef<BottomSheetModal>(null);
   const [visible, setVisible] = useState(false);
 
@@ -28,15 +41,27 @@ export const ContextMenu = ({ folderId }: ContextMenuProps) => {
     Alert.alert('Not implemented yet');
   };
 
-  const handlelocalFileUploadSheetOpen = () => {
+  const handleFileUploadSheetOpen = () => {
     handleMenuClose();
     bottomSheetRef.current?.present();
   };
 
-  const handlelocalFileUploadSheetClose = () => {
+  const handleFileUploadSheetClose = () => {
     bottomSheetRef.current?.dismiss();
   };
 
+  const handleFileUpload = async (file: LocalFile) => {
+    handleFileUploadSheetClose();
+    await localFileUpload(file);
+  };
+
+  if (isPending) {
+    return (
+      <Portal>
+        <FullScreenLoadingState withBackground />
+      </Portal>
+    );
+  }
   return (
     <>
       <Menu
@@ -47,19 +72,13 @@ export const ContextMenu = ({ folderId }: ContextMenuProps) => {
         }
         style={styles.menu}
       >
-        <Menu.Item
-          onPress={handlelocalFileUploadSheetOpen}
-          title="Upload File"
-        />
+        <Menu.Item onPress={handleFileUploadSheetOpen} title="Upload File" />
         <Menu.Item onPress={handleNotImplemented} title="Create File" />
         <Divider />
         <Menu.Item onPress={logout} title="Logout" />
       </Menu>
       <BottomSheet ref={bottomSheetRef} snapPoints={['20%']}>
-        <BottomSheetFilePickerContent
-          folderId={folderId}
-          onClose={handlelocalFileUploadSheetClose}
-        />
+        <BottomSheetFilePickerContent onFileUpload={handleFileUpload} />
       </BottomSheet>
     </>
   );

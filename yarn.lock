@@ -3124,6 +3124,7 @@ __metadata:
     axios: ^1.7.2
     react: 18.2.0
     react-native: 0.74.3
+    react-native-blob-util: ^0.19.11
     react-native-builder-bob: ^0.26.0
     typescript: 5.2.2
   peerDependencies:
@@ -13063,7 +13064,6 @@ __metadata:
     react: 18.2.0
     react-native: 0.74.3
     react-native-app-auth: ^7.2.0
-    react-native-blob-util: ^0.19.11
     react-native-document-picker: ^9.3.0
     react-native-dotenv: ^3.4.11
     react-native-gesture-handler: ^2.17.1

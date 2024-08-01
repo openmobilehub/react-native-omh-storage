@@ -1,7 +1,6 @@
 import { Platform } from 'react-native';
 
 import { LocalFile } from '@openmobilehub/storage-core';
-import RNBlobUtil from 'react-native-blob-util';
 import DocumentPicker from 'react-native-document-picker';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions';
@@ -52,15 +51,13 @@ export const usePickFile = () => {
         type: [DocumentPicker.types.allFiles],
       });
 
-      const filePath = response[0].uri.replace('file://', ''); // Remove file:// prefix as RNBlobUtil.fs.readFile requires it
-      const base64Data = await RNBlobUtil.fs.readFile(filePath, 'base64');
       const { name, size, type, uri } = response[0];
 
       if (!name || !size || !type || !uri) {
         throw Error('Missing required asset properties');
       }
 
-      return { name, size, type, uri, base64Data };
+      return { name, size, type, uri };
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         console.log('User cancelled the picker');
@@ -90,8 +87,6 @@ export const usePickFile = () => {
             return;
           }
 
-          const filePath = asset.uri.replace('file://', ''); // Remove file:// prefix as RNBlobUtil.fs.readFile requires it
-          const base64Data = await RNBlobUtil.fs.readFile(filePath, 'base64');
           const { fileName, fileSize, type, uri } = asset;
 
           if (!fileName || !fileSize || !type) {
@@ -103,7 +98,6 @@ export const usePickFile = () => {
             size: fileSize,
             type: type,
             uri: uri,
-            base64Data,
           });
         } else {
           reject('No assets found');

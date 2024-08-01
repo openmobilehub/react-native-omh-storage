@@ -6,7 +6,6 @@ export type LocalFile = {
   size: number;
   type: string;
   uri: string;
-  base64Data: string;
 };
 
 export interface IStorageClient {
