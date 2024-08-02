@@ -1,4 +1,5 @@
 import { type FileListRemote } from './data/response/FileListRemote';
+import type { PermissionListRemote } from './data/response/PermissionListRemote';
 import type { GoogleDriveStorageApiClient } from './GoogleDriveStorageApiClient';
 
 const FILES_PARTICLE = 'drive/v3/files';
@@ -45,5 +46,16 @@ export class GoogleDriveStorageApiService {
         fields: this.fieldsParam,
       },
     });
+  }
+
+  async getPermissions(fileId: string) {
+    return this.client.axiosClient.get<PermissionListRemote>(
+      `${FILES_PARTICLE}/${fileId}/permissions`,
+      {
+        params: {
+          fields: this.allFieldsParam,
+        },
+      }
+    );
   }
 }

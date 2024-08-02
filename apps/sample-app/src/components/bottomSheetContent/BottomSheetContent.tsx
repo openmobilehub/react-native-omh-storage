@@ -30,7 +30,7 @@ export const BottomSheetContent: React.FC<BottomSheetContentProps> = ({
       case BottomSheetContentType.Metadata:
         return <MetadataContent file={file} />;
       case BottomSheetContentType.Permissions:
-        return <PermissionsContent />;
+        return <PermissionsContent file={file} />;
       default:
         return (
           <BottomSheetOptions

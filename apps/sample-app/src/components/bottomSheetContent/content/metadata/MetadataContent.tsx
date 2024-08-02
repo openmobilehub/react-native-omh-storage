@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { StorageEntity } from '@openmobilehub/storage-core';
 import { Text } from 'react-native-paper';
 
+import { DisplayRow } from '@/components/bottomSheetContent/content/parts/DisplayRow/DisplayRow';
 import { Checkbox } from '@/components/checkbox/Checkbox';
 import { FullScreenLoadingState } from '@/components/fullScreenLoadingState';
 import { useRequireStorageClient } from '@/contexts/storage/useRequireStorageClient';
@@ -10,7 +11,6 @@ import { useFileMetadataQuery } from '@/data/query/fileMetadataQuery';
 
 import { BottomSheetContentWrapper } from '../../parts/BottomSheetContentWrapper/BottomSheetContentWrapper';
 import { getDisplayData } from './getDisplayData';
-import { DisplayRow } from './parts/DisplayRow/DisplayRow';
 
 interface Props {
   file: StorageEntity;

@@ -1,6 +1,7 @@
 import { StorageEntityMetadata } from '@openmobilehub/storage-core';
 
 import { mapFileRemoteToStorageEntity } from './data/mappers/mapFileRemoteToStorageEntity';
+import { mapPermissionRemoteToStoragePermission } from './data/mappers/mapPermissionRemoteToStoragePermission';
 import type { GoogleDriveStorageApiService } from './GoogleDriveStorageApiService';
 
 export class GoogleDriveStorageRepository {
@@ -31,5 +32,13 @@ export class GoogleDriveStorageRepository {
     const response = await this.apiService.search(query);
 
     return response.data.files.map(mapFileRemoteToStorageEntity);
+  }
+
+  async getPermissions(fileId: string) {
+    const response = await this.apiService.getPermissions(fileId);
+
+    return response.data.permissions.map(
+      mapPermissionRemoteToStoragePermission
+    );
   }
 }
