@@ -47,11 +47,13 @@ export const usePickFile = () => {
     }
 
     try {
-      const response = await DocumentPicker.pick({
+      const response = await DocumentPicker.pickSingle({
         type: [DocumentPicker.types.allFiles],
+        copyTo: 'cachesDirectory',
+        mode: 'open',
       });
 
-      const { name, size, type, uri } = response[0];
+      const { name, size, type, uri } = response;
 
       if (!name || !size || !type || !uri) {
         throw Error('Missing required asset properties');
