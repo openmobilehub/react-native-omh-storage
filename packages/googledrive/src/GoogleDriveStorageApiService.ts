@@ -1,5 +1,5 @@
 import { ApiException, type LocalFile } from '@openmobilehub/storage-core';
-import RNFS from 'react-native-fs';
+import { FileSystem } from 'react-native-file-access';
 
 import { type FileListRemote } from './data/response/FileListRemote';
 import type { GoogleDriveStorageApiClient } from './GoogleDriveStorageApiClient';
@@ -12,7 +12,6 @@ export class GoogleDriveStorageApiService {
   private client: GoogleDriveStorageApiClient;
   private fieldsParam =
     'files(id,name,createdTime,modifiedTime,parents,mimeType,fileExtension,size)';
-
   private allFieldsParam = '*';
 
   private inFolderParam = (folderId: string) =>
@@ -59,7 +58,7 @@ export class GoogleDriveStorageApiService {
     };
 
     const filePath = decodeURIComponent(file.uri);
-    const fileStats = await RNFS.stat(filePath);
+    const fileStats = await FileSystem.stat(filePath);
     const byteLength = fileStats.size;
 
     const initResponse = await this.client.axiosClient.post(
@@ -93,7 +92,7 @@ export class GoogleDriveStorageApiService {
     );
     let uploadedBytes = 0;
     const filePath = decodeURIComponent(file.uri);
-    const fileStats = await RNFS.stat(filePath);
+    const fileStats = await FileSystem.stat(filePath);
     const fileLength = fileStats.size;
 
     while (uploadedBytes < fileLength) {
@@ -101,14 +100,14 @@ export class GoogleDriveStorageApiService {
       const bytesToRead =
         remainingBytes < UPLOAD_CHUNK_SIZE ? remainingBytes : UPLOAD_CHUNK_SIZE;
 
-      const inputStream = await RNFS.read(
+      const chunk = await FileSystem.readFileChunk(
         filePath,
-        bytesToRead,
         uploadedBytes,
+        bytesToRead,
         'base64'
       );
       const buffer = new Uint8Array(bytesToRead);
-      const binaryString = atob(inputStream);
+      const binaryString = atob(chunk);
 
       for (let i = 0; i < binaryString.length; i++) {
         buffer[i] = binaryString.charCodeAt(i);

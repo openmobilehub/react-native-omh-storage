@@ -9,8 +9,10 @@ export const usePickFile = () => {
   const requestStoragePermission = async () => {
     const permissions = Platform.select({
       android: [
-        PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
-        PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE,
+        PERMISSIONS.ANDROID.READ_MEDIA_IMAGES,
+        PERMISSIONS.ANDROID.READ_MEDIA_VIDEO,
+        PERMISSIONS.ANDROID.READ_MEDIA_AUDIO,
+        PERMISSIONS.ANDROID.READ_MEDIA_VISUAL_USER_SELECTED,
       ],
       ios: [PERMISSIONS.IOS.PHOTO_LIBRARY],
     });
@@ -42,6 +44,7 @@ export const usePickFile = () => {
 
   const pickFromFiles = async (): Promise<LocalFile | undefined> => {
     const hasPermission = await requestStoragePermission();
+
     if (!hasPermission) {
       return;
     }

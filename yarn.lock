@@ -3124,16 +3124,14 @@ __metadata:
     axios: ^1.7.2
     react: 18.2.0
     react-native: 0.74.3
-    react-native-blob-util: ^0.19.11
     react-native-builder-bob: ^0.26.0
-    react-native-fs: ^2.20.0
+    react-native-file-access: ^3.1.0
     typescript: 5.2.2
   peerDependencies:
     "@openmobilehub/storage-core": "*"
     react: "*"
     react-native: "*"
-    react-native-blob-util: "*"
-    react-native-fs: "*"
+    react-native-file-access: "*"
   languageName: unknown
   linkType: soft
 
@@ -4934,7 +4932,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"base-64@npm:0.1.0, base-64@npm:^0.1.0":
+"base-64@npm:0.1.0":
   version: 0.1.0
   resolution: "base-64@npm:0.1.0"
   checksum: 5a42938f82372ab5392cbacc85a5a78115cbbd9dbef9f7540fa47d78763a3a8bd7d598475f0d92341f66285afd377509851a9bb5c67bbecb89686e9255d5b3eb
@@ -12995,6 +12993,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-file-access@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "react-native-file-access@npm:3.1.0"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 945e1f098558216faf7dcd7a6a88960d9a537dabb24a23f11b569d14292cb90f832eb2ddac813eb6553a08ae24860a0a6164b46b3b53c705a6e245c47ebf5dea
+  languageName: node
+  linkType: hard
+
 "react-native-flipper@npm:^0.164.0":
   version: 0.164.0
   resolution: "react-native-flipper@npm:0.164.0"
@@ -13002,22 +13010,6 @@ __metadata:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-native: ">0.62.0"
   checksum: 8730d7349bec27a23558760320082bd89b07fb404a87bf039a8d852455f28e4d5419f093bb7900ff5f6d85488274cfb246278b6700878bcabe574d5aacd88dac
-  languageName: node
-  linkType: hard
-
-"react-native-fs@npm:^2.20.0":
-  version: 2.20.0
-  resolution: "react-native-fs@npm:2.20.0"
-  dependencies:
-    base-64: ^0.1.0
-    utf8: ^3.0.0
-  peerDependencies:
-    react-native: "*"
-    react-native-windows: "*"
-  peerDependenciesMeta:
-    react-native-windows:
-      optional: true
-  checksum: 0be9bb9a5c13b501d0a3006efc3aa5c0b5b211456ee04718297f4e522532f3527f1daa220bd67d3b82d819ed8fdab8f64b7d6e0d7b768c1fd1d8ec9122d94316
   languageName: node
   linkType: hard
 
@@ -13086,7 +13078,7 @@ __metadata:
     react-native-blob-util: ^0.19.11
     react-native-document-picker: ^9.3.0
     react-native-dotenv: ^3.4.11
-    react-native-fs: ^2.20.0
+    react-native-file-access: ^3.1.0
     react-native-gesture-handler: ^2.17.1
     react-native-image-picker: ^7.1.2
     react-native-mmkv: ^2.12.2
@@ -15553,13 +15545,6 @@ __metadata:
   peerDependencies:
     react: ">=16.8"
   checksum: da5718eda625738cc7dac8fb502d0f8f2039435eb71203565a72c32e0f5769e7b8ddac074e650066636e7f4b29b45524f751cb18a2b430856d98879bbb10d274
-  languageName: node
-  linkType: hard
-
-"utf8@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "utf8@npm:3.0.0"
-  checksum: cb89a69ad9ab393e3eae9b25305b3ff08bebca9adc839191a34f90777eb2942f86a96369d2839925fea58f8f722f7e27031d697f10f5f39690f8c5047303e62d
   languageName: node
   linkType: hard
 
