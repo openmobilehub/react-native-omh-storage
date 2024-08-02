@@ -1,12 +1,12 @@
 import { ApiException, type LocalFile } from '@openmobilehub/storage-core';
-import RNBlobUtil from 'react-native-blob-util';
+import RNFS from 'react-native-fs';
 
 import { type FileListRemote } from './data/response/FileListRemote';
 import type { GoogleDriveStorageApiClient } from './GoogleDriveStorageApiClient';
 
 const FILES_PARTICLE = 'drive/v3/files';
 const UPLOAD_PARTICLE = 'upload/drive/v3/files';
-const CHUNK_SIZE = 256 * 1024;
+const UPLOAD_CHUNK_SIZE = 1024 * 1024 * 10; // 10MB
 
 export class GoogleDriveStorageApiService {
   private client: GoogleDriveStorageApiClient;
@@ -58,9 +58,9 @@ export class GoogleDriveStorageApiService {
       parents: [folderId],
     };
 
-    const filePath = file.uri.replace('file://', ''); // Remove file:// prefix as RNBlobUtil.fs.readFile requires it
-    const base64Data = await RNBlobUtil.fs.readFile(filePath, 'base64');
-    const byteLength = atob(base64Data).length;
+    const filePath = decodeURIComponent(file.uri);
+    const fileStats = await RNFS.stat(filePath);
+    const byteLength = fileStats.size;
 
     const initResponse = await this.client.axiosClient.post(
       UPLOAD_PARTICLE,
@@ -92,66 +92,57 @@ export class GoogleDriveStorageApiService {
       folderId
     );
     let uploadedBytes = 0;
-    const filePath = file.uri.replace('file://', ''); // Remove file:// prefix as RNBlobUtil.fs.readFile requires it
+    const filePath = decodeURIComponent(file.uri);
+    const fileStats = await RNFS.stat(filePath);
+    const fileLength = fileStats.size;
 
-    try {
-      //TODO: Change to readStream - I already tried it but was stuck when stream was opened. stream.onData was not logging any activity.
-      const base64Data = await RNBlobUtil.fs.readFile(filePath, 'base64');
-      const binaryString = atob(base64Data);
-      const byteLength = binaryString.length;
+    while (uploadedBytes < fileLength) {
+      const remainingBytes = fileLength - uploadedBytes;
+      const bytesToRead =
+        remainingBytes < UPLOAD_CHUNK_SIZE ? remainingBytes : UPLOAD_CHUNK_SIZE;
 
-      while (uploadedBytes < byteLength) {
-        const bytesToRead = Math.min(byteLength - uploadedBytes, CHUNK_SIZE);
-        const chunk = binaryString.slice(
-          uploadedBytes,
-          uploadedBytes + bytesToRead
+      const inputStream = await RNFS.read(
+        filePath,
+        bytesToRead,
+        uploadedBytes,
+        'base64'
+      );
+      const buffer = new Uint8Array(bytesToRead);
+      const binaryString = atob(inputStream);
+
+      for (let i = 0; i < binaryString.length; i++) {
+        buffer[i] = binaryString.charCodeAt(i);
+      }
+
+      const bytesRead = buffer.byteLength;
+      const contentRange = `bytes ${uploadedBytes}-${uploadedBytes + bytesRead - 1}/${fileLength}`;
+
+      try {
+        const uploadResponse = await this.client.axiosClient.put(
+          resumableSessionUri,
+          buffer,
+          {
+            headers: {
+              'Content-Type': file.type,
+              'Content-Length': bytesRead,
+              'Content-Range': contentRange,
+            },
+            params: {
+              fields: this.fieldsParam,
+            },
+          }
         );
-        const contentRange = `bytes ${uploadedBytes}-${uploadedBytes + bytesToRead - 1}/${byteLength}`;
 
-        const chunkArray = new Uint8Array(chunk.length);
-        for (let i = 0; i < chunk.length; i++) {
-          chunkArray[i] = chunk.charCodeAt(i);
+        if (uploadResponse.status === 200) {
+          return uploadResponse.data;
         }
-
-        const chunkSize = chunkArray.byteLength;
-        if (chunkSize !== bytesToRead) {
-          throw new Error(
-            `Chunk size mismatch: expected ${bytesToRead}, got ${chunkSize}`
-          );
-        }
-
-        try {
-          const uploadResponse = await this.client.axiosClient.put(
-            resumableSessionUri,
-            chunkArray,
-            {
-              headers: {
-                'Content-Type': file.type,
-                'Content-Length': chunkSize,
-                'Content-Range': contentRange,
-              },
-              params: {
-                fields: this.fieldsParam,
-              },
-            }
-          );
-
-          uploadedBytes += bytesToRead;
-
-          if (uploadResponse.status === 200) {
-            return uploadResponse.data;
-          }
-        } catch (error) {
-          if (error instanceof ApiException && error.code === 308) {
-            uploadedBytes += bytesToRead;
-          } else {
-            throw error;
-          }
+      } catch (error) {
+        if (error instanceof ApiException && error.code === 308) {
+          uploadedBytes += bytesRead;
         }
       }
-    } catch (err) {
-      console.error('Error reading file:', err);
-      throw err;
     }
+
+    return null;
   }
 }

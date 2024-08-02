@@ -18,5 +18,6 @@ export const useLocalFileUploadMutation = (
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['fileList', folderId] });
     },
+    retry: false, //It was causing interruptions in the upload process, beacuse of 308 status code
   });
 };
