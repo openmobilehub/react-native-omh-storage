@@ -57,7 +57,7 @@ export class GoogleDriveStorageApiService {
       parents: [folderId],
     };
 
-    const filePath = decodeURIComponent(file.uri);
+    const filePath = file.uri;
     const fileStats = await FileSystem.stat(filePath);
     const byteLength = fileStats.size;
 
@@ -91,7 +91,7 @@ export class GoogleDriveStorageApiService {
       folderId
     );
     let uploadedBytes = 0;
-    const filePath = decodeURIComponent(file.uri);
+    const filePath = file.uri;
     const fileStats = await FileSystem.stat(filePath);
     const fileLength = fileStats.size;
 
