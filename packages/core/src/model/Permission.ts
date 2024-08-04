@@ -1,26 +1,22 @@
 /**
  * Permissions granted to StorageEntity.
  */
-export class StoragePermission {
+export class Permission {
   id: string;
   role: PermissionRole;
-  identity: Identity;
   isInherited?: boolean;
 
   constructor({
     id,
     role,
-    identity,
     isInherited,
   }: {
     id: string;
     role: PermissionRole;
-    identity: Identity;
     isInherited?: boolean;
   }) {
     this.id = id;
     this.role = role;
-    this.identity = identity;
     this.isInherited = isInherited;
   }
 }
@@ -30,19 +26,8 @@ export class StoragePermission {
  */
 export type PermissionRole = 'owner' | 'writer' | 'commenter' | 'reader';
 
-/**
- * An identity for witch a permission is granted
- */
-export type Identity =
-  | UserIdentity
-  | GroupIdentity
-  | DomainIdentity
-  | AnyoneIdentity
-  | DeviceIdentity
-  | ApplicationIdentity;
-
-export class UserIdentity {
-  id?: string;
+export class UserPermission extends Permission {
+  userId?: string;
   displayName?: string;
   emailAddress?: string;
   expirationTime?: Date;
@@ -52,6 +37,9 @@ export class UserIdentity {
 
   constructor({
     id,
+    role,
+    isInherited,
+    userId,
     displayName,
     emailAddress,
     expirationTime,
@@ -59,7 +47,10 @@ export class UserIdentity {
     photoLink,
     pendingOwner,
   }: {
-    id?: string;
+    id: string;
+    role: PermissionRole;
+    isInherited?: boolean;
+    userId?: string;
     displayName?: string;
     emailAddress?: string;
     expirationTime?: Date;
@@ -67,7 +58,8 @@ export class UserIdentity {
     photoLink?: string;
     pendingOwner?: boolean;
   }) {
-    this.id = id;
+    super({ id, role, isInherited });
+    this.userId = userId;
     this.displayName = displayName;
     this.emailAddress = emailAddress;
     this.expirationTime = expirationTime;
@@ -77,8 +69,8 @@ export class UserIdentity {
   }
 }
 
-export class GroupIdentity {
-  id?: string;
+export class GroupPermission extends Permission {
+  groupId?: string;
   displayName?: string;
   emailAddress?: string;
   expirationTime?: Date;
@@ -86,18 +78,25 @@ export class GroupIdentity {
 
   constructor({
     id,
+    role,
+    isInherited,
+    groupId,
     displayName,
     emailAddress,
     expirationTime,
     deleted,
   }: {
-    id?: string;
+    id: string;
+    role: PermissionRole;
+    isInherited?: boolean;
+    groupId?: string;
     displayName?: string;
     emailAddress?: string;
     expirationTime?: Date;
     deleted?: boolean;
   }) {
-    this.id = id;
+    super({ id, role, isInherited });
+    this.groupId = groupId;
     this.displayName = displayName;
     this.emailAddress = emailAddress;
     this.expirationTime = expirationTime;
@@ -105,59 +104,80 @@ export class GroupIdentity {
   }
 }
 
-export class DomainIdentity {
+export class DomainPermission extends Permission {
   displayName?: string;
   domain?: string;
 
   constructor({
+    id,
+    role,
+    isInherited,
     displayName,
     domain,
   }: {
+    id: string;
+    role: PermissionRole;
+    isInherited?: boolean;
     displayName?: string;
     domain?: string;
   }) {
+    super({ id, role, isInherited });
     this.displayName = displayName;
     this.domain = domain;
   }
 }
 
-export class AnyoneIdentity {}
+export class AnyonePermission extends Permission {}
 
-export class DeviceIdentity {
-  id?: string;
+export class DevicePermission extends Permission {
+  deviceId?: string;
   displayName?: string;
   expirationTime?: Date;
 
   constructor({
     id,
+    role,
+    isInherited,
+    deviceId,
     displayName,
     expirationTime,
   }: {
-    id?: string;
+    id: string;
+    role: PermissionRole;
+    isInherited?: boolean;
+    deviceId?: string;
     displayName?: string;
     expirationTime?: Date;
   }) {
-    this.id = id;
+    super({ id, role, isInherited });
+    this.deviceId = deviceId;
     this.displayName = displayName;
     this.expirationTime = expirationTime;
   }
 }
 
-export class ApplicationIdentity {
-  id?: string;
+export class ApplicationPermission extends Permission {
+  applicationId?: string;
   displayName?: string;
   expirationTime?: Date;
 
   constructor({
     id,
+    role,
+    isInherited,
+    applicationId,
     displayName,
     expirationTime,
   }: {
-    id?: string;
+    id: string;
+    role: PermissionRole;
+    isInherited?: boolean;
+    applicationId?: string;
     displayName?: string;
     expirationTime?: Date;
   }) {
-    this.id = id;
+    super({ id, role, isInherited });
+    this.applicationId = applicationId;
     this.displayName = displayName;
     this.expirationTime = expirationTime;
   }

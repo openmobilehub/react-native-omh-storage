@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { Image, View } from 'react-native';
 
 import { Button, Card } from 'react-native-paper';
 
@@ -18,27 +18,35 @@ export const PermissionItem = ({
   onDelete,
   onUpdate,
 }: Props) => {
+  const { id, entries, userPhotoUri } = displayPermission;
+
   return (
     <Card style={styles.container}>
-      {displayPermission.entries.map((entry) => {
+      {entries.map((entry) => {
         return <DisplayRow displayEntry={entry} key={entry.label} />;
       })}
+      {userPhotoUri && (
+        <Image
+          style={styles.image}
+          source={{
+            uri: userPhotoUri,
+          }}
+        />
+      )}
       <View style={styles.footer}>
         <Button
-          style={styles.button}
           mode="outlined"
           onPress={() => {
-            onUpdate(displayPermission.id);
+            onUpdate(id);
           }}
           testID="permission-add"
         >
           Update
         </Button>
         <Button
-          style={styles.button}
           mode="outlined"
           onPress={() => {
-            onDelete(displayPermission.id);
+            onDelete(id);
           }}
           testID="permission-get-url"
         >

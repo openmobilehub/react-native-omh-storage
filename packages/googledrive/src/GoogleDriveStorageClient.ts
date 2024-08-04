@@ -1,7 +1,4 @@
-import {
-  StoragePermission,
-  type IStorageClient,
-} from '@openmobilehub/storage-core';
+import { type IStorageClient } from '@openmobilehub/storage-core';
 
 import { ROOT_FOLDER } from './data/constants/constants';
 import { GoogleDriveStorageApiClient } from './GoogleDriveStorageApiClient';
@@ -37,7 +34,7 @@ export class GoogleDriveStorageClient implements IStorageClient {
     return this.repository.search(query);
   }
 
-  async getPermissions(fileId: string): Promise<StoragePermission[]> {
+  async getPermissions(fileId: string) {
     return this.repository.getPermissions(fileId);
   }
 }

@@ -1,12 +1,11 @@
 import {
-  AnyoneIdentity,
-  ApplicationIdentity,
-  DeviceIdentity,
-  DomainIdentity,
-  GroupIdentity,
-  Identity,
-  StoragePermission,
-  UserIdentity,
+  AnyonePermission,
+  ApplicationPermission,
+  DevicePermission,
+  DomainPermission,
+  GroupPermission,
+  Permission,
+  UserPermission,
 } from '@openmobilehub/storage-core';
 
 import { DisplayEntry } from '@/components/bottomSheetContent/content/parts/DisplayRow/DisplayRow.tsx';
@@ -14,16 +13,18 @@ import { DisplayEntry } from '@/components/bottomSheetContent/content/parts/Disp
 export class DisplayPermission {
   constructor(
     public readonly id: string,
-    public readonly entries: DisplayEntry[]
+    public readonly entries: DisplayEntry[],
+    public readonly userPhotoUri: string | undefined
   ) {}
 }
 
 export const getDisplayData = (
-  permission: StoragePermission[]
+  permission: Permission[]
 ): DisplayPermission[] => {
   return permission.map((item) => ({
     id: item.id,
     entries: getPermissionDisplayData(item),
+    userPhotoUri: getUserPhotoUri(item),
   }));
 };
 
@@ -37,88 +38,92 @@ const LABEL_PENDING_OWNER = 'Pending owner';
 const LABEL_USER_PHOTO = 'User photo';
 const LABEL_DOMAIN = 'Domain';
 
-const getIdentityDisplayData = (
-  identity: Identity | undefined
+const getPermissionTypeSpecificDisplayData = (
+  permission: Permission | undefined
 ): DisplayEntry[] => {
-  // TODO dn: fixme
-  switch (identity) {
-    case UserIdentity:
-      const userIdentity = identity as UserIdentity;
-      return [
-        new DisplayEntry(LABEL_TYPE, 'User'),
-        new DisplayEntry(LABEL_IDENTITY_ID, userIdentity.id),
-        new DisplayEntry(LABEL_DISPLAY_NAME, userIdentity.displayName),
-        new DisplayEntry(LABEL_EMAIL_ADDRESS, userIdentity.emailAddress),
-        new DisplayEntry(
-          LABEL_EXPIRATION_TIME,
-          userIdentity.expirationTime?.toString()
-        ),
-        new DisplayEntry(LABEL_DELETED, userIdentity.deleted?.toString()),
-        new DisplayEntry(
-          LABEL_PENDING_OWNER,
-          userIdentity.pendingOwner?.toString()
-        ),
-        new DisplayEntry(LABEL_USER_PHOTO, userIdentity.photoLink),
-      ];
-    case GroupIdentity:
-      const groupIdentity = identity as GroupIdentity;
-      return [
-        new DisplayEntry(LABEL_TYPE, 'Group'),
-        new DisplayEntry(LABEL_IDENTITY_ID, groupIdentity.id),
-        new DisplayEntry(LABEL_DISPLAY_NAME, groupIdentity.displayName),
-        new DisplayEntry(LABEL_EMAIL_ADDRESS, groupIdentity.emailAddress),
-        new DisplayEntry(
-          LABEL_EXPIRATION_TIME,
-          groupIdentity.expirationTime?.toString()
-        ),
-        new DisplayEntry(LABEL_DELETED, groupIdentity.deleted?.toString()),
-      ];
-    case DomainIdentity:
-      const domainIdentity = identity as DomainIdentity;
-      return [
-        new DisplayEntry(LABEL_TYPE, 'Domain'),
-        new DisplayEntry(LABEL_DISPLAY_NAME, domainIdentity.displayName),
-        new DisplayEntry(LABEL_DOMAIN, domainIdentity.domain),
-      ];
-    case AnyoneIdentity:
-      return [new DisplayEntry(LABEL_TYPE, 'Anyone')];
-    case DeviceIdentity:
-      const deviceIdentity = identity as DeviceIdentity;
-      return [
-        new DisplayEntry(LABEL_TYPE, 'Device'),
-        new DisplayEntry(LABEL_IDENTITY_ID, deviceIdentity.id),
-        new DisplayEntry(LABEL_DISPLAY_NAME, deviceIdentity.displayName),
-        new DisplayEntry(
-          LABEL_EXPIRATION_TIME,
-          deviceIdentity.expirationTime?.toString()
-        ),
-      ];
-    case ApplicationIdentity:
-      const applicationIdentity = identity as ApplicationIdentity;
-      return [
-        new DisplayEntry(LABEL_TYPE, 'Application'),
-        new DisplayEntry(LABEL_IDENTITY_ID, applicationIdentity.id),
-        new DisplayEntry(LABEL_DISPLAY_NAME, applicationIdentity.displayName),
-        new DisplayEntry(
-          LABEL_EXPIRATION_TIME,
-          applicationIdentity.expirationTime?.toString()
-        ),
-      ];
-    default:
-      return [];
+  if (permission instanceof UserPermission) {
+    const userIdentity = permission as UserPermission;
+    return [
+      new DisplayEntry(LABEL_TYPE, 'User'),
+      new DisplayEntry(LABEL_IDENTITY_ID, userIdentity.id),
+      new DisplayEntry(LABEL_DISPLAY_NAME, userIdentity.displayName),
+      new DisplayEntry(LABEL_EMAIL_ADDRESS, userIdentity.emailAddress),
+      new DisplayEntry(
+        LABEL_EXPIRATION_TIME,
+        userIdentity.expirationTime?.toString()
+      ),
+      new DisplayEntry(LABEL_DELETED, userIdentity.deleted?.toString()),
+      new DisplayEntry(
+        LABEL_PENDING_OWNER,
+        userIdentity.pendingOwner?.toString()
+      ),
+      new DisplayEntry(LABEL_USER_PHOTO, userIdentity.photoLink),
+    ];
+  } else if (permission instanceof GroupPermission) {
+    const groupIdentity = permission as GroupPermission;
+    return [
+      new DisplayEntry(LABEL_TYPE, 'Group'),
+      new DisplayEntry(LABEL_IDENTITY_ID, groupIdentity.id),
+      new DisplayEntry(LABEL_DISPLAY_NAME, groupIdentity.displayName),
+      new DisplayEntry(LABEL_EMAIL_ADDRESS, groupIdentity.emailAddress),
+      new DisplayEntry(
+        LABEL_EXPIRATION_TIME,
+        groupIdentity.expirationTime?.toString()
+      ),
+      new DisplayEntry(LABEL_DELETED, groupIdentity.deleted?.toString()),
+    ];
+  } else if (permission instanceof DomainPermission) {
+    const domainIdentity = permission as DomainPermission;
+    return [
+      new DisplayEntry(LABEL_TYPE, 'Domain'),
+      new DisplayEntry(LABEL_DISPLAY_NAME, domainIdentity.displayName),
+      new DisplayEntry(LABEL_DOMAIN, domainIdentity.domain),
+    ];
+  } else if (permission instanceof AnyonePermission) {
+    return [new DisplayEntry(LABEL_TYPE, 'Anyone')];
+  } else if (permission instanceof DevicePermission) {
+    const deviceIdentity = permission as DevicePermission;
+    return [
+      new DisplayEntry(LABEL_TYPE, 'Device'),
+      new DisplayEntry(LABEL_IDENTITY_ID, deviceIdentity.id),
+      new DisplayEntry(LABEL_DISPLAY_NAME, deviceIdentity.displayName),
+      new DisplayEntry(
+        LABEL_EXPIRATION_TIME,
+        deviceIdentity.expirationTime?.toString()
+      ),
+    ];
+  } else if (permission instanceof ApplicationPermission) {
+    const applicationIdentity = permission as ApplicationPermission;
+    return [
+      new DisplayEntry(LABEL_TYPE, 'Application'),
+      new DisplayEntry(LABEL_IDENTITY_ID, applicationIdentity.id),
+      new DisplayEntry(LABEL_DISPLAY_NAME, applicationIdentity.displayName),
+      new DisplayEntry(
+        LABEL_EXPIRATION_TIME,
+        applicationIdentity.expirationTime?.toString()
+      ),
+    ];
+  } else {
+    throw Error('Invalid permission type');
   }
 };
 
-export const getPermissionDisplayData = (
-  permission: StoragePermission
-): DisplayEntry[] => {
-  const permissionDisplayEntries = [
+const getPermissionDisplayData = (permission: Permission): DisplayEntry[] => {
+  const commonDisplayEntries = [
     new DisplayEntry('ID', permission.id),
     new DisplayEntry('Role', permission.role),
     new DisplayEntry('Inherited', permission.isInherited?.toString()),
   ];
 
-  const identityDisplayEntries = getIdentityDisplayData(permission);
+  const additionalDisplayEntries =
+    getPermissionTypeSpecificDisplayData(permission);
 
-  return [...permissionDisplayEntries, ...identityDisplayEntries];
+  return [...commonDisplayEntries, ...additionalDisplayEntries];
+};
+
+const getUserPhotoUri = (permission: Permission): string | undefined => {
+  if (permission instanceof UserPermission) {
+    return permission.photoLink;
+  }
+  return undefined;
 };

@@ -5,7 +5,10 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     padding: 16,
   },
-  button: {},
+  image: {
+    width: 64,
+    height: 64,
+  },
   footer: {
     flexDirection: 'row',
     gap: 8,

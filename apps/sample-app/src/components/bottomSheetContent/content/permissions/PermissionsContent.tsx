@@ -25,8 +25,10 @@ export const PermissionsContent = ({ file }: Props) => {
     return <FullScreenLoadingState />;
   }
 
-  if (filePermissionsQuery.data) {
-    const displayData = getDisplayData(filePermissionsQuery.data);
+  const permissions = filePermissionsQuery.data;
+
+  if (permissions) {
+    const displayData = getDisplayData(permissions);
 
     const handleAddPermission = () => {
       // TODO dn: implementation

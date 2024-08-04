@@ -1,40 +1,80 @@
 import {
-  AnyoneIdentity,
+  AnyonePermission,
   ApiException,
-  DomainIdentity,
-  GroupIdentity,
-  StoragePermission,
-  UserIdentity,
-  type Identity,
+  DomainPermission,
+  GroupPermission,
+  Permission,
+  UserPermission,
   type PermissionRole,
 } from '@openmobilehub/storage-core';
 
 import type { PermissionRemote } from '../response/PermissionRemote';
 
 export const mapPermissionRemoteToStoragePermission = (
-  permissionRemote: PermissionRemote
-): StoragePermission => {
-  let role = mapRoleRemoteToPermissionRole(permissionRemote.role);
-  let identity = mapPermissionRemoteToIdentity(permissionRemote);
+  permission: PermissionRemote
+): Permission => {
+  let role = mapRoleRemoteToPermissionRole(permission.role);
 
-  if (!permissionRemote.id || !permissionRemote.type || !role || !identity) {
+  if (!permission.id || !permission.type || !role) {
     throw new ApiException('Invalid remote permission data');
   }
 
+  let id = permission.id;
+
   let noInheritanceInformationProvided =
-    !permissionRemote.permissionDetails ||
-    permissionRemote.permissionDetails.length === 0;
+    !permission.permissionDetails || permission.permissionDetails.length === 0;
 
-  let isInherited =
-    permissionRemote.permissionDetails?.find((item) => item.inheritedFrom) !==
-    undefined;
+  let isInherited = noInheritanceInformationProvided
+    ? undefined
+    : permission.permissionDetails?.find((item) => item.inheritedFrom) !==
+      undefined;
 
-  return new StoragePermission({
-    id: permissionRemote.id,
-    role: role,
-    isInherited: noInheritanceInformationProvided ? undefined : isInherited,
-    identity: identity,
-  });
+  const expirationTime = permission.expirationTime
+    ? new Date(permission.expirationTime)
+    : undefined;
+
+  switch (permission.type) {
+    case 'user':
+      return new UserPermission({
+        id: id,
+        role: role,
+        isInherited: isInherited,
+        userId: undefined,
+        displayName: permission.displayName,
+        emailAddress: permission.emailAddress,
+        expirationTime: expirationTime,
+        deleted: permission.deleted,
+        photoLink: permission.photoLink,
+        pendingOwner: permission.pendingOwner,
+      });
+    case 'group':
+      return new GroupPermission({
+        id: id,
+        role: role,
+        isInherited: isInherited,
+        groupId: undefined,
+        displayName: permission.displayName,
+        emailAddress: permission.emailAddress,
+        expirationTime: expirationTime,
+        deleted: permission.deleted,
+      });
+    case 'domain':
+      return new DomainPermission({
+        id: id,
+        role: role,
+        isInherited: isInherited,
+        displayName: permission.displayName,
+        domain: permission.domain,
+      });
+    case 'anyone':
+      return new AnyonePermission({
+        id: id,
+        role: role,
+        isInherited: isInherited,
+      });
+    default:
+      throw new ApiException('Invalid remote permission type');
+  }
 };
 
 const mapRoleRemoteToPermissionRole = (
@@ -49,44 +89,6 @@ const mapRoleRemoteToPermissionRole = (
       return 'commenter';
     case 'reader':
       return 'reader';
-    default:
-      return undefined;
-  }
-};
-
-export const mapPermissionRemoteToIdentity = (
-  permission: PermissionRemote
-): Identity | undefined => {
-  const expirationTime = permission.expirationTime
-    ? new Date(permission.expirationTime)
-    : undefined;
-
-  switch (permission.type) {
-    case 'user':
-      return new UserIdentity({
-        id: undefined,
-        displayName: permission.displayName,
-        emailAddress: permission.emailAddress,
-        expirationTime: expirationTime,
-        deleted: permission.deleted,
-        photoLink: permission.photoLink,
-        pendingOwner: permission.pendingOwner,
-      });
-    case 'group':
-      return new GroupIdentity({
-        id: undefined,
-        displayName: permission.displayName,
-        emailAddress: permission.emailAddress,
-        expirationTime: expirationTime,
-        deleted: permission.deleted,
-      });
-    case 'domain':
-      return new DomainIdentity({
-        displayName: permission.displayName,
-        domain: permission.domain,
-      });
-    case 'anyone':
-      return new AnyoneIdentity();
     default:
       return undefined;
   }
