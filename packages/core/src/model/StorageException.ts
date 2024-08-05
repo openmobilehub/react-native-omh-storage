@@ -31,3 +31,9 @@ export class ApiException extends StorageException {
     this.code = code;
   }
 }
+
+export class UnsupportedOperationException extends StorageException {
+  constructor() {
+    super('This operation is not supported for selected provider!');
+  }
+}

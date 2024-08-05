@@ -14,6 +14,8 @@ const URL_ZIP =
   'https://drive-thirdparty.googleusercontent.com/32/type/application/zip';
 const URL_VIDEO =
   'https://drive-thirdparty.googleusercontent.com/32/type/video/mp4';
+const URL_GIF =
+  'https://drive-thirdparty.googleusercontent.com/32/type/image/gif';
 const URL_OTHER = 'https://static.thenounproject.com/png/3482632-200.png';
 
 enum MimeType {
@@ -32,6 +34,7 @@ enum MimeType {
   MICROSOFT_POWERPOINT = 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
   OPEN_DOCUMENT_PRESENTATION = 'application/vnd.oasis.opendocument.presentation',
   MP4 = 'video/mp4',
+  GIF = 'image/gif',
 }
 
 export const getIconForFileListItem = (mimeType?: string) => {
@@ -58,6 +61,8 @@ export const getIconForFileListItem = (mimeType?: string) => {
     case MimeType.GOOGLE_VIDEO:
     case MimeType.MP4:
       return URL_VIDEO;
+    case MimeType.GIF:
+      return URL_GIF;
     default:
       return URL_OTHER;
   }

@@ -1,5 +1,7 @@
+import type { LocalFile } from '@openmobilehub/storage-core';
 import { StorageEntityMetadata } from '@openmobilehub/storage-core';
 
+import type { CreateFileRequestBody } from './data/body/CreateFileRequestBody';
 import { mapFileRemoteToStorageEntity } from './data/mappers/mapFileRemoteToStorageEntity';
 import { mapPermissionRemoteToStoragePermission } from './data/mappers/mapPermissionRemoteToStoragePermission';
 import type { GoogleDriveStorageApiService } from './GoogleDriveStorageApiService';
@@ -32,6 +34,32 @@ export class GoogleDriveStorageRepository {
     const response = await this.apiService.search(query);
 
     return response.data.files.map(mapFileRemoteToStorageEntity);
+  }
+
+  async createFileWithMimeType(
+    name: string,
+    mimeType: string,
+    parentId?: string
+  ) {
+    const body: CreateFileRequestBody = {
+      name,
+      mimeType,
+      parents: parentId ? [parentId] : [],
+    };
+
+    const response = await this.apiService.createFileWithMimeType(body);
+
+    return mapFileRemoteToStorageEntity(response.data);
+  }
+
+  async localFileUpload(file: LocalFile, folderId: string) {
+    const response = await this.apiService.localFileUpload(file, folderId);
+
+    if (!response) {
+      throw new Error('Upload failed, no response received');
+    }
+
+    return mapFileRemoteToStorageEntity(response);
   }
 
   async getPermissions(fileId: string) {
