@@ -25,4 +25,6 @@ export interface IStorageClient {
     parentId?: string
   ): Promise<StorageEntity>;
   localFileUpload(file: LocalFile, folderId: string): Promise<StorageEntity>;
+  deleteFile(fileId: string): Promise<void>;
+  permanentlyDeleteFile(fileId: string): Promise<void>;
 }

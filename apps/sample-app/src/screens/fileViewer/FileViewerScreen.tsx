@@ -43,7 +43,8 @@ export const FileViewerScreen = () => {
 
   const searchFilesQuery = useSearchFilesQuery(
     storageClient,
-    debouncedSearchQuery
+    debouncedSearchQuery,
+    searchQuery.length > 0
   );
 
   const handleStorageEntityPress = (file: StorageEntity) => {

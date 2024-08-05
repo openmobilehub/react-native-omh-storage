@@ -1,13 +1,11 @@
-// Uncomment when needed - lefthook is checking node_modules for some reason, so for now it's commented out
+const Reactotron = require('reactotron-react-native').default;
 
-// import Reactotron from 'reactotron-react-native';
-
-// Reactotron.configure({
-//   name: 'React Native Demo',
-// })
-//   .useReactNative({
-//     networking: {
-//       ignoreUrls: /symbolicate/,
-//     },
-//   })
-//   .connect();
+Reactotron.configure({
+  name: 'React Native Demo',
+})
+  .useReactNative({
+    networking: {
+      ignoreUrls: /symbolicate/,
+    },
+  })
+  .connect();
