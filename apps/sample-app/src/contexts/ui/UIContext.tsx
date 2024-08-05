@@ -2,7 +2,6 @@ import {
   createContext,
   MutableRefObject,
   ReactNode,
-  useCallback,
   useContext,
   useRef,
 } from 'react';
@@ -26,12 +25,11 @@ export const UIContextProvider = ({ children }: Props) => {
   const currentlyFocusedCreateFileBottomSheetRef =
     useRef<BottomSheetModal | null>(null);
 
-  const setCurrentlyFocusedCreateFileBottomSheetRef = useCallback(
-    (ref: BottomSheetModal | null) => {
-      currentlyFocusedCreateFileBottomSheetRef.current = ref;
-    },
-    []
-  );
+  const setCurrentlyFocusedCreateFileBottomSheetRef = (
+    ref: BottomSheetModal | null
+  ) => {
+    currentlyFocusedCreateFileBottomSheetRef.current = ref;
+  };
 
   return (
     <UIContext.Provider
