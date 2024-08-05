@@ -85,4 +85,8 @@ export class GoogleDriveStorageClient implements IStorageClient {
       emailMessage
     );
   }
+
+  async deletePermission(fileId: string, permissionId: string) {
+    return this.repository.deletePermission(fileId, permissionId);
+  }
 }

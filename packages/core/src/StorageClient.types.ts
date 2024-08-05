@@ -37,4 +37,5 @@ export interface IStorageClient {
     sendNotificationEmail: boolean,
     emailMessage?: string
   ): Promise<Permission | undefined>;
+  deletePermission(fileId: string, permissionId: string): Promise<void>;
 }

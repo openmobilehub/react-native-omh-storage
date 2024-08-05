@@ -115,4 +115,8 @@ export class GoogleDriveStorageRepository {
 
     return mapPermissionRemoteToStoragePermission(response.data);
   }
+
+  async deletePermission(fileId: string, permissionId: string) {
+    return this.apiService.deletePermission(fileId, permissionId);
+  }
 }

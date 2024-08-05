@@ -9,7 +9,7 @@ import { FullScreenLoadingState } from '@/components/fullScreenLoadingState';
 import { useAuthContext } from '@/contexts/auth/AuthContext';
 import { useRequireStorageClient } from '@/contexts/storage/useRequireStorageClient';
 import { useUIContext } from '@/contexts/ui/UIContext';
-import { useLocalFileUploadMutation } from '@/data/mutations/useLocalFileUploadMutation';
+import { useLocalFileUploadMutation } from '@/data/mutation/useLocalFileUploadMutation.ts';
 
 import { styles } from './ContextMenu.styles';
 import { BottomSheetFilePickerContent } from './parts/bottomSheetFilePickerContent';

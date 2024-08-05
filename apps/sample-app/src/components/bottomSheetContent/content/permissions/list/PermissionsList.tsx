@@ -10,6 +10,7 @@ import { PermissionItem } from '@/components/bottomSheetContent/content/permissi
 import { BottomSheetContentWrapper } from '@/components/bottomSheetContent/parts/BottomSheetContentWrapper/BottomSheetContentWrapper.tsx';
 import { FullScreenLoadingState } from '@/components/fullScreenLoadingState';
 import { useRequireStorageClient } from '@/contexts/storage/useRequireStorageClient.ts';
+import { useDeletePermissionMutation } from '@/data/mutation/useDeletePermissionMutation.ts';
 import { useFilePermissionsQuery } from '@/data/query/filePermissionsQuery.ts';
 
 import { styles } from './PermissionsList.styles';
@@ -29,7 +30,9 @@ export const PermissionsList = ({
 
   const filePermissionsQuery = useFilePermissionsQuery(storageClient, file.id);
 
-  if (filePermissionsQuery.isLoading) {
+  const deletePermissionMutation = useDeletePermissionMutation(storageClient);
+
+  if (filePermissionsQuery.isLoading || deletePermissionMutation.isPending) {
     return <FullScreenLoadingState />;
   }
 
@@ -48,8 +51,17 @@ export const PermissionsList = ({
     };
 
     const handleDeletePermission = (permissionId: string) => {
-      // TODO dn: implementation
-      console.log(permissionId);
+      deletePermissionMutation.mutate(
+        {
+          fileId: file.id,
+          permissionId: permissionId,
+        },
+        {
+          onSuccess: () => {
+            Toast.show(`Permission deleted`);
+          },
+        }
+      );
     };
 
     return (

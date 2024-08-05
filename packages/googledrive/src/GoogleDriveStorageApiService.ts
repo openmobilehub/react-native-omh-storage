@@ -213,4 +213,10 @@ export class GoogleDriveStorageApiService {
       }
     );
   }
+
+  async deletePermission(fileId: string, permissionId: string) {
+    await this.client.axiosClient.delete(
+      `${FILES_PARTICLE}/${fileId}/permissions/${permissionId}`
+    );
+  }
 }
