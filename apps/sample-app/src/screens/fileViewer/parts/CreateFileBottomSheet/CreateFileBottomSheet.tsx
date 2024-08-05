@@ -43,7 +43,7 @@ export const CreateFileBottomSheet = ({ folderId }: Props) => {
       },
       {
         onSuccess: () => {
-          bottomSheetModalRef.current?.close();
+          bottomSheetModalRef.current?.dismiss();
         },
       }
     );
