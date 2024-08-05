@@ -1,6 +1,7 @@
 import { ApiException, type LocalFile } from '@openmobilehub/storage-core';
 import { FileSystem } from 'react-native-file-access';
 
+import type { CreateFileRequestBody } from './data/body/CreateFileRequestBody';
 import { type FileListRemote } from './data/response/FileListRemote';
 import type { GoogleDriveStorageApiClient } from './GoogleDriveStorageApiClient';
 
@@ -10,9 +11,12 @@ const UPLOAD_CHUNK_SIZE = 1024 * 1024 * 10; // 10MB
 
 export class GoogleDriveStorageApiService {
   private client: GoogleDriveStorageApiClient;
-  private fieldsParam =
-    'files(id,name,createdTime,modifiedTime,parents,mimeType,fileExtension,size)';
+
+  private fieldsSelection =
+    'id,name,createdTime,modifiedTime,parents,mimeType,fileExtension,size';
+  private getFieldsParam = `files(${this.fieldsSelection})`;
   private allFieldsParam = '*';
+  private selectedFieldsParam = this.fieldsSelection;
 
   private inFolderParam = (folderId: string) =>
     `'${folderId}' in parents and trashed = false`;
@@ -28,7 +32,7 @@ export class GoogleDriveStorageApiService {
     return await this.client.axiosClient.get<FileListRemote>(FILES_PARTICLE, {
       params: {
         q: this.inFolderParam(folderId),
-        fields: this.fieldsParam,
+        fields: this.getFieldsParam,
       },
     });
   }
@@ -45,7 +49,15 @@ export class GoogleDriveStorageApiService {
     return await this.client.axiosClient.get<FileListRemote>(FILES_PARTICLE, {
       params: {
         q: this.searchParam(query),
-        fields: this.fieldsParam,
+        fields: this.getFieldsParam,
+      },
+    });
+  }
+
+  async createFileWithMimeType(body: CreateFileRequestBody) {
+    return await this.client.axiosClient.post(FILES_PARTICLE, body, {
+      params: {
+        fields: this.selectedFieldsParam,
       },
     });
   }
@@ -127,7 +139,7 @@ export class GoogleDriveStorageApiService {
               'Content-Range': contentRange,
             },
             params: {
-              fields: this.fieldsParam,
+              fields: this.fieldsSelection,
             },
           }
         );

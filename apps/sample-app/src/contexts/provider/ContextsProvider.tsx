@@ -3,6 +3,8 @@ import { ReactNode } from 'react';
 import { AuthContextProvider } from '@/contexts/auth/AuthContext';
 import { StorageContextProvider } from '@/contexts/storage/StorageContext';
 
+import { UIContextProvider } from '../ui/UIContext';
+
 interface Props {
   children: ReactNode;
 }
@@ -10,7 +12,9 @@ interface Props {
 export const ContextsProvider = ({ children }: Props) => {
   return (
     <AuthContextProvider>
-      <StorageContextProvider>{children}</StorageContextProvider>
+      <StorageContextProvider>
+        <UIContextProvider>{children}</UIContextProvider>
+      </StorageContextProvider>
     </AuthContextProvider>
   );
 };

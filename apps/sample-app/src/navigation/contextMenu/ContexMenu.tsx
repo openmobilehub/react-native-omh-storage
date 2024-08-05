@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react';
-import { Alert } from 'react-native';
 
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { LocalFile } from '@openmobilehub/storage-core';
@@ -9,6 +8,7 @@ import { BottomSheet } from '@/components/bottomSheet';
 import { FullScreenLoadingState } from '@/components/fullScreenLoadingState';
 import { useAuthContext } from '@/contexts/auth/AuthContext';
 import { useRequireStorageClient } from '@/contexts/storage/useRequireStorageClient';
+import { useUIContext } from '@/contexts/ui/UIContext';
 import { useLocalFileUploadMutation } from '@/data/mutations/useLocalFileUploadMutation';
 
 import { styles } from './ContextMenu.styles';
@@ -20,13 +20,11 @@ interface ContextMenuProps {
 
 export const ContextMenu = ({ folderId }: ContextMenuProps) => {
   const { logout } = useAuthContext();
+  const { currentlyFocusedCreateFileBottomSheetRef } = useUIContext();
+
   const storageClient = useRequireStorageClient();
 
-  const {
-    mutate: localFileUpload,
-
-    isPending,
-  } = useLocalFileUploadMutation(
+  const { mutate: localFileUpload, isPending } = useLocalFileUploadMutation(
     storageClient,
     folderId ?? storageClient.rootFolderId
   );
@@ -37,8 +35,9 @@ export const ContextMenu = ({ folderId }: ContextMenuProps) => {
 
   const handleMenuClose = () => setVisible(false);
 
-  const handleNotImplemented = () => {
-    Alert.alert('Not implemented yet');
+  const handleCreateFilePress = () => {
+    currentlyFocusedCreateFileBottomSheetRef?.current?.present();
+    handleMenuClose();
   };
 
   const handleFileUploadSheetOpen = () => {
@@ -73,7 +72,7 @@ export const ContextMenu = ({ folderId }: ContextMenuProps) => {
         style={styles.menu}
       >
         <Menu.Item onPress={handleFileUploadSheetOpen} title="Upload File" />
-        <Menu.Item onPress={handleNotImplemented} title="Create File" />
+        <Menu.Item onPress={handleCreateFilePress} title="Create File" />
         <Divider />
         <Menu.Item onPress={logout} title="Logout" />
       </Menu>

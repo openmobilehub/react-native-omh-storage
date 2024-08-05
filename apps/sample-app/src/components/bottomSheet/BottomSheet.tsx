@@ -16,9 +16,18 @@ interface BottomSheetProps extends BottomSheetModalProps {
   snapPoints?: (string | number)[];
 }
 
+const maximumDynamicContentSize = Dimensions.get('window').height * 0.9;
+
 export const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
   (
-    { children, contentContainerStyle, snapPoints = ['50%', '90%'], ...props },
+    {
+      children,
+      contentContainerStyle,
+      snapPoints = ['50%', '90%'],
+      enableDynamicSizing = true,
+      maxDynamicContentSize = maximumDynamicContentSize,
+      ...props
+    },
     ref
   ) => {
     return (
@@ -27,10 +36,11 @@ export const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
         ref={ref}
         snapPoints={snapPoints}
         backdropComponent={BottomSheetBackdrop}
-        enableDynamicSizing
-        maxDynamicContentSize={Dimensions.get('window').height * 0.9}
+        enableDynamicSizing={enableDynamicSizing}
+        maxDynamicContentSize={maxDynamicContentSize}
       >
         <BottomSheetScrollView
+          keyboardShouldPersistTaps="handled"
           style={[styles.contentContainer, contentContainerStyle]}
         >
           {children}
