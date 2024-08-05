@@ -3,9 +3,9 @@ import { Image, View } from 'react-native';
 import { Button, Card } from 'react-native-paper';
 
 import { DisplayRow } from '@/components/bottomSheetContent/content/parts/DisplayRow/DisplayRow.tsx';
-import { DisplayPermission } from '@/components/bottomSheetContent/content/permissions/getDisplayData.ts';
+import { DisplayPermission } from '@/components/bottomSheetContent/content/permissions/list/getDisplayData.ts';
 
-import { styles } from './PermissionItem.styles';
+import { styles } from './PermissionItem.styles.ts';
 
 interface Props {
   displayPermission: DisplayPermission;

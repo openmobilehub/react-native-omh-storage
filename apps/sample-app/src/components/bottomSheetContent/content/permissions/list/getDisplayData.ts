@@ -18,14 +18,12 @@ export class DisplayPermission {
   ) {}
 }
 
-export const getDisplayData = (
-  permission: Permission[]
-): DisplayPermission[] => {
-  return permission.map((item) => ({
-    id: item.id,
-    entries: getPermissionDisplayData(item),
-    userPhotoUri: getUserPhotoUri(item),
-  }));
+export const getDisplayData = (permission: Permission): DisplayPermission => {
+  return {
+    id: permission.id,
+    entries: getPermissionDisplayData(permission),
+    userPhotoUri: getUserPhotoUri(permission),
+  };
 };
 
 const LABEL_TYPE = 'Type';

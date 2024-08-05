@@ -3378,6 +3378,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-picker/picker@npm:^2.7.7":
+  version: 2.7.7
+  resolution: "@react-native-picker/picker@npm:2.7.7"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 54e38c47ca07e70586789bbabe1a57c4e30f1cd071c0d7a7a113dc65ecb10e84bacae93c0445513351e2c41a6a86f880389bdd468f2572dbf1fdbb690a444c93
+  languageName: node
+  linkType: hard
+
 "@react-native/assets-registry@npm:0.74.85":
   version: 0.74.85
   resolution: "@react-native/assets-registry@npm:0.74.85"
@@ -10525,6 +10535,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.isequal@npm:^4.5.0":
+  version: 4.5.0
+  resolution: "lodash.isequal@npm:4.5.0"
+  checksum: da27515dc5230eb1140ba65ff8de3613649620e8656b19a6270afe4866b7bd461d9ba2ac8a48dcc57f7adac4ee80e1de9f965d89d4d81a0ad52bb3eec2609644
+  languageName: node
+  linkType: hard
+
 "lodash.isfunction@npm:^3.0.9":
   version: 3.0.9
   resolution: "lodash.isfunction@npm:3.0.9"
@@ -10536,6 +10553,13 @@ __metadata:
   version: 4.4.0
   resolution: "lodash.ismatch@npm:4.4.0"
   checksum: a393917578842705c7fc1a30fb80613d1ac42d20b67eb26a2a6004d6d61ee90b419f9eb320508ddcd608e328d91eeaa2651411727eaa9a12534ed6ccb02fc705
+  languageName: node
+  linkType: hard
+
+"lodash.isobject@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "lodash.isobject@npm:3.0.2"
+  checksum: 6c1667cbc4494d0a13a3617a4b23278d6d02dac520311f2bbb43f16f2cf71d2e6eb9dec8057315b77459df4890c756a256a087d3f4baa44a79ab5d6c968b060e
   languageName: node
   linkType: hard
 
@@ -12998,6 +13022,7 @@ __metadata:
     "@openmobilehub/auth-microsoft": ^1.0.3
     "@react-native-async-storage/async-storage": ^1.24.0
     "@react-native-clipboard/clipboard": ^1.14.1
+    "@react-native-picker/picker": ^2.7.7
     "@react-native/babel-preset": 0.74.85
     "@react-native/metro-config": 0.74.85
     "@react-native/typescript-config": 0.74.85
@@ -13017,6 +13042,7 @@ __metadata:
     react-native-gesture-handler: ^2.17.1
     react-native-mmkv: ^2.12.2
     react-native-paper: ^5.12.3
+    react-native-picker-select: ^9.2.0
     react-native-reanimated: ^3.14.0
     react-native-root-toast: ^3.6.0
     react-native-safe-area-context: ^4.10.8
@@ -13063,6 +13089,18 @@ __metadata:
     react-native-safe-area-context: "*"
     react-native-vector-icons: "*"
   checksum: 927a8948d220fb59cb4dae2f12f3b4dc2173b9cd42e38dc74a0f25584a69978555a260c140db973f8401f7fef394dee3ec42c90b6134deeb3aa462291fd0ce5f
+  languageName: node
+  linkType: hard
+
+"react-native-picker-select@npm:^9.2.0":
+  version: 9.2.0
+  resolution: "react-native-picker-select@npm:9.2.0"
+  dependencies:
+    lodash.isequal: ^4.5.0
+    lodash.isobject: ^3.0.2
+  peerDependencies:
+    "@react-native-picker/picker": ^2.4.0
+  checksum: 0fc6d23ca1e2539f05112d83fb04d68f1f472f71172006c124f3b5b96a481c4dd70a30a5d19e03f205f90ecfda72864fcb9facf5f555ea3e1d9001fae70eaa8f
   languageName: node
   linkType: hard
 
