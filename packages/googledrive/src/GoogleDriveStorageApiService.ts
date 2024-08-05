@@ -2,8 +2,10 @@ import { ApiException, type LocalFile } from '@openmobilehub/storage-core';
 import { FileSystem } from 'react-native-file-access';
 
 import type { CreateFileRequestBody } from './data/body/CreateFileRequestBody';
+import type { CreatePermissionRequestBody } from './data/body/CreatePermissionRequestBody';
 import { type FileListRemote } from './data/response/FileListRemote';
 import type { PermissionListRemote } from './data/response/PermissionListRemote';
+import type { PermissionRemote } from './data/response/PermissionRemote';
 import type { WebUrlRemote } from './data/response/WebUrlRemote';
 import type { GoogleDriveStorageApiClient } from './GoogleDriveStorageApiClient';
 
@@ -177,6 +179,27 @@ export class GoogleDriveStorageApiService {
       {
         params: {
           fields: this.webViewLinkFieldParam,
+        },
+      }
+    );
+  }
+
+  async createPermission(
+    fileId: string,
+    body: CreatePermissionRequestBody,
+    transferOwnership: boolean,
+    sendNotificationEmail: boolean,
+    emailMessage?: string
+  ) {
+    return await this.client.axiosClient.post<PermissionRemote>(
+      `${FILES_PARTICLE}/${fileId}/permissions`,
+      body,
+      {
+        params: {
+          fields: this.allFieldsParam,
+          transferOwnership: transferOwnership,
+          sendNotificationEmail: sendNotificationEmail,
+          emailMessage: emailMessage,
         },
       }
     );

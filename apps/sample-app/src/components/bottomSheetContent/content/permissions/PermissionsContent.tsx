@@ -17,16 +17,16 @@ export const PermissionsContent = ({ file }: Props) => {
     PermissionsContentTypes.List
   );
 
-  const [permission, setPermission] = useState<Permission | undefined>(
-    undefined
-  );
+  const [selectedPermission, setSelectedPermission] = useState<
+    Permission | undefined
+  >(undefined);
 
   const openListView = () => {
     setView(PermissionsContentTypes.List);
   };
 
   const openEditView = (permission: Permission) => {
-    setPermission(permission);
+    setSelectedPermission(permission);
     setView(PermissionsContentTypes.Edit);
   };
 
@@ -45,11 +45,11 @@ export const PermissionsContent = ({ file }: Props) => {
           />
         );
       case PermissionsContentTypes.Edit:
-        if (permission) {
+        if (selectedPermission) {
           return (
             <EditPermission
               file={file}
-              permission={permission}
+              permission={selectedPermission}
               onCancel={openListView}
               onSuccess={openListView}
             />

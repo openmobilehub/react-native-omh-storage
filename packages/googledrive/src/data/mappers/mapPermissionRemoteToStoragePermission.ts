@@ -8,7 +8,10 @@ import {
   type PermissionRole,
 } from '@openmobilehub/storage-core';
 
-import type { PermissionRemote } from '../response/PermissionRemote';
+import type {
+  PermissionRemote,
+  PermissionRoleRemote,
+} from '../response/PermissionRemote';
 
 export const mapPermissionRemoteToStoragePermission = (
   permission: PermissionRemote
@@ -26,7 +29,7 @@ export const mapPermissionRemoteToStoragePermission = (
 
   let isInherited = noInheritanceInformationProvided
     ? undefined
-    : permission.permissionDetails?.find((item) => item.inheritedFrom) !==
+    : permission.permissionDetails?.find((item) => item.inherited) !==
       undefined;
 
   const expirationTime = permission.expirationTime
@@ -78,7 +81,7 @@ export const mapPermissionRemoteToStoragePermission = (
 };
 
 const mapRoleRemoteToPermissionRole = (
-  remoteRole: String | undefined
+  remoteRole: PermissionRoleRemote | undefined
 ): PermissionRole | undefined => {
   switch (remoteRole) {
     case 'owner':

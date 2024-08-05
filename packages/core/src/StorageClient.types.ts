@@ -1,3 +1,4 @@
+import { CreatePermission } from './model/CreatePermission';
 import type { Permission } from './model/Permission';
 import type { StorageEntity } from './model/StorageEntity';
 import type { StorageEntityMetadata } from './model/StorageEntityMetadata';
@@ -28,4 +29,10 @@ export interface IStorageClient {
   localFileUpload(file: LocalFile, folderId: string): Promise<StorageEntity>;
   getPermissions(fileId: string): Promise<Permission[]>;
   getWebUrl(fileId: string): Promise<string | undefined>;
+  createPermission(
+    fileId: string,
+    permission: CreatePermission,
+    sendNotificationEmail: boolean,
+    emailMessage?: string
+  ): Promise<Permission | undefined>;
 }

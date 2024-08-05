@@ -1,7 +1,11 @@
-import type { LocalFile } from '@openmobilehub/storage-core';
-import { StorageEntityMetadata } from '@openmobilehub/storage-core';
+import {
+  CreatePermission,
+  StorageEntityMetadata,
+  type LocalFile,
+} from '@openmobilehub/storage-core';
 
 import type { CreateFileRequestBody } from './data/body/CreateFileRequestBody';
+import { mapCreatePermissionToRequestBody } from './data/mappers/mapCreatePermissionToRequestBody';
 import { mapFileRemoteToStorageEntity } from './data/mappers/mapFileRemoteToStorageEntity';
 import { mapPermissionRemoteToStoragePermission } from './data/mappers/mapPermissionRemoteToStoragePermission';
 import type { GoogleDriveStorageApiService } from './GoogleDriveStorageApiService';
@@ -74,5 +78,29 @@ export class GoogleDriveStorageRepository {
     const response = await this.apiService.getWebUrl(fileId);
 
     return response.data.webViewLink;
+  }
+
+  async createPermission(
+    fileId: string,
+    permission: CreatePermission,
+    sendNotificationEmail: boolean,
+    emailMessage?: string
+  ) {
+    const body = mapCreatePermissionToRequestBody(permission);
+
+    const transferOwnership = permission.role === 'owner';
+    const willSendNotificationEmail =
+      sendNotificationEmail || transferOwnership;
+    const message = emailMessage?.trim() ? emailMessage : undefined;
+
+    const response = await this.apiService.createPermission(
+      fileId,
+      body,
+      transferOwnership,
+      willSendNotificationEmail,
+      message
+    );
+
+    return mapPermissionRemoteToStoragePermission(response.data);
   }
 }

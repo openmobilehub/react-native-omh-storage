@@ -1,4 +1,5 @@
 import {
+  CreatePermission,
   UnsupportedOperationException,
   type IStorageClient,
   type LocalFile,
@@ -61,5 +62,19 @@ export class GoogleDriveStorageClient implements IStorageClient {
 
   async getWebUrl(fileId: string) {
     return this.repository.getWebUrl(fileId);
+  }
+
+  async createPermission(
+    fileId: string,
+    permission: CreatePermission,
+    sendNotificationEmail: boolean,
+    emailMessage?: string
+  ) {
+    return this.repository.createPermission(
+      fileId,
+      permission,
+      sendNotificationEmail,
+      emailMessage
+    );
   }
 }

@@ -1,7 +1,7 @@
 /**
  * Permissions granted to StorageEntity.
  */
-export class Permission {
+export abstract class Permission {
   id: string;
   role: PermissionRole;
   isInherited?: boolean;
