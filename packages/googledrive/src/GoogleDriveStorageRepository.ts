@@ -4,6 +4,7 @@ import {
   type LocalFile,
 } from '@openmobilehub/storage-core';
 
+import type { CommonRequestBody } from './data/body/CommonRequestBody';
 import type { CreateFileRequestBody } from './data/body/CreateFileRequestBody';
 import { mapCreatePermissionToRequestBody } from './data/mappers/mapCreatePermissionToRequestBody';
 import { mapFileRemoteToStorageEntity } from './data/mappers/mapFileRemoteToStorageEntity';
@@ -64,6 +65,17 @@ export class GoogleDriveStorageRepository {
     }
 
     return mapFileRemoteToStorageEntity(response);
+  }
+
+  async deleteFile(fileId: string) {
+    const metadata: CommonRequestBody = {
+      trashed: true,
+    };
+    return this.apiService.updateFileMetadata(fileId, metadata);
+  }
+
+  async permanentlyDeleteFile(fileId: string) {
+    return this.apiService.deleteFile(fileId);
   }
 
   async getPermissions(fileId: string) {

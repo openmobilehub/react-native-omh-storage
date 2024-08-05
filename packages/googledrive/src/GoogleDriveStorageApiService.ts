@@ -1,6 +1,7 @@
 import { ApiException, type LocalFile } from '@openmobilehub/storage-core';
 import { FileSystem } from 'react-native-file-access';
 
+import type { CommonRequestBody } from './data/body/CommonRequestBody';
 import type { CreateFileRequestBody } from './data/body/CreateFileRequestBody';
 import type { CreatePermissionRequestBody } from './data/body/CreatePermissionRequestBody';
 import { type FileListRemote } from './data/response/FileListRemote';
@@ -160,6 +161,14 @@ export class GoogleDriveStorageApiService {
     }
 
     return null;
+  }
+
+  async updateFileMetadata(fileId: string, body: CommonRequestBody) {
+    await this.client.axiosClient.patch(`${FILES_PARTICLE}/${fileId}`, body);
+  }
+
+  async deleteFile(fileId: string) {
+    await this.client.axiosClient.delete(`${FILES_PARTICLE}/${fileId}`);
   }
 
   async getPermissions(fileId: string) {
