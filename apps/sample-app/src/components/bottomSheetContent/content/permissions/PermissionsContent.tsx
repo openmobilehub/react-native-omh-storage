@@ -1,7 +1,9 @@
 import { View } from 'react-native';
 
 import { StorageEntity } from '@openmobilehub/storage-core';
+import Clipboard from '@react-native-clipboard/clipboard';
 import { Button, Text } from 'react-native-paper';
+import Toast from 'react-native-root-toast';
 
 import { getDisplayData } from '@/components/bottomSheetContent/content/permissions/getDisplayData.ts';
 import { PermissionItem } from '@/components/bottomSheetContent/content/permissions/parts/PermissionItem/PermissionItem.tsx';
@@ -35,7 +37,14 @@ export const PermissionsContent = ({ file }: Props) => {
     };
 
     const handleGetUrl = () => {
-      // TODO dn: implementation
+      storageClient.getWebUrl(file.id).then((webUrl) => {
+        if (webUrl) {
+          Clipboard.setString(webUrl);
+          Toast.show('URL copied to clipboard');
+        } else {
+          Toast.show('There is no URL');
+        }
+      });
     };
 
     const handleDeletePermission = (permissionId: string) => {

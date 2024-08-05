@@ -37,4 +37,8 @@ export class GoogleDriveStorageClient implements IStorageClient {
   async getPermissions(fileId: string) {
     return this.repository.getPermissions(fileId);
   }
+
+  async getWebUrl(fileId: string) {
+    return this.repository.getWebUrl(fileId);
+  }
 }

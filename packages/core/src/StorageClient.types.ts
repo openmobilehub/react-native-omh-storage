@@ -9,4 +9,5 @@ export interface IStorageClient {
   getFileMetadata(fileId: string): Promise<StorageEntityMetadata>;
   search(query: string): Promise<StorageEntity[]>;
   getPermissions(fileId: string): Promise<Permission[]>;
+  getWebUrl(fileId: string): Promise<string | undefined>;
 }

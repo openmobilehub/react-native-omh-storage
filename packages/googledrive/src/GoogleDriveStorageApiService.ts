@@ -1,5 +1,6 @@
 import { type FileListRemote } from './data/response/FileListRemote';
 import type { PermissionListRemote } from './data/response/PermissionListRemote';
+import type { WebUrlRemote } from './data/response/WebUrlRemote';
 import type { GoogleDriveStorageApiClient } from './GoogleDriveStorageApiClient';
 
 const FILES_PARTICLE = 'drive/v3/files';
@@ -11,6 +12,7 @@ export class GoogleDriveStorageApiService {
     'files(id,name,createdTime,modifiedTime,parents,mimeType,fileExtension,size)';
 
   private allFieldsParam = '*';
+  private webViewLinkFieldParam = 'webViewLink';
 
   private inFolderParam = (folderId: string) =>
     `'${folderId}' in parents and trashed = false`;
@@ -54,6 +56,17 @@ export class GoogleDriveStorageApiService {
       {
         params: {
           fields: this.allFieldsParam,
+        },
+      }
+    );
+  }
+
+  async getWebUrl(fileId: string) {
+    return this.client.axiosClient.get<WebUrlRemote>(
+      `${FILES_PARTICLE}/${fileId}`,
+      {
+        params: {
+          fields: this.webViewLinkFieldParam,
         },
       }
     );

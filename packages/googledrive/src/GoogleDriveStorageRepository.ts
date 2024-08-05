@@ -41,4 +41,10 @@ export class GoogleDriveStorageRepository {
       mapPermissionRemoteToStoragePermission
     );
   }
+
+  async getWebUrl(fileId: string) {
+    const response = await this.apiService.getWebUrl(fileId);
+
+    return response.data.webViewLink;
+  }
 }
