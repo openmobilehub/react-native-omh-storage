@@ -1,6 +1,13 @@
 import type { StorageEntity } from './model/StorageEntity';
 import type { StorageEntityMetadata } from './model/StorageEntityMetadata';
 
+export type LocalFile = {
+  name: string;
+  size: number;
+  type: string;
+  uri: string;
+};
+
 export interface IStorageClient {
   readonly rootFolderId: string;
   setAccessToken(accessToken: string): void;
@@ -17,4 +24,5 @@ export interface IStorageClient {
     fileExtension: string,
     parentId?: string
   ): Promise<StorageEntity>;
+  localFileUpload(file: LocalFile, folderId: string): Promise<StorageEntity>;
 }

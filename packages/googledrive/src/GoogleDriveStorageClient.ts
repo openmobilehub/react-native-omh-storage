@@ -1,6 +1,7 @@
 import {
   UnsupportedOperationException,
   type IStorageClient,
+  type LocalFile,
   type StorageEntity,
 } from '@openmobilehub/storage-core';
 
@@ -48,5 +49,9 @@ export class GoogleDriveStorageClient implements IStorageClient {
     parentId?: string
   ) {
     return this.repository.createFileWithMimeType(name, mimeType, parentId);
+  }
+
+  localFileUpload(file: LocalFile, folderId: string) {
+    return this.repository.localFileUpload(file, folderId);
   }
 }

@@ -29,7 +29,6 @@ export const LoginScreen = () => {
       </Button>
       <Button
         mode="contained"
-        disabled // TODO: Implement Dropbox login
         onPress={() => login(Provider.DROPBOX)}
         testID="sign-in-dropbox"
       >

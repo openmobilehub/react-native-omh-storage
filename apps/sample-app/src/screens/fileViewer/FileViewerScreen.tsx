@@ -85,6 +85,8 @@ export const FileViewerScreen = () => {
           data={dataToShow}
           keyExtractor={(item) => item.id}
           ListEmptyComponent={renderEmptyListComponent}
+          onRefresh={fileListQuery.refetch}
+          refreshing={fileListQuery.isFetching}
           renderItem={({ item }) => (
             <FileListItem file={item} onPress={handleStorageEntityPress} />
           )}

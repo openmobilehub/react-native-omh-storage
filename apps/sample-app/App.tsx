@@ -11,6 +11,10 @@ import { RootNavigationContainer } from '@/navigation/RootNavigationContainer';
 
 import { styles } from './App.styles';
 
+if (__DEV__) {
+  require('./ReactotronConfig');
+}
+
 interface ProvidersProps {
   children: ReactNode;
 }

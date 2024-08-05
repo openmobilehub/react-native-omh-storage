@@ -1,3 +1,4 @@
+import type { LocalFile } from '@openmobilehub/storage-core';
 import { StorageEntityMetadata } from '@openmobilehub/storage-core';
 
 import type { CreateFileRequestBody } from './data/body/CreateFileRequestBody';
@@ -48,5 +49,15 @@ export class GoogleDriveStorageRepository {
     const response = await this.apiService.createFileWithMimeType(body);
 
     return mapFileRemoteToStorageEntity(response.data);
+  }
+
+  async localFileUpload(file: LocalFile, folderId: string) {
+    const response = await this.apiService.localFileUpload(file, folderId);
+
+    if (!response) {
+      throw new Error('Upload failed, no response received');
+    }
+
+    return mapFileRemoteToStorageEntity(response);
   }
 }
