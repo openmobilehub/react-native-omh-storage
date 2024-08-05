@@ -54,4 +54,12 @@ export class GoogleDriveStorageClient implements IStorageClient {
   localFileUpload(file: LocalFile, folderId: string) {
     return this.repository.localFileUpload(file, folderId);
   }
+
+  async deleteFile(fileId: string) {
+    return this.repository.deleteFile(fileId);
+  }
+
+  async permanentlyDeleteFile(fileId: string) {
+    return this.repository.permanentlyDeleteFile(fileId);
+  }
 }

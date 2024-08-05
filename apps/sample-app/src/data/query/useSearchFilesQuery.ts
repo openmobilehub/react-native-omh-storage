@@ -9,10 +9,12 @@ import { QK_LIST_FILES, QK_SEARCH_FILES } from '../client/queryKeys';
 
 export const useSearchFilesQuery = (
   storageClient: IStorageClient,
-  query: string
+  query: string,
+  enabled = true
 ) => {
   return useQuery<StorageEntity[], StorageException>({
     queryKey: [QK_LIST_FILES, QK_SEARCH_FILES, query],
     queryFn: () => storageClient.search(query),
+    enabled,
   });
 };
