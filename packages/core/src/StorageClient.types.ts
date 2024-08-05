@@ -1,5 +1,5 @@
 import { CreatePermission } from './model/CreatePermission';
-import type { Permission } from './model/Permission';
+import { type Permission, type PermissionRole } from './model/Permission';
 import type { StorageEntity } from './model/StorageEntity';
 import type { StorageEntityMetadata } from './model/StorageEntityMetadata';
 
@@ -38,4 +38,9 @@ export interface IStorageClient {
     emailMessage?: string
   ): Promise<Permission | undefined>;
   deletePermission(fileId: string, permissionId: string): Promise<void>;
+  updatePermission(
+    fileId: string,
+    permissionId: string,
+    role: PermissionRole
+  ): Promise<Permission | undefined>;
 }

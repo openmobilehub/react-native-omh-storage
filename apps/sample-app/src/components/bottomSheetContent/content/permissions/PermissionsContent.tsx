@@ -3,10 +3,10 @@ import { View } from 'react-native';
 
 import { Permission, StorageEntity } from '@openmobilehub/storage-core';
 
-import { AddPermission } from '@/components/bottomSheetContent/content/permissions/add/AddPermission.tsx';
-import { EditPermission } from '@/components/bottomSheetContent/content/permissions/edit/EditPermission.tsx';
+import { CreatePermission } from '@/components/bottomSheetContent/content/permissions/create/CreatePermission.tsx';
 import { PermissionsList } from '@/components/bottomSheetContent/content/permissions/list/PermissionsList.tsx';
 import { PermissionsContentTypes } from '@/components/bottomSheetContent/content/permissions/PermissionsContent.types.ts';
+import { UpdatePermission } from '@/components/bottomSheetContent/content/permissions/update/UpdatePermission.tsx';
 
 interface Props {
   file: StorageEntity;
@@ -38,7 +38,7 @@ export const PermissionsContent = ({ file }: Props) => {
     switch (view) {
       case PermissionsContentTypes.Add:
         return (
-          <AddPermission
+          <CreatePermission
             file={file}
             onCancel={openListView}
             onSuccess={openListView}
@@ -47,7 +47,7 @@ export const PermissionsContent = ({ file }: Props) => {
       case PermissionsContentTypes.Edit:
         if (selectedPermission) {
           return (
-            <EditPermission
+            <UpdatePermission
               file={file}
               permission={selectedPermission}
               onCancel={openListView}

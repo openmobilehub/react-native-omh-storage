@@ -2,11 +2,16 @@ import {
   CreatePermission,
   StorageEntityMetadata,
   type LocalFile,
+  type PermissionRole,
 } from '@openmobilehub/storage-core';
 
 import type { CommonRequestBody } from './data/body/CommonRequestBody';
 import type { CreateFileRequestBody } from './data/body/CreateFileRequestBody';
-import { mapCreatePermissionToRequestBody } from './data/mappers/mapCreatePermissionToRequestBody';
+import type { UpdatePermissionRequestBody } from './data/body/UpdatePermissionRequestBody';
+import {
+  mapCreatePermissionToRequestBody,
+  mapPermissionRoleToRoleRemote,
+} from './data/mappers/mapCreatePermissionToRequestBody';
 import { mapFileRemoteToStorageEntity } from './data/mappers/mapFileRemoteToStorageEntity';
 import { mapPermissionRemoteToStoragePermission } from './data/mappers/mapPermissionRemoteToStoragePermission';
 import type { GoogleDriveStorageApiService } from './GoogleDriveStorageApiService';
@@ -118,5 +123,27 @@ export class GoogleDriveStorageRepository {
 
   async deletePermission(fileId: string, permissionId: string) {
     return this.apiService.deletePermission(fileId, permissionId);
+  }
+
+  async updatePermission(
+    fileId: string,
+    permissionId: string,
+    role: PermissionRole
+  ) {
+    const transferOwnership = role === 'owner';
+    const body: UpdatePermissionRequestBody = {
+      role: mapPermissionRoleToRoleRemote(role),
+    };
+
+    const response = await this.apiService.updatePermission(
+      fileId,
+      permissionId,
+      body,
+      transferOwnership,
+      // sendNotificationEmail need to be set to true when transfer ownership
+      transferOwnership
+    );
+
+    return mapPermissionRemoteToStoragePermission(response.data);
   }
 }

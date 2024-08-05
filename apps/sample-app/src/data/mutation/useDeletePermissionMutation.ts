@@ -17,5 +17,6 @@ export const useDeletePermissionMutation = (storageClient: IStorageClient) => {
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: [QK_FILE_PERMISSIONS] });
     },
+    retry: false,
   });
 };

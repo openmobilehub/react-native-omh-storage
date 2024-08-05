@@ -1,30 +1,35 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { View } from 'react-native';
 
 import {
   CreateAnyonePermission,
   CreateDomainPermission,
   CreateGroupPermission,
-  CreatePermission,
+  CreatePermission as CreatePermissionArgs,
   CreateUserPermission,
   StorageEntity,
 } from '@openmobilehub/storage-core';
-import { ActivityIndicator, Button } from 'react-native-paper';
+import { Button } from 'react-native-paper';
 import Toast from 'react-native-root-toast';
 
 import {
   AddEditPermissionRole,
   mapAddEditPermissionRoleToCore,
+  roleOptions,
 } from '@/components/bottomSheetContent/content/permissions/model/AddEditPermissionRole.ts';
-import { AddEditPermissionType } from '@/components/bottomSheetContent/content/permissions/model/AddEditPermissionType.ts';
+import {
+  AddEditPermissionType,
+  typeOptions,
+} from '@/components/bottomSheetContent/content/permissions/model/AddEditPermissionType.ts';
 import { BottomSheetContentWrapper } from '@/components/bottomSheetContent/parts/BottomSheetContentWrapper/BottomSheetContentWrapper.tsx';
 import { BottomSheetTextInput } from '@/components/bottomSheetTextInput';
 import { Checkbox } from '@/components/checkbox/Checkbox.tsx';
+import { FullScreenLoadingState } from '@/components/fullScreenLoadingState';
 import Picker from '@/components/picker/Picker.tsx';
 import { useRequireStorageClient } from '@/contexts/storage/useRequireStorageClient.ts';
 import { useCreatePermissionMutation } from '@/data/mutation/useCreatePermissionMutation.ts';
 
-import { styles } from './AddPermission.styles.ts';
+import { styles } from './CreatePermission.styles.ts';
 
 interface Props {
   file: StorageEntity;
@@ -32,36 +37,18 @@ interface Props {
   onSuccess: () => void;
 }
 
-export const AddPermission = ({ file, onCancel, onSuccess }: Props) => {
+export const CreatePermission = ({ file, onCancel, onSuccess }: Props) => {
   const [type, setType] = useState(AddEditPermissionType.USER);
-  const typeOptions = useMemo(() => {
-    return Object.entries(AddEditPermissionType).map(([key, label]) => ({
-      key,
-      label,
-      value: label,
-    }));
-  }, []);
-
   const [role, setRole] = useState(AddEditPermissionRole.READER);
-  const roleOptions = useMemo(() => {
-    return Object.entries(AddEditPermissionRole).map(([key, label]) => ({
-      key,
-      label,
-      value: label,
-    }));
-  }, []);
-
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [sendNotification, setSendNotification] = useState(false);
-
   const [domain, setDomain] = useState('');
 
   const storageClient = useRequireStorageClient();
-
   const createPermissionMutation = useCreatePermissionMutation(storageClient);
 
-  const getCreatePermission = (): CreatePermission => {
+  const getCreatePermission = (): CreatePermissionArgs => {
     const permissionRole = mapAddEditPermissionRoleToCore(role);
     switch (type) {
       case AddEditPermissionType.USER:
@@ -105,85 +92,73 @@ export const AddPermission = ({ file, onCancel, onSuccess }: Props) => {
     );
   };
 
-  const renderLoading = () => {
-    return (
-      <View style={styles.loading}>
-        <ActivityIndicator size="large" />
-      </View>
-    );
-  };
-
-  const renderContent = () => {
-    return (
-      <>
-        <Picker
-          value={type}
-          label={'Type'}
-          choices={typeOptions}
-          onChange={setType}
-        />
-        <Picker
-          value={role}
-          label={'Role'}
-          choices={roleOptions}
-          onChange={setRole}
-        />
-
-        {(type === AddEditPermissionType.USER ||
-          type === AddEditPermissionType.GROUP) && (
-          <View>
-            <BottomSheetTextInput
-              mode={'outlined'}
-              label="Email"
-              value={email}
-              onChangeText={setEmail}
-            />
-            <Checkbox
-              value={sendNotification}
-              onValueChange={setSendNotification}
-              label={'Send notification email'}
-            />
-            <BottomSheetTextInput
-              mode={'outlined'}
-              label="Optional email message"
-              value={message}
-              onChangeText={setMessage}
-            />
-          </View>
-        )}
-
-        {type === AddEditPermissionType.Domain && (
-          <BottomSheetTextInput
-            mode={'outlined'}
-            label="Domain"
-            value={domain}
-            onChangeText={setDomain}
-          />
-        )}
-
-        <View style={styles.footer}>
-          <Button
-            mode="contained"
-            onPress={onCancel}
-            testID="permission-add-cancel"
-          >
-            Cancel
-          </Button>
-          <Button
-            mode="contained"
-            onPress={handleCreatePermission}
-            testID="permission-add-create"
-          >
-            Create
-          </Button>
-        </View>
-      </>
-    );
-  };
+  if (createPermissionMutation.isPending) {
+    return <FullScreenLoadingState />;
+  }
 
   return (
     <BottomSheetContentWrapper title="Add Permission">
-      {createPermissionMutation.isPending ? renderLoading() : renderContent()}
+      <Picker
+        value={type}
+        label={'Type'}
+        choices={typeOptions}
+        onChange={setType}
+      />
+      <Picker
+        value={role}
+        label={'Role'}
+        choices={roleOptions}
+        onChange={setRole}
+      />
+
+      {(type === AddEditPermissionType.USER ||
+        type === AddEditPermissionType.GROUP) && (
+        <View>
+          <BottomSheetTextInput
+            mode={'outlined'}
+            label="Email"
+            value={email}
+            onChangeText={setEmail}
+          />
+          <Checkbox
+            value={sendNotification}
+            onValueChange={setSendNotification}
+            label={'Send notification email'}
+          />
+          <BottomSheetTextInput
+            mode={'outlined'}
+            label="Optional email message"
+            value={message}
+            onChangeText={setMessage}
+          />
+        </View>
+      )}
+
+      {type === AddEditPermissionType.Domain && (
+        <BottomSheetTextInput
+          mode={'outlined'}
+          label="Domain"
+          value={domain}
+          onChangeText={setDomain}
+        />
+      )}
+
+      <View style={styles.footer}>
+        <Button
+          mode="contained"
+          onPress={onCancel}
+          testID="permission-add-cancel"
+        >
+          Cancel
+        </Button>
+        <Button
+          mode="contained"
+          onPress={handleCreatePermission}
+          testID="permission-add-create"
+        >
+          Create
+        </Button>
+      </View>
     </BottomSheetContentWrapper>
   );
 };

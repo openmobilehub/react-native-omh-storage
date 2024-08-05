@@ -64,6 +64,19 @@ export const PermissionsList = ({
       );
     };
 
+    const getPermissionOrder = (permission: Permission): number => {
+      switch (permission.role) {
+        case 'owner':
+          return 0;
+        case 'writer':
+          return 1;
+        case 'commenter':
+          return 2;
+        case 'reader':
+          return 3;
+      }
+    };
+
     return (
       <BottomSheetContentWrapper title="Permissions">
         <View style={styles.container}>
@@ -87,19 +100,26 @@ export const PermissionsList = ({
             </Button>
           </View>
           <>
-            {permissions.map((permission) => {
-              let displayData = getDisplayData(permission);
-              return (
-                <PermissionItem
-                  key={displayData.id}
-                  displayPermission={displayData}
-                  onDelete={handleDeletePermission}
-                  onUpdate={() => {
-                    onEditPermission(permission);
-                  }}
-                />
-              );
-            })}
+            {permissions
+              .sort((permission1, permission2) => {
+                return (
+                  getPermissionOrder(permission1) -
+                  getPermissionOrder(permission2)
+                );
+              })
+              .map((permission) => {
+                let displayData = getDisplayData(permission);
+                return (
+                  <PermissionItem
+                    key={displayData.id}
+                    displayPermission={displayData}
+                    onDelete={handleDeletePermission}
+                    onUpdate={() => {
+                      onEditPermission(permission);
+                    }}
+                  />
+                );
+              })}
           </>
         </View>
       </BottomSheetContentWrapper>

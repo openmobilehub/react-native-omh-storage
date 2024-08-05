@@ -4,6 +4,7 @@ import { FileSystem } from 'react-native-file-access';
 import type { CommonRequestBody } from './data/body/CommonRequestBody';
 import type { CreateFileRequestBody } from './data/body/CreateFileRequestBody';
 import type { CreatePermissionRequestBody } from './data/body/CreatePermissionRequestBody';
+import type { UpdatePermissionRequestBody } from './data/body/UpdatePermissionRequestBody';
 import { type FileListRemote } from './data/response/FileListRemote';
 import type { PermissionListRemote } from './data/response/PermissionListRemote';
 import type { PermissionRemote } from './data/response/PermissionRemote';
@@ -217,6 +218,26 @@ export class GoogleDriveStorageApiService {
   async deletePermission(fileId: string, permissionId: string) {
     await this.client.axiosClient.delete(
       `${FILES_PARTICLE}/${fileId}/permissions/${permissionId}`
+    );
+  }
+
+  async updatePermission(
+    fileId: string,
+    permissionId: string,
+    body: UpdatePermissionRequestBody,
+    transferOwnership: boolean,
+    sendNotificationEmail: boolean
+  ) {
+    return await this.client.axiosClient.patch<PermissionRemote>(
+      `${FILES_PARTICLE}/${fileId}/permissions/${permissionId}`,
+      body,
+      {
+        params: {
+          fields: this.allFieldsParam,
+          transferOwnership: transferOwnership,
+          sendNotificationEmail: sendNotificationEmail,
+        },
+      }
     );
   }
 }

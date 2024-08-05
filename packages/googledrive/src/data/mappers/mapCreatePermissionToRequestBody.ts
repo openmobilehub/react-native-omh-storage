@@ -50,7 +50,7 @@ export const mapCreatePermissionToRequestBody = (
   throw new UnsupportedOperationException();
 };
 
-const mapPermissionRoleToRoleRemote = (
+export const mapPermissionRoleToRoleRemote = (
   remoteRole: PermissionRole
 ): PermissionRoleRemote => {
   switch (remoteRole) {
