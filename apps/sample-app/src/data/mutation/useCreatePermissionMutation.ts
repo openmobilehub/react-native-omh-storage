@@ -1,8 +1,9 @@
 import {
-  CreatePermission,
   IStorageClient,
   Permission,
   StorageException,
+  type PermissionRecipient,
+  type PermissionRole,
 } from '@openmobilehub/storage-core';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
@@ -10,7 +11,8 @@ import { QK_FILE_PERMISSIONS } from '../client/queryKeys';
 
 type MutationData = {
   fileId: string;
-  permission: CreatePermission;
+  role: PermissionRole;
+  recipient: PermissionRecipient;
   sendNotificationEmail: boolean;
   emailMessage?: string;
 };
@@ -19,10 +21,17 @@ export const useCreatePermissionMutation = (storageClient: IStorageClient) => {
   const queryClient = useQueryClient();
 
   return useMutation<Permission | undefined, StorageException, MutationData>({
-    mutationFn: ({ fileId, permission, sendNotificationEmail, emailMessage }) =>
+    mutationFn: ({
+      fileId,
+      role,
+      recipient,
+      sendNotificationEmail,
+      emailMessage,
+    }) =>
       storageClient.createPermission(
         fileId,
-        permission,
+        role,
+        recipient,
         sendNotificationEmail,
         emailMessage
       ),

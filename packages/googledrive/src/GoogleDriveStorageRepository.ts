@@ -1,18 +1,18 @@
 import {
-  CreatePermission,
   StorageEntityMetadata,
   type LocalFile,
+  type PermissionRecipient,
   type PermissionRole,
 } from '@openmobilehub/storage-core';
 
 import type { CommonRequestBody } from './data/body/CommonRequestBody';
 import type { CreateFileRequestBody } from './data/body/CreateFileRequestBody';
 import type { UpdatePermissionRequestBody } from './data/body/UpdatePermissionRequestBody';
-import {
-  mapCreatePermissionToRequestBody,
-  mapPermissionRoleToRoleRemote,
-} from './data/mappers/mapCreatePermissionToRequestBody';
 import { mapFileRemoteToStorageEntity } from './data/mappers/mapFileRemoteToStorageEntity';
+import {
+  mapPermissionRecipientToRequestBody,
+  mapPermissionRoleToRoleRemote,
+} from './data/mappers/mapPermissionRecipientToRequestBody';
 import { mapPermissionRemoteToStoragePermission } from './data/mappers/mapPermissionRemoteToStoragePermission';
 import type { GoogleDriveStorageApiService } from './GoogleDriveStorageApiService';
 
@@ -99,13 +99,14 @@ export class GoogleDriveStorageRepository {
 
   async createPermission(
     fileId: string,
-    permission: CreatePermission,
+    role: PermissionRole,
+    recipient: PermissionRecipient,
     sendNotificationEmail: boolean,
     emailMessage?: string
   ) {
-    const body = mapCreatePermissionToRequestBody(permission);
+    const body = mapPermissionRecipientToRequestBody(recipient, role);
 
-    const transferOwnership = permission.role === 'owner';
+    const transferOwnership = role === 'owner';
     const willSendNotificationEmail =
       sendNotificationEmail || transferOwnership;
     const message = emailMessage?.trim() ? emailMessage : undefined;

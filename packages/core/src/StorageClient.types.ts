@@ -1,5 +1,5 @@
-import { CreatePermission } from './model/CreatePermission';
 import { type Permission, type PermissionRole } from './model/Permission';
+import { type PermissionRecipient } from './model/PermissionRecipient';
 import type { StorageEntity } from './model/StorageEntity';
 import type { StorageEntityMetadata } from './model/StorageEntityMetadata';
 
@@ -33,7 +33,8 @@ export interface IStorageClient {
   getWebUrl(fileId: string): Promise<string | undefined>;
   createPermission(
     fileId: string,
-    permission: CreatePermission,
+    role: PermissionRole,
+    recipient: PermissionRecipient,
     sendNotificationEmail: boolean,
     emailMessage?: string
   ): Promise<Permission | undefined>;

@@ -1,8 +1,8 @@
 import {
-  CreatePermission,
   UnsupportedOperationException,
   type IStorageClient,
   type LocalFile,
+  type PermissionRecipient,
   type PermissionRole,
   type StorageEntity,
 } from '@openmobilehub/storage-core';
@@ -75,13 +75,15 @@ export class GoogleDriveStorageClient implements IStorageClient {
 
   async createPermission(
     fileId: string,
-    permission: CreatePermission,
+    role: PermissionRole,
+    recipient: PermissionRecipient,
     sendNotificationEmail: boolean,
     emailMessage?: string
   ) {
     return this.repository.createPermission(
       fileId,
-      permission,
+      role,
+      recipient,
       sendNotificationEmail,
       emailMessage
     );

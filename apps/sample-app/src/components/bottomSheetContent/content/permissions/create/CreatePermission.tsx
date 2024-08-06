@@ -2,11 +2,7 @@ import { useState } from 'react';
 import { View } from 'react-native';
 
 import {
-  CreateAnyonePermission,
-  CreateDomainPermission,
-  CreateGroupPermission,
-  CreatePermission as CreatePermissionArgs,
-  CreateUserPermission,
+  PermissionRecipient,
   StorageEntity,
 } from '@openmobilehub/storage-core';
 import { Button } from 'react-native-paper';
@@ -48,38 +44,39 @@ export const CreatePermission = ({ file, onCancel, onSuccess }: Props) => {
   const storageClient = useRequireStorageClient();
   const createPermissionMutation = useCreatePermissionMutation(storageClient);
 
-  const getCreatePermission = (): CreatePermissionArgs => {
-    const permissionRole = mapAddEditPermissionRoleToCore(role);
+  const getPermissionRecipient = (): PermissionRecipient => {
     switch (type) {
       case AddEditPermissionType.USER:
-        return new CreateUserPermission({
-          role: permissionRole,
-          emailAddress: email,
-        });
+        return {
+          type: 'user',
+          email: email,
+        };
       case AddEditPermissionType.GROUP:
-        return new CreateGroupPermission({
-          role: permissionRole,
-          emailAddress: email,
-        });
+        return {
+          type: 'group',
+          email: email,
+        };
       case AddEditPermissionType.Domain:
-        return new CreateDomainPermission({
-          role: permissionRole,
+        return {
+          type: 'domain',
           domain: domain,
-        });
+        };
       case AddEditPermissionType.Anyone:
-        return new CreateAnyonePermission({
-          role: permissionRole,
-        });
+        return {
+          type: 'anyone',
+        };
     }
   };
 
   const handleCreatePermission = () => {
-    let createPermission = getCreatePermission();
+    let recipient = getPermissionRecipient();
+    const coreRole = mapAddEditPermissionRoleToCore(role);
 
     createPermissionMutation.mutate(
       {
         fileId: file.id,
-        permission: createPermission,
+        role: coreRole,
+        recipient: recipient,
         sendNotificationEmail: sendNotification,
         emailMessage: message,
       },
