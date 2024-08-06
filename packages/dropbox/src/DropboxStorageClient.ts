@@ -58,4 +58,12 @@ export class DropboxStorageClient implements IStorageClient {
   localFileUpload(_file: LocalFile, _folderId: string): Promise<StorageEntity> {
     throw new UnsupportedOperationException();
   }
+
+  deleteFile(_fileId: string): Promise<void> {
+    throw new UnsupportedOperationException();
+  }
+
+  permanentlyDeleteFile(_fileId: string): Promise<void> {
+    throw new UnsupportedOperationException();
+  }
 }

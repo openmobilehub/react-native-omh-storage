@@ -4,6 +4,7 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { PaperProvider } from 'react-native-paper';
 import { RootSiblingParent } from 'react-native-root-siblings';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ContextsProvider } from '@/contexts/provider/ContextsProvider';
 import { QueryClientProvider } from '@/data/client/QueryClientProvider';
@@ -33,12 +34,14 @@ const Providers = ({ children }: ProvidersProps) => {
 
 export const App = () => {
   return (
-    <ContextsProvider>
-      <QueryClientProvider>
-        <Providers>
-          <RootNavigationContainer />
-        </Providers>
-      </QueryClientProvider>
-    </ContextsProvider>
+    <SafeAreaProvider>
+      <ContextsProvider>
+        <QueryClientProvider>
+          <Providers>
+            <RootNavigationContainer />
+          </Providers>
+        </QueryClientProvider>
+      </ContextsProvider>
+    </SafeAreaProvider>
   );
 };
