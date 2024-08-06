@@ -16,6 +16,10 @@ import type {
 export const mapMetadataToStorageEntity = (
   metadata: Metadata
 ): StorageEntity => {
+  if (!metadata['.tag']) {
+    throw new ApiException('Invalid metadata');
+  }
+
   const isFile = metadata['.tag'] === 'file';
 
   if (isFile) {

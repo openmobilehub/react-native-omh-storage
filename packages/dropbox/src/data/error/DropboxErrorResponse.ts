@@ -1,1 +1,1 @@
-export type DropboxErrorResponse = string | { errorSummary: string } | any;
+export type DropboxErrorResponse = string | { errorSummary: string };
