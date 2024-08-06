@@ -60,30 +60,3 @@ export const mapMetadataToStorageEntity = (
     });
   }
 };
-
-// type EmailPermission = {
-//   type: 'email';
-//   email: string;
-// };
-
-// type DomainPermission = {
-//   type: 'domain';
-//   domain: string;
-// };
-
-// type CommonPermission = {
-//   role: 'editor' | 'viewer' | 'viewer_no_comment';
-// };
-
-// type CreatedPermission = CommonPermission &
-//   (EmailPermission | DomainPermission);
-
-// const permission: CreatedPermission = {
-//   type: 'email',
-// };
-
-// const fn = (permission: CreatedPermission) => {
-//   if (permission.type === 'domain') {
-//     return permission;
-//   }
-// };
