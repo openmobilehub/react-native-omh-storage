@@ -14,5 +14,6 @@ export const useSearchFilesQuery = (
   return useQuery<StorageEntity[], StorageException>({
     queryKey: [QK_LIST_FILES, QK_SEARCH_FILES, query],
     queryFn: () => storageClient.search(query),
+    enabled: false,
   });
 };

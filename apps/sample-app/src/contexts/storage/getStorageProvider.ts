@@ -1,4 +1,5 @@
 import { IStorageClient } from '@openmobilehub/storage-core';
+import { DropboxStorageClient } from '@openmobilehub/storage-dropbox';
 import { GoogleDriveStorageClient } from '@openmobilehub/storage-googledrive';
 
 import { Provider } from '@/constants/provider';
@@ -10,6 +11,6 @@ export const getStorageProvider = (provider: Provider): IStorageClient => {
     case Provider.ONEDRIVE:
       throw new Error('OneDrive is not supported yet');
     case Provider.DROPBOX:
-      throw new Error('Dropbox is not supported yet');
+      return new DropboxStorageClient();
   }
 };
