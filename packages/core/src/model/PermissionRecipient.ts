@@ -32,5 +32,5 @@ export type ObjectIdRecipient = {
 
 export type AliasRecipient = {
   type: 'alias';
-  objectId: string;
+  alias: string;
 };
