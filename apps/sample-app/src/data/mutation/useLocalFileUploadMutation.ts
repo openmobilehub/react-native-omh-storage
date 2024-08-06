@@ -14,7 +14,8 @@ export const useLocalFileUploadMutation = (
 
   return useMutation<StorageEntity, StorageException, LocalFile>({
     mutationKey: ['fileUpload', folderId],
-    mutationFn: (file) => storageClient.localFileUpload(file, folderId),
+    mutationFn: async (file) =>
+      await storageClient.localFileUpload(file, folderId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['fileList', folderId] });
     },

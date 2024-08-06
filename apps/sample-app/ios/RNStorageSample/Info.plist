@@ -31,8 +31,18 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>We need access to your camera to take photos for uploading.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>We need access to add photos to your library.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access to your photo library to upload images.</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>MaterialCommunityIcons.ttf</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -47,15 +57,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>UIAppFonts</key>
-	<array>
-		<string>MaterialCommunityIcons.ttf</string>
-	</array>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need access to your photo library to upload images.</string>
-	<key>NSCameraUsageDescription</key>
-	<string>We need access to your camera to take photos for uploading.</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>We need access to add photos to your library.</string>
 </dict>
 </plist>

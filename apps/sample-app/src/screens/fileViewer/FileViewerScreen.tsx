@@ -4,7 +4,7 @@ import { FlatList, View } from 'react-native';
 import { File, StorageEntity } from '@openmobilehub/storage-core';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { type NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Divider, Searchbar } from 'react-native-paper';
+import { Divider, Portal, Searchbar } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDebounce } from 'use-debounce';
 
@@ -13,6 +13,7 @@ import { FullScreenEmptyState } from '@/components/fullScreenEmptyState';
 import { FullScreenLoadingState } from '@/components/fullScreenLoadingState';
 import { useRequireStorageClient } from '@/contexts/storage/useRequireStorageClient';
 import { useFileListQuery } from '@/data/query/fileListQuery';
+import { useDownloadFileQuery } from '@/data/query/useDownloadFileQuery';
 import { useSearchFilesQuery } from '@/data/query/useSearchFilesQuery';
 import { type RootStackParamList } from '@/navigation/RootNavigationContainer';
 
@@ -40,16 +41,19 @@ export const FileViewerScreen = () => {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearchQuery] = useDebounce(searchQuery, 300);
-
+  const [selectedFile, setSelectedFile] = useState<StorageEntity>();
   const searchFilesQuery = useSearchFilesQuery(
     storageClient,
     debouncedSearchQuery,
     debouncedSearchQuery.length > 0
   );
 
+  const downloadFileQuery = useDownloadFileQuery(storageClient, selectedFile);
+
+  // console.log('HALO', downloadFileQuery.data);
   const handleStorageEntityPress = (file: StorageEntity) => {
     if (file instanceof File) {
-      //TODO: Handle file press
+      setSelectedFile(file);
     } else {
       setSearchQuery('');
       navigation.push('FileViewer', {
@@ -66,6 +70,16 @@ export const FileViewerScreen = () => {
 
     return <FullScreenEmptyState />;
   }, [fileListQuery.isLoading, searchFilesQuery.isLoading]);
+
+  const renderLoadingState = () => {
+    if (downloadFileQuery.isLoading) {
+      return (
+        <Portal>
+          <FullScreenLoadingState withBackground />
+        </Portal>
+      );
+    }
+  };
 
   const dataToShow = debouncedSearchQuery
     ? searchFilesQuery.data
@@ -94,6 +108,7 @@ export const FileViewerScreen = () => {
         />
       </View>
       <CreateFileBottomSheet folderId={folderId} />
+      {renderLoadingState()}
     </>
   );
 };
