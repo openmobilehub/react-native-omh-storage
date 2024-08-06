@@ -16,12 +16,22 @@ export class DropboxStorageApiClient {
       (response) => response,
       (error: AxiosError<DropboxErrorResponse>) => {
         throw new ApiException(
-          error.response?.data || error.message,
+          this.getErrorMessage(error),
           error.response?.status,
           error
         );
       }
     );
+  }
+
+  private getErrorMessage(error: AxiosError<DropboxErrorResponse>) {
+    if (typeof error.response?.data === 'string') {
+      return error.response?.data;
+    }
+    if (typeof error.response?.data?.errorSummary === 'string') {
+      return error.response?.data.errorSummary;
+    }
+    return error.message;
   }
 
   setAccessToken(accessToken: string) {
