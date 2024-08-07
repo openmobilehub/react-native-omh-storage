@@ -13,4 +13,12 @@ export class DropboxStorageRepository {
 
     return response.data.entries.map(mapMetadataToStorageEntity);
   }
+
+  async searchFiles(query: string) {
+    const response = await this.apiService.searchFiles(query);
+
+    return response.data.matches.map((match) => {
+      return mapMetadataToStorageEntity(match.metadata.metadata);
+    });
+  }
 }
