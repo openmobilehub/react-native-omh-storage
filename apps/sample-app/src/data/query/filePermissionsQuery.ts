@@ -5,7 +5,7 @@ import {
 } from '@openmobilehub/storage-core';
 import { useQuery } from '@tanstack/react-query';
 
-import { QK_FILE_PERMISSIONS } from '@/data/client/queryKeys.ts';
+import { QK_FILE_PERMISSIONS } from '@/data/client/queryKeys';
 
 export const useFilePermissionsQuery = (
   storageClient: IStorageClient,

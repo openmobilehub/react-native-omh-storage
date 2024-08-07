@@ -2,10 +2,10 @@ import { Image, View } from 'react-native';
 
 import { Button, Card } from 'react-native-paper';
 
-import { DisplayRow } from '@/components/bottomSheetContent/content/parts/DisplayRow/DisplayRow.tsx';
-import { DisplayPermission } from '@/components/bottomSheetContent/content/permissions/list/getDisplayData.ts';
+import { DisplayRow } from '@/components/bottomSheetContent/content/parts/DisplayRow/DisplayRow';
+import { DisplayPermission } from '@/components/bottomSheetContent/content/permissions/list/getDisplayData';
 
-import { styles } from './PermissionItem.styles.ts';
+import { styles } from './PermissionItem.styles';
 
 interface Props {
   displayPermission: DisplayPermission;

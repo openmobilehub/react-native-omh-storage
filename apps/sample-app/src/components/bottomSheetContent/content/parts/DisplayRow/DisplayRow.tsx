@@ -2,14 +2,9 @@ import { View } from 'react-native';
 
 import { Text } from 'react-native-paper';
 
-import { styles } from './DisplayRow.styles.ts';
+import { DisplayEntry } from '@/components/bottomSheetContent/content/parts/DisplayRow/DisplayEntry.types';
 
-export class DisplayEntry {
-  constructor(
-    public readonly label: string,
-    public readonly value?: string
-  ) {}
-}
+import { styles } from './DisplayRow.styles';
 
 interface Props {
   displayEntry: DisplayEntry;

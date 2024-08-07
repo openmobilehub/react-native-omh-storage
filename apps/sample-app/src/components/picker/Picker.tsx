@@ -4,7 +4,7 @@ import { View, ViewProps } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
 import RNPickerSelect from 'react-native-picker-select';
 
-import { styles } from '@/components/picker/Picker.styles.ts';
+import { styles } from '@/components/picker/Picker.styles';
 
 export type Choice<T> = { label: string; value: T; key: string };
 

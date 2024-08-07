@@ -1,6 +1,6 @@
 import { File, StorageEntityMetadata } from '@openmobilehub/storage-core';
 
-import { DisplayEntry } from '@/components/bottomSheetContent/content/parts/DisplayRow/DisplayRow.tsx';
+import { DisplayEntry } from '@/components/bottomSheetContent/content/parts/DisplayRow/DisplayEntry.types.ts';
 
 export const getDisplayData = ({
   entity,

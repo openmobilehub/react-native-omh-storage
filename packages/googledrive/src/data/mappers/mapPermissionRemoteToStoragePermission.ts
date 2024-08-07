@@ -16,18 +16,18 @@ import type {
 export const mapPermissionRemoteToStoragePermission = (
   permission: PermissionRemote
 ): Permission => {
-  let role = mapRoleRemoteToPermissionRole(permission.role);
+  const role = mapRoleRemoteToPermissionRole(permission.role);
 
   if (!permission.id || !permission.type || !role) {
     throw new ApiException('Invalid remote permission data');
   }
 
-  let id = permission.id;
+  const { id } = permission;
 
-  let noInheritanceInformationProvided =
+  const noInheritanceInformationProvided =
     !permission.permissionDetails || permission.permissionDetails.length === 0;
 
-  let isInherited = noInheritanceInformationProvided
+  const isInherited = noInheritanceInformationProvided
     ? undefined
     : permission.permissionDetails?.find((item) => item.inherited) !==
       undefined;

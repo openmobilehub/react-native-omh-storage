@@ -3,39 +3,42 @@ import { View } from 'react-native';
 
 import { Permission, StorageEntity } from '@openmobilehub/storage-core';
 
-import { CreatePermission } from '@/components/bottomSheetContent/content/permissions/create/CreatePermission.tsx';
-import { PermissionsList } from '@/components/bottomSheetContent/content/permissions/list/PermissionsList.tsx';
-import { PermissionsContentTypes } from '@/components/bottomSheetContent/content/permissions/PermissionsContent.types.ts';
-import { UpdatePermission } from '@/components/bottomSheetContent/content/permissions/update/UpdatePermission.tsx';
+import { CreatePermission } from '@/components/bottomSheetContent/content/permissions/create/CreatePermission';
+import { PermissionsList } from '@/components/bottomSheetContent/content/permissions/list/PermissionsList';
+import { PermissionsContentTypes } from '@/components/bottomSheetContent/content/permissions/PermissionsContent.types';
+import { UpdatePermission } from '@/components/bottomSheetContent/content/permissions/update/UpdatePermission';
 
 interface Props {
   file: StorageEntity;
 }
 
-export const PermissionsContent = ({ file }: Props) => {
-  const [view, setView] = useState<PermissionsContentTypes>(
-    PermissionsContentTypes.List
-  );
+type PermissionContentState =
+  | { view: PermissionsContentTypes.Add }
+  | { view: PermissionsContentTypes.Edit; selectedPermission: Permission }
+  | { view: PermissionsContentTypes.List };
 
-  const [selectedPermission, setSelectedPermission] = useState<
-    Permission | undefined
-  >(undefined);
+export const PermissionsContent = ({ file }: Props) => {
+  const [state, setState] = useState<PermissionContentState>({
+    view: PermissionsContentTypes.List,
+  });
 
   const openListView = () => {
-    setView(PermissionsContentTypes.List);
+    setState({ view: PermissionsContentTypes.List });
   };
 
   const openEditView = (permission: Permission) => {
-    setSelectedPermission(permission);
-    setView(PermissionsContentTypes.Edit);
+    setState({
+      view: PermissionsContentTypes.Edit,
+      selectedPermission: permission,
+    });
   };
 
   const openAddView = () => {
-    setView(PermissionsContentTypes.Add);
+    setState({ view: PermissionsContentTypes.Add });
   };
 
   const renderContent = () => {
-    switch (view) {
+    switch (state.view) {
       case PermissionsContentTypes.Add:
         return (
           <CreatePermission
@@ -45,18 +48,14 @@ export const PermissionsContent = ({ file }: Props) => {
           />
         );
       case PermissionsContentTypes.Edit:
-        if (selectedPermission) {
-          return (
-            <UpdatePermission
-              file={file}
-              permission={selectedPermission}
-              onCancel={openListView}
-              onSuccess={openListView}
-            />
-          );
-        } else {
-          return null;
-        }
+        return (
+          <UpdatePermission
+            file={file}
+            permission={state.selectedPermission}
+            onCancel={openListView}
+            onSuccess={openListView}
+          />
+        );
       case PermissionsContentTypes.List:
         return (
           <PermissionsList
