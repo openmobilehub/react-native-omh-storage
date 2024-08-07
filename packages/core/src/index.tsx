@@ -7,3 +7,6 @@ export * from './model/StorageException';
 export * from './model/StorageEntityMetadata';
 export * from './model/Permission';
 export * from './model/PermissionRecipient';
+
+export * from './utils/getExtensionFromFilePath';
+export * from './utils/getMimeTypeFromExtension';

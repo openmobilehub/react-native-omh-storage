@@ -1,7 +1,7 @@
 {
-  "name": "@openmobilehub/storage-core",
+  "name": "@openmobilehub/storage-dropbox",
   "version": "1.0.0",
-  "description": "React Native OMH Storage - Core",
+  "description": "React Native OMH Storage - Dropbox",
   "scripts": {
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "typecheck": "tsc --noEmit",
@@ -29,10 +29,10 @@
   "source": "./src/index.tsx",
   "main": "./lib/commonjs/index.js",
   "module": "./lib/module/index.js",
-  "types": "./lib/typescript/packages/core/src/index.d.ts",
+  "types": "./lib/typescript/packages/dropbox/src/index.d.ts",
   "exports": {
     ".": {
-      "types": "./lib/typescript/packages/core/src/index.d.ts",
+      "types": "./lib/typescript/packages/dropbox/src/index.d.ts",
       "import": "./lib/module/index.js",
       "require": "./lib/commonjs/index.js"
     }
@@ -56,14 +56,16 @@
     "!**/.*"
   ],
   "peerDependencies": {
+    "@openmobilehub/storage-core": "*",
     "react": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "react-native-file-access": "*"
   },
   "devDependencies": {
-    "@types/mime-types": "^2.1.4",
     "react": "18.2.0",
     "react-native": "0.74.3",
     "react-native-builder-bob": "^0.26.0",
+    "react-native-file-access": "^3.1.0",
     "typescript": "5.2.2"
   },
   "react-native-builder-bob": {
@@ -96,8 +98,6 @@
     "version": "0.38.2"
   },
   "dependencies": {
-    "mime-db": "^1.53.0",
-    "mime-types": "^2.1.35",
-    "path": "^0.12.7"
+    "axios": "^1.7.2"
   }
 }
