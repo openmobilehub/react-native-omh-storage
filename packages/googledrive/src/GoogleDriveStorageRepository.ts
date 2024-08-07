@@ -5,6 +5,7 @@ import {
   type PermissionRecipient,
   type PermissionRole,
 } from '@openmobilehub/storage-core';
+import { FileSystem as FS } from 'react-native-file-access';
 
 import type { CommonRequestBody } from './data/body/CommonRequestBody';
 import type { CreateFileRequestBody } from './data/body/CreateFileRequestBody';
@@ -65,22 +66,42 @@ export class GoogleDriveStorageRepository {
 
   async exportFile(
     file: StorageEntity,
-
-    mimeType: string
+    mimeType: string,
+    fileExtension: string,
+    //FIXME: Temp solution until the bug with EventEmitter is fixed
+    FileSystem: typeof FS
   ) {
-    const response = await this.apiService.exportFile(file, mimeType);
+    const response = await this.apiService.exportFile(
+      file,
+      mimeType,
+      fileExtension,
+      FileSystem
+    );
 
     return response;
   }
 
-  async downloadFile(file: StorageEntity) {
-    const response = await this.apiService.downloadFile(file);
+  async downloadFile(
+    file: StorageEntity,
+    //FIXME: Temp solution until the bug with EventEmitter is fixed
+    FileSystem: typeof FS
+  ) {
+    const response = await this.apiService.downloadFile(file, FileSystem);
 
     return response;
   }
 
-  async localFileUpload(file: LocalFile, folderId: string) {
-    const response = await this.apiService.localFileUpload(file, folderId);
+  async localFileUpload(
+    file: LocalFile,
+    folderId: string,
+    //FIXME: Temp solution until the bug with EventEmitter is fixed
+    FileSystem: typeof FS
+  ) {
+    const response = await this.apiService.localFileUpload(
+      file,
+      folderId,
+      FileSystem
+    );
 
     if (!response) {
       throw new Error('Upload failed, no response received');

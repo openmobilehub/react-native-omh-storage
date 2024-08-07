@@ -3139,14 +3139,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@openmobilehub/storage-googledrive@workspace:packages/googledrive":
+"@openmobilehub/storage-googledrive@workspace:^, @openmobilehub/storage-googledrive@workspace:packages/googledrive":
   version: 0.0.0-use.local
   resolution: "@openmobilehub/storage-googledrive@workspace:packages/googledrive"
   dependencies:
     axios: ^1.7.2
     react: 18.2.0
     react-native: 0.74.3
-    react-native-blob-util: ^0.19.11
     react-native-builder-bob: ^0.26.0
     react-native-file-access: ^3.1.0
     typescript: 5.2.2
@@ -3154,8 +3153,6 @@ __metadata:
     "@openmobilehub/storage-core": "*"
     react: "*"
     react-native: "*"
-    react-native-blob-util: "*"
-    react-native-file-access: "*"
   languageName: unknown
   linkType: soft
 
@@ -5000,13 +4997,6 @@ __metadata:
   version: 1.0.2
   resolution: "balanced-match@npm:1.0.2"
   checksum: 9706c088a283058a8a99e0bf91b0a2f75497f185980d9ffa8b304de1d9e58ebda7c72c07ebf01dadedaac5b2907b2c6f566f660d62bd336c3468e960403b9d65
-  languageName: node
-  linkType: hard
-
-"base-64@npm:0.1.0":
-  version: 0.1.0
-  resolution: "base-64@npm:0.1.0"
-  checksum: 5a42938f82372ab5392cbacc85a5a78115cbbd9dbef9f7540fa47d78763a3a8bd7d598475f0d92341f66285afd377509851a9bb5c67bbecb89686e9255d5b3eb
   languageName: node
   linkType: hard
 
@@ -13033,19 +13023,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-blob-util@npm:^0.19.11":
-  version: 0.19.11
-  resolution: "react-native-blob-util@npm:0.19.11"
-  dependencies:
-    base-64: 0.1.0
-    glob: ^10.3.10
-  peerDependencies:
-    react: "*"
-    react-native: "*"
-  checksum: 13f18e4fdca5b93236f309734aad625164c6fb5bf7191d1dc2fe4fdb385961c6802418968026fb2012ad01bda0ac092dbbcf3639d1efcd4a6361064d5b6957d0
-  languageName: node
-  linkType: hard
-
 "react-native-builder-bob@npm:^0.26.0":
   version: 0.26.0
   resolution: "react-native-builder-bob@npm:0.26.0"
@@ -13187,7 +13164,6 @@ __metadata:
     react: 18.2.0
     react-native: 0.74.3
     react-native-app-auth: ^7.2.0
-    react-native-blob-util: ^0.19.11
     react-native-document-picker: ^9.3.0
     react-native-dotenv: ^3.4.11
     react-native-file-access: ^3.1.0

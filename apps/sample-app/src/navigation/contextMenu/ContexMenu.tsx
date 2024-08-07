@@ -2,7 +2,6 @@ import { useRef, useState } from 'react';
 
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { LocalFile } from '@openmobilehub/storage-core';
-import ReactNativeBlobUtil from 'react-native-blob-util';
 import { Divider, IconButton, Menu, Portal } from 'react-native-paper';
 
 import { BottomSheet } from '@/components/bottomSheet';
@@ -53,34 +52,7 @@ export const ContextMenu = ({ folderId }: ContextMenuProps) => {
   const handleFileUpload = async (file: LocalFile) => {
     handleFileUploadSheetClose();
 
-    let data = '';
-    ReactNativeBlobUtil.fs
-      .readStream(
-        // file path
-        file.uri.replace('file://', ''),
-        // encoding, should be one of `base64`, `utf8`, `ascii`
-        'base64',
-        // (optional) buffer size, default to 4096 (4095 for BASE64 encoded data)
-        // when reading file in BASE64 encoding, buffer size must be multiples of 3.
-        4095
-      )
-      .then((ifstream) => {
-        ifstream.open();
-        console.log('IFSTREAM', ifstream);
-        ifstream.onData((chunk) => {
-          // when encoding is `ascii`, chunk will be an array contains numbers
-          // otherwise it will be a string
-          console.log('CHUNK', chunk);
-          data += chunk;
-        });
-        ifstream.onError((err) => {
-          console.log('oops', err);
-        });
-        ifstream.onEnd(() => {
-          console.log('EOF');
-        });
-      });
-    // await localFileUpload(file);
+    await localFileUpload(file);
   };
 
   if (isPending) {

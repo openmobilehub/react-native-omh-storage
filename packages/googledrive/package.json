@@ -58,16 +58,12 @@
   "peerDependencies": {
     "@openmobilehub/storage-core": "*",
     "react": "*",
-    "react-native": "*",
-    "react-native-blob-util": "*",
-    "react-native-file-access": "*"
+    "react-native": "*"
   },
   "devDependencies": {
     "react": "18.2.0",
     "react-native": "0.74.3",
-    "react-native-blob-util": "^0.19.11",
     "react-native-builder-bob": "^0.26.0",
-    "react-native-file-access": "^3.1.0",
     "typescript": "5.2.2"
   },
   "react-native-builder-bob": {
@@ -100,6 +96,7 @@
     "version": "0.38.2"
   },
   "dependencies": {
-    "axios": "^1.7.2"
+    "axios": "^1.7.2",
+    "react-native-file-access": "^3.1.0"
   }
 }

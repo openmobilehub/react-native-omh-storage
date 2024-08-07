@@ -3,8 +3,7 @@ import {
   StorageEntity,
   type LocalFile,
 } from '@openmobilehub/storage-core';
-import ReactNativeBlobUtil from 'react-native-blob-util';
-import { FileSystem } from 'react-native-file-access';
+import { Dirs, FileSystem as FS } from 'react-native-file-access';
 
 import type { CommonRequestBody } from './data/body/CommonRequestBody';
 import type { CreateFileRequestBody } from './data/body/CreateFileRequestBody';
@@ -75,63 +74,56 @@ export class GoogleDriveStorageApiService {
     });
   }
 
-  async exportFile(file: StorageEntity, mimeType: string) {
-    return await ReactNativeBlobUtil.config({
-      fileCache: true,
-      path: ReactNativeBlobUtil.fs.dirs.DownloadDir + `/${file.name}`,
-    })
-      .fetch('GET', `${BASE_URL}${FILES_PARTICLE}/${file.id}`, {
-        mimeType: mimeType,
-        Authorization: `Bearer ${this.client.axiosClient.defaults.headers.common.Authorization}`,
-      })
-      .then((res) => ReactNativeBlobUtil.ios.previewDocument(res.path()));
-  }
+  async exportFile(
+    file: StorageEntity,
+    mimeType: string,
+    fileExtension: string,
+    FileSystem: typeof FS
+  ) {
+    const accessToken = this.client.getAccessToken();
+    const ext = !file?.extension ? `.${fileExtension}` : '';
+    const filePath = Dirs.DocumentDir + `/${file.name}${ext}`;
 
-  async downloadFile(file: StorageEntity) {
-    // return await this.client.axiosClient.get(`${FILES_PARTICLE}/${file.id}`, {
-    //   params: {
-    //     alt: 'media',
-    //     fields: this.selectedFieldsParam,
-    //   },
-    // });
-    console.log(
-      'Auth',
-      this.client.axiosClient.defaults.headers.common.Authorization
+    return await FileSystem.fetch(
+      `${BASE_URL}${FILES_PARTICLE}/${file.id}?mimeType=${mimeType}`,
+      {
+        path: filePath,
+        method: 'GET',
+        headers: {
+          Authorization: accessToken,
+        },
+      }
     );
-    return ReactNativeBlobUtil.config({
-      fileCache: true,
-      path: ReactNativeBlobUtil.fs.dirs.DownloadDir + `/${file.name}`,
-    }).fetch('GET', `${BASE_URL}${FILES_PARTICLE}/${file.id}?alt=media`, {
-      Authorization: this.client.axiosClient.defaults.headers.common
-        .Authorization as string,
-    });
-    // .then((res) => ReactNativeBlobUtil.ios.previewDocument(res.path()));
-    // .then((res) => res);
-
-    // .then((res) => ReactNativeBlobUtil.fs.scanFile([{ path: res.path() }]));
-
-    // const res = FileSystem.fetch(
-    //   `${BASE_URL}${FILES_PARTICLE}/${file.id}?alt=media`,
-    //   {
-    //     method: 'GET',
-    //     headers: {
-    //       Authorization: this.client.axiosClient.defaults.headers.common
-    //         .Authorization as string,
-    //     },
-    //     path: Dirs.CacheDir + `/${file.name}`,
-    //   }
-    // );
-    // return res;
   }
 
-  private async initializeResumableUpload(file: LocalFile, folderId: string) {
+  async downloadFile(file: StorageEntity, FileSystem: typeof FS) {
+    const accessToken = this.client.getAccessToken();
+    const filePath = Dirs.DocumentDir + `/${file.name}`;
+
+    return await FileSystem.fetch(
+      `${BASE_URL}${FILES_PARTICLE}/${file.id}?alt=media`,
+      {
+        path: filePath,
+        method: 'GET',
+        headers: {
+          Authorization: accessToken,
+        },
+      }
+    );
+  }
+
+  private async initializeResumableUpload(
+    file: LocalFile,
+    folderId: string,
+    FileSystem: typeof FS
+  ) {
     const metadata = {
       name: file.name,
       mimeType: file.type,
       parents: [folderId],
     };
 
-    const filePath = file.uri;
+    const filePath = decodeURIComponent(file.uri.replace('file://', ''));
     const fileStats = await FileSystem.stat(filePath);
     const byteLength = fileStats.size;
 
@@ -159,65 +151,20 @@ export class GoogleDriveStorageApiService {
     return initResponse.headers.location;
   }
 
-  async localFileUpload(file: LocalFile, folderId: string) {
+  async localFileUpload(
+    file: LocalFile,
+    folderId: string,
+    FileSystem: typeof FS
+  ) {
     const resumableSessionUri = await this.initializeResumableUpload(
       file,
-      folderId
+      folderId,
+      FileSystem
     );
     let uploadedBytes = 0;
     const filePath = file.uri;
     const fileStats = await FileSystem.stat(filePath);
     const fileLength = fileStats.size;
-
-    let data = '';
-    try {
-      const stream = await ReactNativeBlobUtil.fs.readStream(
-        // file path
-        file.uri.replace('file://', ''),
-        // encoding, should be one of `base64`, `utf8`, `ascii`
-        'ascii',
-        // (optional) buffer size, default to 4096 (4095 for BASE64 encoded data)
-        // when reading file in BASE64 encoding, buffer size must be multiples of 3.
-        UPLOAD_CHUNK_SIZE,
-        1000
-      );
-
-      stream.open();
-      console.log('IFSTREAM', stream);
-      stream.onData((chunk) => {
-        // when encoding is `ascii`, chunk will be an array contains numbers
-        // otherwise it will be a string
-        console.log('CHUNK', chunk);
-        data += chunk;
-      });
-      stream.onError((err) => {
-        console.log('oops', err);
-      });
-      stream.onEnd(() => {
-        console.log('EOF');
-      });
-    } catch (err) {
-      console.log('ERR', err);
-    }
-    // .then((ifstream) => {
-    //   ifstream.open();
-    //   console.log('IFSTREAM', ifstream);
-    //   ifstream.onData((chunk) => {
-    //     // when encoding is `ascii`, chunk will be an array contains numbers
-    //     // otherwise it will be a string
-    //     console.log('CHUNK', chunk);
-    //     data += chunk;
-    //   });
-    //   ifstream.onError((err) => {
-    //     console.log('oops', err);
-    //   });
-    //   ifstream.onEnd(() => {
-    //     console.log('EOF');
-    //   });
-    // })
-    // .catch((err) => {
-    //   console.log('ERR', err);
-    // });
 
     while (uploadedBytes < fileLength) {
       const remainingBytes = fileLength - uploadedBytes;

@@ -16,7 +16,7 @@ export class GoogleDriveStorageApiClient {
       (response) => response,
       (error: AxiosError<GoogleErrorResponse>) => {
         throw new ApiException(
-          error.response?.data?.error.message || error.message,
+          error.response?.data?.error?.message || error.message,
           error.response?.status,
           error
         );
@@ -26,5 +26,10 @@ export class GoogleDriveStorageApiClient {
 
   setAccessToken(accessToken: string) {
     this.axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+  }
+  getAccessToken(): string {
+    return (
+      this.axiosClient.defaults.headers.common.Authorization?.toString() ?? ''
+    );
   }
 }

@@ -26,9 +26,24 @@ export interface IStorageClient {
     fileExtension: string,
     parentId?: string
   ): Promise<StorageEntity>;
-  exportFile(file: StorageEntity, mimeType: string): Promise<any>;
-  downloadFile(file: StorageEntity): Promise<any>;
-  localFileUpload(file: LocalFile, folderId: string): Promise<StorageEntity>;
+  exportFile(
+    file: StorageEntity,
+    mimeType: string,
+    fileExtension: string,
+    //FIXME: Temp solution until the bug with EventEmitter is fixed
+    FileSystem: any
+  ): Promise<any>;
+  downloadFile(
+    file: StorageEntity,
+    //FIXME: Temp solution until the bug with EventEmitter is fixed
+    FileSystem: any
+  ): Promise<any>;
+  localFileUpload(
+    file: LocalFile,
+    folderId: string,
+    //FIXME: Temp solution until the bug with EventEmitter is fixed
+    FileSystem: any
+  ): Promise<StorageEntity>;
   deleteFile(fileId: string): Promise<void>;
   permanentlyDeleteFile(fileId: string): Promise<void>;
   getPermissions(fileId: string): Promise<Permission[]>;

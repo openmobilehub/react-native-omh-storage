@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FlatList, View } from 'react-native';
 
 import { File, StorageEntity } from '@openmobilehub/storage-core';
@@ -41,16 +41,21 @@ export const FileViewerScreen = () => {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearchQuery] = useDebounce(searchQuery, 300);
+
   const [selectedFile, setSelectedFile] = useState<StorageEntity>();
+  const downloadFileQuery = useDownloadFileQuery(storageClient, selectedFile);
   const searchFilesQuery = useSearchFilesQuery(
     storageClient,
     debouncedSearchQuery,
     debouncedSearchQuery.length > 0
   );
 
-  const downloadFileQuery = useDownloadFileQuery(storageClient, selectedFile);
+  useEffect(() => {
+    if (downloadFileQuery.isSuccess) {
+      setSelectedFile(undefined);
+    }
+  }, [downloadFileQuery.isSuccess]);
 
-  // console.log('HALO', downloadFileQuery.data);
   const handleStorageEntityPress = (file: StorageEntity) => {
     if (file instanceof File) {
       setSelectedFile(file);

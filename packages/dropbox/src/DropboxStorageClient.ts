@@ -99,4 +99,16 @@ export class DropboxStorageClient implements IStorageClient {
   ): Promise<Permission | undefined> {
     throw new UnsupportedOperationException();
   }
+  exportFile(
+    _file: StorageEntity,
+    _mimeType: string,
+    _fileExtension: string,
+    _FileSystem: any
+  ): Promise<any> {
+    throw new UnsupportedOperationException();
+  }
+
+  downloadFile(_file: StorageEntity, _FileSystem: any): Promise<any> {
+    throw new UnsupportedOperationException();
+  }
 }
