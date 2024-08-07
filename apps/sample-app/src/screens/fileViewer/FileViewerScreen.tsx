@@ -51,10 +51,11 @@ export const FileViewerScreen = () => {
   );
 
   useEffect(() => {
-    if (downloadFileQuery.isSuccess) {
+    if (downloadFileQuery.isSuccess || downloadFileQuery.isError) {
+      // Reset the selected file after the download is done, so the user can download the same file again
       setSelectedFile(undefined);
     }
-  }, [downloadFileQuery.isSuccess]);
+  }, [downloadFileQuery.isSuccess, downloadFileQuery.isError]);
 
   const handleStorageEntityPress = (file: StorageEntity) => {
     if (file instanceof File) {
