@@ -21,7 +21,6 @@ export const LoginScreen = () => {
       </Button>
       <Button
         mode="contained"
-        disabled //TODO: Implement OneDrive login
         onPress={() => login(Provider.ONEDRIVE)}
         testID="sign-in-onedrive"
       >
