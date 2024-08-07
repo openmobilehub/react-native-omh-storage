@@ -1,6 +1,6 @@
-import { Image, View } from 'react-native';
+import { View } from 'react-native';
 
-import { Button, Card } from 'react-native-paper';
+import { Avatar, Button, Card } from 'react-native-paper';
 
 import { DisplayRow } from '@/components/bottomSheetContent/content/parts/DisplayRow/DisplayRow';
 import { DisplayPermission } from '@/components/bottomSheetContent/content/permissions/list/getDisplayData';
@@ -26,8 +26,8 @@ export const PermissionItem = ({
         return <DisplayRow displayEntry={entry} key={entry.label} />;
       })}
       {userPhotoUri && (
-        <Image
-          style={styles.image}
+        <Avatar.Image
+          size={64}
           source={{
             uri: userPhotoUri,
           }}

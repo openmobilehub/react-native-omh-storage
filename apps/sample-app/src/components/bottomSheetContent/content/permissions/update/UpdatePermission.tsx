@@ -4,7 +4,6 @@ import { View } from 'react-native';
 import { Permission, StorageEntity } from '@openmobilehub/storage-core';
 import { Button } from 'react-native-paper';
 
-import { styles } from '@/components/bottomSheetContent/content/permissions/create/CreatePermission.styles.ts';
 import {
   AddEditPermissionRole,
   mapAddEditPermissionRoleToCore,
@@ -17,6 +16,8 @@ import Picker from '@/components/picker/Picker';
 import { useSnackbar } from '@/contexts/snackbar/SnackbarContent';
 import { useRequireStorageClient } from '@/contexts/storage/useRequireStorageClient';
 import { useUpdatePermissionMutation } from '@/data/mutation/useUpdatePermissionMutation';
+
+import { styles } from './UpdatePermission.styles';
 
 interface Props {
   file: StorageEntity;
