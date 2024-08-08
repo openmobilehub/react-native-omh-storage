@@ -1,5 +1,6 @@
 package com.openmobilehub.reactnative.storage.core
 
+import android.util.Log
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.Promise
@@ -18,8 +19,9 @@ class RNOmhStorageCoreModule(
   }
 
   @ReactMethod
-  fun listFiles(clientId: String, folderId: String, promise: Promise) {
-    return moduleImpl.listFiles(clientId, folderId, promise)
+   fun listFiles(clientId: String, folderId: String) {
+    Log.v("RNOmhStorageCoreModule", "listFiles-1")
+    return moduleImpl.listFiles(clientId, folderId)
   }
 
   override fun getName() = NAME

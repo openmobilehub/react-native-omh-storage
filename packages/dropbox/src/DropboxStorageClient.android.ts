@@ -10,6 +10,7 @@ import {
   type StorageEntity,
 } from '@openmobilehub/storage-core';
 
+import NativeOmhStorageModule from '../../core/src/NativeOmhStorageModule';
 import { ROOT_FOLDER } from './data/constants/constants';
 
 export class DropboxStorageClient implements IStorageClient {
@@ -21,11 +22,17 @@ export class DropboxStorageClient implements IStorageClient {
   readonly rootFolderId = ROOT_FOLDER;
 
   setAccessToken(_accessToken: string) {
-    throw new UnsupportedOperationException();
+    // throw new UnsupportedOperationException();
   }
 
   async listFiles(_folderId: string): Promise<StorageEntity[]> {
-    throw new UnsupportedOperationException();
+    console.log(
+      '🚀 ~ DropboxStorageClient ~ listFiles ~ _folderId:',
+      _folderId
+    );
+    NativeOmhStorageModule.listFiles('ad', _folderId);
+
+    return [];
   }
 
   getFileMetadata(_fileId: string): Promise<StorageEntityMetadata> {

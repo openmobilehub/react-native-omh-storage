@@ -7,7 +7,7 @@ type NativeStorageEntity = {
 
 export interface Spec extends TurboModule {
   createStorageClient(reflectionPath: string): string;
-  listFiles(clientId: string, folderId: string): Promise<NativeStorageEntity>;
+  listFiles(clientId: string, folderId: string): void;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>('RNOmhStorageCoreModule');
