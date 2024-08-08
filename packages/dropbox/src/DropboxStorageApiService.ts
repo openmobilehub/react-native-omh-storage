@@ -2,7 +2,7 @@ import { type FileListRemote } from './data/response/FileListRemote';
 import type { SearchFileListRemote } from './data/response/SearchFileListRemote';
 import type { DropboxStorageApiClient } from './DropboxStorageApiClient';
 
-const LIST_FOLDER_PARTICLE = 'files';
+const FILES_PARTICLE = 'files';
 
 export class DropboxStorageApiService {
   private client: DropboxStorageApiClient;
@@ -13,7 +13,7 @@ export class DropboxStorageApiService {
 
   async listFiles(folderId: string) {
     return await this.client.axiosClient.post<FileListRemote>(
-      `${LIST_FOLDER_PARTICLE}/list_folder`,
+      `${FILES_PARTICLE}/list_folder`,
       {
         path: folderId,
       }
@@ -22,12 +22,18 @@ export class DropboxStorageApiService {
 
   async searchFiles(query: string) {
     const response = await this.client.axiosClient.post<SearchFileListRemote>(
-      `${LIST_FOLDER_PARTICLE}/search_v2`,
+      `${FILES_PARTICLE}/search_v2`,
       {
         query,
       }
     );
 
     return response;
+  }
+
+  async deleteFile(fileId: string) {
+    await this.client.axiosClient.post(`${FILES_PARTICLE}/delete_v2`, {
+      path: fileId,
+    });
   }
 }

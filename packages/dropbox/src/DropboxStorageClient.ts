@@ -62,11 +62,11 @@ export class DropboxStorageClient implements IStorageClient {
     throw new UnsupportedOperationException();
   }
 
-  deleteFile(_fileId: string): Promise<void> {
-    throw new UnsupportedOperationException();
+  async deleteFile(fileId: string) {
+    return this.repository.deleteFile(fileId);
   }
 
-  permanentlyDeleteFile(_fileId: string): Promise<void> {
+  async permanentlyDeleteFile() {
     throw new UnsupportedOperationException();
   }
 
