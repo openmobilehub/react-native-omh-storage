@@ -6,7 +6,6 @@ import {
   type PermissionRole,
   type StorageEntity,
 } from '@openmobilehub/storage-core';
-import { FileSystem as FS } from 'react-native-file-access';
 
 import { ROOT_FOLDER } from './data/constants/constants';
 import { GoogleDriveStorageApiClient } from './GoogleDriveStorageApiClient';
@@ -57,33 +56,17 @@ export class GoogleDriveStorageClient implements IStorageClient {
   async exportFile(
     file: StorageEntity,
     mimeType: string,
-    fileExtension: string,
-    //FIXME: Temp solution until the bug with EventEmitter is fixed
-    FileSystem: typeof FS
+    fileExtension: string
   ) {
-    return this.repository.exportFile(
-      file,
-      mimeType,
-      fileExtension,
-      FileSystem
-    );
+    return this.repository.exportFile(file, mimeType, fileExtension);
   }
 
-  async downloadFile(
-    file: StorageEntity,
-    //FIXME: Temp solution until the bug with EventEmitter is fixed
-    FileSystem: typeof FS
-  ) {
-    return this.repository.downloadFile(file, FileSystem);
+  async downloadFile(file: StorageEntity) {
+    return this.repository.downloadFile(file);
   }
 
-  async localFileUpload(
-    file: LocalFile,
-    folderId: string,
-    //FIXME: Temp solution until the bug with EventEmitter is fixed
-    FileSystem: typeof FS
-  ) {
-    return this.repository.localFileUpload(file, folderId, FileSystem);
+  async localFileUpload(file: LocalFile, folderId: string) {
+    return this.repository.localFileUpload(file, folderId);
   }
 
   async deleteFile(fileId: string) {

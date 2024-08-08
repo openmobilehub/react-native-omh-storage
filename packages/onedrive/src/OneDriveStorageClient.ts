@@ -99,4 +99,16 @@ export class OneDriveStorageClient implements IStorageClient {
   ): Promise<Permission | undefined> {
     throw new UnsupportedOperationException();
   }
+
+  exportFile(
+    _file: StorageEntity,
+    _mimeType: string,
+    _fileExtension: string
+  ): Promise<any> {
+    throw new UnsupportedOperationException();
+  }
+
+  downloadFile(_file: StorageEntity): Promise<any> {
+    throw new UnsupportedOperationException();
+  }
 }

@@ -102,13 +102,12 @@ export class DropboxStorageClient implements IStorageClient {
   exportFile(
     _file: StorageEntity,
     _mimeType: string,
-    _fileExtension: string,
-    _FileSystem: any
+    _fileExtension: string
   ): Promise<any> {
     throw new UnsupportedOperationException();
   }
 
-  downloadFile(_file: StorageEntity, _FileSystem: any): Promise<any> {
+  downloadFile(_file: StorageEntity): Promise<any> {
     throw new UnsupportedOperationException();
   }
 }

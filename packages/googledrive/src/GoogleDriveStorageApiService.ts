@@ -3,7 +3,7 @@ import {
   StorageEntity,
   type LocalFile,
 } from '@openmobilehub/storage-core';
-import { Dirs, FileSystem as FS } from 'react-native-file-access';
+import { Dirs, FileSystem } from 'react-native-file-access';
 
 import type { CommonRequestBody } from './data/body/CommonRequestBody';
 import type { CreateFileRequestBody } from './data/body/CreateFileRequestBody';
@@ -77,8 +77,7 @@ export class GoogleDriveStorageApiService {
   async exportFile(
     file: StorageEntity,
     mimeType: string,
-    fileExtension: string,
-    FileSystem: typeof FS
+    fileExtension: string
   ) {
     const accessToken = this.client.getAccessToken();
     const ext = !file?.extension ? `.${fileExtension}` : '';
@@ -96,7 +95,7 @@ export class GoogleDriveStorageApiService {
     );
   }
 
-  async downloadFile(file: StorageEntity, FileSystem: typeof FS) {
+  async downloadFile(file: StorageEntity) {
     const accessToken = this.client.getAccessToken();
     const filePath = Dirs.DocumentDir + `/${file.name}`;
 
@@ -112,11 +111,7 @@ export class GoogleDriveStorageApiService {
     );
   }
 
-  private async initializeResumableUpload(
-    file: LocalFile,
-    folderId: string,
-    FileSystem: typeof FS
-  ) {
+  private async initializeResumableUpload(file: LocalFile, folderId: string) {
     const metadata = {
       name: file.name,
       mimeType: file.type,
@@ -151,15 +146,10 @@ export class GoogleDriveStorageApiService {
     return initResponse.headers.location;
   }
 
-  async localFileUpload(
-    file: LocalFile,
-    folderId: string,
-    FileSystem: typeof FS
-  ) {
+  async localFileUpload(file: LocalFile, folderId: string) {
     const resumableSessionUri = await this.initializeResumableUpload(
       file,
-      folderId,
-      FileSystem
+      folderId
     );
     let uploadedBytes = 0;
     const filePath = file.uri;
