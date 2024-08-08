@@ -1,8 +1,11 @@
 import {
+  Permission,
   StorageEntityMetadata,
   UnsupportedOperationException,
   type IStorageClient,
   type LocalFile,
+  type PermissionRecipient,
+  type PermissionRole,
   type StorageEntity,
 } from '@openmobilehub/storage-core';
 
@@ -35,8 +38,8 @@ export class DropboxStorageClient implements IStorageClient {
     throw new UnsupportedOperationException();
   }
 
-  search(_query: string): Promise<StorageEntity[]> {
-    throw new UnsupportedOperationException();
+  async search(query: string): Promise<StorageEntity[]> {
+    return this.repository.searchFiles(query);
   }
 
   createFileWithMimeType(
@@ -64,6 +67,36 @@ export class DropboxStorageClient implements IStorageClient {
   }
 
   permanentlyDeleteFile(_fileId: string): Promise<void> {
+    throw new UnsupportedOperationException();
+  }
+
+  createPermission(
+    _fileId: string,
+    _role: PermissionRole,
+    _recipient: PermissionRecipient,
+    _sendNotificationEmail: boolean,
+    _emailMessage?: string
+  ): Promise<Permission | undefined> {
+    throw new UnsupportedOperationException();
+  }
+
+  deletePermission(_fileId: string, _permissionId: string): Promise<void> {
+    throw new UnsupportedOperationException();
+  }
+
+  getPermissions(_fileId: string): Promise<Permission[]> {
+    throw new UnsupportedOperationException();
+  }
+
+  getWebUrl(_fileId: string): Promise<string | undefined> {
+    throw new UnsupportedOperationException();
+  }
+
+  updatePermission(
+    _fileId: string,
+    _permissionId: string,
+    _role: PermissionRole
+  ): Promise<Permission | undefined> {
     throw new UnsupportedOperationException();
   }
 }

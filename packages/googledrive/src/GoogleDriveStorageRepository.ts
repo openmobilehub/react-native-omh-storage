@@ -1,9 +1,19 @@
-import type { LocalFile } from '@openmobilehub/storage-core';
-import { StorageEntityMetadata } from '@openmobilehub/storage-core';
+import {
+  StorageEntityMetadata,
+  type LocalFile,
+  type PermissionRecipient,
+  type PermissionRole,
+} from '@openmobilehub/storage-core';
 
 import type { CommonRequestBody } from './data/body/CommonRequestBody';
 import type { CreateFileRequestBody } from './data/body/CreateFileRequestBody';
+import type { UpdatePermissionRequestBody } from './data/body/UpdatePermissionRequestBody';
 import { mapFileRemoteToStorageEntity } from './data/mappers/mapFileRemoteToStorageEntity';
+import {
+  mapPermissionRecipientToRequestBody,
+  mapPermissionRoleToRoleRemote,
+} from './data/mappers/mapPermissionRecipientToRequestBody';
+import { mapPermissionRemoteToStoragePermission } from './data/mappers/mapPermissionRemoteToStoragePermission';
 import type { GoogleDriveStorageApiService } from './GoogleDriveStorageApiService';
 
 export class GoogleDriveStorageRepository {
@@ -71,5 +81,70 @@ export class GoogleDriveStorageRepository {
 
   async permanentlyDeleteFile(fileId: string) {
     return this.apiService.deleteFile(fileId);
+  }
+
+  async getPermissions(fileId: string) {
+    const response = await this.apiService.getPermissions(fileId);
+
+    return response.data.permissions.map(
+      mapPermissionRemoteToStoragePermission
+    );
+  }
+
+  async getWebUrl(fileId: string) {
+    const response = await this.apiService.getWebUrl(fileId);
+
+    return response.data.webViewLink;
+  }
+
+  async createPermission(
+    fileId: string,
+    role: PermissionRole,
+    recipient: PermissionRecipient,
+    sendNotificationEmail: boolean,
+    emailMessage?: string
+  ) {
+    const body = mapPermissionRecipientToRequestBody(recipient, role);
+
+    const transferOwnership = role === 'owner';
+    const willSendNotificationEmail =
+      sendNotificationEmail || transferOwnership;
+    const message = emailMessage?.trim() ? emailMessage : undefined;
+
+    const response = await this.apiService.createPermission(
+      fileId,
+      body,
+      transferOwnership,
+      willSendNotificationEmail,
+      message
+    );
+
+    return mapPermissionRemoteToStoragePermission(response.data);
+  }
+
+  async deletePermission(fileId: string, permissionId: string) {
+    return this.apiService.deletePermission(fileId, permissionId);
+  }
+
+  async updatePermission(
+    fileId: string,
+    permissionId: string,
+    role: PermissionRole
+  ) {
+    const transferOwnership = role === 'owner';
+    const body: UpdatePermissionRequestBody = {
+      role: mapPermissionRoleToRoleRemote(role),
+    };
+
+    const response = await this.apiService.updatePermission(
+      fileId,
+      permissionId,
+      body,
+      transferOwnership,
+      // sendNotificationEmail need to be set to true when transfer ownership
+      transferOwnership
+    );
+
+    return mapPermissionRemoteToStoragePermission(response.data);
   }
 }

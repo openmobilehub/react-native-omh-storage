@@ -2,6 +2,8 @@ import {
   UnsupportedOperationException,
   type IStorageClient,
   type LocalFile,
+  type PermissionRecipient,
+  type PermissionRole,
   type StorageEntity,
 } from '@openmobilehub/storage-core';
 
@@ -61,5 +63,41 @@ export class GoogleDriveStorageClient implements IStorageClient {
 
   async permanentlyDeleteFile(fileId: string) {
     return this.repository.permanentlyDeleteFile(fileId);
+  }
+
+  async getPermissions(fileId: string) {
+    return this.repository.getPermissions(fileId);
+  }
+
+  async getWebUrl(fileId: string) {
+    return this.repository.getWebUrl(fileId);
+  }
+
+  async createPermission(
+    fileId: string,
+    role: PermissionRole,
+    recipient: PermissionRecipient,
+    sendNotificationEmail: boolean,
+    emailMessage?: string
+  ) {
+    return this.repository.createPermission(
+      fileId,
+      role,
+      recipient,
+      sendNotificationEmail,
+      emailMessage
+    );
+  }
+
+  async deletePermission(fileId: string, permissionId: string) {
+    return this.repository.deletePermission(fileId, permissionId);
+  }
+
+  async updatePermission(
+    fileId: string,
+    permissionId: string,
+    role: PermissionRole
+  ) {
+    return this.repository.updatePermission(fileId, permissionId, role);
   }
 }

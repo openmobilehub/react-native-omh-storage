@@ -1,3 +1,5 @@
+import { type Permission, type PermissionRole } from './model/Permission';
+import { type PermissionRecipient } from './model/PermissionRecipient';
 import type { StorageEntity } from './model/StorageEntity';
 import type { StorageEntityMetadata } from './model/StorageEntityMetadata';
 
@@ -27,4 +29,19 @@ export interface IStorageClient {
   localFileUpload(file: LocalFile, folderId: string): Promise<StorageEntity>;
   deleteFile(fileId: string): Promise<void>;
   permanentlyDeleteFile(fileId: string): Promise<void>;
+  getPermissions(fileId: string): Promise<Permission[]>;
+  getWebUrl(fileId: string): Promise<string | undefined>;
+  createPermission(
+    fileId: string,
+    role: PermissionRole,
+    recipient: PermissionRecipient,
+    sendNotificationEmail: boolean,
+    emailMessage?: string
+  ): Promise<Permission | undefined>;
+  deletePermission(fileId: string, permissionId: string): Promise<void>;
+  updatePermission(
+    fileId: string,
+    permissionId: string,
+    role: PermissionRole
+  ): Promise<Permission | undefined>;
 }
