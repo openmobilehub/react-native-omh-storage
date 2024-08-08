@@ -2,7 +2,8 @@ import { View } from 'react-native';
 
 import { Text } from 'react-native-paper';
 
-import { DisplayEntry } from '../../getDisplayData';
+import { DisplayEntry } from '@/components/bottomSheetContent/content/parts/DisplayRow/DisplayEntry.types';
+
 import { styles } from './DisplayRow.styles';
 
 interface Props {

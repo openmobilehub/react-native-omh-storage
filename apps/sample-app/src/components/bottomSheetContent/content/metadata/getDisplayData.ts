@@ -1,11 +1,6 @@
 import { File, StorageEntityMetadata } from '@openmobilehub/storage-core';
 
-export class DisplayEntry {
-  constructor(
-    public readonly label: string,
-    public readonly value?: string
-  ) {}
-}
+import { DisplayEntry } from '@/components/bottomSheetContent/content/parts/DisplayRow/DisplayEntry.types.ts';
 
 export const getDisplayData = ({
   entity,

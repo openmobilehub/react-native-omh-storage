@@ -3,7 +3,12 @@ import { FileSystem } from 'react-native-file-access';
 
 import type { CommonRequestBody } from './data/body/CommonRequestBody';
 import type { CreateFileRequestBody } from './data/body/CreateFileRequestBody';
+import type { CreatePermissionRequestBody } from './data/body/CreatePermissionRequestBody';
+import type { UpdatePermissionRequestBody } from './data/body/UpdatePermissionRequestBody';
 import { type FileListRemote } from './data/response/FileListRemote';
+import type { PermissionListRemote } from './data/response/PermissionListRemote';
+import type { PermissionRemote } from './data/response/PermissionRemote';
+import type { WebUrlRemote } from './data/response/WebUrlRemote';
 import type { GoogleDriveStorageApiClient } from './GoogleDriveStorageApiClient';
 
 const FILES_PARTICLE = 'drive/v3/files';
@@ -18,6 +23,7 @@ export class GoogleDriveStorageApiService {
   private getFieldsParam = `files(${this.fieldsSelection})`;
   private allFieldsParam = '*';
   private selectedFieldsParam = this.fieldsSelection;
+  private webViewLinkFieldParam = 'webViewLink';
 
   private inFolderParam = (folderId: string) =>
     `'${folderId}' in parents and trashed = false`;
@@ -164,5 +170,74 @@ export class GoogleDriveStorageApiService {
 
   async deleteFile(fileId: string) {
     await this.client.axiosClient.delete(`${FILES_PARTICLE}/${fileId}`);
+  }
+
+  async getPermissions(fileId: string) {
+    return this.client.axiosClient.get<PermissionListRemote>(
+      `${FILES_PARTICLE}/${fileId}/permissions`,
+      {
+        params: {
+          fields: this.allFieldsParam,
+        },
+      }
+    );
+  }
+
+  async getWebUrl(fileId: string) {
+    return this.client.axiosClient.get<WebUrlRemote>(
+      `${FILES_PARTICLE}/${fileId}`,
+      {
+        params: {
+          fields: this.webViewLinkFieldParam,
+        },
+      }
+    );
+  }
+
+  async createPermission(
+    fileId: string,
+    body: CreatePermissionRequestBody,
+    transferOwnership: boolean,
+    sendNotificationEmail: boolean,
+    emailMessage?: string
+  ) {
+    return await this.client.axiosClient.post<PermissionRemote>(
+      `${FILES_PARTICLE}/${fileId}/permissions`,
+      body,
+      {
+        params: {
+          fields: this.allFieldsParam,
+          transferOwnership: transferOwnership,
+          sendNotificationEmail: sendNotificationEmail,
+          emailMessage: emailMessage,
+        },
+      }
+    );
+  }
+
+  async deletePermission(fileId: string, permissionId: string) {
+    await this.client.axiosClient.delete(
+      `${FILES_PARTICLE}/${fileId}/permissions/${permissionId}`
+    );
+  }
+
+  async updatePermission(
+    fileId: string,
+    permissionId: string,
+    body: UpdatePermissionRequestBody,
+    transferOwnership: boolean,
+    sendNotificationEmail: boolean
+  ) {
+    return await this.client.axiosClient.patch<PermissionRemote>(
+      `${FILES_PARTICLE}/${fileId}/permissions/${permissionId}`,
+      body,
+      {
+        params: {
+          fields: this.allFieldsParam,
+          transferOwnership: transferOwnership,
+          sendNotificationEmail: sendNotificationEmail,
+        },
+      }
+    );
   }
 }
