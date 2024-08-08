@@ -21,4 +21,8 @@ export class DropboxStorageRepository {
       return mapMetadataToStorageEntity(match.metadata.metadata);
     });
   }
+
+  async deleteFile(fileId: string) {
+    return this.apiService.deleteFile(fileId);
+  }
 }
