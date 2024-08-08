@@ -5,7 +5,6 @@ import {
   StorageException,
 } from '@openmobilehub/storage-core';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { FileSystem } from 'react-native-file-access';
 
 import { QK_LIST_FILES, QK_UPLOAD_FILE } from '../client/queryKeys';
 
@@ -17,8 +16,7 @@ export const useLocalFileUploadMutation = (
 
   return useMutation<StorageEntity, StorageException, LocalFile>({
     mutationKey: [QK_UPLOAD_FILE, folderId],
-    mutationFn: (file) =>
-      storageClient.localFileUpload(file, folderId, FileSystem),
+    mutationFn: (file) => storageClient.localFileUpload(file, folderId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QK_LIST_FILES, folderId] });
     },

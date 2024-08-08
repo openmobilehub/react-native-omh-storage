@@ -4,7 +4,6 @@ import {
   StorageException,
 } from '@openmobilehub/storage-core';
 import { useQuery } from '@tanstack/react-query';
-import { FileSystem } from 'react-native-file-access';
 
 import { useSnackbar } from '@/contexts/snackbar/SnackbarContent';
 import { FileType } from '@/types/FileTypes';
@@ -31,11 +30,10 @@ const downloadFile = async (
       data = await storageClient.exportFile(
         file,
         normalizedGoogleFileType.mimeType,
-        normalizedGoogleFileType.fileExtension,
-        FileSystem
+        normalizedGoogleFileType.fileExtension
       );
     } else {
-      data = await storageClient.downloadFile(file, FileSystem);
+      data = await storageClient.downloadFile(file);
     }
     if (data?.status === 200) {
       showSnackbar(`${file.name} file downloaded successfully!`);
