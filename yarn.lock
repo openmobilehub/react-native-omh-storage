@@ -3153,6 +3153,7 @@ __metadata:
     "@openmobilehub/storage-core": "*"
     react: "*"
     react-native: "*"
+    react-native-file-access: "*"
   languageName: unknown
   linkType: soft
 
