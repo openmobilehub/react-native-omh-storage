@@ -35,8 +35,8 @@ export class DropboxStorageClient implements IStorageClient {
     throw new UnsupportedOperationException();
   }
 
-  search(_query: string): Promise<StorageEntity[]> {
-    throw new UnsupportedOperationException();
+  async search(query: string): Promise<StorageEntity[]> {
+    return this.repository.searchFiles(query);
   }
 
   createFileWithMimeType(
