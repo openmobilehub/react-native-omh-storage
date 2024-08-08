@@ -1,4 +1,5 @@
 import {
+  createStorage,
   Permission,
   StorageEntityMetadata,
   UnsupportedOperationException,
@@ -10,37 +11,29 @@ import {
 } from '@openmobilehub/storage-core';
 
 import { ROOT_FOLDER } from './data/constants/constants';
-import { DropboxStorageApiClient } from './DropboxStorageApiClient';
-import { DropboxStorageApiService } from './DropboxStorageApiService';
-import { DropboxStorageRepository } from './DropboxStorageStorageRepository';
 
 export class DropboxStorageClient implements IStorageClient {
-  private client: DropboxStorageApiClient;
-  private repository: DropboxStorageRepository;
-
   constructor() {
-    console.warn('NOT HERE');
-    this.client = new DropboxStorageApiClient();
-    const service = new DropboxStorageApiService(this.client);
-    this.repository = new DropboxStorageRepository(service);
+    console.warn('HERE');
+    createStorage('path');
   }
 
   readonly rootFolderId = ROOT_FOLDER;
 
-  setAccessToken(accessToken: string) {
-    this.client.setAccessToken(accessToken);
+  setAccessToken(_accessToken: string) {
+    throw new UnsupportedOperationException();
   }
 
-  async listFiles(folderId: string) {
-    return this.repository.listFiles(folderId);
+  async listFiles(_folderId: string): Promise<StorageEntity[]> {
+    throw new UnsupportedOperationException();
   }
 
   getFileMetadata(_fileId: string): Promise<StorageEntityMetadata> {
     throw new UnsupportedOperationException();
   }
 
-  async search(query: string): Promise<StorageEntity[]> {
-    return this.repository.searchFiles(query);
+  async search(_query: string): Promise<StorageEntity[]> {
+    throw new UnsupportedOperationException();
   }
 
   createFileWithMimeType(

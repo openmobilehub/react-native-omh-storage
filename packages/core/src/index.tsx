@@ -10,3 +10,5 @@ export * from './model/PermissionRecipient';
 
 export * from './utils/getExtensionFromFilePath';
 export * from './utils/getMimeTypeFromExtension';
+
+export * from './createStorage';

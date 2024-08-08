@@ -20,7 +20,16 @@ module.exports = {
     [
       'module-resolver',
       {
-        extensions: ['.tsx', '.ts', '.js', '.json'],
+        extensions: [
+          '.tsx',
+          '.ts',
+          '.js',
+          '.json',
+          '.android.ts',
+          '.android.tsx',
+          'ios.ts',
+          'ios.tsx',
+        ],
         alias: {
           ...alias,
           '@/components': './src/components',
