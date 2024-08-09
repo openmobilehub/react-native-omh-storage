@@ -57,8 +57,8 @@ export class DropboxStorageClient implements IStorageClient {
     throw new UnsupportedOperationException();
   }
 
-  localFileUpload(_file: LocalFile, _folderId: string): Promise<StorageEntity> {
-    throw new UnsupportedOperationException();
+  async localFileUpload(file: LocalFile, folderId: string) {
+    return this.repository.localFileUpload(file, folderId);
   }
 
   async deleteFile(fileId: string) {

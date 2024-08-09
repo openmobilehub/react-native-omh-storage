@@ -7,6 +7,7 @@ import { Divider, IconButton, Menu, Portal } from 'react-native-paper';
 import { BottomSheet } from '@/components/bottomSheet';
 import { FullScreenLoadingState } from '@/components/fullScreenLoadingState';
 import { useAuthContext } from '@/contexts/auth/AuthContext';
+import { useSnackbar } from '@/contexts/snackbar/SnackbarContent';
 import { useRequireStorageClient } from '@/contexts/storage/useRequireStorageClient';
 import { useUIContext } from '@/contexts/ui/UIContext';
 import { useLocalFileUploadMutation } from '@/data/mutation/useLocalFileUploadMutation';
@@ -21,6 +22,7 @@ interface ContextMenuProps {
 export const ContextMenu = ({ folderId }: ContextMenuProps) => {
   const { logout } = useAuthContext();
   const { currentlyFocusedCreateFileBottomSheetRef } = useUIContext();
+  const { showSnackbar } = useSnackbar();
 
   const storageClient = useRequireStorageClient();
 
@@ -52,7 +54,14 @@ export const ContextMenu = ({ folderId }: ContextMenuProps) => {
   const handleFileUpload = async (file: LocalFile) => {
     handleFileUploadSheetClose();
 
-    await localFileUpload(file);
+    await localFileUpload(file, {
+      onSuccess: () => {
+        showSnackbar(`${file.name} was successfully uploaded!`);
+      },
+      onError: () => {
+        showSnackbar('There was an error uploading the file.');
+      },
+    });
   };
 
   if (isPending) {
