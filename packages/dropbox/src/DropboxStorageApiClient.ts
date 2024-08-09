@@ -28,8 +28,11 @@ export class DropboxStorageApiClient {
     if (typeof error.response?.data === 'string') {
       return error.response?.data;
     }
-    if (typeof error.response?.data?.errorSummary === 'string') {
-      return error.response?.data.errorSummary;
+    if (error.response?.data?.user_message?.text) {
+      return error.response?.data?.user_message?.text;
+    }
+    if (error.response?.data?.error_summary) {
+      return error.response?.data?.error_summary;
     }
     return error.message;
   }

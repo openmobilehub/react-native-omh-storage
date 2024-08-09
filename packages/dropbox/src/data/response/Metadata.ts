@@ -5,12 +5,16 @@ export interface Metadata {
   path_display?: string;
   id?: string;
   sharing_info?: {
-    parent_shared_folder_id: string;
+    parent_shared_folder_id?: string;
   };
 }
 
 export interface FolderMetadata extends Metadata {
   ['.tag']?: 'folder';
+  sharing_info?: {
+    parent_shared_folder_id?: string;
+    shared_folder_id?: string;
+  };
 }
 
 export interface FileMetadata extends Metadata {

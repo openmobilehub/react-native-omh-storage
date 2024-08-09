@@ -79,7 +79,7 @@ export const CreatePermission = ({ file, onCancel, onSuccess }: Props) => {
         role: coreRole,
         recipient: recipient,
         sendNotificationEmail: sendNotification,
-        emailMessage: message,
+        emailMessage: message || undefined,
       },
       {
         onSuccess: () => {

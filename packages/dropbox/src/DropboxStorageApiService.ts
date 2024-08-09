@@ -1,12 +1,27 @@
 import type { LocalFile, StorageEntity } from '@openmobilehub/storage-core';
 import { Dirs, FileSystem } from 'react-native-file-access';
 
+import type { AddFileMemberBody } from './data/body/AddFileMemberBody';
+import type { AddFolderMemberBody } from './data/body/AddFolderMemberBody';
+import type { ListFileMembersBody } from './data/body/ListFileMembersBody';
+import type { ListFolderMembersBody } from './data/body/ListFolderMembersBody';
+import type { RemoveFileMemberBody } from './data/body/RemoveFileMemberBody';
+import type { RemoveFolderMemberBody } from './data/body/RemoveFolderMemberBody';
+import type { UpdateFileMemberBody } from './data/body/UpdateFileMemberBody';
+import type { UpdateFolderMemberBody } from './data/body/UpdateFolderMemberBody';
 import { CONTENT_URL } from './data/constants/constants';
+import type { CheckShareJobStatusResponse } from './data/response/CheckShareJobStatusResponse';
 import { type FileListRemote } from './data/response/FileListRemote';
+import type { ListFolderMembersResponse } from './data/response/ListFolderMembersResponse';
+import type { ListMembersResponse } from './data/response/ListMembersResponse';
+import type { Metadata } from './data/response/Metadata';
 import type { SearchFileListRemote } from './data/response/SearchFileListRemote';
+import type { ShareFolderResponse } from './data/response/ShareFolderResponse';
+import type { SharingMetadata } from './data/response/SharingMetadata';
 import type { DropboxStorageApiClient } from './DropboxStorageApiClient';
 
 const FILES_PARTICLE = 'files';
+const SHARING_PARTICLE = 'sharing';
 const UPLOAD_CHUNK_SIZE = 1024 * 1024 * 10; // 10MB
 export class DropboxStorageApiService {
   private client: DropboxStorageApiClient;
@@ -42,13 +57,14 @@ export class DropboxStorageApiService {
   }
 
   async getFileMetadata(fileId: string) {
-    return await this.client.axiosClient.post(
+    return await this.client.axiosClient.post<Metadata>(
       `${FILES_PARTICLE}/get_metadata`,
       {
         path: fileId,
       }
     );
   }
+
   async downloadFile(file: StorageEntity) {
     const accessToken = this.client.getAccessToken();
     const filePath = Dirs.DocumentDir + `/${file.name}`;
@@ -161,5 +177,98 @@ export class DropboxStorageApiService {
     }
 
     return null;
+  }
+
+  async getFilePermissions(body: ListFileMembersBody) {
+    return this.client.axiosClient.post<ListMembersResponse>(
+      `${SHARING_PARTICLE}/list_file_members`,
+      body
+    );
+  }
+
+  async getFolderPermissions(body: ListFolderMembersBody) {
+    return this.client.axiosClient.post<ListFolderMembersResponse>(
+      `${SHARING_PARTICLE}/list_folder_members`,
+      body
+    );
+  }
+
+  async getFileSharingMetadata(fileId: string) {
+    return await this.client.axiosClient.post<SharingMetadata>(
+      `${SHARING_PARTICLE}/get_file_metadata`,
+      {
+        file: fileId,
+      }
+    );
+  }
+
+  async getFolderSharingMetadata(sharedFolderId: string) {
+    return await this.client.axiosClient.post<SharingMetadata>(
+      `${SHARING_PARTICLE}/get_folder_metadata`,
+      {
+        shared_folder_id: sharedFolderId,
+      }
+    );
+  }
+
+  async addFileMember(body: AddFileMemberBody) {
+    return await this.client.axiosClient.post(
+      `${SHARING_PARTICLE}/add_file_member`,
+      body
+    );
+  }
+
+  async addFolderMember(body: AddFolderMemberBody) {
+    return await this.client.axiosClient.post(
+      `${SHARING_PARTICLE}/add_folder_member`,
+      body
+    );
+  }
+
+  async shareFolder(folderId: string) {
+    return await this.client.axiosClient.post<ShareFolderResponse>(
+      `${SHARING_PARTICLE}/share_folder`,
+      {
+        path: folderId,
+        access_inheritance: true, // mimic Google Drive behaviour
+      }
+    );
+  }
+
+  async checkShareJobStatus(asyncJobIdValue: string) {
+    return await this.client.axiosClient.post<CheckShareJobStatusResponse>(
+      `${SHARING_PARTICLE}/check_share_job_status`,
+      {
+        async_job_id: asyncJobIdValue,
+      }
+    );
+  }
+
+  async removeFileMember(body: RemoveFileMemberBody) {
+    return this.client.axiosClient.post(
+      `${SHARING_PARTICLE}/remove_file_member_2`,
+      body
+    );
+  }
+
+  async removeFolderMember(body: RemoveFolderMemberBody) {
+    return this.client.axiosClient.post(
+      `${SHARING_PARTICLE}/remove_folder_member`,
+      body
+    );
+  }
+
+  async updateFileMember(body: UpdateFileMemberBody) {
+    return this.client.axiosClient.post(
+      `${SHARING_PARTICLE}/update_file_member`,
+      body
+    );
+  }
+
+  async updateFolderMember(body: UpdateFolderMemberBody) {
+    return this.client.axiosClient.post(
+      `${SHARING_PARTICLE}/update_folder_member`,
+      body
+    );
   }
 }

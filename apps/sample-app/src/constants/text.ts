@@ -1,0 +1,2 @@
+export const PERMISSION_CAVEATS_DROPBOX =
+  '- Dropbox folders have two types: folder and shared folder.\n- A folder must be a shared folder for Dropbox to provide permissions, including providing OWNER permission.\n- Adding permission will make a folder a shared folder.\n- GET URL only provides links for shared folders.\n- Dropbox does not support granting a WRITER role to uploaded files. An exception will be thrown with user message: `You don’t have permission to perform this action.`.\n- Dropbox does not support deleting inherited permissions.';
