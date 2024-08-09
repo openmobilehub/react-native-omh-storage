@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     columnGap: 8,
   },
   labelText: {
-    marginTop: 2,
+    marginTop: 2, // Added some margin, so label will be properly aligned with value text
   },
   valueText: {
     flex: 1,
