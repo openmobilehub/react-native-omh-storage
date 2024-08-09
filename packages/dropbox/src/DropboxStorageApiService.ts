@@ -36,4 +36,13 @@ export class DropboxStorageApiService {
       path: fileId,
     });
   }
+
+  async getFileMetadata(fileId: string) {
+    return await this.client.axiosClient.post(
+      `${FILES_PARTICLE}/get_metadata`,
+      {
+        path: fileId,
+      }
+    );
+  }
 }
