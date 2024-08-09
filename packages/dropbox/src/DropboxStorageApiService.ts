@@ -66,7 +66,7 @@ export class DropboxStorageApiService {
 
   private async initializeResumableUpload() {
     const initResponse = await this.client.axiosClient.post(
-      `https://content.dropboxapi.com/2/${FILES_PARTICLE}/upload_session/start`,
+      `${CONTENT_URL}${FILES_PARTICLE}/upload_session/start`,
       null,
       {
         headers: {
@@ -113,7 +113,7 @@ export class DropboxStorageApiService {
       const bytesRead = buffer.byteLength;
 
       await this.client.axiosClient.post(
-        `https://content.dropboxapi.com/2/${FILES_PARTICLE}/upload_session/append_v2`,
+        `${CONTENT_URL}${FILES_PARTICLE}/upload_session/append_v2`,
         buffer,
         {
           headers: {
@@ -131,9 +131,11 @@ export class DropboxStorageApiService {
 
       uploadedBytes += bytesRead;
     }
+
     const dropboxFilePath = `${folderId}/${file.name}`;
+
     const finishResponse = await this.client.axiosClient.post(
-      `https://content.dropboxapi.com/2/${FILES_PARTICLE}/upload_session/finish`,
+      `${CONTENT_URL}${FILES_PARTICLE}/upload_session/finish`,
       null,
       {
         headers: {
