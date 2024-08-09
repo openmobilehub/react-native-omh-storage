@@ -15,8 +15,10 @@ const notAvailableLabel = 'N/A';
 export const DisplayRow = ({ displayEntry }: Props) => {
   return (
     <View style={styles.container}>
-      <Text variant="labelMedium">{displayEntry.label}:</Text>
-      <Text variant="bodyMedium">
+      <Text variant="labelMedium" style={styles.labelText}>
+        {displayEntry.label}:
+      </Text>
+      <Text variant="bodyMedium" style={styles.valueText}>
         {displayEntry.value || notAvailableLabel}
       </Text>
     </View>

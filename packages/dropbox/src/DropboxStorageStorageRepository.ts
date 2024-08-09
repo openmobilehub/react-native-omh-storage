@@ -1,3 +1,5 @@
+import { StorageEntityMetadata } from '@openmobilehub/storage-core';
+
 import { mapMetadataToStorageEntity } from './data/mappers/mapFileRemoteToStorageEntity';
 import type { DropboxStorageApiService } from './DropboxStorageApiService';
 
@@ -24,5 +26,16 @@ export class DropboxStorageRepository {
 
   async deleteFile(fileId: string) {
     return this.apiService.deleteFile(fileId);
+  }
+
+  async getFileMetadata(fileId: string) {
+    const response = await this.apiService.getFileMetadata(fileId);
+
+    const storageEntity = mapMetadataToStorageEntity(response.data);
+
+    return new StorageEntityMetadata({
+      entity: storageEntity,
+      originalMetadata: response.data,
+    });
   }
 }

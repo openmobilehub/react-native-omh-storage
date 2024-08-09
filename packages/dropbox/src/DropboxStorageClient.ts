@@ -1,6 +1,5 @@
 import {
   Permission,
-  StorageEntityMetadata,
   UnsupportedOperationException,
   type IStorageClient,
   type LocalFile,
@@ -34,8 +33,8 @@ export class DropboxStorageClient implements IStorageClient {
     return this.repository.listFiles(folderId);
   }
 
-  getFileMetadata(_fileId: string): Promise<StorageEntityMetadata> {
-    throw new UnsupportedOperationException();
+  async getFileMetadata(fileId: string) {
+    return this.repository.getFileMetadata(fileId);
   }
 
   async search(query: string): Promise<StorageEntity[]> {
