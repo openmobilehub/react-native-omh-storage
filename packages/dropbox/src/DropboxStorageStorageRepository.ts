@@ -1,4 +1,7 @@
-import { StorageEntityMetadata } from '@openmobilehub/storage-core';
+import {
+  StorageEntityMetadata,
+  type LocalFile,
+} from '@openmobilehub/storage-core';
 import type { StorageEntity } from '@openmobilehub/storage-core';
 
 import { mapMetadataToStorageEntity } from './data/mappers/mapFileRemoteToStorageEntity';
@@ -41,5 +44,15 @@ export class DropboxStorageRepository {
   }
   async downloadFile(file: StorageEntity) {
     return this.apiService.downloadFile(file);
+  }
+
+  async localFileUpload(file: LocalFile, folderId: string) {
+    const response = await this.apiService.localFileUpload(file, folderId);
+
+    if (!response) {
+      throw new Error('Upload failed, no response received');
+    }
+
+    return response;
   }
 }
