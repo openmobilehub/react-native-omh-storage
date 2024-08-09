@@ -1,3 +1,7 @@
+import type { StorageEntity } from '@openmobilehub/storage-core';
+import { Dirs, FileSystem } from 'react-native-file-access';
+
+import { CONTENT_URL } from './data/constants/constants';
 import { type FileListRemote } from './data/response/FileListRemote';
 import type { SearchFileListRemote } from './data/response/SearchFileListRemote';
 import type { DropboxStorageApiClient } from './DropboxStorageApiClient';
@@ -44,5 +48,19 @@ export class DropboxStorageApiService {
         path: fileId,
       }
     );
+  }
+  async downloadFile(file: StorageEntity) {
+    const accessToken = this.client.getAccessToken();
+    const filePath = Dirs.DocumentDir + `/${file.name}`;
+    const dropboxArgs = JSON.stringify({ path: file.id });
+
+    return await FileSystem.fetch(`${CONTENT_URL}${FILES_PARTICLE}/download`, {
+      path: filePath,
+      method: 'POST',
+      headers: {
+        'Authorization': accessToken,
+        'Dropbox-API-Arg': dropboxArgs,
+      },
+    });
   }
 }

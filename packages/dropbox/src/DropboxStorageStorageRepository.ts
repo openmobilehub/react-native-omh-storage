@@ -1,4 +1,5 @@
 import { StorageEntityMetadata } from '@openmobilehub/storage-core';
+import type { StorageEntity } from '@openmobilehub/storage-core';
 
 import { mapMetadataToStorageEntity } from './data/mappers/mapFileRemoteToStorageEntity';
 import type { DropboxStorageApiService } from './DropboxStorageApiService';
@@ -37,5 +38,8 @@ export class DropboxStorageRepository {
       entity: storageEntity,
       originalMetadata: response.data,
     });
+  }
+  async downloadFile(file: StorageEntity) {
+    return this.apiService.downloadFile(file);
   }
 }

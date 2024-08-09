@@ -106,7 +106,7 @@ export class DropboxStorageClient implements IStorageClient {
     throw new UnsupportedOperationException();
   }
 
-  downloadFile(_file: StorageEntity): Promise<any> {
-    throw new UnsupportedOperationException();
+  async downloadFile(file: StorageEntity) {
+    return this.repository.downloadFile(file);
   }
 }
