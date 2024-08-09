@@ -97,7 +97,7 @@ export class GoogleDriveStorageApiService {
 
   async downloadFile(file: StorageEntity) {
     const accessToken = this.client.getAccessToken();
-    const filePath = Dirs.DocumentDir + `/${file.name}`;
+    const filePath = `${Dirs.DocumentDir}/${file.name}`;
 
     return FileSystem.fetch(
       `${BASE_URL}${FILES_PARTICLE}/${file.id}?alt=media`,

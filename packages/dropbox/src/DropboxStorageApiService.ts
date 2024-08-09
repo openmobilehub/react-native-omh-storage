@@ -51,7 +51,7 @@ export class DropboxStorageApiService {
   }
   async downloadFile(file: StorageEntity) {
     const accessToken = this.client.getAccessToken();
-    const filePath = Dirs.DocumentDir + `/${file.name}`;
+    const filePath = `${Dirs.DocumentDir}/${file.name}`;
     const dropboxArgs = JSON.stringify({ path: file.id });
 
     return await FileSystem.fetch(`${CONTENT_URL}${FILES_PARTICLE}/download`, {
