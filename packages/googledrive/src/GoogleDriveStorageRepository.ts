@@ -68,15 +68,11 @@ export class GoogleDriveStorageRepository {
     mimeType: string,
     fileExtension: string
   ) {
-    const response = this.apiService.exportFile(file, mimeType, fileExtension);
-
-    return response;
+    return this.apiService.exportFile(file, mimeType, fileExtension);
   }
 
   async downloadFile(file: StorageEntity) {
-    const response = this.apiService.downloadFile(file);
-
-    return response;
+    return this.apiService.downloadFile(file);
   }
 
   async localFileUpload(file: LocalFile, folderId: string) {

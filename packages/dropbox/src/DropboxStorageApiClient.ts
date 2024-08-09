@@ -37,4 +37,10 @@ export class DropboxStorageApiClient {
   setAccessToken(accessToken: string) {
     this.axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
   }
+
+  getAccessToken(): string {
+    return (
+      this.axiosClient.defaults.headers.common.Authorization?.toString() ?? ''
+    );
+  }
 }
