@@ -51,6 +51,7 @@ export const ContextMenu = ({ folderId }: ContextMenuProps) => {
 
   const handleFileUpload = async (file: LocalFile) => {
     handleFileUploadSheetClose();
+
     await localFileUpload(file);
   };
 
