@@ -4,6 +4,7 @@ import {
   StorageException,
 } from '@openmobilehub/storage-core';
 import { useQuery } from '@tanstack/react-query';
+import type { FetchResult } from 'react-native-file-access';
 
 import { useSnackbar } from '@/contexts/snackbar/SnackbarContent';
 import { FileType } from '@/types/FileTypes';
@@ -15,7 +16,7 @@ const downloadFile = async (
   storageClient: IStorageClient,
   showSnackbar: (message: string) => void,
   file?: StorageEntity
-) => {
+): Promise<FetchResult> => {
   if (!file) return Promise.reject(new Error('No file provided'));
   let data;
 
@@ -37,14 +38,16 @@ const downloadFile = async (
     }
     if (data?.status === 200) {
       showSnackbar(`${file.name} file downloaded successfully!`);
+      return data;
     } else {
       showSnackbar('Failed to download file');
+      throw new Error('Failed to download file');
     }
   } catch (e) {
     showSnackbar('Failed to download file');
     console.warn('Error downloading file', e);
+    throw e;
   }
-  return data;
 };
 
 export const useDownloadFileQuery = (
@@ -52,7 +55,7 @@ export const useDownloadFileQuery = (
   file?: StorageEntity
 ) => {
   const { showSnackbar } = useSnackbar();
-  return useQuery<StorageEntity, StorageException>({
+  return useQuery<FetchResult, StorageException>({
     queryKey: [QK_DOWNLOAD_FILE, file?.id],
     queryFn: () => downloadFile(storageClient, showSnackbar, file),
     enabled: !!file,

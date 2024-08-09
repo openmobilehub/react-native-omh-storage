@@ -83,7 +83,7 @@ export class GoogleDriveStorageApiService {
     const ext = !file?.extension ? `.${fileExtension}` : '';
     const filePath = Dirs.DocumentDir + `/${file.name}${ext}`;
 
-    return await FileSystem.fetch(
+    return FileSystem.fetch(
       `${BASE_URL}${FILES_PARTICLE}/${file.id}?mimeType=${mimeType}`,
       {
         path: filePath,
@@ -99,7 +99,7 @@ export class GoogleDriveStorageApiService {
     const accessToken = this.client.getAccessToken();
     const filePath = Dirs.DocumentDir + `/${file.name}`;
 
-    return await FileSystem.fetch(
+    return FileSystem.fetch(
       `${BASE_URL}${FILES_PARTICLE}/${file.id}?alt=media`,
       {
         path: filePath,
