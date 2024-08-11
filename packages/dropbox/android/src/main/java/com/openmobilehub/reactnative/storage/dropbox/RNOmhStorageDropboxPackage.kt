@@ -14,6 +14,7 @@ class RNOmhStorageDropboxPackage : TurboReactPackage() {
    */
   override fun getModule(name: String, reactContext: ReactApplicationContext): NativeModule? {
     return when (name) {
+      RNOmhStorageDropboxModule.NAME -> RNOmhStorageDropboxModule(reactContext)
       else -> null
     }
   }
@@ -25,7 +26,9 @@ class RNOmhStorageDropboxPackage : TurboReactPackage() {
     /**
      * Here declare the array of exported modules
      */
-    val moduleList: Array<Class<out NativeModule?>> = arrayOf()
+    val moduleList: Array<Class<out NativeModule?>> = arrayOf(
+      RNOmhStorageDropboxModule::class.java,
+    )
     val reactModuleInfoMap: MutableMap<String, ReactModuleInfo> = HashMap()
     /**
      * And here just iterate on that array and produce the info provider instance

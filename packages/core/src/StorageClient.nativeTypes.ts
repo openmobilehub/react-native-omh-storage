@@ -1,6 +1,3 @@
-import type { TurboModule } from 'react-native';
-import { TurboModuleRegistry } from 'react-native';
-
 export type NativeStorageEntity = {
   type: string;
   id?: string;
@@ -13,11 +10,7 @@ export type NativeStorageEntity = {
   size?: number;
 };
 
-export interface Spec extends TurboModule {
+export interface NativeStorageClient {
   createStorageClient(): void;
   listFiles(folderId: string): Promise<NativeStorageEntity[]>;
 }
-
-export default TurboModuleRegistry.getEnforcing<Spec>(
-  'RNOmhStorageDropboxModule'
-);

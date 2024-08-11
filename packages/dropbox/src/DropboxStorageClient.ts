@@ -19,7 +19,6 @@ export class DropboxStorageClient implements IStorageClient {
   private repository: DropboxStorageRepository;
 
   constructor() {
-    console.warn('NOT HERE');
     this.client = new DropboxStorageApiClient();
     const service = new DropboxStorageApiService(this.client);
     this.repository = new DropboxStorageRepository(service);

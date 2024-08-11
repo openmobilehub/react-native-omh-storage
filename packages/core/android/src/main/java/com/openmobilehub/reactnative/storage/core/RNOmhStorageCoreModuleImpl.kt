@@ -17,29 +17,12 @@ class RNOmhStorageCoreModuleImpl internal constructor(private val context: React
   private var storageClient: OmhStorageClient? = null
 
   fun createStorageClient(reflectionPath: String): String {
-    Log.v("RNOmhStorageCoreModuleImpl", "createStorageClient")
-//    val promise = Pro
-//    val module2 = OmhDropboxModule(context).getOmhDropboxModule().getAuthClient()
-//    Log.v("RNOmhStorageCoreModuleImpl", "module2: ${module2}")
-
     val module = context.getNativeModule(OmhDropboxModule::class.java)
-//    val module = context.getNativeModule()
-    Log.v("RNOmhStorageCoreModuleImpl", "module: ${module?.getAuthClient()}")
-
-    val authClient = module?.getAuthClient()
-
+    val authClient = module?.moduleImpl?._authClient
     val storageClient = DropboxOmhStorageFactory().getStorageClient(authClient!!)
     this.storageClient = storageClient
-    Log.v("RNOmhStorageCoreModuleImpl", "storageClient: ${storageClient}")
-    // getOmhClient
-    // getStorageClientFromReflection
-
-
     return "clientId"
   }
-
-  val myPluginScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-
 
    fun listFiles(clientId: String, folderId: String) {
     Log.v("RNOmhStorageCoreModuleImpl", "listFiles")

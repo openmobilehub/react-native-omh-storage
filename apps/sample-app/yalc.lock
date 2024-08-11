@@ -1,0 +1,15 @@
+{
+  "version": "v1",
+  "packages": {
+    "@openmobilehub/auth-dropbox": {
+      "signature": "0943f86d87b1a61bf010bdc062816562",
+      "file": true,
+      "replaced": "^1.0.3"
+    },
+    "@openmobilehub/auth-core": {
+      "version": "1.0.4",
+      "signature": "d88b0de7867716ae9e2acb224c6e88e1",
+      "file": true
+    }
+  }
+}

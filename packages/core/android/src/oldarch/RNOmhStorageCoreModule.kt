@@ -20,7 +20,6 @@ class RNOmhStorageCoreModule(
 
   @ReactMethod
    fun listFiles(clientId: String, folderId: String) {
-    Log.v("RNOmhStorageCoreModule", "listFiles-1")
     return moduleImpl.listFiles(clientId, folderId)
   }
 

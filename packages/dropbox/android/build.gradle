@@ -114,6 +114,9 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+  implementation project(':omh-auth-core')
+  implementation project(':openmobilehub_auth-dropbox')
+  api "com.openmobilehub.android.storage:plugin-dropbox:2.0.0-alpha"
 }
 
 if (isNewArchitectureEnabled()) {
