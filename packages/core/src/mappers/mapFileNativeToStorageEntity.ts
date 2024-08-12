@@ -1,7 +1,7 @@
 import { ApiException, File, Folder } from '@openmobilehub/storage-core';
 import type { StorageEntity } from '@openmobilehub/storage-core';
 
-import type { NativeStorageEntity } from '../types';
+import type { NativeStorageEntity } from '../StorageClient.nativeTypes';
 
 export const mapFileNativeToStorageEntity = (
   fileNative: NativeStorageEntity

@@ -5,24 +5,25 @@
       "version": "1.0.6",
       "signature": "f2a4ec7851fe5c1a26d4adabd144fbba",
       "file": true,
-      "replaced": "^1.0.3"
+      "replaced": "1.0.3"
     },
     "@openmobilehub/auth-core": {
       "version": "1.0.6",
       "signature": "a626e77cfa5784b08b4c49ad3d73de7a",
-      "file": true
+      "file": true,
+      "replaced": "1.0.3"
     },
     "@openmobilehub/auth-google": {
       "version": "1.0.6",
       "signature": "18195a9dc6f47ca2f97b9329216ac79d",
       "file": true,
-      "replaced": "^1.0.3"
+      "replaced": "1.0.3"
     },
     "@openmobilehub/auth-microsoft": {
       "version": "1.0.6",
       "signature": "033668974028c839a700368fa6ac4bba",
       "file": true,
-      "replaced": "^1.0.3"
+      "replaced": "1.0.3"
     }
   }
 }

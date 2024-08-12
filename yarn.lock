@@ -3067,19 +3067,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@openmobilehub/auth-dropbox@file:.yalc/@openmobilehub/auth-dropbox::locator=react-native-omh-storage-sample-app%40workspace%3Aapps%2Fsample-app":
-  version: 1.0.4
-  resolution: "@openmobilehub/auth-dropbox@file:.yalc/@openmobilehub/auth-dropbox#.yalc/@openmobilehub/auth-dropbox::hash=5b1ffa&locator=react-native-omh-storage-sample-app%40workspace%3Aapps%2Fsample-app"
+"@openmobilehub/auth-dropbox@npm:1.0.3":
+  version: 1.0.3
+  resolution: "@openmobilehub/auth-dropbox@npm:1.0.3"
   dependencies:
     "@openmobilehub/auth-core": 1.0.3
     redaxios: ^0.5.1
   peerDependencies:
     react-native: "*"
-  checksum: fe070394ffebc64ddd965d6197d91c2f2befab210652602765d24eacdf87b185980b85ff3ada2bdebb140001b4d5a5f6a8a35def838163f466abeeb632e80478
+  checksum: 4c622faa66faf85a3421ec27df4436a97931776928f927307481e9a09fb98e2ec658e16ea5cc3c2dead7c7bc8edbac4c40fc1c8992be92cc16a8229066ca9666
   languageName: node
   linkType: hard
 
-"@openmobilehub/auth-google@npm:^1.0.3":
+"@openmobilehub/auth-google@npm:1.0.3":
   version: 1.0.3
   resolution: "@openmobilehub/auth-google@npm:1.0.3"
   dependencies:
@@ -3091,7 +3091,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@openmobilehub/auth-microsoft@npm:^1.0.3":
+"@openmobilehub/auth-microsoft@npm:1.0.3":
   version: 1.0.3
   resolution: "@openmobilehub/auth-microsoft@npm:1.0.3"
   dependencies:
@@ -13125,9 +13125,10 @@ __metadata:
     "@babel/preset-env": ^7.20.0
     "@babel/runtime": ^7.20.0
     "@gorhom/bottom-sheet": ^4.6.4
-    "@openmobilehub/auth-dropbox": "file:.yalc/@openmobilehub/auth-dropbox"
-    "@openmobilehub/auth-google": ^1.0.3
-    "@openmobilehub/auth-microsoft": ^1.0.3
+    "@openmobilehub/auth-core": 1.0.3
+    "@openmobilehub/auth-dropbox": 1.0.3
+    "@openmobilehub/auth-google": 1.0.3
+    "@openmobilehub/auth-microsoft": 1.0.3
     "@react-native-async-storage/async-storage": ^1.24.0
     "@react-native-clipboard/clipboard": ^1.14.1
     "@react-native-picker/picker": ^2.7.7
