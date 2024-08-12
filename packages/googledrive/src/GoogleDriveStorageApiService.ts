@@ -1,10 +1,15 @@
-import { ApiException, type LocalFile } from '@openmobilehub/storage-core';
-import { FileSystem } from 'react-native-file-access';
+import {
+  ApiException,
+  StorageEntity,
+  type LocalFile,
+} from '@openmobilehub/storage-core';
+import { Dirs, FileSystem } from 'react-native-file-access';
 
 import type { CommonRequestBody } from './data/body/CommonRequestBody';
 import type { CreateFileRequestBody } from './data/body/CreateFileRequestBody';
 import type { CreatePermissionRequestBody } from './data/body/CreatePermissionRequestBody';
 import type { UpdatePermissionRequestBody } from './data/body/UpdatePermissionRequestBody';
+import { BASE_URL } from './data/constants/constants';
 import { type FileListRemote } from './data/response/FileListRemote';
 import type { PermissionListRemote } from './data/response/PermissionListRemote';
 import type { PermissionRemote } from './data/response/PermissionRemote';
@@ -69,6 +74,43 @@ export class GoogleDriveStorageApiService {
     });
   }
 
+  async exportFile(
+    file: StorageEntity,
+    mimeType: string,
+    fileExtension: string
+  ) {
+    const accessToken = this.client.getAccessToken();
+    const ext = !file?.extension ? `.${fileExtension}` : '';
+    const filePath = Dirs.DocumentDir + `/${file.name}${ext}`;
+
+    return FileSystem.fetch(
+      `${BASE_URL}${FILES_PARTICLE}/${file.id}?mimeType=${mimeType}`,
+      {
+        path: filePath,
+        method: 'GET',
+        headers: {
+          Authorization: accessToken,
+        },
+      }
+    );
+  }
+
+  async downloadFile(file: StorageEntity) {
+    const accessToken = this.client.getAccessToken();
+    const filePath = `${Dirs.DocumentDir}/${file.name}`;
+
+    return FileSystem.fetch(
+      `${BASE_URL}${FILES_PARTICLE}/${file.id}?alt=media`,
+      {
+        path: filePath,
+        method: 'GET',
+        headers: {
+          Authorization: accessToken,
+        },
+      }
+    );
+  }
+
   private async initializeResumableUpload(file: LocalFile, folderId: string) {
     const metadata = {
       name: file.name,
@@ -76,7 +118,7 @@ export class GoogleDriveStorageApiService {
       parents: [folderId],
     };
 
-    const filePath = file.uri;
+    const filePath = decodeURIComponent(file.uri.replace('file://', ''));
     const fileStats = await FileSystem.stat(filePath);
     const byteLength = fileStats.size;
 

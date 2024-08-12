@@ -6,6 +6,8 @@ import {
 } from '@openmobilehub/storage-core';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { QK_LIST_FILES, QK_UPLOAD_FILE } from '../client/queryKeys';
+
 export const useLocalFileUploadMutation = (
   storageClient: IStorageClient,
   folderId: string
@@ -13,10 +15,10 @@ export const useLocalFileUploadMutation = (
   const queryClient = useQueryClient();
 
   return useMutation<StorageEntity, StorageException, LocalFile>({
-    mutationKey: ['fileUpload', folderId],
+    mutationKey: [QK_UPLOAD_FILE, folderId],
     mutationFn: (file) => storageClient.localFileUpload(file, folderId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['fileList', folderId] });
+      queryClient.invalidateQueries({ queryKey: [QK_LIST_FILES, folderId] });
     },
     retry: false, //It was causing interruptions in the upload process, beacuse of 308 status code
   });

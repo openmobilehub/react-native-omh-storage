@@ -3114,6 +3114,7 @@ __metadata:
     react: 18.2.0
     react-native: 0.74.3
     react-native-builder-bob: ^0.26.0
+    react-native-file-access: ^3.1.0
     typescript: 5.2.2
   peerDependencies:
     react: "*"
@@ -3142,6 +3143,24 @@ __metadata:
 "@openmobilehub/storage-googledrive@workspace:packages/googledrive":
   version: 0.0.0-use.local
   resolution: "@openmobilehub/storage-googledrive@workspace:packages/googledrive"
+  dependencies:
+    axios: ^1.7.2
+    react: 18.2.0
+    react-native: 0.74.3
+    react-native-builder-bob: ^0.26.0
+    react-native-file-access: ^3.1.0
+    typescript: 5.2.2
+  peerDependencies:
+    "@openmobilehub/storage-core": "*"
+    react: "*"
+    react-native: "*"
+    react-native-file-access: "*"
+  languageName: unknown
+  linkType: soft
+
+"@openmobilehub/storage-onedrive@workspace:packages/onedrive":
+  version: 0.0.0-use.local
+  resolution: "@openmobilehub/storage-onedrive@workspace:packages/onedrive"
   dependencies:
     axios: ^1.7.2
     react: 18.2.0

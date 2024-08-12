@@ -5,4 +5,11 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     columnGap: 8,
   },
+  labelText: {
+    marginTop: 2, // Added some margin, so label will be properly aligned with value text
+  },
+  valueText: {
+    flex: 1,
+    flexWrap: 'wrap',
+  },
 });

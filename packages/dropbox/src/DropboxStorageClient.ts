@@ -1,6 +1,5 @@
 import {
   Permission,
-  StorageEntityMetadata,
   UnsupportedOperationException,
   type IStorageClient,
   type LocalFile,
@@ -34,8 +33,8 @@ export class DropboxStorageClient implements IStorageClient {
     return this.repository.listFiles(folderId);
   }
 
-  getFileMetadata(_fileId: string): Promise<StorageEntityMetadata> {
-    throw new UnsupportedOperationException();
+  async getFileMetadata(fileId: string) {
+    return this.repository.getFileMetadata(fileId);
   }
 
   async search(query: string): Promise<StorageEntity[]> {
@@ -58,15 +57,15 @@ export class DropboxStorageClient implements IStorageClient {
     throw new UnsupportedOperationException();
   }
 
-  localFileUpload(_file: LocalFile, _folderId: string): Promise<StorageEntity> {
-    throw new UnsupportedOperationException();
+  async localFileUpload(file: LocalFile, folderId: string) {
+    return this.repository.localFileUpload(file, folderId);
   }
 
-  deleteFile(_fileId: string): Promise<void> {
-    throw new UnsupportedOperationException();
+  async deleteFile(fileId: string) {
+    return this.repository.deleteFile(fileId);
   }
 
-  permanentlyDeleteFile(_fileId: string): Promise<void> {
+  async permanentlyDeleteFile() {
     throw new UnsupportedOperationException();
   }
 
@@ -98,5 +97,16 @@ export class DropboxStorageClient implements IStorageClient {
     _role: PermissionRole
   ): Promise<Permission | undefined> {
     throw new UnsupportedOperationException();
+  }
+  exportFile(
+    _file: StorageEntity,
+    _mimeType: string,
+    _fileExtension: string
+  ): Promise<any> {
+    throw new UnsupportedOperationException();
+  }
+
+  async downloadFile(file: StorageEntity) {
+    return this.repository.downloadFile(file);
   }
 }

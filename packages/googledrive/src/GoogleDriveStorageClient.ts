@@ -53,7 +53,19 @@ export class GoogleDriveStorageClient implements IStorageClient {
     return this.repository.createFileWithMimeType(name, mimeType, parentId);
   }
 
-  localFileUpload(file: LocalFile, folderId: string) {
+  async exportFile(
+    file: StorageEntity,
+    mimeType: string,
+    fileExtension: string
+  ) {
+    return this.repository.exportFile(file, mimeType, fileExtension);
+  }
+
+  async downloadFile(file: StorageEntity) {
+    return this.repository.downloadFile(file);
+  }
+
+  async localFileUpload(file: LocalFile, folderId: string) {
     return this.repository.localFileUpload(file, folderId);
   }
 

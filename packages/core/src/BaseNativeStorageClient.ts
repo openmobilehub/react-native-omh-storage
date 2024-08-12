@@ -1,3 +1,5 @@
+import type { FetchResult } from 'react-native-file-access';
+
 import { mapFileNativeToStorageEntity } from './mappers/mapFileNativeToStorageEntity';
 import type {
   Permission,
@@ -101,5 +103,17 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
     _role: PermissionRole
   ): Promise<Permission | undefined> {
     throw new UnsupportedOperationException();
+  }
+
+  exportFile(
+    _file: StorageEntity,
+    _mimeType: string,
+    _fileExtension: string
+  ): Promise<FetchResult> {
+    throw new Error('Method not implemented.');
+  }
+
+  downloadFile(_file: StorageEntity): Promise<FetchResult> {
+    throw new Error('Method not implemented.');
   }
 }
