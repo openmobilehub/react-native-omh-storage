@@ -5,17 +5,25 @@ import {
 import { Dirs, FileSystem } from 'react-native-file-access';
 
 import { type FileListRemote } from './data/response/FileListRemote';
-import type { OneDriveStorageApiClient } from './OneDriveStorageApiClient';
+import type {
+  OneDriveStorageApiClient,
+  OneDriveStorageApiClientNoAuth,
+} from './OneDriveStorageApiClient';
 
 const DRIVES_PARTICLE = 'me/drive';
 const ITEMS_PARTICLE = `${DRIVES_PARTICLE}/items`;
-const UPLOAD_CHUNK_SIZE = 1024 * 1024 * 10; // 10MB
+const UPLOAD_CHUNK_SIZE = 327_680 * 3; // 3 * 320KB - around 1MB
 
 export class OneDriveStorageApiService {
   private client: OneDriveStorageApiClient;
+  private clientNoAuth: OneDriveStorageApiClientNoAuth;
 
-  constructor(apiClient: OneDriveStorageApiClient) {
+  constructor(
+    apiClient: OneDriveStorageApiClient,
+    clientNoAuth: OneDriveStorageApiClientNoAuth
+  ) {
     this.client = apiClient;
+    this.clientNoAuth = clientNoAuth;
   }
 
   async listFiles(parentId: string) {
@@ -88,12 +96,16 @@ export class OneDriveStorageApiService {
 
       const bytesRead = buffer.byteLength;
 
-      const response = await this.client.axiosClient.put(uploadUrl, buffer, {
-        headers: {
-          'Content-Range': `bytes ${uploadedBytes}-${uploadedBytes + bytesRead - 1}/${fileLength}`,
-          'Content-Type': 'application/octet-stream',
-        },
-      });
+      const response = await this.clientNoAuth.axiosClient.put(
+        uploadUrl,
+        buffer,
+        {
+          headers: {
+            'Content-Range': `bytes ${uploadedBytes}-${uploadedBytes + bytesRead - 1}/${fileLength}`,
+            'Content-Type': 'application/octet-stream',
+          },
+        }
+      );
 
       uploadedBytes += bytesRead;
 

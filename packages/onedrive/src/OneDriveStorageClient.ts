@@ -10,17 +10,25 @@ import {
 } from '@openmobilehub/storage-core';
 
 import { ROOT_FOLDER } from './data/constants/constants';
-import { OneDriveStorageApiClient } from './OneDriveStorageApiClient';
+import {
+  OneDriveStorageApiClient,
+  OneDriveStorageApiClientNoAuth,
+} from './OneDriveStorageApiClient';
 import { OneDriveStorageApiService } from './OneDriveStorageApiService';
 import { OneDriveStorageRepository } from './OneDriveStorageRepository';
 
 export class OneDriveStorageClient implements IStorageClient {
   private client: OneDriveStorageApiClient;
+  private clientNoAuth: OneDriveStorageApiClientNoAuth;
   private repository: OneDriveStorageRepository;
 
   constructor() {
     this.client = new OneDriveStorageApiClient();
-    const service = new OneDriveStorageApiService(this.client);
+    this.clientNoAuth = new OneDriveStorageApiClientNoAuth();
+    const service = new OneDriveStorageApiService(
+      this.client,
+      this.clientNoAuth
+    );
     this.repository = new OneDriveStorageRepository(service);
   }
 
