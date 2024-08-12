@@ -1,4 +1,4 @@
-import type { StorageEntity } from '@openmobilehub/storage-core';
+import type { LocalFile, StorageEntity } from '@openmobilehub/storage-core';
 
 import { mapDriveItemToStorageEntity } from './data/mappers/mapDriveItemToStorageEntity';
 import type { OneDriveStorageApiService } from './OneDriveStorageApiService';
@@ -18,5 +18,15 @@ export class OneDriveStorageRepository {
 
   async downloadFile(file: StorageEntity) {
     return this.apiService.downloadFile(file);
+  }
+
+  async localFileUpload(file: LocalFile, folderId: string) {
+    const response = await this.apiService.localFileUpload(file, folderId);
+
+    if (!response) {
+      throw new Error('Upload failed, no response received');
+    }
+
+    return response;
   }
 }
