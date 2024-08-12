@@ -36,7 +36,7 @@ interface Props {
 
 export const CreatePermission = ({ file, onCancel, onSuccess }: Props) => {
   const [type, setType] = useState(AddEditPermissionType.USER);
-  const [role, setRole] = useState(AddEditPermissionRole.READER);
+  const [role, setRole] = useState(AddEditPermissionRole.COMMENTER);
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [sendNotification, setSendNotification] = useState(false);

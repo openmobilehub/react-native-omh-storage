@@ -35,7 +35,7 @@ export const UpdatePermission = ({
 }: Props) => {
   const [role, setRole] = useState(
     mapCoreToAddEditPermissionRole(permission.role) ??
-      AddEditPermissionRole.READER
+      AddEditPermissionRole.COMMENTER
   );
 
   const { showSnackbar } = useSnackbar();

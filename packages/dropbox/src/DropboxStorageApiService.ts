@@ -230,7 +230,7 @@ export class DropboxStorageApiService {
       `${SHARING_PARTICLE}/share_folder`,
       {
         path: folderId,
-        access_inheritance: true, // mimic Google Drive behaviour
+        access_inheritance: 'inherit', // mimic Google Drive behaviour
       }
     );
   }
