@@ -1,18 +1,32 @@
 import { PermissionRole } from '@openmobilehub/storage-core';
 
+import { Provider } from '@/constants/provider.ts';
+
 export enum AddEditPermissionRole {
   WRITER = 'Writer',
   COMMENTER = 'Commenter',
   READER = 'Reader',
 }
 
-export const roleOptions = Object.entries(AddEditPermissionRole).map(
-  ([key, label]) => ({
+const DROPBOX_ROLE_OPTIONS = [
+  AddEditPermissionRole.WRITER,
+  AddEditPermissionRole.COMMENTER,
+];
+
+export const getRoleOptions = (provider: Provider | null) => {
+  let roles = Object.entries(AddEditPermissionRole);
+  switch (provider) {
+    case Provider.DROPBOX:
+      roles = roles.filter(([_key, label]) =>
+        DROPBOX_ROLE_OPTIONS.includes(label)
+      );
+  }
+  return roles.map(([key, label]) => ({
     key,
     label,
     value: label,
-  })
-);
+  }));
+};
 
 export const mapAddEditPermissionRoleToCore = (
   role: AddEditPermissionRole
