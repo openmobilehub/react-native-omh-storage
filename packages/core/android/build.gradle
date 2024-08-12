@@ -122,7 +122,7 @@ dependencies {
 if (isNewArchitectureEnabled()) {
   react {
     jsRootDir = file("../src/")
-    libraryName = "RNOmhStorageModule"
+    libraryName = "StorageCoreModule"
     codegenJavaPackageName = "com.openmobilehub.reactnative.storage.core"
   }
 }

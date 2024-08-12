@@ -6,11 +6,11 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.module.annotations.ReactModule
 
-@ReactModule(name = RNOmhStorageGoogleModuleImpl.NAME)
-class RNOmhStorageGoogleDriveModule(
+@ReactModule(name = StorageGoogleDriveModule.NAME)
+class StorageGoogleDriveModule(
   private val reactContext: ReactApplicationContext
 ) : ReactContextBaseJavaModule(reactContext) {
-  private val moduleImpl = RNOmhStorageGoogleModuleImpl(reactContext)
+  private val moduleImpl = StorageGoogleDriveModuleImpl(reactContext)
 
   @ReactMethod
   fun initializeStorageClient() {
@@ -25,6 +25,6 @@ class RNOmhStorageGoogleDriveModule(
   override fun getName() = NAME
 
   companion object {
-    const val NAME = RNOmhStorageGoogleModuleImpl.NAME
+    const val NAME = StorageGoogleDriveModuleImpl.NAME
   }
 }

@@ -8,13 +8,13 @@ import com.facebook.react.module.model.ReactModuleInfo
 import com.facebook.react.module.model.ReactModuleInfoProvider
 import com.facebook.react.turbomodule.core.interfaces.TurboModule
 
-class RNOmhStorageDropboxPackage : TurboReactPackage() {
+class StorageDropboxPackage : TurboReactPackage() {
   /**
    * Initialize and export modules based on the name of the required module
    */
   override fun getModule(name: String, reactContext: ReactApplicationContext): NativeModule? {
     return when (name) {
-      RNOmhStorageDropboxModule.NAME -> RNOmhStorageDropboxModule(reactContext)
+      StorageDropboxModule.NAME -> StorageDropboxModule(reactContext)
       else -> null
     }
   }
@@ -27,7 +27,7 @@ class RNOmhStorageDropboxPackage : TurboReactPackage() {
      * Here declare the array of exported modules
      */
     val moduleList: Array<Class<out NativeModule?>> = arrayOf(
-      RNOmhStorageDropboxModule::class.java,
+      StorageDropboxModule::class.java,
     )
     val reactModuleInfoMap: MutableMap<String, ReactModuleInfo> = HashMap()
     /**

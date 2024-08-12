@@ -9,7 +9,7 @@ import com.facebook.react.module.model.ReactModuleInfo
 import com.facebook.react.turbomodule.core.interfaces.TurboModule
 import java.util.HashMap
 
-class RNOmhStorageCorePackage : TurboReactPackage() {
+class StorageCorePackage : TurboReactPackage() {
   /**
    * Initialize and export modules based on the name of the required module
    */

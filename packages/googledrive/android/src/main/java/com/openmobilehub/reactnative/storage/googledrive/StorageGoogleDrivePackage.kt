@@ -8,13 +8,13 @@ import com.facebook.react.module.model.ReactModuleInfo
 import com.facebook.react.module.model.ReactModuleInfoProvider
 import com.facebook.react.turbomodule.core.interfaces.TurboModule
 
-class RNOmhStorageGoogleDrivePackage : TurboReactPackage() {
+class StorageGoogleDrivePackage : TurboReactPackage() {
   /**
    * Initialize and export modules based on the name of the required module
    */
   override fun getModule(name: String, reactContext: ReactApplicationContext): NativeModule? {
     return when (name) {
-      RNOmhStorageGoogleModuleImpl.NAME -> RNOmhStorageGoogleDriveModule(reactContext)
+      StorageGoogleDriveModuleImpl.NAME -> StorageGoogleDriveModule(reactContext)
       else -> null
     }
   }
@@ -27,7 +27,7 @@ class RNOmhStorageGoogleDrivePackage : TurboReactPackage() {
      * Here declare the array of exported modules
      */
     val moduleList: Array<Class<out NativeModule?>> = arrayOf(
-      RNOmhStorageGoogleDriveModule::class.java,
+      StorageGoogleDriveModule::class.java,
     )
     val reactModuleInfoMap: MutableMap<String, ReactModuleInfo> = HashMap()
     /**

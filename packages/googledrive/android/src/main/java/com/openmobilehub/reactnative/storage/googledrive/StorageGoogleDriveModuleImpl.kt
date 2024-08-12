@@ -6,13 +6,13 @@ import com.openmobilehub.android.storage.core.OmhStorageClient
 import com.openmobilehub.android.storage.core.OmhStorageProvider
 import com.openmobilehub.android.storage.core.model.OmhStorageException
 import com.openmobilehub.reactnative.auth.plugin.google.OmhGoogleModule
-import com.openmobilehub.reactnative.storage.core.StorageModuleImpl
+import com.openmobilehub.reactnative.storage.core.StorageCoreModuleImpl
 import com.openmobilehub.android.storage.plugin.googledrive.gms.GoogleDriveGmsConstants
 import com.openmobilehub.android.storage.plugin.googledrive.nongms.GoogleDriveNonGmsConstants
 
 
-class RNOmhStorageGoogleModuleImpl(private val reactContext: ReactApplicationContext) {
-  private val moduleImpl = StorageModuleImpl(reactContext, this::createStorageClient)
+class StorageGoogleDriveModuleImpl(private val reactContext: ReactApplicationContext) {
+  private val moduleImpl = StorageCoreModuleImpl(reactContext, this::createStorageClient)
 
   private fun createStorageClient(): OmhStorageClient {
     val module = reactContext.getNativeModule(OmhGoogleModule::class.java)
@@ -38,6 +38,6 @@ class RNOmhStorageGoogleModuleImpl(private val reactContext: ReactApplicationCon
   }
 
   companion object {
-    const val NAME = "RNOmhStorageGoogleDriveModule"
+    const val NAME = "StorageGoogleDriveModule"
   }
 }

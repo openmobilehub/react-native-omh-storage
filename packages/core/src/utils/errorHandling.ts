@@ -31,7 +31,9 @@ export const mapNativeException = (exception: any) => {
   ) {
     return new ApiException(
       exception.userInfo.message,
-      exception.userInfo.statusCode
+      exception.userInfo.statusCode === -1
+        ? undefined
+        : exception.userInfo.statusCode
     );
   }
 

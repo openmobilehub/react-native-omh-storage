@@ -6,10 +6,10 @@ import com.openmobilehub.android.storage.core.OmhStorageClient
 import com.openmobilehub.android.storage.core.model.OmhStorageException
 import com.openmobilehub.android.storage.plugin.dropbox.DropboxOmhStorageFactory
 import com.openmobilehub.reactnative.auth.plugin.dropbox.OmhDropboxModule
-import com.openmobilehub.reactnative.storage.core.StorageModuleImpl
+import com.openmobilehub.reactnative.storage.core.StorageCoreModuleImpl
 
-class RNOmhStorageDropboxModuleImpl(private val reactContext: ReactApplicationContext) {
-  private val moduleImpl = StorageModuleImpl(reactContext, this::createStorageClient)
+class StorageDropboxModuleImpl(private val reactContext: ReactApplicationContext) {
+  private val moduleImpl = StorageCoreModuleImpl(reactContext, this::createStorageClient)
 
   private fun createStorageClient(): OmhStorageClient {
     val module = reactContext.getNativeModule(OmhDropboxModule::class.java)
@@ -29,6 +29,6 @@ class RNOmhStorageDropboxModuleImpl(private val reactContext: ReactApplicationCo
   }
 
   companion object {
-    const val NAME = "RNOmhStorageDropboxModule"
+    const val NAME = "StorageDropboxModule"
   }
 }

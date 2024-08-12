@@ -116,7 +116,6 @@ dependencies {
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
   // OMH
-  implementation project(':omh-auth-core')
   implementation project(':openmobilehub_auth-google')
 
   implementation project(':openmobilehub_storage-core')
