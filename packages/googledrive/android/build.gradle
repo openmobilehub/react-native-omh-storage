@@ -114,6 +114,14 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+  // OMH
+  implementation project(':omh-auth-core')
+  implementation project(':openmobilehub_auth-google')
+
+  implementation project(':openmobilehub_storage-core')
+  implementation "com.openmobilehub.android.storage:plugin-googledrive-gms:2.0.0-alpha"
+  implementation "com.openmobilehub.android.storage:plugin-googledrive-non-gms:2.0.0-alpha"
 }
 
 if (isNewArchitectureEnabled()) {

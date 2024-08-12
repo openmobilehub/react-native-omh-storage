@@ -1,4 +1,4 @@
-package com.openmobilehub.reactnative.storage.dropbox
+package com.openmobilehub.reactnative.storage.googledrive
 
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
@@ -6,11 +6,11 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.module.annotations.ReactModule
 
-@ReactModule(name = RNOmhStorageDropboxModule.NAME)
-class RNOmhStorageDropboxModule(
+@ReactModule(name = RNOmhStorageGoogleModuleImpl.NAME)
+class RNOmhStorageGoogleDriveModule(
   private val reactContext: ReactApplicationContext
 ) : ReactContextBaseJavaModule(reactContext) {
-  private val moduleImpl = RNOmhStorageDropboxModuleImpl(reactContext)
+  private val moduleImpl = RNOmhStorageGoogleModuleImpl(reactContext)
 
   @ReactMethod
   fun initializeStorageClient() {
@@ -25,6 +25,6 @@ class RNOmhStorageDropboxModule(
   override fun getName() = NAME
 
   companion object {
-    const val NAME = RNOmhStorageDropboxModuleImpl.NAME
+    const val NAME = RNOmhStorageGoogleModuleImpl.NAME
   }
 }

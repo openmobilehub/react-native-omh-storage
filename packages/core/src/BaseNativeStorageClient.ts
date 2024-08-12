@@ -18,7 +18,7 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
     this.nativeStorageModule = nativeStorageModule;
     this.rootFolderId = rootFolderId;
 
-    this.nativeStorageModule.createStorageClient();
+    this.nativeStorageModule.initializeStorageClient();
   }
 
   setAccessToken(_accessToken: string): void {
