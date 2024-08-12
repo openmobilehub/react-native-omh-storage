@@ -11,7 +11,6 @@ export class GoogleDriveStorageClient
   implements IStorageClient
 {
   constructor() {
-    console.warn('HERE');
     super(NativeGoogleDriveStorageClient, ROOT_FOLDER);
   }
 }

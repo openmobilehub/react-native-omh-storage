@@ -32,10 +32,6 @@ export const mapFileNativeToStorageEntity = (
       size: fileNative.size !== -1 ? fileNative.size : undefined,
     });
   } else {
-    if (!fileNative.id || !fileNative.name) {
-      throw new ApiException('Invalid metadata');
-    }
-
     return new Folder({
       id: fileNative.id,
       name: fileNative.name,

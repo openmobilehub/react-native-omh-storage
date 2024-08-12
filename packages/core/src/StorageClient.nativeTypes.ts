@@ -14,3 +14,14 @@ export interface NativeStorageClient {
   initializeStorageClient(): void;
   listFiles(folderId: string): Promise<NativeStorageEntity[]>;
 }
+
+export type NativeStorageException = Error & {
+  nativeStackAndroid: any[];
+  userInfo: NativeStorageExceptionUserInfo;
+};
+
+export type NativeStorageExceptionUserInfo = {
+  type: string;
+  message: string;
+  statusCode?: number;
+};

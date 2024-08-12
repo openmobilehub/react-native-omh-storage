@@ -3,10 +3,10 @@ package com.openmobilehub.reactnative.storage.dropbox
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.openmobilehub.android.storage.core.OmhStorageClient
+import com.openmobilehub.android.storage.core.model.OmhStorageException
 import com.openmobilehub.android.storage.plugin.dropbox.DropboxOmhStorageFactory
 import com.openmobilehub.reactnative.auth.plugin.dropbox.OmhDropboxModule
 import com.openmobilehub.reactnative.storage.core.StorageModuleImpl
-
 
 class RNOmhStorageDropboxModuleImpl(private val reactContext: ReactApplicationContext) {
   private val moduleImpl = StorageModuleImpl(reactContext, this::createStorageClient)
@@ -14,7 +14,9 @@ class RNOmhStorageDropboxModuleImpl(private val reactContext: ReactApplicationCo
   private fun createStorageClient(): OmhStorageClient {
     val module = reactContext.getNativeModule(OmhDropboxModule::class.java)
     val authClient = module?.authClient
-    val storageClient = DropboxOmhStorageFactory().getStorageClient(authClient!!)
+      ?: throw OmhStorageException.DeveloperErrorException("Dropbox auth client is not initialized")
+    val storageClient = DropboxOmhStorageFactory().getStorageClient(authClient)
+
     return storageClient
   }
 

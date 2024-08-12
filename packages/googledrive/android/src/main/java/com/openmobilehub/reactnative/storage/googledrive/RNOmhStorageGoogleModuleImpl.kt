@@ -4,6 +4,7 @@ import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.openmobilehub.android.storage.core.OmhStorageClient
 import com.openmobilehub.android.storage.core.OmhStorageProvider
+import com.openmobilehub.android.storage.core.model.OmhStorageException
 import com.openmobilehub.reactnative.auth.plugin.google.OmhGoogleModule
 import com.openmobilehub.reactnative.storage.core.StorageModuleImpl
 import com.openmobilehub.android.storage.plugin.googledrive.gms.GoogleDriveGmsConstants
@@ -15,12 +16,15 @@ class RNOmhStorageGoogleModuleImpl(private val reactContext: ReactApplicationCon
 
   private fun createStorageClient(): OmhStorageClient {
     val module = reactContext.getNativeModule(OmhGoogleModule::class.java)
+
     val authClient = module?.authClient
+      ?: throw OmhStorageException.DeveloperErrorException("Google auth client is not initialized")
+
     val storageClient = OmhStorageProvider.Builder()
       .addGmsPath(GoogleDriveGmsConstants.IMPLEMENTATION_PATH)
       .addNonGmsPath(GoogleDriveNonGmsConstants.IMPLEMENTATION_PATH)
       .build()
-      .provideStorageClient(authClient!!, reactContext)
+      .provideStorageClient(authClient, reactContext)
 
     return storageClient
   }

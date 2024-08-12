@@ -9,6 +9,7 @@ import type {
 import { UnsupportedOperationException } from './model';
 import type { NativeStorageClient } from './StorageClient.nativeTypes';
 import type { IStorageClient, LocalFile } from './StorageClient.types';
+import { mapNativeException } from './utils/errorHandling';
 
 export abstract class BaseNativeStorageClient implements IStorageClient {
   nativeStorageModule: NativeStorageClient;
@@ -22,8 +23,18 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
   }
 
   setAccessToken(_accessToken: string): void {
-    // throw new UnsupportedOperationException();
-    // This method is not implemented in the base class, so it should be implemented in the derived class.
+    // TODO: Reconsider if it's needed
+  }
+
+  async listFiles(folderId: string): Promise<StorageEntity[]> {
+    try {
+      const nativeStorageEntities =
+        await this.nativeStorageModule.listFiles(folderId);
+
+      return nativeStorageEntities.map(mapFileNativeToStorageEntity);
+    } catch (maybeError) {
+      return Promise.reject(mapNativeException(maybeError));
+    }
   }
 
   getFileMetadata(_fileId: string): Promise<StorageEntityMetadata> {
@@ -90,16 +101,5 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
     _role: PermissionRole
   ): Promise<Permission | undefined> {
     throw new UnsupportedOperationException();
-  }
-
-  async listFiles(folderId: string): Promise<StorageEntity[]> {
-    const nativeStorageEntities =
-      await this.nativeStorageModule.listFiles(folderId);
-    console.log(
-      '🚀 ~ BaseNativeStorageClient ~ listFiles ~ nativeStorageEntities:',
-      nativeStorageEntities
-    );
-
-    return nativeStorageEntities.map(mapFileNativeToStorageEntity);
   }
 }
