@@ -1,4 +1,8 @@
-import { ApiException } from '@openmobilehub/storage-core';
+import {
+  ApiException,
+  InvalidCredentialsException,
+  type StorageAuthClient,
+} from '@openmobilehub/storage-core';
 import Axios, { AxiosError, type AxiosInstance } from 'axios';
 
 import { BASE_URL } from './data/constants/constants';
@@ -7,9 +11,19 @@ import type { OneDriveErrorResponse } from './data/error/OneDriveErrorResponse';
 export class OneDriveStorageApiClient {
   axiosClient: AxiosInstance;
 
-  constructor() {
+  constructor(authClient: StorageAuthClient) {
     this.axiosClient = Axios.create({
       baseURL: BASE_URL,
+    });
+
+    this.axiosClient.interceptors.request.use(async (config) => {
+      const accessToken = await authClient.getAccessToken();
+      if (!accessToken) {
+        throw new InvalidCredentialsException('Access token is not available');
+      }
+
+      config.headers.Authorization = `Bearer ${accessToken}`;
+      return config;
     });
 
     this.axiosClient.interceptors.response.use(
@@ -29,9 +43,5 @@ export class OneDriveStorageApiClient {
       return error.response.data.error.message;
     }
     return error.message;
-  }
-
-  setAccessToken(accessToken: string) {
-    this.axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
   }
 }

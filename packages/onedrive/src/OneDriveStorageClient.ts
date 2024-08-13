@@ -6,6 +6,7 @@ import {
   type LocalFile,
   type PermissionRecipient,
   type PermissionRole,
+  type StorageAuthClient,
   type StorageEntity,
 } from '@openmobilehub/storage-core';
 
@@ -18,17 +19,13 @@ export class OneDriveStorageClient implements IStorageClient {
   private client: OneDriveStorageApiClient;
   private repository: OneDriveStorageRepository;
 
-  constructor() {
-    this.client = new OneDriveStorageApiClient();
+  constructor(authClient: StorageAuthClient) {
+    this.client = new OneDriveStorageApiClient(authClient);
     const service = new OneDriveStorageApiService(this.client);
     this.repository = new OneDriveStorageRepository(service);
   }
 
   readonly rootFolderId = ROOT_FOLDER;
-
-  setAccessToken(accessToken: string) {
-    this.client.setAccessToken(accessToken);
-  }
 
   async listFiles(folderId: string) {
     return this.repository.listFiles(folderId);

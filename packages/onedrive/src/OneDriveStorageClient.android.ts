@@ -5,13 +5,13 @@ import {
 } from '@openmobilehub/storage-core';
 
 import { ROOT_FOLDER } from './data/constants/constants';
-import NativeDropboxStorageClient from './NativeDropboxStorageClient';
+import NativeOneDriveStorageClient from './NativeOneDriveStorageClient';
 
-export class DropboxStorageClient
+export class OneDriveStorageClient
   extends BaseNativeStorageClient
   implements IStorageClient
 {
   constructor(_authClient: StorageAuthClient) {
-    super(NativeDropboxStorageClient, ROOT_FOLDER);
+    super(NativeOneDriveStorageClient, ROOT_FOLDER);
   }
 }

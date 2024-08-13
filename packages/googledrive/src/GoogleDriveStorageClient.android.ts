@@ -1,6 +1,7 @@
 import {
   BaseNativeStorageClient,
   type IStorageClient,
+  type StorageAuthClient,
 } from '@openmobilehub/storage-core';
 
 import { ROOT_FOLDER } from './data/constants/constants';
@@ -10,7 +11,7 @@ export class GoogleDriveStorageClient
   extends BaseNativeStorageClient
   implements IStorageClient
 {
-  constructor() {
+  constructor(_authClient: StorageAuthClient) {
     super(NativeGoogleDriveStorageClient, ROOT_FOLDER);
   }
 }

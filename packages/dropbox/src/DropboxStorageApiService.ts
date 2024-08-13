@@ -1,4 +1,9 @@
-import type { LocalFile, StorageEntity } from '@openmobilehub/storage-core';
+import {
+  InvalidCredentialsException,
+  type LocalFile,
+  type StorageAuthClient,
+  type StorageEntity,
+} from '@openmobilehub/storage-core';
 import { Dirs, FileSystem } from 'react-native-file-access';
 
 import { CONTENT_URL } from './data/constants/constants';
@@ -10,9 +15,14 @@ const FILES_PARTICLE = 'files';
 const UPLOAD_CHUNK_SIZE = 1024 * 1024 * 10; // 10MB
 export class DropboxStorageApiService {
   private client: DropboxStorageApiClient;
+  private authClient: StorageAuthClient;
 
-  constructor(apiClient: DropboxStorageApiClient) {
+  constructor(
+    apiClient: DropboxStorageApiClient,
+    authClient: StorageAuthClient
+  ) {
     this.client = apiClient;
+    this.authClient = authClient;
   }
 
   async listFiles(folderId: string) {
@@ -50,7 +60,11 @@ export class DropboxStorageApiService {
     );
   }
   async downloadFile(file: StorageEntity) {
-    const accessToken = this.client.getAccessToken();
+    const accessToken = await this.authClient.getAccessToken();
+    if (!accessToken) {
+      throw new InvalidCredentialsException('Access token is not available');
+    }
+
     const filePath = `${Dirs.DocumentDir}/${file.name}`;
     const dropboxArgs = JSON.stringify({ path: file.id });
 

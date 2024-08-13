@@ -16,18 +16,17 @@ interface Props {
 }
 
 export const StorageContextProvider = ({ children }: Props) => {
-  const { provider, accessToken } = useAuthContext();
+  const { provider, authProvider } = useAuthContext();
 
   const storageClient = useMemo(() => {
-    if (provider == null || accessToken == null) {
+    if (provider == null || authProvider == null) {
       return null;
     }
 
-    const storageProvider = getStorageProvider(provider);
-    storageProvider.setAccessToken(accessToken);
+    const storageProvider = getStorageProvider(provider, authProvider);
 
     return storageProvider;
-  }, [provider, accessToken]);
+  }, [provider, authProvider]);
 
   return (
     <StorageContext.Provider value={{ storageClient }}>

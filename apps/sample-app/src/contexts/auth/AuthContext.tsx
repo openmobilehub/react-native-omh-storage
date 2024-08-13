@@ -18,7 +18,7 @@ import { initAuthClient } from './getAuthProvider';
 type InitializationStatus = 'idle' | 'initializing' | 'error' | 'success';
 
 type AuthContextValue = {
-  accessToken: string | null;
+  authProvider: AuthProvider | null;
   initializationStatus: InitializationStatus;
   provider: Provider | null;
   login(provider: Provider): Promise<void>;
@@ -36,7 +36,6 @@ interface Props {
 export const AuthContextProvider = ({ children }: Props) => {
   const [provider, setProvider] = useState<Provider | null>(null);
   const [authProvider, setAuthProvider] = useState<AuthProvider | null>(null);
-  const [accessToken, setAccessToken] = useState<string | null>(null);
   const [initializationStatus, setInitializationStatus] =
     useState<InitializationStatus>('idle');
 
@@ -44,7 +43,6 @@ export const AuthContextProvider = ({ children }: Props) => {
     authProvider?.signOut();
 
     setAuthProvider(null);
-    setAccessToken(null);
 
     storage.delete(SIGNED_WITH_PROVIDER);
   }, [authProvider]);
@@ -70,7 +68,6 @@ export const AuthContextProvider = ({ children }: Props) => {
       // This is a workaround to make sure the updates are batched.
       unstable_batchedUpdates(() => {
         setProvider(withProvider);
-        setAccessToken(token);
         setAuthProvider(initializedAuthProvider);
       });
 
@@ -89,10 +86,7 @@ export const AuthContextProvider = ({ children }: Props) => {
 
     if (!refreshedAccessToken) {
       showError(new Error('Failed to refresh access token'));
-      return;
     }
-
-    setAccessToken(refreshedAccessToken);
   }, [authProvider]);
 
   const silentLogin = useCallback(async () => {
@@ -119,7 +113,6 @@ export const AuthContextProvider = ({ children }: Props) => {
     // The updates supposed to be batched by default, but some reasons it does not always work.
     // This is a workaround to make sure the updates are batched.
     unstable_batchedUpdates(() => {
-      setAccessToken(token);
       setAuthProvider(initializedAuthProvider);
       setProvider(storedProvider);
     });
@@ -130,13 +123,13 @@ export const AuthContextProvider = ({ children }: Props) => {
   return (
     <AuthContext.Provider
       value={{
+        authProvider,
         provider,
         login,
         logout,
         refreshToken,
         silentLogin,
         initializationStatus,
-        accessToken,
       }}
     >
       {children}

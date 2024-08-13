@@ -1,7 +1,9 @@
 import {
   ApiException,
+  InvalidCredentialsException,
   StorageEntity,
   type LocalFile,
+  type StorageAuthClient,
 } from '@openmobilehub/storage-core';
 import { Dirs, FileSystem } from 'react-native-file-access';
 
@@ -22,6 +24,7 @@ const UPLOAD_CHUNK_SIZE = 1024 * 1024 * 10; // 10MB
 
 export class GoogleDriveStorageApiService {
   private client: GoogleDriveStorageApiClient;
+  private authClient: StorageAuthClient;
 
   private fieldsSelection =
     'id,name,createdTime,modifiedTime,parents,mimeType,fileExtension,size';
@@ -36,8 +39,12 @@ export class GoogleDriveStorageApiService {
   private searchParam = (query: string) =>
     `name contains '${query}' and trashed = false`;
 
-  constructor(apiClient: GoogleDriveStorageApiClient) {
+  constructor(
+    apiClient: GoogleDriveStorageApiClient,
+    authClient: StorageAuthClient
+  ) {
     this.client = apiClient;
+    this.authClient = authClient;
   }
 
   async listFiles(folderId: string) {
@@ -79,7 +86,11 @@ export class GoogleDriveStorageApiService {
     mimeType: string,
     fileExtension: string
   ) {
-    const accessToken = this.client.getAccessToken();
+    const accessToken = await this.authClient.getAccessToken();
+    if (!accessToken) {
+      throw new InvalidCredentialsException('Access token is not available');
+    }
+
     const ext = !file?.extension ? `.${fileExtension}` : '';
     const filePath = Dirs.DocumentDir + `/${file.name}${ext}`;
 
@@ -96,7 +107,11 @@ export class GoogleDriveStorageApiService {
   }
 
   async downloadFile(file: StorageEntity) {
-    const accessToken = this.client.getAccessToken();
+    const accessToken = await this.authClient.getAccessToken();
+    if (!accessToken) {
+      throw new InvalidCredentialsException('Access token is not available');
+    }
+
     const filePath = `${Dirs.DocumentDir}/${file.name}`;
 
     return FileSystem.fetch(

@@ -24,10 +24,6 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
     this.nativeStorageModule.initializeStorageClient();
   }
 
-  setAccessToken(_accessToken: string): void {
-    // TODO: Reconsider if it's needed
-  }
-
   async listFiles(folderId: string): Promise<StorageEntity[]> {
     try {
       const nativeStorageEntities =
