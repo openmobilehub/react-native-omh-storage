@@ -1,10 +1,10 @@
 import {
   UnsupportedOperationException,
+  type IStorageAuthClient,
   type IStorageClient,
   type LocalFile,
   type PermissionRecipient,
   type PermissionRole,
-  type StorageAuthClient,
   type StorageEntity,
 } from '@openmobilehub/storage-core';
 
@@ -17,7 +17,7 @@ export class GoogleDriveStorageClient implements IStorageClient {
   private client: GoogleDriveStorageApiClient;
   private repository: GoogleDriveStorageRepository;
 
-  constructor(authClient: StorageAuthClient) {
+  constructor(authClient: IStorageAuthClient) {
     this.client = new GoogleDriveStorageApiClient(authClient);
 
     const service = new GoogleDriveStorageApiService(this.client, authClient);

@@ -53,6 +53,6 @@ export interface IStorageClient {
   ): Promise<Permission | undefined>;
 }
 
-export interface StorageAuthClient {
+export interface IStorageAuthClient {
   getAccessToken(): Promise<string | undefined>;
 }

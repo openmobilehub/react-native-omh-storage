@@ -1,7 +1,7 @@
 import {
   InvalidCredentialsException,
+  type IStorageAuthClient,
   type LocalFile,
-  type StorageAuthClient,
   type StorageEntity,
 } from '@openmobilehub/storage-core';
 import { Dirs, FileSystem } from 'react-native-file-access';
@@ -15,11 +15,11 @@ const FILES_PARTICLE = 'files';
 const UPLOAD_CHUNK_SIZE = 1024 * 1024 * 10; // 10MB
 export class DropboxStorageApiService {
   private client: DropboxStorageApiClient;
-  private authClient: StorageAuthClient;
+  private authClient: IStorageAuthClient;
 
   constructor(
     apiClient: DropboxStorageApiClient,
-    authClient: StorageAuthClient
+    authClient: IStorageAuthClient
   ) {
     this.client = apiClient;
     this.authClient = authClient;

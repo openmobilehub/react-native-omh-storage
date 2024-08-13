@@ -2,11 +2,11 @@ import {
   Permission,
   StorageEntityMetadata,
   UnsupportedOperationException,
+  type IStorageAuthClient,
   type IStorageClient,
   type LocalFile,
   type PermissionRecipient,
   type PermissionRole,
-  type StorageAuthClient,
   type StorageEntity,
 } from '@openmobilehub/storage-core';
 
@@ -19,7 +19,7 @@ export class OneDriveStorageClient implements IStorageClient {
   private client: OneDriveStorageApiClient;
   private repository: OneDriveStorageRepository;
 
-  constructor(authClient: StorageAuthClient) {
+  constructor(authClient: IStorageAuthClient) {
     this.client = new OneDriveStorageApiClient(authClient);
     const service = new OneDriveStorageApiService(this.client);
     this.repository = new OneDriveStorageRepository(service);

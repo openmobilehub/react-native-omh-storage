@@ -4,18 +4,18 @@ import { GoogleDriveStorageClient } from '@openmobilehub/storage-googledrive';
 import { OneDriveStorageClient } from '@openmobilehub/storage-onedrive';
 
 import { Provider } from '@/constants/provider';
-import { AuthProvider } from '@/types/AuthProvider';
+import { AuthClient } from '@/types/AuthClient';
 
-export const getStorageProvider = (
+export const getStorageClient = (
   provider: Provider,
-  authProvider: AuthProvider
+  authClient: AuthClient
 ): IStorageClient => {
   switch (provider) {
     case Provider.GOOGLEDRIVE:
-      return new GoogleDriveStorageClient(authProvider);
+      return new GoogleDriveStorageClient(authClient);
     case Provider.ONEDRIVE:
-      return new OneDriveStorageClient(authProvider);
+      return new OneDriveStorageClient(authClient);
     case Provider.DROPBOX:
-      return new DropboxStorageClient(authProvider);
+      return new DropboxStorageClient(authClient);
   }
 };

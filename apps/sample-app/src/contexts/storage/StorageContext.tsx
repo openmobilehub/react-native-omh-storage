@@ -3,7 +3,7 @@ import { createContext, ReactNode, useContext, useMemo } from 'react';
 import { IStorageClient } from '@openmobilehub/storage-core';
 
 import { useAuthContext } from '../auth/AuthContext';
-import { getStorageProvider } from './getStorageProvider';
+import { getStorageClient } from './getStorageClient';
 
 type StorageContextValue = {
   storageClient: IStorageClient | null;
@@ -16,17 +16,17 @@ interface Props {
 }
 
 export const StorageContextProvider = ({ children }: Props) => {
-  const { provider, authProvider } = useAuthContext();
+  const { provider, authClient } = useAuthContext();
 
   const storageClient = useMemo(() => {
-    if (provider == null || authProvider == null) {
+    if (provider == null || authClient == null) {
       return null;
     }
 
-    const storageProvider = getStorageProvider(provider, authProvider);
+    const client = getStorageClient(provider, authClient);
 
-    return storageProvider;
-  }, [provider, authProvider]);
+    return client;
+  }, [provider, authClient]);
 
   return (
     <StorageContext.Provider value={{ storageClient }}>

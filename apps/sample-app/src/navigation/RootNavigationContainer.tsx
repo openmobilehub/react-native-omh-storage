@@ -27,7 +27,7 @@ const MyTheme = {
 const headerRight = (folderId?: string) => <ContextMenu folderId={folderId} />;
 
 const RootStack = () => {
-  const { silentLogin, initializationStatus, authProvider, provider } =
+  const { silentLogin, initializationStatus, authClient, provider } =
     useAuthContext();
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const RootStack = () => {
 
   return (
     <Stack.Navigator>
-      {!authProvider ? (
+      {!authClient ? (
         <Stack.Screen
           name="Login"
           component={LoginScreen}

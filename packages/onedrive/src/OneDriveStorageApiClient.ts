@@ -1,7 +1,7 @@
 import {
   ApiException,
   InvalidCredentialsException,
-  type StorageAuthClient,
+  type IStorageAuthClient,
 } from '@openmobilehub/storage-core';
 import Axios, { AxiosError, type AxiosInstance } from 'axios';
 
@@ -11,7 +11,7 @@ import type { OneDriveErrorResponse } from './data/error/OneDriveErrorResponse';
 export class OneDriveStorageApiClient {
   axiosClient: AxiosInstance;
 
-  constructor(authClient: StorageAuthClient) {
+  constructor(authClient: IStorageAuthClient) {
     this.axiosClient = Axios.create({
       baseURL: BASE_URL,
     });

@@ -1,7 +1,7 @@
 import {
   BaseNativeStorageClient,
+  type IStorageAuthClient,
   type IStorageClient,
-  type StorageAuthClient,
 } from '@openmobilehub/storage-core';
 
 import { ROOT_FOLDER } from './data/constants/constants';
@@ -11,7 +11,7 @@ export class OneDriveStorageClient
   extends BaseNativeStorageClient
   implements IStorageClient
 {
-  constructor(_authClient: StorageAuthClient) {
+  constructor(_authClient: IStorageAuthClient) {
     super(NativeOneDriveStorageClient, ROOT_FOLDER);
   }
 }

@@ -2,8 +2,8 @@ import {
   ApiException,
   InvalidCredentialsException,
   StorageEntity,
+  type IStorageAuthClient,
   type LocalFile,
-  type StorageAuthClient,
 } from '@openmobilehub/storage-core';
 import { Dirs, FileSystem } from 'react-native-file-access';
 
@@ -24,7 +24,7 @@ const UPLOAD_CHUNK_SIZE = 1024 * 1024 * 10; // 10MB
 
 export class GoogleDriveStorageApiService {
   private client: GoogleDriveStorageApiClient;
-  private authClient: StorageAuthClient;
+  private authClient: IStorageAuthClient;
 
   private fieldsSelection =
     'id,name,createdTime,modifiedTime,parents,mimeType,fileExtension,size';
@@ -41,7 +41,7 @@ export class GoogleDriveStorageApiService {
 
   constructor(
     apiClient: GoogleDriveStorageApiClient,
-    authClient: StorageAuthClient
+    authClient: IStorageAuthClient
   ) {
     this.client = apiClient;
     this.authClient = authClient;
