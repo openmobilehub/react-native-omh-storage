@@ -50,10 +50,6 @@ export class OneDriveStorageApiClient extends BaseOneDriveStorageApiClient {
       return config;
     });
   }
-
-  setAccessToken(accessToken: string) {
-    this.axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-  }
 }
 
 export class OneDriveStorageApiClientNoAuth extends BaseOneDriveStorageApiClient {

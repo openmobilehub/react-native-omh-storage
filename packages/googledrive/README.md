@@ -46,14 +46,27 @@ GOOGLE_CLIENT_ID=<YOUR_GOOGLE_CLIENT_ID>
 
 ### Initializing
 
-To interact with the Google Drive storage provider, you must first initialize the OMH Storage Client and set the Access Token.
+To interact with the Google Drive storage provider, you must first initialize the OMH Auth Client and then use it to initialize the OMH Storage Client.
 
 ```typescript
+import GoogleAuthClient from '@openmobilehub/auth-google';
 import { GoogleDriveStorageClient } from '@openmobilehub/storage-googledrive';
 
-const googleDriveStorageClient = new GoogleDriveStorageClient();
+// Read more about initialization https://openmobilehub.github.io/react-native-omh-auth/docs/getting-started/#initializing
+await GoogleAuthClient.initialize({
+  android: {
+    scopes: ['openid', 'profile', 'email'],
+  },
+  ios: {
+    scopes: ['openid', 'profile', 'email'],
+    clientId: '<YOUR_GOOGLE_CLIENT_ID>',
+    redirectUrl: `com.googleusercontent.apps.${
+      '<YOUR_GOOGLE_CLIENT_ID>'.split('.')[0]
+    }:/oauth2redirect/google`,
+  },
+});
 
-googleDriveStorageClient.setAccessToken('<YOUR_GOOGLE_ACCESS_TOKEN>');
+const googleDriveStorageClient = new GoogleDriveStorageClient(GoogleAuthClient);
 ```
 
 ### Other methods
