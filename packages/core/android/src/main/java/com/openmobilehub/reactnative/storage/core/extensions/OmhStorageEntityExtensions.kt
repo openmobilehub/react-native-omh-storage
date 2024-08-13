@@ -13,21 +13,21 @@ fun OmhStorageEntity.toWritableMap(): WritableMap {
         putString("type", "file")
         putString("id", id)
         putString("name", name)
-        putString("createdTime", createdTime.toString())
-        putString("modifiedTime", modifiedTime.toString())
-        putString("parentId", parentId)
-        putString("mimeType", mimeType)
-        putString("extension", extension)
-        putInt("size", size ?: -1)
+        createdTime?.let { putDouble("createdTime", it.time.toDouble()) }
+        modifiedTime?.let { putDouble("modifiedTime", it.time.toDouble()) }
+        parentId?.let { putString("parentId", it) }
+        mimeType?.let { putString("mimeType", it) }
+        extension?.let { putString("extension", it) }
+        size?.let { putInt("size", it) }
       }
 
       is OmhStorageEntity.OmhFolder -> {
         putString("type", "folder")
         putString("id", id)
         putString("name", name)
-        putString("createdTime", createdTime.toString())
-        putString("modifiedTime", modifiedTime.toString())
-        putString("parentId", parentId)
+        createdTime?.let { putDouble("createdTime", it.time.toDouble()) }
+        modifiedTime?.let { putDouble("modifiedTime", it.time.toDouble()) }
+        parentId?.let { putString("parentId", it) }
       }
     }
   }

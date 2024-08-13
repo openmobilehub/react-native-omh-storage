@@ -24,7 +24,6 @@ class StorageCoreModuleImpl(
   }
 
   fun listFiles(folderId: String, promise: Promise) {
-
     CoroutineScope(Dispatchers.IO).launch {
       try {
         val files = storageClient.listFiles(parentId = folderId)

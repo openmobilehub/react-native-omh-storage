@@ -1,15 +1,11 @@
-import { ApiException, File, Folder } from '@openmobilehub/storage-core';
+import { File, Folder } from '@openmobilehub/storage-core';
 import type { StorageEntity } from '@openmobilehub/storage-core';
 
 import type { NativeStorageEntity } from '../StorageClient.nativeTypes';
 
-export const mapFileNativeToStorageEntity = (
+export const mapNativeStorageEntity = (
   fileNative: NativeStorageEntity
 ): StorageEntity => {
-  if (!fileNative.type || !fileNative.id || !fileNative.name) {
-    throw new ApiException('Invalid metadata');
-  }
-
   const isFile = fileNative.type === 'file';
 
   const createdTime = fileNative.createdTime
@@ -29,7 +25,7 @@ export const mapFileNativeToStorageEntity = (
       parentId: fileNative.parentId,
       mimeType: fileNative.mimeType,
       extension: fileNative.extension,
-      size: fileNative.size !== -1 ? fileNative.size : undefined,
+      size: fileNative.size,
     });
   } else {
     return new Folder({

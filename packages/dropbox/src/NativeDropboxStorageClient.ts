@@ -1,12 +1,14 @@
 import type { TurboModule } from 'react-native';
 import { TurboModuleRegistry } from 'react-native';
 
+import type { Double } from 'react-native/Libraries/Types/CodegenTypes';
+
 export type NativeStorageEntity = {
   type: string;
-  id?: string;
-  name?: string;
-  createdTime?: string;
-  modifiedTime?: string;
+  id: string;
+  name: string;
+  createdTime?: Double;
+  modifiedTime?: Double;
   parentId?: string;
   mimeType?: string;
   extension?: string;

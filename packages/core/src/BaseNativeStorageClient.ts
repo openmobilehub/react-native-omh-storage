@@ -1,6 +1,6 @@
 import type { FetchResult } from 'react-native-file-access';
 
-import { mapFileNativeToStorageEntity } from './mappers/mapFileNativeToStorageEntity';
+import { mapNativeStorageEntity } from './mappers/mapNativeStorageEntity';
 import type {
   Permission,
   PermissionRecipient,
@@ -28,10 +28,17 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
     try {
       const nativeStorageEntities =
         await this.nativeStorageModule.listFiles(folderId);
+      console.log(
+        '🚀 ~ BaseNativeStorageClient ~ listFiles ~ nativeStorageEntities:',
+        nativeStorageEntities
+      );
 
-      return nativeStorageEntities.map(mapFileNativeToStorageEntity);
-    } catch (maybeError) {
-      return Promise.reject(mapNativeException(maybeError));
+      const result = nativeStorageEntities.map(mapNativeStorageEntity);
+      console.log('🚀 ~ BaseNativeStorageClient ~ listFiles ~ result:', result);
+
+      return result;
+    } catch (exception) {
+      return Promise.reject(mapNativeException(exception));
     }
   }
 

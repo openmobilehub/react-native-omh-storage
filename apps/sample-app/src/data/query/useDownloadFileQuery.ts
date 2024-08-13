@@ -45,7 +45,7 @@ const downloadFile = async (
     }
   } catch (e) {
     showSnackbar('Failed to download file');
-    console.warn('Error downloading file');
+    console.warn('Error downloading file', e);
     throw e;
   }
 };

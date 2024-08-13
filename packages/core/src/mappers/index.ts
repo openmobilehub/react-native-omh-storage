@@ -1,1 +1,1 @@
-export * from './mapFileNativeToStorageEntity';
+export * from './mapNativeStorageEntity';
