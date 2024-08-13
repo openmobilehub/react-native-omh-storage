@@ -49,12 +49,20 @@ export class DropboxStorageClient implements IStorageClient {
     throw new UnsupportedOperationException();
   }
 
-  createFileWithExtension(
-    _name: string,
-    _fileExtension: string,
-    _parentId?: string
+  async createFileWithExtension(
+    name: string,
+    fileExtension: string,
+    parentId?: string
   ): Promise<StorageEntity> {
-    throw new UnsupportedOperationException();
+    return this.repository.createFileWithExtension(
+      name,
+      fileExtension,
+      parentId
+    );
+  }
+
+  async createFolder(name: string, parentId?: string): Promise<StorageEntity> {
+    return this.repository.createFolder(name, parentId);
   }
 
   async localFileUpload(file: LocalFile, folderId: string) {
