@@ -72,7 +72,7 @@ export class DropboxStorageApiService {
       path: filePath,
       method: 'POST',
       headers: {
-        'Authorization': accessToken,
+        'Authorization': `Bearer ${accessToken}`,
         'Dropbox-API-Arg': dropboxArgs,
       },
     });

@@ -100,7 +100,7 @@ export class GoogleDriveStorageApiService {
         path: filePath,
         method: 'GET',
         headers: {
-          Authorization: accessToken,
+          Authorization: `Bearer ${accessToken}`,
         },
       }
     );
@@ -120,7 +120,7 @@ export class GoogleDriveStorageApiService {
         path: filePath,
         method: 'GET',
         headers: {
-          Authorization: accessToken,
+          Authorization: `Bearer ${accessToken}`,
         },
       }
     );
