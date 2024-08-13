@@ -3,7 +3,7 @@ import { TurboModuleRegistry } from 'react-native';
 
 import type { Double } from 'react-native/Libraries/Types/CodegenTypes';
 
-export type NativeStorageEntity = {
+type NativeStorageEntity = {
   type: string;
   id: string;
   name: string;

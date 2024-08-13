@@ -28,15 +28,8 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
     try {
       const nativeStorageEntities =
         await this.nativeStorageModule.listFiles(folderId);
-      console.log(
-        '🚀 ~ BaseNativeStorageClient ~ listFiles ~ nativeStorageEntities:',
-        nativeStorageEntities
-      );
 
-      const result = nativeStorageEntities.map(mapNativeStorageEntity);
-      console.log('🚀 ~ BaseNativeStorageClient ~ listFiles ~ result:', result);
-
-      return result;
+      return nativeStorageEntities.map(mapNativeStorageEntity);
     } catch (exception) {
       return Promise.reject(mapNativeException(exception));
     }
