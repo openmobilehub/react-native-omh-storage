@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { View } from 'react-native';
 
 import {
@@ -9,18 +9,19 @@ import { Button } from 'react-native-paper';
 
 import {
   AddEditPermissionRole,
+  getRoleOptions,
   mapAddEditPermissionRoleToCore,
-  roleOptions,
 } from '@/components/bottomSheetContent/content/permissions/model/AddEditPermissionRole';
 import {
   AddEditPermissionType,
-  typeOptions,
+  getTypeOptions,
 } from '@/components/bottomSheetContent/content/permissions/model/AddEditPermissionType';
 import { BottomSheetContentWrapper } from '@/components/bottomSheetContent/parts/BottomSheetContentWrapper/BottomSheetContentWrapper';
 import { BottomSheetTextInput } from '@/components/bottomSheetTextInput';
 import { Checkbox } from '@/components/checkbox/Checkbox';
 import { FullScreenLoadingState } from '@/components/fullScreenLoadingState';
 import Picker from '@/components/picker/Picker';
+import { useAuthContext } from '@/contexts/auth/AuthContext.tsx';
 import { useSnackbar } from '@/contexts/snackbar/SnackbarContent';
 import { useRequireStorageClient } from '@/contexts/storage/useRequireStorageClient';
 import { useCreatePermissionMutation } from '@/data/mutation/useCreatePermissionMutation';
@@ -35,7 +36,7 @@ interface Props {
 
 export const CreatePermission = ({ file, onCancel, onSuccess }: Props) => {
   const [type, setType] = useState(AddEditPermissionType.USER);
-  const [role, setRole] = useState(AddEditPermissionRole.READER);
+  const [role, setRole] = useState(AddEditPermissionRole.COMMENTER);
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [sendNotification, setSendNotification] = useState(false);
@@ -44,6 +45,15 @@ export const CreatePermission = ({ file, onCancel, onSuccess }: Props) => {
   const storageClient = useRequireStorageClient();
   const createPermissionMutation = useCreatePermissionMutation(storageClient);
   const { showSnackbar } = useSnackbar();
+  const { provider } = useAuthContext();
+
+  const typeOptions = useMemo(() => {
+    return getTypeOptions(provider);
+  }, [provider]);
+
+  const roleOptions = useMemo(() => {
+    return getRoleOptions(provider);
+  }, [provider]);
 
   const getPermissionRecipient = (): PermissionRecipient => {
     switch (type) {
@@ -79,7 +89,7 @@ export const CreatePermission = ({ file, onCancel, onSuccess }: Props) => {
         role: coreRole,
         recipient: recipient,
         sendNotificationEmail: sendNotification,
-        emailMessage: message,
+        emailMessage: message || undefined,
       },
       {
         onSuccess: () => {

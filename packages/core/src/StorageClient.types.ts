@@ -45,11 +45,11 @@ export interface IStorageClient {
     recipient: PermissionRecipient,
     sendNotificationEmail: boolean,
     emailMessage?: string
-  ): Promise<Permission | undefined>;
+  ): Promise<Permission | void>;
   deletePermission(fileId: string, permissionId: string): Promise<void>;
   updatePermission(
     fileId: string,
     permissionId: string,
     role: PermissionRole
-  ): Promise<Permission | undefined>;
+  ): Promise<Permission | void>;
 }

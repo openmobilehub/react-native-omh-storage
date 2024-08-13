@@ -20,7 +20,7 @@ type MutationData = {
 export const useCreatePermissionMutation = (storageClient: IStorageClient) => {
   const queryClient = useQueryClient();
 
-  return useMutation<Permission | undefined, StorageException, MutationData>({
+  return useMutation<Permission | void, StorageException, MutationData>({
     mutationFn: ({
       fileId,
       role,

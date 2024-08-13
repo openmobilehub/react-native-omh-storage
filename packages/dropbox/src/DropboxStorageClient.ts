@@ -11,7 +11,7 @@ import {
 import { ROOT_FOLDER } from './data/constants/constants';
 import { DropboxStorageApiClient } from './DropboxStorageApiClient';
 import { DropboxStorageApiService } from './DropboxStorageApiService';
-import { DropboxStorageRepository } from './DropboxStorageStorageRepository';
+import { DropboxStorageRepository } from './DropboxStorageRepository';
 
 export class DropboxStorageClient implements IStorageClient {
   private client: DropboxStorageApiClient;
@@ -70,34 +70,41 @@ export class DropboxStorageClient implements IStorageClient {
   }
 
   createPermission(
-    _fileId: string,
-    _role: PermissionRole,
-    _recipient: PermissionRecipient,
-    _sendNotificationEmail: boolean,
-    _emailMessage?: string
-  ): Promise<Permission | undefined> {
-    throw new UnsupportedOperationException();
+    fileId: string,
+    role: PermissionRole,
+    recipient: PermissionRecipient,
+    sendNotificationEmail: boolean,
+    emailMessage?: string
+  ): Promise<Permission | void> {
+    return this.repository.createPermission(
+      fileId,
+      role,
+      recipient,
+      sendNotificationEmail,
+      emailMessage
+    );
   }
 
-  deletePermission(_fileId: string, _permissionId: string): Promise<void> {
-    throw new UnsupportedOperationException();
+  async deletePermission(fileId: string, permissionId: string) {
+    return this.repository.deletePermission(fileId, permissionId);
   }
 
-  getPermissions(_fileId: string): Promise<Permission[]> {
-    throw new UnsupportedOperationException();
+  async getPermissions(fileId: string) {
+    return this.repository.getPermissions(fileId);
   }
 
-  getWebUrl(_fileId: string): Promise<string | undefined> {
-    throw new UnsupportedOperationException();
+  async getWebUrl(fileId: string) {
+    return this.repository.getWebUrl(fileId);
   }
 
-  updatePermission(
-    _fileId: string,
-    _permissionId: string,
-    _role: PermissionRole
-  ): Promise<Permission | undefined> {
-    throw new UnsupportedOperationException();
+  async updatePermission(
+    fileId: string,
+    permissionId: string,
+    role: PermissionRole
+  ) {
+    return this.repository.updatePermission(fileId, permissionId, role);
   }
+
   exportFile(
     _file: StorageEntity,
     _mimeType: string,

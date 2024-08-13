@@ -12,4 +12,10 @@ export const styles = StyleSheet.create({
   button: {
     alignSelf: 'baseline',
   },
+  caveats: {
+    rowGap: 8,
+  },
+  divider: {
+    marginVertical: 8,
+  },
 });

@@ -1,1 +1,8 @@
-export type DropboxErrorResponse = string | { errorSummary: string };
+export type DropboxErrorResponse =
+  | string
+  | {
+      error_summary?: string;
+      user_message?: {
+        text?: string;
+      };
+    };

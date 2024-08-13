@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { View } from 'react-native';
 
 import { Permission, StorageEntity } from '@openmobilehub/storage-core';
@@ -6,13 +6,14 @@ import { Button } from 'react-native-paper';
 
 import {
   AddEditPermissionRole,
+  getRoleOptions,
   mapAddEditPermissionRoleToCore,
   mapCoreToAddEditPermissionRole,
-  roleOptions,
 } from '@/components/bottomSheetContent/content/permissions/model/AddEditPermissionRole';
 import { BottomSheetContentWrapper } from '@/components/bottomSheetContent/parts/BottomSheetContentWrapper/BottomSheetContentWrapper';
 import { FullScreenLoadingState } from '@/components/fullScreenLoadingState';
 import Picker from '@/components/picker/Picker';
+import { useAuthContext } from '@/contexts/auth/AuthContext.tsx';
 import { useSnackbar } from '@/contexts/snackbar/SnackbarContent';
 import { useRequireStorageClient } from '@/contexts/storage/useRequireStorageClient';
 import { useUpdatePermissionMutation } from '@/data/mutation/useUpdatePermissionMutation';
@@ -34,12 +35,17 @@ export const UpdatePermission = ({
 }: Props) => {
   const [role, setRole] = useState(
     mapCoreToAddEditPermissionRole(permission.role) ??
-      AddEditPermissionRole.READER
+      AddEditPermissionRole.COMMENTER
   );
 
+  const { showSnackbar } = useSnackbar();
+  const { provider } = useAuthContext();
   const storageClient = useRequireStorageClient();
   const updatePermissionMutation = useUpdatePermissionMutation(storageClient);
-  const { showSnackbar } = useSnackbar();
+
+  const roleOptions = useMemo(() => {
+    return getRoleOptions(provider);
+  }, [provider]);
 
   const handleEditPermission = () => {
     updatePermissionMutation.mutate(
