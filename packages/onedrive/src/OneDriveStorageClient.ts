@@ -11,17 +11,27 @@ import {
 } from '@openmobilehub/storage-core';
 
 import { ROOT_FOLDER } from './data/constants/constants';
-import { OneDriveStorageApiClient } from './OneDriveStorageApiClient';
+import {
+  OneDriveStorageApiClient,
+  OneDriveStorageApiClientNoAuth,
+} from './OneDriveStorageApiClient';
 import { OneDriveStorageApiService } from './OneDriveStorageApiService';
 import { OneDriveStorageRepository } from './OneDriveStorageRepository';
 
 export class OneDriveStorageClient implements IStorageClient {
   private client: OneDriveStorageApiClient;
+  private clientNoAuth: OneDriveStorageApiClientNoAuth;
   private repository: OneDriveStorageRepository;
 
   constructor(authClient: IStorageAuthClient) {
     this.client = new OneDriveStorageApiClient(authClient);
-    const service = new OneDriveStorageApiService(this.client);
+    this.clientNoAuth = new OneDriveStorageApiClientNoAuth();
+
+    const service = new OneDriveStorageApiService(
+      this.client,
+      this.clientNoAuth
+    );
+
     this.repository = new OneDriveStorageRepository(service);
   }
 
@@ -55,8 +65,8 @@ export class OneDriveStorageClient implements IStorageClient {
     throw new UnsupportedOperationException();
   }
 
-  localFileUpload(_file: LocalFile, _folderId: string): Promise<StorageEntity> {
-    throw new UnsupportedOperationException();
+  async localFileUpload(file: LocalFile, folderId: string) {
+    return this.repository.localFileUpload(file, folderId);
   }
 
   deleteFile(_fileId: string): Promise<void> {

@@ -8,22 +8,12 @@ import Axios, { AxiosError, type AxiosInstance } from 'axios';
 import { BASE_URL } from './data/constants/constants';
 import type { OneDriveErrorResponse } from './data/error/OneDriveErrorResponse';
 
-export class OneDriveStorageApiClient {
+abstract class BaseOneDriveStorageApiClient {
   axiosClient: AxiosInstance;
 
-  constructor(authClient: IStorageAuthClient) {
+  constructor(baseURL: string) {
     this.axiosClient = Axios.create({
-      baseURL: BASE_URL,
-    });
-
-    this.axiosClient.interceptors.request.use(async (config) => {
-      const accessToken = await authClient.getAccessToken();
-      if (!accessToken) {
-        throw new InvalidCredentialsException('Access token is not available');
-      }
-
-      config.headers.Authorization = `Bearer ${accessToken}`;
-      return config;
+      baseURL: baseURL,
     });
 
     this.axiosClient.interceptors.response.use(
@@ -43,5 +33,31 @@ export class OneDriveStorageApiClient {
       return error.response.data.error.message;
     }
     return error.message;
+  }
+}
+
+export class OneDriveStorageApiClient extends BaseOneDriveStorageApiClient {
+  constructor(authClient: IStorageAuthClient) {
+    super(BASE_URL);
+
+    this.axiosClient.interceptors.request.use(async (config) => {
+      const accessToken = await authClient.getAccessToken();
+      if (!accessToken) {
+        throw new InvalidCredentialsException('Access token is not available');
+      }
+
+      config.headers.Authorization = `Bearer ${accessToken}`;
+      return config;
+    });
+  }
+
+  setAccessToken(accessToken: string) {
+    this.axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+  }
+}
+
+export class OneDriveStorageApiClientNoAuth extends BaseOneDriveStorageApiClient {
+  constructor() {
+    super(BASE_URL);
   }
 }
