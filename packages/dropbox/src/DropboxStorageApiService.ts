@@ -116,7 +116,7 @@ export class DropboxStorageApiService {
     return initResponse.data.session_id;
   }
 
-  async localFileUpload(name: string, filePath: string, folderId: string) {
+  async localFileUpload(fileName: string, filePath: string, folderId: string) {
     const sessionId = await this.initializeResumableUpload();
     let uploadedBytes = 0;
     const fileStats = await FileSystem.stat(filePath);
@@ -162,7 +162,7 @@ export class DropboxStorageApiService {
       uploadedBytes += bytesRead;
     }
 
-    const dropboxFilePath = `${folderId}/${name}`;
+    const dropboxFilePath = `${folderId}/${fileName}`;
 
     const finishResponse = await this.client.axiosClient.post(
       `${CONTENT_URL}${FILES_PARTICLE}/upload_session/finish`,
