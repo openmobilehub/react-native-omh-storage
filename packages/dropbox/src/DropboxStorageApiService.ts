@@ -1,13 +1,13 @@
 import {
   InvalidCredentialsException,
   type IStorageAuthClient,
-  type LocalFile,
   type StorageEntity,
 } from '@openmobilehub/storage-core';
 import { Dirs, FileSystem } from 'react-native-file-access';
 
 import type { AddFileMemberBody } from './data/body/AddFileMemberBody';
 import type { AddFolderMemberBody } from './data/body/AddFolderMemberBody';
+import type { CreateFolderBody } from './data/body/CreateFolderBody';
 import type { ListFileMembersBody } from './data/body/ListFileMembersBody';
 import type { ListFolderMembersBody } from './data/body/ListFolderMembersBody';
 import type { RemoveFileMemberBody } from './data/body/RemoveFileMemberBody';
@@ -16,6 +16,7 @@ import type { UpdateFileMemberBody } from './data/body/UpdateFileMemberBody';
 import type { UpdateFolderMemberBody } from './data/body/UpdateFolderMemberBody';
 import { CONTENT_URL } from './data/constants/constants';
 import type { CheckShareJobStatusResponse } from './data/response/CheckShareJobStatusResponse';
+import type { CreateFolderResponse } from './data/response/CreateFolderResponse';
 import { type FileListRemote } from './data/response/FileListRemote';
 import type { ListFolderMembersResponse } from './data/response/ListFolderMembersResponse';
 import type { ListMembersResponse } from './data/response/ListMembersResponse';
@@ -115,10 +116,9 @@ export class DropboxStorageApiService {
     return initResponse.data.session_id;
   }
 
-  async localFileUpload(file: LocalFile, folderId: string) {
+  async localFileUpload(name: string, filePath: string, folderId: string) {
     const sessionId = await this.initializeResumableUpload();
     let uploadedBytes = 0;
-    const filePath = file.uri;
     const fileStats = await FileSystem.stat(filePath);
     const fileLength = fileStats.size;
 
@@ -162,7 +162,7 @@ export class DropboxStorageApiService {
       uploadedBytes += bytesRead;
     }
 
-    const dropboxFilePath = `${folderId}/${file.name}`;
+    const dropboxFilePath = `${folderId}/${name}`;
 
     const finishResponse = await this.client.axiosClient.post(
       `${CONTENT_URL}${FILES_PARTICLE}/upload_session/finish`,
@@ -191,6 +191,13 @@ export class DropboxStorageApiService {
     }
 
     return null;
+  }
+
+  async createFolder(body: CreateFolderBody) {
+    return this.client.axiosClient.post<CreateFolderResponse>(
+      `${FILES_PARTICLE}/create_folder_v2`,
+      body
+    );
   }
 
   async getFilePermissions(body: ListFileMembersBody) {

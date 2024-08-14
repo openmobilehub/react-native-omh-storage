@@ -60,6 +60,10 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
     throw new UnsupportedOperationException();
   }
 
+  createFolder(_name: string, _parentId?: string): Promise<StorageEntity> {
+    throw new UnsupportedOperationException();
+  }
+
   localFileUpload(_file: LocalFile, _folderId: string): Promise<StorageEntity> {
     throw new UnsupportedOperationException();
   }

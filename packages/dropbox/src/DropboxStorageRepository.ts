@@ -6,9 +6,15 @@ import {
   type PermissionRole,
 } from '@openmobilehub/storage-core';
 import type { StorageEntity } from '@openmobilehub/storage-core';
+import { Dirs, FileSystem } from 'react-native-file-access';
 
+import { ROOT_FOLDER } from './data/constants/constants';
 import { mapPermissionRoleToAccessLevel } from './data/mappers/mapAccessLevelToPermissionRole';
-import { mapMetadataToStorageEntity } from './data/mappers/mapFileRemoteToStorageEntity';
+import {
+  mapFileMetadataToStorageEntity,
+  mapFolderMetadataToStorageEntity,
+  mapMetadataToStorageEntity,
+} from './data/mappers/mapFileRemoteToStorageEntity';
 import { mapListMembersResponseToPermissions } from './data/mappers/mapListMembersResponseToPermissions';
 import { mapPermissionIdToMemberSelector } from './data/mappers/mapPermissionIdToMemberSelector';
 import { mapPermissionRecipientToMemberSelector } from './data/mappers/mapPermissionRecipientToMemberSelector';
@@ -58,13 +64,66 @@ export class DropboxStorageRepository {
   }
 
   async localFileUpload(file: LocalFile, folderId: string) {
-    const response = await this.apiService.localFileUpload(file, folderId);
+    const response = await this.apiService.localFileUpload(
+      file.name,
+      file.uri,
+      folderId
+    );
 
     if (!response) {
       throw new Error('Upload failed, no response received');
     }
 
     return response;
+  }
+
+  async createFileWithExtension(
+    name: string,
+    fileExtension: string,
+    parentId?: string
+  ): Promise<StorageEntity> {
+    const fullFileName = `${name}.${fileExtension}`;
+    const path = `${Dirs.CacheDir}/${fullFileName}`;
+
+    await FileSystem.writeFile(path, '');
+
+    try {
+      const data = await this.apiService.localFileUpload(
+        fullFileName,
+        path,
+        parentId || ROOT_FOLDER
+      );
+
+      return mapFileMetadataToStorageEntity(data);
+    } finally {
+      await FileSystem.unlink(path);
+    }
+  }
+
+  async createFolder(name: string, parentId?: string): Promise<StorageEntity> {
+    const path = await this.getNewFolderPath(name, parentId);
+
+    const response = await this.apiService.createFolder({
+      path: path,
+      autorename: false,
+    });
+
+    return mapFolderMetadataToStorageEntity(response.data.metadata);
+  }
+
+  private async getNewFolderPath(name: string, parentId?: string) {
+    if (!parentId || parentId === ROOT_FOLDER) {
+      return `/${name}`;
+    } else {
+      const parent = await this.apiService.getFileMetadata(parentId);
+      if (parent.data.path_lower === undefined) {
+        throw new ApiException(
+          `Failed to get path for parent folder with ID: ${parentId}`
+        );
+      }
+
+      return `${parent.data.path_lower}/${name}`;
+    }
   }
 
   async createPermission(

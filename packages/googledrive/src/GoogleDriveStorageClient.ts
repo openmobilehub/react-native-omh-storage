@@ -51,6 +51,10 @@ export class GoogleDriveStorageClient implements IStorageClient {
     return this.repository.createFileWithMimeType(name, mimeType, parentId);
   }
 
+  async createFolder(name: string, parentId?: string): Promise<StorageEntity> {
+    return this.repository.createFolder(name, parentId);
+  }
+
   async exportFile(
     file: StorageEntity,
     mimeType: string,
