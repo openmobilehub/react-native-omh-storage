@@ -7,7 +7,6 @@ import { styles } from './BottomSheetOptions.styles';
 interface BottomSheetOptionsProps {
   fileName: string;
   setView: React.Dispatch<React.SetStateAction<BottomSheetContentType>>;
-  onUpdatePress?: () => void;
   onDeletePress?: () => void;
   onPermanentDeletePress?: () => void;
 }
@@ -15,7 +14,6 @@ interface BottomSheetOptionsProps {
 export const BottomSheetOptions = ({
   setView,
   fileName,
-  onUpdatePress,
   onDeletePress,
   onPermanentDeletePress,
 }: BottomSheetOptionsProps) => {
@@ -40,8 +38,15 @@ export const BottomSheetOptions = ({
       />
       <Divider />
       <Menu.Item
+        leadingIcon="history"
+        onPress={() => setView(BottomSheetContentType.Versions)}
+        title="Versions"
+        style={styles.menuItem}
+      />
+      <Divider />
+      <Menu.Item
         leadingIcon="pencil"
-        onPress={onUpdatePress}
+        onPress={() => setView(BottomSheetContentType.Update)}
         title="Update"
         style={styles.menuItem}
       />

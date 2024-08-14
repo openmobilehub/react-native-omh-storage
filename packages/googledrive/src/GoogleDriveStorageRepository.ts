@@ -15,6 +15,7 @@ import {
   mapPermissionRoleToRoleRemote,
 } from './data/mappers/mapPermissionRecipientToRequestBody';
 import { mapPermissionRemoteToStoragePermission } from './data/mappers/mapPermissionRemoteToStoragePermission';
+import { mapVersionRemoteToFileVersion } from './data/mappers/mapVersionRemoteToFileViersion';
 import type { GoogleDriveStorageApiService } from './GoogleDriveStorageApiService';
 
 export class GoogleDriveStorageRepository {
@@ -75,8 +76,28 @@ export class GoogleDriveStorageRepository {
     return this.apiService.downloadFile(file);
   }
 
+  async _localFileUpload(file: LocalFile, metadata: any, fileId?: string) {
+    const response = await this.apiService._localFileUpload(
+      file,
+      metadata,
+      fileId
+    );
+
+    if (!response) {
+      throw new Error('Upload failed, no response received');
+    }
+
+    return response;
+  }
+
   async localFileUpload(file: LocalFile, folderId: string) {
-    const response = await this.apiService.localFileUpload(file, folderId);
+    const metadata = {
+      name: file.name,
+      mimeType: file.type,
+      parents: [folderId],
+    };
+
+    const response = await this.apiService._localFileUpload(file, metadata);
 
     if (!response) {
       throw new Error('Upload failed, no response received');
@@ -159,5 +180,40 @@ export class GoogleDriveStorageRepository {
     );
 
     return mapPermissionRemoteToStoragePermission(response.data);
+  }
+
+  async updateFile(file: LocalFile, fileId: string) {
+    const metadata = {
+      name: file.name,
+      mimeType: file.type,
+    };
+
+    const response = await this.apiService._localFileUpload(
+      file,
+      metadata,
+      fileId
+    );
+
+    console.log('response', response);
+
+    if (!response) {
+      throw new Error('Upload failed, no response received');
+    }
+
+    return response;
+  }
+
+  async getFileVersions(fileId: string) {
+    const response = await this.apiService.getFileVersions(fileId);
+
+    return response.data.revisions
+      .reverse()
+      .map((versionRemote) =>
+        mapVersionRemoteToFileVersion(fileId, versionRemote)
+      );
+  }
+
+  async downloadFileVersion(file: StorageEntity, versionId: string) {
+    return this.apiService.downloadFileVersion(file, versionId);
   }
 }

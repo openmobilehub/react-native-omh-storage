@@ -30,6 +30,7 @@ export const initAuthClient = async (provider: Provider) => {
             'profile',
             'https://www.googleapis.com/auth/drive',
             'https://www.googleapis.com/auth/drive.file',
+            'https://www.googleapis.com/auth/drive.metadata',
           ],
           clientId: GOOGLE_CLIENT_ID,
           redirectUrl: `com.googleusercontent.apps.${

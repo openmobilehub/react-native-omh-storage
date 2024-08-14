@@ -48,10 +48,6 @@ export const FileListItem = ({ file, onPress }: Props) => {
     bottomSheetModalRef.current?.present();
   }, []);
 
-  const handleUpdatePress = () => {
-    Alert.alert('Not implemented', 'This feature is not implemented yet');
-  };
-
   const deleteHandlers = useMemo(() => {
     return {
       onSuccess: () => {
@@ -130,7 +126,6 @@ export const FileListItem = ({ file, onPress }: Props) => {
         {
           <BottomSheetContent
             file={file}
-            onUpdatePress={handleUpdatePress}
             onDeletePress={handleDeletePress}
             onPermanentDeletePress={handlePermanentDeletePress}
           />

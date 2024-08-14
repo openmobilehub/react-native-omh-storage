@@ -7,6 +7,7 @@ import {
   type PermissionRole,
   type StorageEntity,
 } from '@openmobilehub/storage-core';
+import type { FetchResult } from 'react-native-file-access';
 
 import { ROOT_FOLDER } from './data/constants/constants';
 import { GoogleDriveStorageApiClient } from './GoogleDriveStorageApiClient';
@@ -108,5 +109,21 @@ export class GoogleDriveStorageClient implements IStorageClient {
     role: PermissionRole
   ) {
     return this.repository.updatePermission(fileId, permissionId, role);
+  }
+
+  async updateFile(file: LocalFile, fileId: string): Promise<StorageEntity> {
+    console.log('updateFile', file, fileId);
+    return this.repository.updateFile(file, fileId);
+  }
+
+  async getFileVersions(fileId: string) {
+    return this.repository.getFileVersions(fileId);
+  }
+
+  async downloadFileVersion(
+    file: StorageEntity,
+    versionId: string
+  ): Promise<FetchResult> {
+    return this.repository.downloadFileVersion(file, versionId);
   }
 }

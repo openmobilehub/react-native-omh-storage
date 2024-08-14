@@ -1,5 +1,6 @@
 import type { FetchResult } from 'react-native-file-access';
 
+import type { FileVersion } from './model/FileVersion';
 import { type Permission, type PermissionRole } from './model/Permission';
 import { type PermissionRecipient } from './model/PermissionRecipient';
 import type { StorageEntity } from './model/StorageEntity';
@@ -51,6 +52,12 @@ export interface IStorageClient {
     permissionId: string,
     role: PermissionRole
   ): Promise<Permission | void>;
+  updateFile(file: LocalFile, fileId: string): Promise<StorageEntity>;
+  getFileVersions(fileId: string): Promise<FileVersion[]>;
+  downloadFileVersion(
+    file: StorageEntity,
+    versionId: string
+  ): Promise<FetchResult>;
 }
 
 export interface IStorageAuthClient {

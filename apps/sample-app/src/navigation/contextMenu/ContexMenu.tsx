@@ -5,6 +5,7 @@ import { LocalFile } from '@openmobilehub/storage-core';
 import { Divider, IconButton, Menu, Portal } from 'react-native-paper';
 
 import { BottomSheet } from '@/components/bottomSheet';
+import { BottomSheetFilePickerContent } from '@/components/bottomSheetFilePickerContent';
 import { FullScreenLoadingState } from '@/components/fullScreenLoadingState';
 import { useAuthContext } from '@/contexts/auth/AuthContext';
 import { useSnackbar } from '@/contexts/snackbar/SnackbarContent';
@@ -13,7 +14,6 @@ import { useUIContext } from '@/contexts/ui/UIContext';
 import { useLocalFileUploadMutation } from '@/data/mutation/useLocalFileUploadMutation';
 
 import { styles } from './ContextMenu.styles';
-import { BottomSheetFilePickerContent } from './parts/bottomSheetFilePickerContent';
 
 interface ContextMenuProps {
   folderId?: string;
@@ -87,7 +87,7 @@ export const ContextMenu = ({ folderId }: ContextMenuProps) => {
         <Menu.Item onPress={logout} title="Logout" />
       </Menu>
       <BottomSheet ref={bottomSheetRef}>
-        <BottomSheetFilePickerContent onFileUpload={handleFileUpload} />
+        <BottomSheetFilePickerContent onFilePick={handleFileUpload} />
       </BottomSheet>
     </>
   );

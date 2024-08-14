@@ -8,11 +8,11 @@ import { usePickFile } from '@/hooks/usePickFile';
 import { styles } from './BottomSheetFilePickerContent.styles';
 
 interface BottomSheetFilePickerContentProps {
-  onFileUpload: (file: LocalFile) => void;
+  onFilePick: (file: LocalFile) => void;
 }
 
 export const BottomSheetFilePickerContent = ({
-  onFileUpload,
+  onFilePick,
 }: BottomSheetFilePickerContentProps) => {
   const { pickFromFiles, pickFromPhotoGallery } = usePickFile();
 
@@ -21,7 +21,7 @@ export const BottomSheetFilePickerContent = ({
       const file = await pickFromFiles();
 
       if (file) {
-        onFileUpload(file);
+        onFilePick(file);
       }
     } catch (err) {
       console.warn(err);
@@ -33,7 +33,7 @@ export const BottomSheetFilePickerContent = ({
       const file = await pickFromPhotoGallery();
 
       if (file) {
-        onFileUpload(file);
+        onFilePick(file);
       }
     } catch (err) {
       console.warn(err);

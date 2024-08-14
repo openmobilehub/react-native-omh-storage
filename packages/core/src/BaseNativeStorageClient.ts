@@ -9,6 +9,7 @@ import type {
   StorageEntityMetadata,
 } from './model';
 import { UnsupportedOperationException } from './model';
+import type { FileVersion } from './model/FileVersion';
 import type { NativeStorageClient } from './StorageClient.nativeTypes';
 import type { IStorageClient, LocalFile } from './StorageClient.types';
 import { mapNativeException } from './utils/errorHandling';
@@ -110,6 +111,21 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
   }
 
   downloadFile(_file: StorageEntity): Promise<FetchResult> {
+    throw new Error('Method not implemented.');
+  }
+
+  updateFile(_file: LocalFile, _fileId: string): Promise<StorageEntity> {
+    throw new Error('Method not implemented.');
+  }
+
+  getFileVersions(_fileId: string): Promise<FileVersion[]> {
+    throw new Error('Method not implemented.');
+  }
+
+  downloadFileVersion(
+    _file: StorageEntity,
+    _versionId: string
+  ): Promise<FetchResult> {
     throw new Error('Method not implemented.');
   }
 }
