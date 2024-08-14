@@ -1,4 +1,8 @@
-import { ApiException } from '@openmobilehub/storage-core';
+import {
+  ApiException,
+  InvalidCredentialsException,
+  type IStorageAuthClient,
+} from '@openmobilehub/storage-core';
 import Axios, { AxiosError, type AxiosInstance } from 'axios';
 
 import { BASE_URL } from './data/constants/constants';
@@ -33,12 +37,18 @@ abstract class BaseOneDriveStorageApiClient {
 }
 
 export class OneDriveStorageApiClient extends BaseOneDriveStorageApiClient {
-  constructor() {
+  constructor(authClient: IStorageAuthClient) {
     super(BASE_URL);
-  }
 
-  setAccessToken(accessToken: string) {
-    this.axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+    this.axiosClient.interceptors.request.use(async (config) => {
+      const accessToken = await authClient.getAccessToken();
+      if (!accessToken) {
+        throw new InvalidCredentialsException('Access token is not available');
+      }
+
+      config.headers.Authorization = `Bearer ${accessToken}`;
+      return config;
+    });
   }
 }
 

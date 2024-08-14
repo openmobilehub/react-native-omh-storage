@@ -4,7 +4,20 @@ module.exports = {
     [
       'module-resolver',
       {
-        extensions: ['.tsx', '.ts', '.js', '.json'],
+        extensions: [
+          '.tsx',
+          '.ts',
+          '.js',
+          '.json',
+          '.android.tsx',
+          '.android.ts',
+          '.android.jsx',
+          '.android.js',
+          'ios.tsx',
+          'ios.ts',
+          'ios.jsx',
+          'ios.js',
+        ],
         alias: {
           '@/components': './src/components',
           '@/constants': './src/constants',

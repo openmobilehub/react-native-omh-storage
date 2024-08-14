@@ -1,6 +1,7 @@
 import {
   Permission,
   UnsupportedOperationException,
+  type IStorageAuthClient,
   type IStorageClient,
   type LocalFile,
   type PermissionRecipient,
@@ -17,17 +18,13 @@ export class DropboxStorageClient implements IStorageClient {
   private client: DropboxStorageApiClient;
   private repository: DropboxStorageRepository;
 
-  constructor() {
-    this.client = new DropboxStorageApiClient();
-    const service = new DropboxStorageApiService(this.client);
+  constructor(authClient: IStorageAuthClient) {
+    this.client = new DropboxStorageApiClient(authClient);
+    const service = new DropboxStorageApiService(this.client, authClient);
     this.repository = new DropboxStorageRepository(service);
   }
 
   readonly rootFolderId = ROOT_FOLDER;
-
-  setAccessToken(accessToken: string) {
-    this.client.setAccessToken(accessToken);
-  }
 
   async listFiles(folderId: string) {
     return this.repository.listFiles(folderId);

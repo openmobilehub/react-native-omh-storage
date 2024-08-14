@@ -20,4 +20,4 @@ export interface Spec extends TurboModule {
   listFiles(folderId: string): Promise<NativeStorageEntity[]>;
 }
 
-export default TurboModuleRegistry.getEnforcing<Spec>('StorageDropboxModule');
+export default TurboModuleRegistry.getEnforcing<Spec>('StorageOneDriveModule');

@@ -5,6 +5,6 @@ import {
   PlatformAuthConfig,
 } from '@openmobilehub/auth-core';
 
-export type AuthProvider = IAuthModule<
+export type AuthClient = IAuthModule<
   PlatformAuthConfig<AndroidAuthConfig, IOSAuthConfig>
 >;

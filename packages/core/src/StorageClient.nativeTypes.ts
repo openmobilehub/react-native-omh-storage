@@ -1,9 +1,6 @@
-import type { TurboModule } from 'react-native';
-import { TurboModuleRegistry } from 'react-native';
-
 import type { Double } from 'react-native/Libraries/Types/CodegenTypes';
 
-type NativeStorageEntity = {
+export type NativeStorageEntity = {
   type: string;
   id: string;
   name: string;
@@ -15,9 +12,18 @@ type NativeStorageEntity = {
   size?: number;
 };
 
-export interface Spec extends TurboModule {
+export interface NativeStorageClient {
   initializeStorageClient(): void;
   listFiles(folderId: string): Promise<NativeStorageEntity[]>;
 }
 
-export default TurboModuleRegistry.getEnforcing<Spec>('StorageDropboxModule');
+export type NativeStorageException = Error & {
+  nativeStackAndroid: any[];
+  userInfo: NativeStorageExceptionUserInfo;
+};
+
+export type NativeStorageExceptionUserInfo = {
+  type: string;
+  message: string;
+  statusCode?: number;
+};

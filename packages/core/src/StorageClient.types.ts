@@ -14,7 +14,6 @@ export type LocalFile = {
 
 export interface IStorageClient {
   readonly rootFolderId: string;
-  setAccessToken(accessToken: string): void;
   listFiles(folderId: string): Promise<StorageEntity[]>;
   getFileMetadata(fileId: string): Promise<StorageEntityMetadata>;
   search(query: string): Promise<StorageEntity[]>;
@@ -53,4 +52,8 @@ export interface IStorageClient {
     permissionId: string,
     role: PermissionRole
   ): Promise<Permission | void>;
+}
+
+export interface IStorageAuthClient {
+  getAccessToken(): Promise<string | undefined>;
 }
