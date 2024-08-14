@@ -114,12 +114,15 @@ dependencies {
   //noinspection GradleDynamicVersion
   implementation "com.facebook.react:react-native:+"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+  // OMH
+  api "com.openmobilehub.android.storage:core:2.0.0-alpha"
 }
 
 if (isNewArchitectureEnabled()) {
   react {
     jsRootDir = file("../src/")
-    libraryName = "RNOmhStorageModule"
+    libraryName = "StorageCoreModule"
     codegenJavaPackageName = "com.openmobilehub.reactnative.storage.core"
   }
 }

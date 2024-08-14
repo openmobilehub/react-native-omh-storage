@@ -2,6 +2,7 @@ import {
   Permission,
   StorageEntityMetadata,
   UnsupportedOperationException,
+  type IStorageAuthClient,
   type IStorageClient,
   type LocalFile,
   type PermissionRecipient,
@@ -22,21 +23,19 @@ export class OneDriveStorageClient implements IStorageClient {
   private clientNoAuth: OneDriveStorageApiClientNoAuth;
   private repository: OneDriveStorageRepository;
 
-  constructor() {
-    this.client = new OneDriveStorageApiClient();
+  constructor(authClient: IStorageAuthClient) {
+    this.client = new OneDriveStorageApiClient(authClient);
     this.clientNoAuth = new OneDriveStorageApiClientNoAuth();
+
     const service = new OneDriveStorageApiService(
       this.client,
       this.clientNoAuth
     );
+
     this.repository = new OneDriveStorageRepository(service);
   }
 
   readonly rootFolderId = ROOT_FOLDER;
-
-  setAccessToken(accessToken: string) {
-    this.client.setAccessToken(accessToken);
-  }
 
   async listFiles(folderId: string) {
     return this.repository.listFiles(folderId);

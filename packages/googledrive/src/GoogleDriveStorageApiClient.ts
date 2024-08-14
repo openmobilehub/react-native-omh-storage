@@ -1,4 +1,8 @@
-import { ApiException } from '@openmobilehub/storage-core';
+import {
+  ApiException,
+  InvalidCredentialsException,
+  type IStorageAuthClient,
+} from '@openmobilehub/storage-core';
 import Axios, { AxiosError, type AxiosInstance } from 'axios';
 
 import { BASE_URL } from './data/constants/constants';
@@ -7,9 +11,19 @@ import type { GoogleErrorResponse } from './data/error/GoogleErrorResponse';
 export class GoogleDriveStorageApiClient {
   axiosClient: AxiosInstance;
 
-  constructor() {
+  constructor(authClient: IStorageAuthClient) {
     this.axiosClient = Axios.create({
       baseURL: BASE_URL,
+    });
+
+    this.axiosClient.interceptors.request.use(async (config) => {
+      const accessToken = await authClient.getAccessToken();
+      if (!accessToken) {
+        throw new InvalidCredentialsException('Access token is not available');
+      }
+
+      config.headers.Authorization = `Bearer ${accessToken}`;
+      return config;
     });
 
     this.axiosClient.interceptors.response.use(
@@ -21,15 +35,6 @@ export class GoogleDriveStorageApiClient {
           error
         );
       }
-    );
-  }
-
-  setAccessToken(accessToken: string) {
-    this.axiosClient.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
-  }
-  getAccessToken(): string {
-    return (
-      this.axiosClient.defaults.headers.common.Authorization?.toString() ?? ''
     );
   }
 }

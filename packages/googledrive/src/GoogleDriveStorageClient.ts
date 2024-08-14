@@ -1,5 +1,6 @@
 import {
   UnsupportedOperationException,
+  type IStorageAuthClient,
   type IStorageClient,
   type LocalFile,
   type PermissionRecipient,
@@ -16,18 +17,14 @@ export class GoogleDriveStorageClient implements IStorageClient {
   private client: GoogleDriveStorageApiClient;
   private repository: GoogleDriveStorageRepository;
 
-  constructor() {
-    this.client = new GoogleDriveStorageApiClient();
+  constructor(authClient: IStorageAuthClient) {
+    this.client = new GoogleDriveStorageApiClient(authClient);
 
-    const service = new GoogleDriveStorageApiService(this.client);
+    const service = new GoogleDriveStorageApiService(this.client, authClient);
     this.repository = new GoogleDriveStorageRepository(service);
   }
 
   readonly rootFolderId = ROOT_FOLDER;
-
-  setAccessToken(accessToken: string) {
-    this.client.setAccessToken(accessToken);
-  }
 
   async listFiles(folderId: string) {
     return this.repository.listFiles(folderId);
