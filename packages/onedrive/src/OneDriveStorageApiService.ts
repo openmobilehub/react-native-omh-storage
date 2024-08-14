@@ -1,9 +1,8 @@
-import {
-  type LocalFile,
-  type StorageEntity,
-} from '@openmobilehub/storage-core';
+import { type StorageEntity } from '@openmobilehub/storage-core';
 import { Dirs, FileSystem } from 'react-native-file-access';
 
+import type { CreateFolderBody } from './data/body/CreateFolderBody';
+import type { DriveItem } from './data/response/DriveItem';
 import { type FileListRemote } from './data/response/FileListRemote';
 import type {
   OneDriveStorageApiClient,
@@ -69,11 +68,10 @@ export class OneDriveStorageApiService {
     return initResponse.data.uploadUrl;
   }
 
-  async localFileUpload(file: LocalFile, folderId: string) {
-    const filePath = file.uri;
+  async localFileUpload(fileName: string, filePath: string, folderId: string) {
     const fileStats = await FileSystem.stat(filePath);
     const fileLength = fileStats.size;
-    let uploadUrl = await this.initializeResumableUpload(file.name, folderId);
+    let uploadUrl = await this.initializeResumableUpload(fileName, folderId);
     let uploadedBytes = 0;
 
     while (uploadedBytes < fileLength) {
@@ -115,5 +113,26 @@ export class OneDriveStorageApiService {
     }
 
     return null;
+  }
+
+  async createFile(fileName: string, parentId: string) {
+    const binaryStreamBody = new Uint8Array(0);
+
+    return await this.client.axiosClient.put<DriveItem>(
+      `${ITEMS_PARTICLE}/${parentId}:/${fileName}:/content`,
+      binaryStreamBody,
+      {
+        headers: {
+          'Content-Type': 'text/plain',
+        },
+      }
+    );
+  }
+
+  async createFolder(parentId: string, body: CreateFolderBody) {
+    return await this.client.axiosClient.post<DriveItem>(
+      `${ITEMS_PARTICLE}/${parentId}/children`,
+      body
+    );
   }
 }
