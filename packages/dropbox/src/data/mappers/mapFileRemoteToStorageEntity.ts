@@ -23,44 +23,54 @@ export const mapMetadataToStorageEntity = (
   const isFile = metadata['.tag'] === 'file';
 
   if (isFile) {
-    const fileMetadata = metadata as FileMetadata;
-    if (!fileMetadata.id || !fileMetadata.name) {
-      throw new ApiException('Invalid metadata');
-    }
-
-    const createdTime = fileMetadata.client_modified
-      ? new Date(fileMetadata.client_modified)
-      : undefined;
-
-    const modifiedTime = fileMetadata.server_modified
-      ? new Date(fileMetadata.server_modified)
-      : undefined;
-
-    const extension = getExtensionFromFilePath(fileMetadata.path_display);
-    const mimeType = getMimeTypeFromExtension(extension);
-
-    return new File({
-      id: fileMetadata.id,
-      name: fileMetadata.name,
-      createdTime,
-      modifiedTime,
-      parentId: fileMetadata.sharing_info?.parent_shared_folder_id,
-      mimeType,
-      extension: extension,
-      size: fileMetadata.size,
-    });
+    return mapFileMetadataToStorageEntity(metadata as FileMetadata);
   } else {
-    const folderMetadata = metadata as FolderMetadata;
-    if (!folderMetadata.id || !folderMetadata.name) {
-      throw new ApiException('Invalid metadata');
-    }
-
-    return new Folder({
-      id: folderMetadata.id,
-      name: folderMetadata.name,
-      createdTime: undefined,
-      modifiedTime: undefined,
-      parentId: folderMetadata.sharing_info?.parent_shared_folder_id,
-    });
+    return mapFolderMetadataToStorageEntity(metadata as FolderMetadata);
   }
+};
+
+export const mapFileMetadataToStorageEntity = (
+  metadata: FileMetadata
+): StorageEntity => {
+  if (!metadata.id || !metadata.name) {
+    throw new ApiException('Invalid metadata');
+  }
+
+  const createdTime = metadata.client_modified
+    ? new Date(metadata.client_modified)
+    : undefined;
+
+  const modifiedTime = metadata.server_modified
+    ? new Date(metadata.server_modified)
+    : undefined;
+
+  const extension = getExtensionFromFilePath(metadata.path_display);
+  const mimeType = getMimeTypeFromExtension(extension);
+
+  return new File({
+    id: metadata.id,
+    name: metadata.name,
+    createdTime,
+    modifiedTime,
+    parentId: metadata.sharing_info?.parent_shared_folder_id,
+    mimeType,
+    extension: extension,
+    size: metadata.size,
+  });
+};
+
+export const mapFolderMetadataToStorageEntity = (
+  metadata: FolderMetadata
+): StorageEntity => {
+  if (!metadata.id || !metadata.name) {
+    throw new ApiException('Invalid metadata');
+  }
+
+  return new Folder({
+    id: metadata.id,
+    name: metadata.name,
+    createdTime: undefined,
+    modifiedTime: undefined,
+    parentId: metadata.sharing_info?.parent_shared_folder_id,
+  });
 };

@@ -27,6 +27,7 @@ export interface IStorageClient {
     fileExtension: string,
     parentId?: string
   ): Promise<StorageEntity>;
+  createFolder(name: string, parentId?: string): Promise<StorageEntity>;
   exportFile(
     file: StorageEntity,
     mimeType: string,

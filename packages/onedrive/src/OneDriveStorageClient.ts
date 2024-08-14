@@ -65,6 +65,13 @@ export class OneDriveStorageClient implements IStorageClient {
     throw new UnsupportedOperationException();
   }
 
+  async createFolder(
+    _name: string,
+    _parentId?: string
+  ): Promise<StorageEntity> {
+    throw new UnsupportedOperationException();
+  }
+
   async localFileUpload(file: LocalFile, folderId: string) {
     return this.repository.localFileUpload(file, folderId);
   }

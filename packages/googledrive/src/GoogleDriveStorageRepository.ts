@@ -9,6 +9,7 @@ import {
 import type { CommonRequestBody } from './data/body/CommonRequestBody';
 import type { CreateFileRequestBody } from './data/body/CreateFileRequestBody';
 import type { UpdatePermissionRequestBody } from './data/body/UpdatePermissionRequestBody';
+import { FOLDER_MIME_TYPE } from './data/constants/constants';
 import { mapFileRemoteToStorageEntity } from './data/mappers/mapFileRemoteToStorageEntity';
 import {
   mapPermissionRecipientToRequestBody,
@@ -61,6 +62,10 @@ export class GoogleDriveStorageRepository {
     const response = await this.apiService.createFileWithMimeType(body);
 
     return mapFileRemoteToStorageEntity(response.data);
+  }
+
+  async createFolder(name: string, parentId?: string) {
+    return await this.createFileWithMimeType(name, FOLDER_MIME_TYPE, parentId);
   }
 
   async exportFile(
