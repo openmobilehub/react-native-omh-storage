@@ -116,7 +116,6 @@ export class GoogleDriveStorageClient implements IStorageClient {
   }
 
   async updateFile(file: LocalFile, fileId: string): Promise<StorageEntity> {
-    console.log('updateFile', file, fileId);
     return this.repository.updateFile(file, fileId);
   }
 

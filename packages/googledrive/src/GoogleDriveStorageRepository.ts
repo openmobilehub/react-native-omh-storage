@@ -81,34 +81,13 @@ export class GoogleDriveStorageRepository {
     return this.apiService.downloadFile(file);
   }
 
-  async _localFileUpload(file: LocalFile, metadata: any, fileId?: string) {
-    const response = await this.apiService._localFileUpload(
+  async localFileUpload(file: LocalFile, folderId: string) {
+    const uploadUrl = await this.apiService.initializeResumableUpload(
       file,
-      metadata,
-      fileId
+      folderId
     );
 
-    if (!response) {
-      throw new Error('Upload failed, no response received');
-    }
-
-    return response;
-  }
-
-  async localFileUpload(file: LocalFile, folderId: string) {
-    const metadata = {
-      name: file.name,
-      mimeType: file.type,
-      parents: [folderId],
-    };
-
-    const response = await this.apiService._localFileUpload(file, metadata);
-
-    if (!response) {
-      throw new Error('Upload failed, no response received');
-    }
-
-    return response;
+    return this.apiService.uploadFile(uploadUrl, file);
   }
 
   async deleteFile(fileId: string) {
@@ -188,24 +167,12 @@ export class GoogleDriveStorageRepository {
   }
 
   async updateFile(file: LocalFile, fileId: string) {
-    const metadata = {
-      name: file.name,
-      mimeType: file.type,
-    };
-
-    const response = await this.apiService._localFileUpload(
+    const uploadUrl = await this.apiService.initializeResumableUpdate(
       file,
-      metadata,
       fileId
     );
 
-    console.log('response', response);
-
-    if (!response) {
-      throw new Error('Upload failed, no response received');
-    }
-
-    return response;
+    return this.apiService.uploadFile(uploadUrl, file);
   }
 
   async getFileVersions(fileId: string) {

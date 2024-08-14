@@ -136,147 +136,71 @@ export class GoogleDriveStorageApiService {
     return this.downloadFromUrl(url, filePath);
   }
 
-  private async _initializeResumableUpload(
-    file: LocalFile,
-    metadata: any,
-    fileId?: string
-  ) {
-    console.log('🚀 ~ GoogleDriveStorageApiService ~ metadata:', metadata);
+  private async getResumableConfig(file: LocalFile) {
     const filePath = decodeURIComponent(file.uri.replace('file://', ''));
     const fileStats = await FileSystem.stat(filePath);
     const byteLength = fileStats.size;
 
-    const initResponse = await this.client.axiosClient.patch(
-      `${UPLOAD_PARTICLE}/${fileId || ''}`,
-      metadata,
-      {
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'X-Upload-Content-Type': file.type,
-          'X-Upload-Content-Length': byteLength,
-        },
-        params: {
-          uploadType: 'resumable',
-        },
-      }
-    );
-
-    if (initResponse?.status !== 200) {
-      throw new Error(
-        `Failed to initiate upload session with status ${initResponse?.status}`
-      );
-    }
-
-    return initResponse.headers.location;
+    return {
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'X-Upload-Content-Type': file.type,
+        'X-Upload-Content-Length': byteLength,
+      },
+      params: {
+        uploadType: 'resumable',
+      },
+    };
   }
 
   async initializeResumableUpload(file: LocalFile, folderId: string) {
+    const config = await this.getResumableConfig(file);
+
     const metadata = {
       name: file.name,
       mimeType: file.type,
       parents: [folderId],
     };
 
-    const filePath = decodeURIComponent(file.uri.replace('file://', ''));
-    const fileStats = await FileSystem.stat(filePath);
-    const byteLength = fileStats.size;
-
     const initResponse = await this.client.axiosClient.post(
       UPLOAD_PARTICLE,
       metadata,
-      {
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'X-Upload-Content-Type': file.type,
-          'X-Upload-Content-Length': byteLength,
-        },
-        params: {
-          uploadType: 'resumable',
-        },
-      }
+      config
     );
 
-    if (initResponse?.status !== 200) {
-      throw new Error(
-        `Failed to initiate upload session with status ${initResponse?.status}`
-      );
+    const uploadUrl = initResponse.headers.location;
+
+    if (typeof uploadUrl !== 'string') {
+      throw new ApiException(`Failed to initiate upload session`);
     }
 
-    return initResponse.headers.location;
+    return uploadUrl;
   }
 
-  async _localFileUpload(file: LocalFile, metadata: any, fileId?: string) {
-    const resumableSessionUri = await this._initializeResumableUpload(
-      file,
+  async initializeResumableUpdate(file: LocalFile, fileId: string) {
+    const config = await this.getResumableConfig(file);
+
+    const metadata = {
+      name: file.name,
+      mimeType: file.type,
+    };
+
+    const response = await this.client.axiosClient.patch(
+      `${UPLOAD_PARTICLE}/${fileId}`,
       metadata,
-      fileId
+      config
     );
 
-    console.log(
-      '🚀 ~ GoogleDriveStorageApiService ~ _localFileUpload ~ resumableSessionUri:',
-      resumableSessionUri
-    );
+    const uploadUrl = response.headers.location;
 
-    let uploadedBytes = 0;
-    const filePath = file.uri;
-    const fileStats = await FileSystem.stat(filePath);
-    const fileLength = fileStats.size;
-
-    while (uploadedBytes < fileLength) {
-      const remainingBytes = fileLength - uploadedBytes;
-      const bytesToRead =
-        remainingBytes < UPLOAD_CHUNK_SIZE ? remainingBytes : UPLOAD_CHUNK_SIZE;
-
-      const chunk = await FileSystem.readFileChunk(
-        filePath,
-        uploadedBytes,
-        bytesToRead,
-        'base64'
-      );
-      const buffer = new Uint8Array(bytesToRead);
-      const binaryString = atob(chunk);
-
-      for (let i = 0; i < binaryString.length; i++) {
-        buffer[i] = binaryString.charCodeAt(i);
-      }
-
-      const bytesRead = buffer.byteLength;
-      const contentRange = `bytes ${uploadedBytes}-${uploadedBytes + bytesRead - 1}/${fileLength}`;
-
-      try {
-        const uploadResponse = await this.client.axiosClient.put(
-          resumableSessionUri,
-          buffer,
-          {
-            headers: {
-              'Content-Type': file.type,
-              'Content-Length': bytesRead,
-              'Content-Range': contentRange,
-            },
-            params: {
-              fields: this.fieldsSelection,
-            },
-          }
-        );
-
-        if (uploadResponse.status === 200) {
-          return uploadResponse.data;
-        }
-      } catch (error) {
-        if (error instanceof ApiException && error.code === 308) {
-          uploadedBytes += bytesRead;
-        }
-      }
+    if (typeof uploadUrl !== 'string') {
+      throw new ApiException(`Failed to initiate upload session`);
     }
 
-    return null;
+    return uploadUrl;
   }
 
-  async localFileUpload(file: LocalFile, folderId: string) {
-    const resumableSessionUri = await this.initializeResumableUpload(
-      file,
-      folderId
-    );
+  async uploadFile(uploadUrl: string, file: LocalFile) {
     let uploadedBytes = 0;
     const filePath = file.uri;
     const fileStats = await FileSystem.stat(filePath);
@@ -305,7 +229,7 @@ export class GoogleDriveStorageApiService {
 
       try {
         const uploadResponse = await this.client.axiosClient.put(
-          resumableSessionUri,
+          uploadUrl,
           buffer,
           {
             headers: {
