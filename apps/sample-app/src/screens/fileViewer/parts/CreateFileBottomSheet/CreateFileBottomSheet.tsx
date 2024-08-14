@@ -45,10 +45,29 @@ export const CreateFileBottomSheet = ({ folderId }: Props) => {
   });
 
   const fileTypes = useMemo(() => getFileTypes(provider), [provider]);
+  const isGoogleDrive = useMemo(
+    () => provider === Provider.GOOGLEDRIVE,
+    [provider]
+  );
 
   const handleCreateFilePress = () => {
+    // Folder creation
+    if (selectedFileType === 'Folder') {
+      createFolderMutation.mutate(
+        {
+          name: fileName,
+          parentId: folderId,
+        },
+        {
+          onSuccess: () => {
+            bottomSheetModalRef.current?.dismiss();
+          },
+        }
+      );
+      return;
+    }
+
     const fileType = fileTypes[selectedFileType];
-    const isGoogleDrive = provider === Provider.GOOGLEDRIVE;
 
     // Google Drive file creation
     if (isGoogleDrive) {
@@ -61,22 +80,6 @@ export const CreateFileBottomSheet = ({ folderId }: Props) => {
         {
           name: fileName,
           mimeType: mimeType,
-          parentId: folderId,
-        },
-        {
-          onSuccess: () => {
-            bottomSheetModalRef.current?.dismiss();
-          },
-        }
-      );
-      return;
-    }
-
-    // Folder creation
-    if (selectedFileType === 'Folder') {
-      createFolderMutation.mutate(
-        {
-          name: fileName,
           parentId: folderId,
         },
         {
