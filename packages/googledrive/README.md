@@ -18,7 +18,7 @@
 
 ## Prerequisites
 
-Each plugin requires you to follow the [iOS](/getting-started#ios-configuration) and [Android](/getting-started#android-configuration) configuration prior to interacting with it.
+Each plugin requires you to follow the [iOS](/getting-started#ios-configuration) and [Android](/getting-started#android-configuration) configuration prior to interacting with it. Additionally, for Google Drive integration, you must have the [`@openmobilehub/auth-google`](https://www.npmjs.com/package/@openmobilehub/auth-google) library installed and [configured](https://openmobilehub.github.io/react-native-omh-auth/docs/google).
 
 ## Installation
 
@@ -32,7 +32,7 @@ To access Google Drive APIs, follow these steps to obtain the **Client ID**:
 
 1. [Create a new app](https://developers.google.com/identity/protocols/oauth2/native-app#android) in [Google Cloud console](https://console.cloud.google.com/projectcreate).
 2. Create an OAuth 2.0 Client ID Android application and specify your app's [**Package Name**](https://developer.android.com/build/configure-app-module#set-application-id) and [**SHA1 Fingerprint**](https://support.google.com/cloud/answer/6158849?authuser=1#installedapplications&zippy=%2Cnative-applications%2Candroid).
-3. [Enable Google Drive API](https://support.google.com/googleapi/answer/6158841) in [Google Cloud Console](https://console.developers.google.com).
+3. Enable [Google Drive API](https://support.google.com/googleapi/answer/6158841).
 
 ### Secrets
 
@@ -46,19 +46,24 @@ GOOGLE_CLIENT_ID=<YOUR_GOOGLE_CLIENT_ID>
 
 ### Initializing
 
-To interact with the Google Drive storage provider, you must first initialize the OMH Auth Client and then use it to initialize the OMH Storage Client.
+To interact with the Google Drive storage provider, start by initializing the [OMH Auth Client](https://openmobilehub.github.io/react-native-omh-auth/docs/google#initializing). Once the authentication client is set up, you can then initialize the OMH Storage Client.
 
 ```typescript
 import GoogleAuthClient from '@openmobilehub/auth-google';
 import { GoogleDriveStorageClient } from '@openmobilehub/storage-googledrive';
 
-// Read more about initialization https://openmobilehub.github.io/react-native-omh-auth/docs/getting-started/#initializing
+const scopes = [
+  'openid',
+  'profile',
+  'email',
+  'https://www.googleapis.com/auth/drive',
+  'https://www.googleapis.com/auth/drive.file',
+];
+
 await GoogleAuthClient.initialize({
-  android: {
-    scopes: ['openid', 'profile', 'email'],
-  },
+  android: { scopes },
   ios: {
-    scopes: ['openid', 'profile', 'email'],
+    scopes,
     clientId: '<YOUR_GOOGLE_CLIENT_ID>',
     redirectUrl: `com.googleusercontent.apps.${
       '<YOUR_GOOGLE_CLIENT_ID>'.split('.')[0]
