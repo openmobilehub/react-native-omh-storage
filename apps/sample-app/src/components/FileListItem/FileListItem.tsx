@@ -44,6 +44,10 @@ export const FileListItem = ({ file, onPress }: Props) => {
   const icon =
     file instanceof File ? getIconForFileListItem(file.mimeType) : URL_FOLDER;
 
+  const closeBottomSheet = useCallback(() => {
+    bottomSheetModalRef.current?.dismiss();
+  }, []);
+
   const handleRightIconPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
@@ -128,6 +132,7 @@ export const FileListItem = ({ file, onPress }: Props) => {
             file={file}
             onDeletePress={handleDeletePress}
             onPermanentDeletePress={handlePermanentDeletePress}
+            closeBottomSheet={closeBottomSheet}
           />
         }
       </BottomSheet>

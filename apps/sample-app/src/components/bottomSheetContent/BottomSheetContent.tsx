@@ -15,12 +15,14 @@ interface BottomSheetContentProps {
   onUpdatePress?: () => void;
   onDeletePress?: () => void;
   onPermanentDeletePress?: () => void;
+  closeBottomSheet: () => void;
 }
 
 export const BottomSheetContent: React.FC<BottomSheetContentProps> = ({
   file,
   onDeletePress,
   onPermanentDeletePress,
+  closeBottomSheet,
 }) => {
   const [view, setView] = useState<BottomSheetContentType>(
     BottomSheetContentType.Options
@@ -35,7 +37,9 @@ export const BottomSheetContent: React.FC<BottomSheetContentProps> = ({
       case BottomSheetContentType.Versions:
         return <VersionsContent file={file} />;
       case BottomSheetContentType.Update:
-        return <UpdateContent file={file} />;
+        return (
+          <UpdateContent file={file} closeBottomSheet={closeBottomSheet} />
+        );
       default:
         return (
           <BottomSheetOptions

@@ -249,11 +249,11 @@ export class GoogleDriveStorageApiService {
       } catch (error) {
         if (error instanceof ApiException && error.code === 308) {
           uploadedBytes += bytesRead;
+        } else {
+          throw error;
         }
       }
     }
-
-    return null;
   }
 
   async updateFileMetadata(fileId: string, body: CommonRequestBody) {

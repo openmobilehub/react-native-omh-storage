@@ -13,13 +13,20 @@ type MutationData = {
   fileId: string;
 };
 
-export const useUpdateFileMutation = (storageClient: IStorageClient) => {
+export const useUpdateFileMutation = (
+  storageClient: IStorageClient,
+  { onSuccess, onError }: { onSuccess: () => void; onError: () => void }
+) => {
   const queryClient = useQueryClient();
 
   return useMutation<StorageEntity, StorageException, MutationData>({
     mutationFn: ({ file, fileId }) => storageClient.updateFile(file, fileId),
     onSuccess: () => {
+      onSuccess();
       queryClient.invalidateQueries({ queryKey: [QK_LIST_FILES] });
+    },
+    onError: () => {
+      onError();
     },
     retry: false,
   });
