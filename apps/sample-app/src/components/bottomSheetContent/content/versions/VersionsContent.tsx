@@ -28,7 +28,7 @@ export const VersionsContent = ({ file }: Props) => {
   const [currentlyDownloadingVersions, setCurrentlyDownloadingVersions] =
     useState<Record<string, boolean>>({});
 
-  const renderIdex = (index: number) => (
+  const renderIndex = (index: number) => (
     <Text style={styles.index}>{index + 1}.</Text>
   );
 
@@ -75,7 +75,7 @@ export const VersionsContent = ({ file }: Props) => {
         {fileVersionsQuery.data.map((version, index) => (
           <Fragment key={version.versionId}>
             <List.Item
-              left={() => renderIdex(index)}
+              left={() => renderIndex(index)}
               title={version.lastModified.toISOString()}
               right={() => renderDownloadIcon(version.versionId)}
               onPress={() => handlePress(version.versionId)}
