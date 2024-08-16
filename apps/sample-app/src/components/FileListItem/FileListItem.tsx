@@ -55,10 +55,10 @@ export const FileListItem = ({ file, onPress }: Props) => {
   const deleteHandlers = useMemo(() => {
     return {
       onSuccess: () => {
-        showSnackbar('File permanently deleted');
+        showSnackbar('File deleted');
       },
       onError: () => {
-        showSnackbar('Failed to permanently delete file');
+        showSnackbar('Failed to delete file');
       },
     };
   }, [showSnackbar]);
