@@ -31,6 +31,12 @@ export class OneDriveStorageApiService {
     );
   }
 
+  async getFileMetadata(fileId: string) {
+    return this.client.axiosClient.get<DriveItem>(
+      `${ITEMS_PARTICLE}/${fileId}`
+    );
+  }
+
   async downloadFile(file: StorageEntity) {
     const filePath = `${Dirs.DocumentDir}/${file.name}`;
 

@@ -1,6 +1,5 @@
 import {
   Permission,
-  StorageEntityMetadata,
   UnsupportedOperationException,
   type IStorageAuthClient,
   type IStorageClient,
@@ -41,8 +40,8 @@ export class OneDriveStorageClient implements IStorageClient {
     return this.repository.listFiles(folderId);
   }
 
-  getFileMetadata(_fileId: string): Promise<StorageEntityMetadata> {
-    throw new UnsupportedOperationException();
+  getFileMetadata(fileId: string) {
+    return this.repository.getFileMetadata(fileId);
   }
 
   search(_query: string): Promise<StorageEntity[]> {

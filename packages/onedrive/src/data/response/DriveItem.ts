@@ -1,14 +1,20 @@
 export interface DriveItem {
   id?: string;
   name?: string;
-  folder?: Folder;
+  createdDateTime?: string;
   lastModifiedDateTime?: string;
   parentReference?: ParentReference;
   size?: number;
+  file?: File;
+  folder?: Folder;
+}
+
+export interface File {
+  mimeType?: string;
 }
 
 export interface Folder {
-  childCount?: number;
+  id?: string;
 }
 
 export interface ParentReference {

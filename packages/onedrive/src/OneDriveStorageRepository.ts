@@ -1,7 +1,12 @@
-import type { LocalFile, StorageEntity } from '@openmobilehub/storage-core';
+import {
+  StorageEntityMetadata,
+  type LocalFile,
+  type StorageEntity,
+} from '@openmobilehub/storage-core';
 
 import { ROOT_FOLDER } from './data/constants/constants';
 import { mapDriveItemToStorageEntity } from './data/mappers/mapDriveItemToStorageEntity';
+import { mapMetadataToStorageEntity } from './data/mappers/mapFileRemoteToStorageEntity';
 import type { OneDriveStorageApiService } from './OneDriveStorageApiService';
 
 export class OneDriveStorageRepository {
@@ -33,6 +38,17 @@ export class OneDriveStorageRepository {
     }
 
     return response;
+  }
+
+  async getFileMetadata(fileId: string) {
+    const response = await this.apiService.getFileMetadata(fileId);
+
+    const storageEntity = mapMetadataToStorageEntity(response.data);
+
+    return new StorageEntityMetadata({
+      entity: storageEntity,
+      originalMetadata: response.data,
+    });
   }
 
   async createFolder(name: string, parentId?: string): Promise<StorageEntity> {
