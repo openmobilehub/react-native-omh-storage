@@ -6,7 +6,6 @@ import {
 
 import { ROOT_FOLDER } from './data/constants/constants';
 import { mapDriveItemToStorageEntity } from './data/mappers/mapDriveItemToStorageEntity';
-import { mapMetadataToStorageEntity } from './data/mappers/mapFileRemoteToStorageEntity';
 import type { OneDriveStorageApiService } from './OneDriveStorageApiService';
 
 export class OneDriveStorageRepository {
