@@ -1,5 +1,6 @@
 import {
   ApiException,
+  getMimeTypeFromExtension,
   StorageEntityMetadata,
   type LocalFile,
   type PermissionRecipient,
@@ -8,6 +9,8 @@ import {
 import type { StorageEntity } from '@openmobilehub/storage-core';
 import { Dirs, FileSystem } from 'react-native-file-access';
 
+import type { CommitInfo } from './data/body/CommitInfo';
+import type { GetFileVersionsBody } from './data/body/GetFileVersionsBody';
 import { ROOT_FOLDER } from './data/constants/constants';
 import { mapPermissionRoleToAccessLevel } from './data/mappers/mapAccessLevelToPermissionRole';
 import {
@@ -15,6 +18,7 @@ import {
   mapFolderMetadataToStorageEntity,
   mapMetadataToStorageEntity,
 } from './data/mappers/mapFileRemoteToStorageEntity';
+import { mapFileVersionRemoteToFileVersion } from './data/mappers/mapFileVersionRemoteToFileVersion';
 import { mapListMembersResponseToPermissions } from './data/mappers/mapListMembersResponseToPermissions';
 import { mapPermissionIdToMemberSelector } from './data/mappers/mapPermissionIdToMemberSelector';
 import { mapPermissionRecipientToMemberSelector } from './data/mappers/mapPermissionRecipientToMemberSelector';
@@ -22,6 +26,7 @@ import type { FolderMetadata } from './data/response/Metadata';
 import type { DropboxStorageApiService } from './DropboxStorageApiService';
 
 const CHECK_JOB_STATUS_RETRY_TIMES = 10;
+const DEFAULT_MIME_TYPE = 'application/octet-stream';
 
 export class DropboxStorageRepository {
   private apiService: DropboxStorageApiService;
@@ -60,21 +65,20 @@ export class DropboxStorageRepository {
   }
 
   async downloadFile(file: StorageEntity) {
-    return this.apiService.downloadFile(file);
+    return this.apiService.downloadFile(file.name, file.id);
   }
 
   async localFileUpload(file: LocalFile, folderId: string) {
-    const response = await this.apiService.localFileUpload(
-      file.name,
-      file.uri,
-      folderId
-    );
+    const commitInfo: CommitInfo = {
+      path: `${folderId}/${file.name}`,
+      mode: 'add',
+      autorename: true,
+      mute: false,
+    };
 
-    if (!response) {
-      throw new Error('Upload failed, no response received');
-    }
+    const response = await this.apiService.localFileUpload(file, commitInfo);
 
-    return response;
+    return mapFileMetadataToStorageEntity(response.data);
   }
 
   async createFileWithExtension(
@@ -87,14 +91,27 @@ export class DropboxStorageRepository {
 
     await FileSystem.writeFile(path, '');
 
+    const localFile: LocalFile = {
+      name: fullFileName,
+      uri: path,
+      size: 0,
+      type: getMimeTypeFromExtension(fileExtension) || DEFAULT_MIME_TYPE,
+    };
+
+    const commitInfo: CommitInfo = {
+      path: `${parentId || ROOT_FOLDER}/${fullFileName}`,
+      mode: 'add',
+      autorename: true,
+      mute: false,
+    };
+
     try {
-      const data = await this.apiService.localFileUpload(
-        fullFileName,
-        path,
-        parentId || ROOT_FOLDER
+      const response = await this.apiService.localFileUpload(
+        localFile,
+        commitInfo
       );
 
-      return mapFileMetadataToStorageEntity(data);
+      return mapFileMetadataToStorageEntity(response.data);
     } finally {
       await FileSystem.unlink(path);
     }
@@ -391,5 +408,62 @@ export class DropboxStorageRepository {
     return response.data?.['.tag'] === 'folder'
       ? (response.data as FolderMetadata)
       : undefined;
+  }
+
+  async updateFile(file: LocalFile, fileId: string) {
+    // Get remote path of the file
+    const fileMetadata = await this.getFileMetadata(fileId);
+    const pathLower = fileMetadata.originalMetadata.path_lower;
+    if (typeof pathLower !== 'string') {
+      throw new ApiException(`Failed to get path for file with ID: ${fileId}`);
+    }
+
+    // Update binary content of the file
+    const commitInfo: CommitInfo = {
+      path: pathLower,
+      autorename: false,
+      mode: 'overwrite',
+      mute: false,
+    };
+
+    const uploadResponse = await this.apiService.localFileUpload(
+      file,
+      commitInfo
+    );
+
+    if (file.name === fileMetadata.entity.name) {
+      return mapFileMetadataToStorageEntity(uploadResponse.data);
+    }
+
+    // Update file name
+    const pathWithoutFileName = pathLower.substring(
+      0,
+      pathLower.lastIndexOf(fileMetadata.entity.name.toLowerCase())
+    );
+    const newPath = `${pathWithoutFileName}${file.name}`;
+
+    const response = await this.apiService.moveFile({
+      from_path: pathLower,
+      to_path: newPath,
+      autorename: true,
+    });
+
+    // Return updated file metadata
+    return mapMetadataToStorageEntity(response.data.metadata);
+  }
+
+  async getFileVersions(fileId: string) {
+    const body: GetFileVersionsBody = {
+      path: fileId,
+      mode: 'id',
+    };
+
+    const response = await this.apiService.getFileVersions(body);
+
+    return response.data.entries.map(mapFileVersionRemoteToFileVersion);
+  }
+
+  async downloadFileVersion(file: StorageEntity, versionId: string) {
+    return this.apiService.downloadFile(file.name, `rev:${versionId}`);
   }
 }
