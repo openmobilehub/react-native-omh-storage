@@ -6,7 +6,6 @@ import {
 
 import { ROOT_FOLDER } from './data/constants/constants';
 import { mapDriveItemToStorageEntity } from './data/mappers/mapDriveItemToStorageEntity';
-import { mapMetadataToStorageEntity } from './data/mappers/mapFileRemoteToStorageEntity';
 import type { OneDriveStorageApiService } from './OneDriveStorageApiService';
 
 export class OneDriveStorageRepository {
@@ -43,7 +42,7 @@ export class OneDriveStorageRepository {
   async getFileMetadata(fileId: string) {
     const response = await this.apiService.getFileMetadata(fileId);
 
-    const storageEntity = mapMetadataToStorageEntity(response.data);
+    const storageEntity = mapDriveItemToStorageEntity(response.data);
 
     return new StorageEntityMetadata({
       entity: storageEntity,
