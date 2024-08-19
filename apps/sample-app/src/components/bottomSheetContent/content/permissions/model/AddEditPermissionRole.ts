@@ -8,24 +8,40 @@ export enum AddEditPermissionRole {
   READER = 'Reader',
 }
 
-const DROPBOX_ROLE_OPTIONS = [
-  AddEditPermissionRole.WRITER,
-  AddEditPermissionRole.COMMENTER,
-];
+const DROPBOX_DISABLED_ROLE = [AddEditPermissionRole.READER];
+const ONEDRIVE_DISABLED_ROLE = [AddEditPermissionRole.COMMENTER];
 
 export const getRoleOptions = (provider: Provider | null) => {
   let roles = Object.entries(AddEditPermissionRole);
+  const disabledRole = getDisabledRole(provider);
+
+  return roles
+    .filter(([_key, label]) => !disabledRole.includes(label))
+    .map(([key, label]) => ({
+      key,
+      label,
+      value: label,
+    }));
+};
+
+const getDisabledRole = (provider: Provider | null) => {
   switch (provider) {
     case Provider.DROPBOX:
-      roles = roles.filter(([_key, label]) =>
-        DROPBOX_ROLE_OPTIONS.includes(label)
-      );
+      return DROPBOX_DISABLED_ROLE;
+    case Provider.ONEDRIVE:
+      return ONEDRIVE_DISABLED_ROLE;
+    default:
+      return [];
   }
-  return roles.map(([key, label]) => ({
-    key,
-    label,
-    value: label,
-  }));
+};
+
+export const getDefaultRole = (provider: Provider | null) => {
+  switch (provider) {
+    case Provider.DROPBOX:
+      return AddEditPermissionRole.COMMENTER;
+    default:
+      return AddEditPermissionRole.READER;
+  }
 };
 
 export const mapAddEditPermissionRoleToCore = (
