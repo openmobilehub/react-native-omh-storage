@@ -16,6 +16,7 @@ import {
   mapPermissionRoleToRoleRemote,
 } from './data/mappers/mapPermissionRecipientToRequestBody';
 import { mapPermissionRemoteToStoragePermission } from './data/mappers/mapPermissionRemoteToStoragePermission';
+import { mapVersionRemoteToFileVersion } from './data/mappers/mapVersionRemoteToFileViersion';
 import type { GoogleDriveStorageApiService } from './GoogleDriveStorageApiService';
 
 export class GoogleDriveStorageRepository {
@@ -81,13 +82,12 @@ export class GoogleDriveStorageRepository {
   }
 
   async localFileUpload(file: LocalFile, folderId: string) {
-    const response = await this.apiService.localFileUpload(file, folderId);
+    const uploadUrl = await this.apiService.initializeResumableUpload(
+      file,
+      folderId
+    );
 
-    if (!response) {
-      throw new Error('Upload failed, no response received');
-    }
-
-    return response;
+    return this.apiService.uploadFile(uploadUrl, file);
   }
 
   async deleteFile(fileId: string) {
@@ -164,5 +164,28 @@ export class GoogleDriveStorageRepository {
     );
 
     return mapPermissionRemoteToStoragePermission(response.data);
+  }
+
+  async updateFile(file: LocalFile, fileId: string) {
+    const uploadUrl = await this.apiService.initializeResumableUpdate(
+      file,
+      fileId
+    );
+
+    return this.apiService.uploadFile(uploadUrl, file);
+  }
+
+  async getFileVersions(fileId: string) {
+    const response = await this.apiService.getFileVersions(fileId);
+
+    return response.data.revisions
+      .reverse()
+      .map((versionRemote) =>
+        mapVersionRemoteToFileVersion(fileId, versionRemote)
+      );
+  }
+
+  async downloadFileVersion(file: StorageEntity, versionId: string) {
+    return this.apiService.downloadFileVersion(file, versionId);
   }
 }

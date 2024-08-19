@@ -44,13 +44,13 @@ export const FileListItem = ({ file, onPress }: Props) => {
   const icon =
     file instanceof File ? getIconForFileListItem(file.mimeType) : URL_FOLDER;
 
+  const closeBottomSheet = useCallback(() => {
+    bottomSheetModalRef.current?.dismiss();
+  }, []);
+
   const handleRightIconPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
-
-  const handleUpdatePress = () => {
-    Alert.alert('Not implemented', 'This feature is not implemented yet');
-  };
 
   const deleteHandlers = useMemo(() => {
     return {
@@ -130,9 +130,9 @@ export const FileListItem = ({ file, onPress }: Props) => {
         {
           <BottomSheetContent
             file={file}
-            onUpdatePress={handleUpdatePress}
             onDeletePress={handleDeletePress}
             onPermanentDeletePress={handlePermanentDeletePress}
+            closeBottomSheet={closeBottomSheet}
           />
         }
       </BottomSheet>
