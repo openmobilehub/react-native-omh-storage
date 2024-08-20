@@ -1,5 +1,5 @@
 import { type StorageEntity } from '@openmobilehub/storage-core';
-import { Dirs, FileSystem } from 'react-native-file-access';
+import { FileSystem } from 'react-native-file-access';
 
 import type { CreateFolderBody } from './data/body/CreateFolderBody';
 import type { InviteRequestBody } from './data/body/InviteRequestBody';
@@ -50,8 +50,8 @@ export class OneDriveStorageApiService {
     await this.client.axiosClient.delete(`${ITEMS_PARTICLE}/${fileId}`);
   }
 
-  async downloadFile(file: StorageEntity) {
-    const filePath = `${Dirs.DocumentDir}/${file.name}`;
+  async downloadFile(file: StorageEntity, saveDir: string) {
+    const filePath = `${saveDir}/${file.name}`;
 
     const response = await this.client.axiosClient.get(
       `${ITEMS_PARTICLE}/${file.id}/content`,
@@ -62,10 +62,14 @@ export class OneDriveStorageApiService {
 
     const downloadUrl = response.request.responseURL;
 
-    return FileSystem.fetch(downloadUrl, {
+    const fileResponse = await FileSystem.fetch(downloadUrl, {
       path: filePath,
       method: 'GET',
     });
+
+    if (!fileResponse.ok) {
+      throw new Error('Failed to download file');
+    }
   }
 
   private async initializeResumableUpload(fileName: string, folderId: string) {

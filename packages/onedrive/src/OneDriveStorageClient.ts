@@ -8,7 +8,6 @@ import {
   type StorageEntity,
 } from '@openmobilehub/storage-core';
 import type { FileVersion } from 'packages/core/src/model/FileVersion';
-import type { FetchResult } from 'react-native-file-access';
 
 import { ROOT_FOLDER } from './data/constants/constants';
 import {
@@ -129,8 +128,8 @@ export class OneDriveStorageClient implements IStorageClient {
     throw new UnsupportedOperationException();
   }
 
-  async downloadFile(file: StorageEntity) {
-    return this.repository.downloadFile(file);
+  async downloadFile(file: StorageEntity, saveDir: string) {
+    return this.repository.downloadFile(file, saveDir);
   }
 
   updateFile(_file: LocalFile, _fileId: string): Promise<StorageEntity> {
@@ -141,10 +140,7 @@ export class OneDriveStorageClient implements IStorageClient {
     throw new Error('Method not implemented.');
   }
 
-  downloadFileVersion(
-    _file: StorageEntity,
-    _versionId: string
-  ): Promise<FetchResult> {
+  downloadFileVersion(_file: StorageEntity, _versionId: string): Promise<void> {
     throw new Error('Method not implemented.');
   }
 }

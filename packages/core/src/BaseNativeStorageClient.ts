@@ -1,5 +1,3 @@
-import type { FetchResult } from 'react-native-file-access';
-
 import { mapNativeStorageEntity } from './mappers/mapNativeStorageEntity';
 import type {
   Permission,
@@ -110,11 +108,11 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
     _file: StorageEntity,
     _mimeType: string,
     _fileExtension: string
-  ): Promise<FetchResult> {
+  ): Promise<void> {
     throw new Error('Method not implemented.');
   }
 
-  downloadFile(_file: StorageEntity): Promise<FetchResult> {
+  downloadFile(_file: StorageEntity): Promise<void> {
     throw new Error('Method not implemented.');
   }
 
@@ -126,10 +124,7 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
     throw new Error('Method not implemented.');
   }
 
-  downloadFileVersion(
-    _file: StorageEntity,
-    _versionId: string
-  ): Promise<FetchResult> {
+  downloadFileVersion(_file: StorageEntity, _versionId: string): Promise<void> {
     throw new Error('Method not implemented.');
   }
 }

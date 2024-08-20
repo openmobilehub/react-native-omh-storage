@@ -3,7 +3,7 @@ import {
   type IStorageAuthClient,
   type LocalFile,
 } from '@openmobilehub/storage-core';
-import { Dirs, FileSystem } from 'react-native-file-access';
+import { FileSystem } from 'react-native-file-access';
 
 import type { AddFileMemberBody } from './data/body/AddFileMemberBody';
 import type { AddFolderMemberBody } from './data/body/AddFolderMemberBody';
@@ -81,23 +81,31 @@ export class DropboxStorageApiService {
     );
   }
 
-  async downloadFile(fileName: string, remotePath: string) {
+  async downloadFile(fileName: string, remotePath: string, saveDir: string) {
     const accessToken = await this.authClient.getAccessToken();
+
     if (!accessToken) {
       throw new InvalidCredentialsException('Access token is not available');
     }
 
-    const filePath = `${Dirs.DocumentDir}/${fileName}`;
+    const filePath = `${saveDir}/${fileName}`;
     const dropboxArgs = JSON.stringify({ path: remotePath });
 
-    return await FileSystem.fetch(`${CONTENT_URL}${FILES_PARTICLE}/download`, {
-      path: filePath,
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Dropbox-API-Arg': dropboxArgs,
-      },
-    });
+    const fileResponse = await FileSystem.fetch(
+      `${CONTENT_URL}${FILES_PARTICLE}/download`,
+      {
+        path: filePath,
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Dropbox-API-Arg': dropboxArgs,
+        },
+      }
+    );
+
+    if (!fileResponse.ok) {
+      throw new Error('Failed to download file');
+    }
   }
 
   private async initializeResumableUpload() {

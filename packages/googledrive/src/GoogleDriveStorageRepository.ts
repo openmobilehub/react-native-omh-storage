@@ -72,13 +72,14 @@ export class GoogleDriveStorageRepository {
   async exportFile(
     file: StorageEntity,
     mimeType: string,
-    fileExtension: string
+    fileExtension: string,
+    saveDir: string
   ) {
-    return this.apiService.exportFile(file, mimeType, fileExtension);
+    return this.apiService.exportFile(file, mimeType, fileExtension, saveDir);
   }
 
-  async downloadFile(file: StorageEntity) {
-    return this.apiService.downloadFile(file);
+  async downloadFile(file: StorageEntity, saveDir: string) {
+    return this.apiService.downloadFile(file, saveDir);
   }
 
   async localFileUpload(file: LocalFile, folderId: string) {
@@ -185,7 +186,11 @@ export class GoogleDriveStorageRepository {
       );
   }
 
-  async downloadFileVersion(file: StorageEntity, versionId: string) {
-    return this.apiService.downloadFileVersion(file, versionId);
+  async downloadFileVersion(
+    file: StorageEntity,
+    versionId: string,
+    saveDir: string
+  ) {
+    return this.apiService.downloadFileVersion(file, versionId, saveDir);
   }
 }

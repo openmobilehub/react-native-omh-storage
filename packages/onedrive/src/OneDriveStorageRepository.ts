@@ -34,8 +34,8 @@ export class OneDriveStorageRepository {
     return response.data.value.map(mapDriveItemToStorageEntity);
   }
 
-  async downloadFile(file: StorageEntity) {
-    return this.apiService.downloadFile(file);
+  async downloadFile(file: StorageEntity, saveDir: string) {
+    return this.apiService.downloadFile(file, saveDir);
   }
 
   async localFileUpload(file: LocalFile, folderId: string) {
