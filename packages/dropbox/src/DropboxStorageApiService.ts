@@ -1,15 +1,18 @@
 import {
   InvalidCredentialsException,
   type IStorageAuthClient,
-  type StorageEntity,
+  type LocalFile,
 } from '@openmobilehub/storage-core';
 import { Dirs, FileSystem } from 'react-native-file-access';
 
 import type { AddFileMemberBody } from './data/body/AddFileMemberBody';
 import type { AddFolderMemberBody } from './data/body/AddFolderMemberBody';
+import type { CommitInfo } from './data/body/CommitInfo';
 import type { CreateFolderBody } from './data/body/CreateFolderBody';
+import type { GetFileVersionsBody } from './data/body/GetFileVersionsBody';
 import type { ListFileMembersBody } from './data/body/ListFileMembersBody';
 import type { ListFolderMembersBody } from './data/body/ListFolderMembersBody';
+import type { MoveFileBody } from './data/body/MoveFileBody';
 import type { RemoveFileMemberBody } from './data/body/RemoveFileMemberBody';
 import type { RemoveFolderMemberBody } from './data/body/RemoveFolderMemberBody';
 import type { UpdateFileMemberBody } from './data/body/UpdateFileMemberBody';
@@ -18,9 +21,11 @@ import { CONTENT_URL } from './data/constants/constants';
 import type { CheckShareJobStatusResponse } from './data/response/CheckShareJobStatusResponse';
 import type { CreateFolderResponse } from './data/response/CreateFolderResponse';
 import { type FileListRemote } from './data/response/FileListRemote';
+import type { GetFileVersionsResponse } from './data/response/GetFileVersionsResponse';
 import type { ListFolderMembersResponse } from './data/response/ListFolderMembersResponse';
 import type { ListMembersResponse } from './data/response/ListMembersResponse';
-import type { Metadata } from './data/response/Metadata';
+import type { FileMetadata, Metadata } from './data/response/Metadata';
+import type { MoveFileResponse } from './data/response/MoveFileResponse';
 import type { SearchFileListRemote } from './data/response/SearchFileListRemote';
 import type { ShareFolderResponse } from './data/response/ShareFolderResponse';
 import type { SharingMetadata } from './data/response/SharingMetadata';
@@ -76,14 +81,14 @@ export class DropboxStorageApiService {
     );
   }
 
-  async downloadFile(file: StorageEntity) {
+  async downloadFile(fileName: string, remotePath: string) {
     const accessToken = await this.authClient.getAccessToken();
     if (!accessToken) {
       throw new InvalidCredentialsException('Access token is not available');
     }
 
-    const filePath = `${Dirs.DocumentDir}/${file.name}`;
-    const dropboxArgs = JSON.stringify({ path: file.id });
+    const filePath = `${Dirs.DocumentDir}/${fileName}`;
+    const dropboxArgs = JSON.stringify({ path: remotePath });
 
     return await FileSystem.fetch(`${CONTENT_URL}${FILES_PARTICLE}/download`, {
       path: filePath,
@@ -116,10 +121,10 @@ export class DropboxStorageApiService {
     return initResponse.data.session_id;
   }
 
-  async localFileUpload(fileName: string, filePath: string, folderId: string) {
+  async localFileUpload(localFile: LocalFile, commitInfo: CommitInfo) {
     const sessionId = await this.initializeResumableUpload();
     let uploadedBytes = 0;
-    const fileStats = await FileSystem.stat(filePath);
+    const fileStats = await FileSystem.stat(localFile.uri);
     const fileLength = fileStats.size;
 
     while (uploadedBytes < fileLength) {
@@ -128,7 +133,7 @@ export class DropboxStorageApiService {
         remainingBytes < UPLOAD_CHUNK_SIZE ? remainingBytes : UPLOAD_CHUNK_SIZE;
 
       const chunk = await FileSystem.readFileChunk(
-        filePath,
+        localFile.uri,
         uploadedBytes,
         bytesToRead,
         'base64'
@@ -162,9 +167,7 @@ export class DropboxStorageApiService {
       uploadedBytes += bytesRead;
     }
 
-    const dropboxFilePath = `${folderId}/${fileName}`;
-
-    const finishResponse = await this.client.axiosClient.post(
+    return await this.client.axiosClient.post<FileMetadata>(
       `${CONTENT_URL}${FILES_PARTICLE}/upload_session/finish`,
       null,
       {
@@ -174,23 +177,12 @@ export class DropboxStorageApiService {
               session_id: sessionId,
               offset: uploadedBytes,
             },
-            commit: {
-              path: dropboxFilePath,
-              mode: 'add',
-              autorename: true,
-              mute: false,
-            },
+            commit: commitInfo,
           }),
           'Content-Type': 'application/octet-stream',
         },
       }
     );
-
-    if (finishResponse?.status === 200) {
-      return finishResponse.data;
-    }
-
-    return null;
   }
 
   async createFolder(body: CreateFolderBody) {
@@ -289,6 +281,20 @@ export class DropboxStorageApiService {
   async updateFolderMember(body: UpdateFolderMemberBody) {
     return this.client.axiosClient.post(
       `${SHARING_PARTICLE}/update_folder_member`,
+      body
+    );
+  }
+
+  async moveFile(body: MoveFileBody) {
+    return this.client.axiosClient.post<MoveFileResponse>(
+      `${FILES_PARTICLE}/move_v2`,
+      body
+    );
+  }
+
+  async getFileVersions(body: GetFileVersionsBody) {
+    return this.client.axiosClient.post<GetFileVersionsResponse>(
+      `${FILES_PARTICLE}/list_revisions`,
       body
     );
   }

@@ -43,7 +43,7 @@ export const BottomSheetContent: React.FC<BottomSheetContentProps> = ({
       default:
         return (
           <BottomSheetOptions
-            fileName={file.name}
+            file={file}
             setView={setView}
             onDeletePress={onDeletePress}
             onPermanentDeletePress={onPermanentDeletePress}
