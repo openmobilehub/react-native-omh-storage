@@ -31,5 +31,9 @@ const getErrorMessage = (error: unknown) => {
 };
 
 export const showError = (error: unknown) => {
-  Alert.alert('Error', getErrorMessage(error));
+  showErrorMessage(getErrorMessage(error));
+};
+
+export const showErrorMessage = (message: string) => {
+  Alert.alert('Error', message);
 };

@@ -17,6 +17,7 @@ import { useSnackbar } from '@/contexts/snackbar/SnackbarContent';
 import { useRequireStorageClient } from '@/contexts/storage/useRequireStorageClient';
 import { useDeletePermissionMutation } from '@/data/mutation/useDeletePermissionMutation';
 import { useFilePermissionsQuery } from '@/data/query/filePermissionsQuery';
+import { showErrorMessage } from '@/utils/showError.ts';
 
 import { styles } from './PermissionsList.styles';
 
@@ -67,11 +68,19 @@ export const PermissionsList = ({
     }
   };
 
-  const handleDeletePermission = (permissionId: string) => {
+  const handleDeletePermission = (permission: Permission) => {
+    // OneDrive returns a cryptic error message when trying to delete the
+    // inherited permission, hence this check and custom error message
+    if (provider === Provider.ONEDRIVE && permission.isInherited) {
+      showErrorMessage(
+        'Deleting inherited permissions is not supported by provider.'
+      );
+      return;
+    }
     deletePermissionMutation.mutate(
       {
         fileId: file.id,
-        permissionId: permissionId,
+        permissionId: permission.id,
       },
       {
         onSuccess: () => {
@@ -79,6 +88,18 @@ export const PermissionsList = ({
         },
       }
     );
+  };
+
+  const handleUpdatePermission = (permission: Permission) => {
+    // OneDrive returns a cryptic error message when trying to update the
+    // inherited permission, hence this check and custom error message
+    if (provider === Provider.ONEDRIVE && permission.isInherited) {
+      showErrorMessage(
+        'Updating inherited permissions is not supported by provider.'
+      );
+      return;
+    }
+    onEditPermission(permission);
   };
 
   const comparePermissions = (a: Permission, b: Permission): number => {
@@ -136,9 +157,11 @@ export const PermissionsList = ({
               <PermissionItem
                 key={displayData.id}
                 displayPermission={displayData}
-                onDelete={handleDeletePermission}
+                onDelete={() => {
+                  handleDeletePermission(permission);
+                }}
                 onUpdate={() => {
-                  onEditPermission(permission);
+                  handleUpdatePermission(permission);
                 }}
               />
             );
