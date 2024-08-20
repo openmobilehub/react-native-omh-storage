@@ -65,7 +65,6 @@ export const BottomSheetOptions = ({
           style={styles.menuItem}
         />
       )}
-
       <Divider />
       <Menu.Item
         leadingIcon="pencil"
