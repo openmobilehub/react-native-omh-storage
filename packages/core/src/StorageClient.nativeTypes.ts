@@ -15,6 +15,7 @@ export type NativeStorageEntity = {
 export interface NativeStorageClient {
   initializeStorageClient(): void;
   listFiles(folderId: string): Promise<NativeStorageEntity[]>;
+  downloadFile(fileId: string): Promise<string>;
 }
 
 export type NativeStorageException = Error & {

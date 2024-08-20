@@ -21,6 +21,11 @@ class StorageOneDriveModule(
     return moduleImpl.listFiles(folderId, promise)
   }
 
+  @ReactMethod
+  fun downloadFile(folderId: String, promise: Promise) {
+    return moduleImpl.downloadFile(folderId, promise)
+  }
+
   override fun getName() = NAME
 
   companion object {
