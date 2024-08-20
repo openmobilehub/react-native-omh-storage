@@ -78,8 +78,8 @@ export class OneDriveStorageClient implements IStorageClient {
     return this.repository.localFileUpload(file, folderId);
   }
 
-  deleteFile(_fileId: string): Promise<void> {
-    throw new UnsupportedOperationException();
+  async deleteFile(fileId: string) {
+    return this.repository.deleteFile(fileId);
   }
 
   permanentlyDeleteFile(_fileId: string): Promise<void> {

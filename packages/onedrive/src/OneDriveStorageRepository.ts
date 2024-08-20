@@ -56,6 +56,10 @@ export class OneDriveStorageRepository {
     });
   }
 
+  async deleteFile(fileId: string) {
+    return this.apiService.deleteFile(fileId);
+  }
+
   async createFolder(name: string, parentId?: string): Promise<StorageEntity> {
     const response = await this.apiService.createFolder(
       parentId || ROOT_FOLDER,

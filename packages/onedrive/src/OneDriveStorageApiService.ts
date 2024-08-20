@@ -43,6 +43,10 @@ export class OneDriveStorageApiService {
     );
   }
 
+  async deleteFile(fileId: string) {
+    await this.client.axiosClient.delete(`${ITEMS_PARTICLE}/${fileId}`);
+  }
+
   async downloadFile(file: StorageEntity) {
     const filePath = `${Dirs.DocumentDir}/${file.name}`;
 
