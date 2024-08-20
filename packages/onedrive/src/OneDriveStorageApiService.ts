@@ -31,6 +31,12 @@ export class OneDriveStorageApiService {
     );
   }
 
+  async search(query: string) {
+    return this.client.axiosClient.get<FileListRemote>(
+      `${DRIVES_PARTICLE}/root/search(q='${query}')`
+    );
+  }
+
   async getFileMetadata(fileId: string) {
     return this.client.axiosClient.get<DriveItem>(
       `${ITEMS_PARTICLE}/${fileId}`

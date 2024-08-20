@@ -21,6 +21,12 @@ export class OneDriveStorageRepository {
     return response.data.value.map(mapDriveItemToStorageEntity);
   }
 
+  async search(query: string) {
+    const response = await this.apiService.search(query);
+
+    return response.data.value.map(mapDriveItemToStorageEntity);
+  }
+
   async downloadFile(file: StorageEntity) {
     return this.apiService.downloadFile(file);
   }

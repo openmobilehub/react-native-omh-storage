@@ -46,8 +46,8 @@ export class OneDriveStorageClient implements IStorageClient {
     return this.repository.getFileMetadata(fileId);
   }
 
-  search(_query: string): Promise<StorageEntity[]> {
-    throw new UnsupportedOperationException();
+  async search(query: string) {
+    return this.repository.search(query);
   }
 
   createFileWithMimeType(
