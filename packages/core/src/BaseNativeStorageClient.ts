@@ -1,14 +1,14 @@
 import type { FetchResult } from 'react-native-file-access';
 
 import { mapNativeStorageEntity } from './mappers/mapNativeStorageEntity';
-import type {
-  Permission,
-  PermissionRecipient,
-  PermissionRole,
-  StorageEntity,
+import {
   StorageEntityMetadata,
+  UnsupportedOperationException,
+  type Permission,
+  type PermissionRecipient,
+  type PermissionRole,
+  type StorageEntity,
 } from './model';
-import { UnsupportedOperationException } from './model';
 import type { FileVersion } from './model/FileVersion';
 import type { NativeStorageClient } from './StorageClient.nativeTypes';
 import type { IStorageClient, LocalFile } from './StorageClient.types';
@@ -36,8 +36,16 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
     }
   }
 
-  getFileMetadata(_fileId: string): Promise<StorageEntityMetadata> {
-    throw new UnsupportedOperationException();
+  async getFileMetadata(fileId: string) {
+    const nativeStorageEntityMetadata =
+      await this.nativeStorageModule.getFileMetadata(fileId);
+
+    return new StorageEntityMetadata({
+      entity: mapNativeStorageEntity(nativeStorageEntityMetadata.entity),
+      originalMetadata: JSON.parse(
+        nativeStorageEntityMetadata.originalMetadata
+      ),
+    });
   }
 
   search(_query: string): Promise<StorageEntity[]> {

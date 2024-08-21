@@ -15,9 +15,15 @@ type NativeStorageEntity = {
   size?: number;
 };
 
+export type NativeStorageEntityMetadata = {
+  entity: NativeStorageEntity;
+  originalMetadata: string;
+};
+
 export interface Spec extends TurboModule {
   initializeStorageClient(): void;
   listFiles(folderId: string): Promise<NativeStorageEntity[]>;
+  getFileMetadata(fileId: string): Promise<NativeStorageEntityMetadata>;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>(

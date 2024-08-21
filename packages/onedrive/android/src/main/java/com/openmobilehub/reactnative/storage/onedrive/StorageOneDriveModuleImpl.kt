@@ -2,6 +2,8 @@ package com.openmobilehub.reactnative.storage.onedrive
 
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
+import com.microsoft.graph.models.DriveItem
+import com.microsoft.kiota.serialization.KiotaJsonSerialization
 import com.openmobilehub.android.storage.core.OmhStorageClient
 import com.openmobilehub.android.storage.core.model.OmhStorageException
 import com.openmobilehub.android.storage.plugin.onedrive.OneDriveOmhStorageFactory
@@ -26,6 +28,15 @@ class StorageOneDriveModuleImpl(private val reactContext: ReactApplicationContex
 
   fun listFiles(folderId: String, promise: Promise) {
     moduleImpl.listFiles(folderId, promise)
+  }
+
+  fun getFileMetadata(fileId: String, promise: Promise) {
+    moduleImpl.getFileMetadata(fileId, promise) {
+      val driveItem = it as DriveItem;
+      // Solution: https://github.com/microsoftgraph/msgraph-sdk-java/issues/2064#issuecomment-2196233961
+      driveItem.backingStore.isInitializationCompleted = false;
+      KiotaJsonSerialization.serializeAsString(it)
+    }
   }
 
   companion object {

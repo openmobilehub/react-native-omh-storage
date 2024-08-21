@@ -21,6 +21,11 @@ class StorageDropboxModule(
     return moduleImpl.listFiles(folderId, promise)
   }
 
+  @ReactMethod
+  override fun getFileMetadata(fileId: String, promise: Promise) {
+    moduleImpl.getFileMetadata(fileId, promise)
+  }
+
   override fun getName() = NAME
 
   companion object {
