@@ -7,8 +7,6 @@ import {
   type PermissionRole,
   type StorageEntity,
 } from '@openmobilehub/storage-core';
-import type { FileVersion } from 'packages/core/src/model/FileVersion';
-import type { FetchResult } from 'react-native-file-access';
 
 import { ROOT_FOLDER } from './data/constants/constants';
 import {
@@ -133,18 +131,15 @@ export class OneDriveStorageClient implements IStorageClient {
     return this.repository.downloadFile(file);
   }
 
-  updateFile(_file: LocalFile, _fileId: string): Promise<StorageEntity> {
-    throw new Error('Method not implemented.');
+  async updateFile(file: LocalFile, fileId: string) {
+    return this.repository.updateFile(file, fileId);
   }
 
-  getFileVersions(_fileId: string): Promise<FileVersion[]> {
-    throw new Error('Method not implemented.');
+  async getFileVersions(fileId: string) {
+    return this.repository.getFileVersions(fileId);
   }
 
-  downloadFileVersion(
-    _file: StorageEntity,
-    _versionId: string
-  ): Promise<FetchResult> {
-    throw new Error('Method not implemented.');
+  async downloadFileVersion(file: StorageEntity, versionId: string) {
+    return this.repository.downloadFileVersion(file, versionId);
   }
 }
