@@ -15,6 +15,7 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
   nativeStorageModule: NativeStorageClient;
   readonly rootFolderId: string;
 
+  //TODO: [Fallback] Remove fallbackClient
   fallbackClient: IStorageClient;
 
   constructor(
@@ -42,6 +43,7 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
   }
 
   async getFileMetadata(fileId: string) {
+    //TODO: [Fallback] Replace with native implementation
     return this.fallbackClient.getFileMetadata(fileId);
   }
 
@@ -54,6 +56,7 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
     mimeType: string,
     parentId?: string
   ) {
+    //TODO: [Fallback] Replace with native implementation
     return this.fallbackClient.createFileWithMimeType(name, mimeType, parentId);
   }
 
@@ -62,6 +65,7 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
     fileExtension: string,
     parentId?: string
   ) {
+    //TODO: [Fallback] Replace with native implementation
     return this.fallbackClient.createFileWithExtension(
       name,
       fileExtension,
@@ -70,29 +74,34 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
   }
 
   async createFolder(name: string, parentId?: string) {
+    //TODO: [Fallback] Replace with native implementation
     return this.fallbackClient.createFolder(name, parentId);
   }
 
   async localFileUpload(
-    file: LocalFile,
-    folderId: string
+    _file: LocalFile,
+    _folderId: string
   ): Promise<StorageEntity> {
-    return this.fallbackClient.localFileUpload(file, folderId);
+    throw new UnsupportedOperationException();
   }
 
   async deleteFile(fileId: string) {
+    //TODO: [Fallback] Replace with native implementation
     return this.fallbackClient.deleteFile(fileId);
   }
 
   async permanentlyDeleteFile(fileId: string) {
+    //TODO: [Fallback] Replace with native implementation
     return this.fallbackClient.permanentlyDeleteFile(fileId);
   }
 
   async getPermissions(fileId: string) {
+    //TODO: [Fallback] Replace with native implementation
     return this.fallbackClient.getPermissions(fileId);
   }
 
   async getWebUrl(fileId: string) {
+    //TODO: [Fallback] Replace with native implementation
     return this.fallbackClient.getWebUrl(fileId);
   }
 
@@ -103,6 +112,7 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
     sendNotificationEmail: boolean,
     emailMessage?: string
   ) {
+    //TODO: [Fallback] Replace with native implementation
     return this.fallbackClient.createPermission(
       fileId,
       role,
@@ -113,6 +123,7 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
   }
 
   async deletePermission(fileId: string, permissionId: string) {
+    //TODO: [Fallback] Replace with native implementation
     return this.fallbackClient.deletePermission(fileId, permissionId);
   }
 
@@ -121,6 +132,7 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
     permissionId: string,
     role: PermissionRole
   ) {
+    //TODO: [Fallback] Replace with native implementation
     return this.fallbackClient.updatePermission(fileId, permissionId, role);
   }
 
@@ -141,6 +153,7 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
   }
 
   async getFileVersions(fileId: string) {
+    //TODO: [Fallback] Replace with native implementation
     return this.fallbackClient.getFileVersions(fileId);
   }
 
