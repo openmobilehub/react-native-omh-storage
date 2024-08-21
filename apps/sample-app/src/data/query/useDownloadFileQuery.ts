@@ -61,7 +61,13 @@ const downloadFile = async (
       file.mimeType as FileType
     );
 
+    let fileName;
+    let filePath;
+
     if (isGoogleWorkspaceFile) {
+      fileName = `${file.name}.${normalizedGoogleFileType.fileExtension}`;
+      filePath = `${Dirs.DocumentDir}/${fileName}`;
+
       await storageClient.exportFile(
         file,
         normalizedGoogleFileType.mimeType,
@@ -69,14 +75,16 @@ const downloadFile = async (
         saveDir
       );
     } else {
+      fileName = file.name;
+      filePath = `${Dirs.DocumentDir}/${fileName}`;
+
       await storageClient.downloadFile(file, saveDir);
+    }
 
-      if (Platform.OS === 'android') {
-        await requestAndroidPermission();
+    if (Platform.OS === 'android') {
+      await requestAndroidPermission();
 
-        const filePath = `${Dirs.DocumentDir}/${file.name}`;
-        await FileSystem.cpExternal(filePath, file.name, 'downloads');
-      }
+      await FileSystem.cpExternal(filePath, fileName, 'downloads');
     }
 
     showSnackbar(`${file.name} file downloaded successfully!`);

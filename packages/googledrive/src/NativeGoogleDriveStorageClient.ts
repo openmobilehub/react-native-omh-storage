@@ -19,6 +19,7 @@ export interface Spec extends TurboModule {
   initializeStorageClient(): void;
   listFiles(folderId: string): Promise<NativeStorageEntity[]>;
   downloadFile(fileId: string): Promise<string>;
+  exportFile(fileId: string, mimeType: string): Promise<string>;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>(

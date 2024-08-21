@@ -106,12 +106,25 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
     throw new UnsupportedOperationException();
   }
 
-  exportFile(
-    _file: StorageEntity,
-    _mimeType: string,
-    _fileExtension: string
-  ): Promise<void> {
-    throw new Error('Method not implemented.');
+  async exportFile(
+    file: StorageEntity,
+    mimeType: string,
+    fileExtension: string,
+    saveDir: string
+  ) {
+    try {
+      const result = await this.nativeStorageModule.exportFile(
+        file.id,
+        mimeType
+      );
+
+      const fileName = `${file.name}.${fileExtension}`;
+      const filePath = `${saveDir}/${fileName}`;
+
+      await FileSystem.writeFile(filePath, result, 'base64');
+    } catch (exception) {
+      return Promise.reject(mapNativeException(exception));
+    }
   }
 
   async downloadFile(file: StorageEntity, saveDir: string) {

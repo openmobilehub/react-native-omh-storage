@@ -94,8 +94,7 @@ export class GoogleDriveStorageApiService {
       throw new InvalidCredentialsException('Access token is not available');
     }
 
-    const ext = !file?.extension ? `.${fileExtension}` : '';
-    const filePath = `${saveDir}/${file.name}${ext}`;
+    const filePath = `${saveDir}/${file.name}.${fileExtension}`;
 
     const fileResponse = await FileSystem.fetch(
       `${BASE_URL}${FILES_PARTICLE}/${file.id}?mimeType=${mimeType}`,

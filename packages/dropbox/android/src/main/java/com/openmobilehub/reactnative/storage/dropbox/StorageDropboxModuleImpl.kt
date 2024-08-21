@@ -31,6 +31,10 @@ class StorageDropboxModuleImpl(private val reactContext: ReactApplicationContext
   fun downloadFile(folderId: String, promise: Promise) {
     moduleImpl.downloadFile(folderId, promise)
   }
+  
+  fun exportFile(folderId: String, mimeType: String, promise: Promise) {
+    moduleImpl.exportFile(folderId, mimeType, promise)
+  }
 
   companion object {
     const val NAME = "StorageDropboxModule"

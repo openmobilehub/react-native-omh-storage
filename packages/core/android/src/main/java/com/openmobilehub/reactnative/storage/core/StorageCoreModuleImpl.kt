@@ -47,4 +47,17 @@ class StorageCoreModuleImpl(
       }
     }
   }
+
+  fun exportFile(fileId: String, mimeType: String, promise: Promise) {
+    CoroutineScope(Dispatchers.IO).launch {
+      try {
+        val file = storageClient.exportFile(fileId, mimeType)
+        val base64 = Base64.encodeToString(file.toByteArray(), Base64.NO_WRAP)
+
+        promise.resolve(base64)
+      } catch (e: Exception) {
+        promise.reject(e, ErrorUtils.createPayload(e))
+      }
+    }
+  }
 }
