@@ -58,7 +58,7 @@ export const usePickFile = () => {
 
       const { name, size, type, uri } = response;
 
-      if (!name || !size || !type || !uri) {
+      if (!name || size == null || !type || !uri) {
         throw Error('Missing required asset properties');
       }
 
@@ -94,7 +94,7 @@ export const usePickFile = () => {
 
           const { fileName, fileSize, type, uri } = asset;
 
-          if (!fileName || !fileSize || !type) {
+          if (!fileName || fileSize === undefined || !type) {
             reject('Missing required asset properties');
             return;
           }
