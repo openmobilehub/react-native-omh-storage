@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { View } from 'react-native';
 
 import {
@@ -8,7 +8,6 @@ import {
 import { Button } from 'react-native-paper';
 
 import {
-  AddEditPermissionRole,
   getDefaultRole,
   getRoleOptions,
   mapAddEditPermissionRoleToCore,
@@ -36,8 +35,10 @@ interface Props {
 }
 
 export const CreatePermission = ({ file, onCancel, onSuccess }: Props) => {
+  const { provider } = useAuthContext();
+
   const [type, setType] = useState(AddEditPermissionType.USER);
-  const [role, setRole] = useState(AddEditPermissionRole.WRITER);
+  const [role, setRole] = useState(getDefaultRole(provider));
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [sendNotification, setSendNotification] = useState(false);
@@ -46,7 +47,6 @@ export const CreatePermission = ({ file, onCancel, onSuccess }: Props) => {
   const storageClient = useRequireStorageClient();
   const createPermissionMutation = useCreatePermissionMutation(storageClient);
   const { showSnackbar } = useSnackbar();
-  const { provider } = useAuthContext();
 
   const typeOptions = useMemo(() => {
     return getTypeOptions(provider);
@@ -54,10 +54,6 @@ export const CreatePermission = ({ file, onCancel, onSuccess }: Props) => {
 
   const roleOptions = useMemo(() => {
     return getRoleOptions(provider);
-  }, [provider]);
-
-  useEffect(() => {
-    setRole(getDefaultRole(provider));
   }, [provider]);
 
   const getPermissionRecipient = (): PermissionRecipient => {

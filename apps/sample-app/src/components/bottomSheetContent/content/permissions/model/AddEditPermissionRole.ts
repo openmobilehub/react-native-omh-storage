@@ -8,8 +8,8 @@ export enum AddEditPermissionRole {
   READER = 'Reader',
 }
 
-const DROPBOX_DISABLED_ROLE = [AddEditPermissionRole.READER];
-const ONEDRIVE_DISABLED_ROLE = [AddEditPermissionRole.COMMENTER];
+const DROPBOX_DISABLED_ROLES = [AddEditPermissionRole.READER];
+const ONEDRIVE_DISABLED_ROLES = [AddEditPermissionRole.COMMENTER];
 
 export const getRoleOptions = (provider: Provider | null) => {
   let roles = Object.entries(AddEditPermissionRole);
@@ -27,9 +27,9 @@ export const getRoleOptions = (provider: Provider | null) => {
 const getDisabledRole = (provider: Provider | null) => {
   switch (provider) {
     case Provider.DROPBOX:
-      return DROPBOX_DISABLED_ROLE;
+      return DROPBOX_DISABLED_ROLES;
     case Provider.ONEDRIVE:
-      return ONEDRIVE_DISABLED_ROLE;
+      return ONEDRIVE_DISABLED_ROLES;
     default:
       return [];
   }
