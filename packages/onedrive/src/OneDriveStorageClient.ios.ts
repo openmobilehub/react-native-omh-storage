@@ -1,5 +1,6 @@
 import {
   UnsupportedOperationException,
+  type FileVersion,
   type IStorageAuthClient,
   type IStorageClient,
   type LocalFile,
@@ -7,7 +8,6 @@ import {
   type PermissionRole,
   type StorageEntity,
 } from '@openmobilehub/storage-core';
-import type { FileVersion } from 'packages/core/src/model/FileVersion';
 import type { FetchResult } from 'react-native-file-access';
 
 import { ROOT_FOLDER } from './data/constants/constants';
@@ -18,6 +18,7 @@ import {
 import { OneDriveStorageApiService } from './OneDriveStorageApiService';
 import { OneDriveStorageRepository } from './OneDriveStorageRepository';
 
+// TODO: [Fallback]: Rename file to OneDriveStorageClient.ts
 export class OneDriveStorageClient implements IStorageClient {
   private client: OneDriveStorageApiClient;
   private clientNoAuth: OneDriveStorageApiClientNoAuth;
