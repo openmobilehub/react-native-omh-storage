@@ -1,4 +1,4 @@
-import { type StorageEntity } from '@openmobilehub/storage-core';
+import { ApiException, type StorageEntity } from '@openmobilehub/storage-core';
 import { FileSystem } from 'react-native-file-access';
 
 import type { CreateFolderBody } from './data/body/CreateFolderBody';
@@ -68,7 +68,7 @@ export class OneDriveStorageApiService {
     });
 
     if (!fileResponse.ok) {
-      throw new Error('Failed to download file');
+      throw new ApiException(fileResponse.statusText, fileResponse.status);
     }
   }
 

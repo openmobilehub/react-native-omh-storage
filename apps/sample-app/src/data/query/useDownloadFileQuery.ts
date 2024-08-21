@@ -37,7 +37,7 @@ const requestAndroidPermission = async () => {
 
     return allGranted;
   } catch (error) {
-    console.error('Error during permission request:', error);
+    console.error(error);
     return false;
   }
 };
@@ -46,9 +46,9 @@ const downloadFile = async (
   storageClient: IStorageClient,
   showSnackbar: (message: string) => void,
   file?: StorageEntity
-) => {
+): Promise<boolean> => {
   if (!file) {
-    throw new Error('No file provided');
+    return false;
   }
 
   const saveDir = Dirs.DocumentDir;
@@ -84,7 +84,7 @@ const downloadFile = async (
     return true;
   } catch (error) {
     console.error(error);
-    showSnackbar('Failed to download file');
+    showSnackbar(`Failed to download ${file.name} file!`);
     return false;
   }
 };

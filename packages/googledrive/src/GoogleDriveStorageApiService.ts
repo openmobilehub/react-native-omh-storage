@@ -109,7 +109,7 @@ export class GoogleDriveStorageApiService {
     );
 
     if (!fileResponse.ok) {
-      throw new Error('Failed to download file');
+      throw new ApiException(fileResponse.statusText, fileResponse.status);
     }
   }
 
@@ -129,7 +129,7 @@ export class GoogleDriveStorageApiService {
     });
 
     if (!fileResponse.ok) {
-      throw new Error('Failed to download file');
+      throw new ApiException(fileResponse.statusText, fileResponse.status);
     }
   }
 

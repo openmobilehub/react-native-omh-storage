@@ -1,4 +1,5 @@
 import {
+  ApiException,
   InvalidCredentialsException,
   type IStorageAuthClient,
   type LocalFile,
@@ -104,7 +105,7 @@ export class DropboxStorageApiService {
     );
 
     if (!fileResponse.ok) {
-      throw new Error('Failed to download file');
+      throw new ApiException(fileResponse.statusText, fileResponse.status);
     }
   }
 
