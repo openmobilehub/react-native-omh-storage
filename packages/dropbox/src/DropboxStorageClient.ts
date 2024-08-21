@@ -1,5 +1,4 @@
 import {
-  Permission,
   UnsupportedOperationException,
   type IStorageAuthClient,
   type IStorageClient,
@@ -75,13 +74,13 @@ export class DropboxStorageClient implements IStorageClient {
     throw new UnsupportedOperationException();
   }
 
-  createPermission(
+  async createPermission(
     fileId: string,
     role: PermissionRole,
     recipient: PermissionRecipient,
     sendNotificationEmail: boolean,
     emailMessage?: string
-  ): Promise<Permission | void> {
+  ) {
     return this.repository.createPermission(
       fileId,
       role,

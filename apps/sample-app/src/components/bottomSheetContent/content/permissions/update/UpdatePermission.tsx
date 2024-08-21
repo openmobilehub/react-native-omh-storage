@@ -5,7 +5,7 @@ import { Permission, StorageEntity } from '@openmobilehub/storage-core';
 import { Button } from 'react-native-paper';
 
 import {
-  AddEditPermissionRole,
+  getDefaultRole,
   getRoleOptions,
   mapAddEditPermissionRoleToCore,
   mapCoreToAddEditPermissionRole,
@@ -33,13 +33,13 @@ export const UpdatePermission = ({
   onCancel,
   onSuccess,
 }: Props) => {
+  const { provider } = useAuthContext();
+
   const [role, setRole] = useState(
-    mapCoreToAddEditPermissionRole(permission.role) ??
-      AddEditPermissionRole.COMMENTER
+    mapCoreToAddEditPermissionRole(permission.role) ?? getDefaultRole(provider)
   );
 
   const { showSnackbar } = useSnackbar();
-  const { provider } = useAuthContext();
   const storageClient = useRequireStorageClient();
   const updatePermissionMutation = useUpdatePermissionMutation(storageClient);
 

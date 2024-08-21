@@ -43,7 +43,7 @@ const getPermissionTypeSpecificDisplayData = (
   if (permission instanceof UserPermission) {
     return [
       new DisplayEntry(LABELS.TYPE, 'User'),
-      new DisplayEntry(LABELS.IDENTITY_ID, permission.id),
+      new DisplayEntry(LABELS.IDENTITY_ID, permission.userId),
       new DisplayEntry(LABELS.DISPLAY_NAME, permission.displayName),
       new DisplayEntry(LABELS.EMAIL_ADDRESS, permission.emailAddress),
       new DisplayEntry(
@@ -60,7 +60,7 @@ const getPermissionTypeSpecificDisplayData = (
   } else if (permission instanceof GroupPermission) {
     return [
       new DisplayEntry(LABELS.TYPE, 'Group'),
-      new DisplayEntry(LABELS.IDENTITY_ID, permission.id),
+      new DisplayEntry(LABELS.IDENTITY_ID, permission.groupId),
       new DisplayEntry(LABELS.DISPLAY_NAME, permission.displayName),
       new DisplayEntry(LABELS.EMAIL_ADDRESS, permission.emailAddress),
       new DisplayEntry(
@@ -80,7 +80,7 @@ const getPermissionTypeSpecificDisplayData = (
   } else if (permission instanceof DevicePermission) {
     return [
       new DisplayEntry(LABELS.TYPE, 'Device'),
-      new DisplayEntry(LABELS.IDENTITY_ID, permission.id),
+      new DisplayEntry(LABELS.IDENTITY_ID, permission.deviceId),
       new DisplayEntry(LABELS.DISPLAY_NAME, permission.displayName),
       new DisplayEntry(
         LABELS.EXPIRATION_TIME,
@@ -90,7 +90,7 @@ const getPermissionTypeSpecificDisplayData = (
   } else if (permission instanceof ApplicationPermission) {
     return [
       new DisplayEntry(LABELS.TYPE, 'Application'),
-      new DisplayEntry(LABELS.IDENTITY_ID, permission.id),
+      new DisplayEntry(LABELS.IDENTITY_ID, permission.applicationId),
       new DisplayEntry(LABELS.DISPLAY_NAME, permission.displayName),
       new DisplayEntry(
         LABELS.EXPIRATION_TIME,

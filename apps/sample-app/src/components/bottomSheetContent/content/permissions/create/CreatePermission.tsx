@@ -8,7 +8,7 @@ import {
 import { Button } from 'react-native-paper';
 
 import {
-  AddEditPermissionRole,
+  getDefaultRole,
   getRoleOptions,
   mapAddEditPermissionRoleToCore,
 } from '@/components/bottomSheetContent/content/permissions/model/AddEditPermissionRole';
@@ -35,8 +35,10 @@ interface Props {
 }
 
 export const CreatePermission = ({ file, onCancel, onSuccess }: Props) => {
+  const { provider } = useAuthContext();
+
   const [type, setType] = useState(AddEditPermissionType.USER);
-  const [role, setRole] = useState(AddEditPermissionRole.COMMENTER);
+  const [role, setRole] = useState(getDefaultRole(provider));
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [sendNotification, setSendNotification] = useState(false);
@@ -45,7 +47,6 @@ export const CreatePermission = ({ file, onCancel, onSuccess }: Props) => {
   const storageClient = useRequireStorageClient();
   const createPermissionMutation = useCreatePermissionMutation(storageClient);
   const { showSnackbar } = useSnackbar();
-  const { provider } = useAuthContext();
 
   const typeOptions = useMemo(() => {
     return getTypeOptions(provider);
@@ -67,12 +68,12 @@ export const CreatePermission = ({ file, onCancel, onSuccess }: Props) => {
           type: 'group',
           email: email,
         };
-      case AddEditPermissionType.Domain:
+      case AddEditPermissionType.DOMAIN:
         return {
           type: 'domain',
           domain: domain,
         };
-      case AddEditPermissionType.Anyone:
+      case AddEditPermissionType.ANYONE:
         return {
           type: 'anyone',
         };
@@ -142,7 +143,7 @@ export const CreatePermission = ({ file, onCancel, onSuccess }: Props) => {
         </View>
       )}
 
-      {type === AddEditPermissionType.Domain && (
+      {type === AddEditPermissionType.DOMAIN && (
         <BottomSheetTextInput
           mode={'outlined'}
           label="Domain"
