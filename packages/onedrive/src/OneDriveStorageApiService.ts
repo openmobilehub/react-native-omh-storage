@@ -2,9 +2,12 @@ import { ApiException, type LocalFile } from '@openmobilehub/storage-core';
 import { Dirs, FileSystem } from 'react-native-file-access';
 
 import type { CreateFolderBody } from './data/body/CreateFolderBody';
+import type { InviteRequestBody } from './data/body/InviteRequestBody';
 import { mapDriveItemToStorageEntity } from './data/mappers/mapDriveItemToStorageEntity';
 import type { DriveItem } from './data/response/DriveItem';
 import { type FileListRemote } from './data/response/FileListRemote';
+import type { PermissionListRemote } from './data/response/PermissionListRemote';
+import type { PermissionRemote } from './data/response/PermissionRemote';
 import { type VersionListRemote } from './data/response/VersionListRemote';
 import type {
   OneDriveStorageApiClient,
@@ -188,6 +191,36 @@ export class OneDriveStorageApiService {
     return await this.client.axiosClient.patch<DriveItem>(
       `${ITEMS_PARTICLE}/${fileId}`,
       { ...body, '@microsoft.graph.conflictBehavior': 'rename' }
+    );
+  }
+
+  async getPermissions(fileId: string) {
+    return await this.client.axiosClient.get<PermissionListRemote>(
+      `${ITEMS_PARTICLE}/${fileId}/permissions`
+    );
+  }
+
+  async createPermission(fileId: string, body: InviteRequestBody) {
+    return await this.client.axiosClient.post<PermissionListRemote>(
+      `${ITEMS_PARTICLE}/${fileId}/invite`,
+      body
+    );
+  }
+
+  async deletePermission(fileId: string, permissionId: string) {
+    return await this.client.axiosClient.delete(
+      `${ITEMS_PARTICLE}/${fileId}/permissions/${permissionId}`
+    );
+  }
+
+  async updatePermission(
+    fileId: string,
+    permissionId: string,
+    body: PermissionRemote
+  ) {
+    return await this.client.axiosClient.patch<PermissionRemote>(
+      `${ITEMS_PARTICLE}/${fileId}/permissions/${permissionId}`,
+      body
     );
   }
 }

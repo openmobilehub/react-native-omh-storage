@@ -2,11 +2,18 @@ import {
   ApiException,
   StorageEntityMetadata,
   type LocalFile,
+  type PermissionRecipient,
+  type PermissionRole,
   type StorageEntity,
 } from '@openmobilehub/storage-core';
 
 import { ROOT_FOLDER } from './data/constants/constants';
 import { mapDriveItemToStorageEntity } from './data/mappers/mapDriveItemToStorageEntity';
+import { mapPermissionRemoteToPermission } from './data/mappers/mapPermissionRemoteToPermission';
+import {
+  mapRoleToRemoteRole,
+  mapToInviteRequestBody,
+} from './data/mappers/mapToInviteRequestBody';
 import { mapVersionRemoteToFileVersion } from './data/mappers/mapVersionRemoteToFileVersion';
 import type { OneDriveStorageApiService } from './OneDriveStorageApiService';
 
@@ -148,5 +155,55 @@ export class OneDriveStorageRepository {
     const renameResponse = await this.renameFile(fileId, file.name, true);
 
     return mapDriveItemToStorageEntity(renameResponse);
+  }
+
+  async getPermissions(fileId: string) {
+    const response = await this.apiService.getPermissions(fileId);
+
+    return response.data.value.map(mapPermissionRemoteToPermission);
+  }
+
+  async getWebUrl(fileId: string) {
+    const response = await this.apiService.getFileMetadata(fileId);
+    return response.data.webUrl;
+  }
+
+  async createPermission(
+    fileId: string,
+    role: PermissionRole,
+    recipient: PermissionRecipient,
+    sendNotificationEmail: boolean,
+    emailMessage?: string
+  ) {
+    const body = mapToInviteRequestBody(
+      role,
+      recipient,
+      sendNotificationEmail,
+      emailMessage
+    );
+    const response = await this.apiService.createPermission(fileId, body);
+    return response.data.value.map(mapPermissionRemoteToPermission)[0];
+  }
+
+  async deletePermission(fileId: string, permissionId: string) {
+    await this.apiService.deletePermission(fileId, permissionId);
+  }
+
+  async updatePermission(
+    fileId: string,
+    permissionId: string,
+    role: PermissionRole
+  ) {
+    const body = {
+      roles: [mapRoleToRemoteRole(role)],
+    };
+
+    const response = await this.apiService.updatePermission(
+      fileId,
+      permissionId,
+      body
+    );
+
+    return mapPermissionRemoteToPermission(response.data);
   }
 }

@@ -7,6 +7,7 @@ export interface DriveItem {
   size?: number;
   file?: File;
   folder?: Folder;
+  webUrl?: string;
 }
 
 export interface File {
