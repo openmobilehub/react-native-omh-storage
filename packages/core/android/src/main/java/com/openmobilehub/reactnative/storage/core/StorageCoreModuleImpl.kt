@@ -6,8 +6,9 @@ import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.openmobilehub.android.storage.core.OmhStorageClient
 import com.openmobilehub.android.storage.core.model.OmhStorageException
-import com.openmobilehub.reactnative.storage.core.extensions.toWritableArray
+import com.openmobilehub.reactnative.storage.core.extensions.toWritableFileVersionArray
 import com.openmobilehub.reactnative.storage.core.extensions.toWritableMap
+import com.openmobilehub.reactnative.storage.core.extensions.toWritableStorageEntityArray
 import com.openmobilehub.reactnative.storage.core.utils.ErrorUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,7 +33,7 @@ class StorageCoreModuleImpl(
     CoroutineScope(Dispatchers.IO).launch {
       try {
         val files = storageClient.listFiles(folderId)
-        promise.resolve(files.toWritableArray())
+        promise.resolve(files.toWritableStorageEntityArray())
       } catch (e: Exception) {
         promise.reject(e, ErrorUtils.createPayload(e))
       }
@@ -139,6 +140,17 @@ class StorageCoreModuleImpl(
         writeToFile(filePath, byteArrayOutputStream.toByteArray())
 
         promise.resolve(null)
+      } catch (e: Exception) {
+        promise.reject(e, ErrorUtils.createPayload(e))
+      }
+    }
+  }
+
+  fun getFileVersions(fileId: String, promise: Promise) {
+    CoroutineScope(Dispatchers.IO).launch {
+      try {
+        val fileVersions = storageClient.getFileVersions(fileId)
+        promise.resolve(fileVersions.toWritableFileVersionArray())
       } catch (e: Exception) {
         promise.reject(e, ErrorUtils.createPayload(e))
       }

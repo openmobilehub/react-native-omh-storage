@@ -63,6 +63,10 @@ class StorageGoogleDriveModuleImpl(private val reactContext: ReactApplicationCon
     moduleImpl.exportFile(fileId, mimeType, filePath, promise)
   }
 
+  fun getFileVersions(fileId: String, promise: Promise) {
+    moduleImpl.getFileVersions(fileId, promise)
+  }
+
   companion object {
     const val NAME = "StorageGoogleDriveModule"
   }

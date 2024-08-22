@@ -1,3 +1,4 @@
+import { mapNativeFileVersion } from './mappers/mapNativeFileVersion';
 import { mapNativeStorageEntity } from './mappers/mapNativeStorageEntity';
 import {
   StorageEntityMetadata,
@@ -199,8 +200,14 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
   }
 
   async getFileVersions(fileId: string) {
-    //TODO: [Fallback] Replace with native implementation
-    return this.fallbackClient.getFileVersions(fileId);
+    try {
+      const nativeFileVersions =
+        await this.nativeStorageModule.getFileVersions(fileId);
+
+      return nativeFileVersions.map(mapNativeFileVersion);
+    } catch (exception) {
+      return Promise.reject(mapNativeException(exception));
+    }
   }
 
   async downloadFileVersion(
