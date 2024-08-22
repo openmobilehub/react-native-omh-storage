@@ -29,6 +29,11 @@ export interface Spec extends TurboModule {
     uri: string,
     folderId: string
   ): Promise<NativeStorageEntity>;
+  updateFile(
+    fileName: string,
+    uri: string,
+    fileId: string
+  ): Promise<NativeStorageEntity>;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>(
