@@ -34,6 +34,8 @@ export interface Spec extends TurboModule {
     uri: string,
     fileId: string
   ): Promise<NativeStorageEntity>;
+  downloadFile(fileId: string, filePath: string): Promise<void>;
+  exportFile(fileId: string, mimeType: string, filePath: string): Promise<void>;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>('StorageOneDriveModule');

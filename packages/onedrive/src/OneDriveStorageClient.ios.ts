@@ -128,8 +128,8 @@ export class OneDriveStorageClient implements IStorageClient {
     throw new UnsupportedOperationException();
   }
 
-  async downloadFile(file: StorageEntity) {
-    return this.repository.downloadFile(file);
+  async downloadFile(file: StorageEntity, saveDirectory: string) {
+    return this.repository.downloadFile(file, saveDirectory);
   }
 
   async updateFile(file: LocalFile, fileId: string) {
@@ -140,7 +140,11 @@ export class OneDriveStorageClient implements IStorageClient {
     return this.repository.getFileVersions(fileId);
   }
 
-  async downloadFileVersion(file: StorageEntity, versionId: string) {
-    return this.repository.downloadFileVersion(file, versionId);
+  async downloadFileVersion(
+    file: StorageEntity,
+    versionId: string,
+    saveDirectory: string
+  ) {
+    return this.repository.downloadFileVersion(file, versionId, saveDirectory);
   }
 }

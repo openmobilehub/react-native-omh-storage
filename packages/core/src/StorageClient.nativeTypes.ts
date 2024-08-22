@@ -1,3 +1,4 @@
+// @ts-ignore
 import type { Double } from 'react-native/Libraries/Types/CodegenTypes';
 
 export type NativeStorageEntity = {
@@ -31,6 +32,8 @@ export interface NativeStorageClient {
     uri: string,
     fileId: string
   ): Promise<NativeStorageEntity>;
+  downloadFile(fileId: string, filePath: string): Promise<void>;
+  exportFile(fileId: string, mimeType: string, filePath: string): Promise<void>;
 }
 
 export type NativeStorageException = Error & {

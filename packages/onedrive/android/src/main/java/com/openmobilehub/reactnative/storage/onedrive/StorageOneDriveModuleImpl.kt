@@ -47,6 +47,14 @@ class StorageOneDriveModuleImpl(private val reactContext: ReactApplicationContex
     moduleImpl.updateFile(fileName, uri, fileId, promise)
   }
 
+  fun downloadFile(fileId: String, filePath: String, promise: Promise) {
+    moduleImpl.downloadFile(fileId, filePath, promise)
+  }
+  
+  fun exportFile(fileId: String, mimeType: String, filePath: String, promise: Promise) {
+    moduleImpl.exportFile(fileId, mimeType, filePath, promise)
+  }
+
   companion object {
     const val NAME = "StorageOneDriveModule"
   }

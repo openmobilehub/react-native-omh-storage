@@ -13,6 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
+import java.io.FileOutputStream
 
 class StorageCoreModuleImpl(
   private val context: ReactApplicationContext,
@@ -103,5 +104,41 @@ class StorageCoreModuleImpl(
     }
 
     return tempFile
+  }
+
+  fun downloadFile(fileId: String, filePath: String, promise: Promise) {
+    CoroutineScope(Dispatchers.IO).launch {
+      try {
+        val byteArrayOutputStream = storageClient.downloadFile(fileId)
+
+        writeToFile(filePath, byteArrayOutputStream.toByteArray())
+
+        promise.resolve(null)
+      } catch (e: Exception) {
+        promise.reject(e, ErrorUtils.createPayload(e))
+      }
+    }
+  }
+
+  fun exportFile(fileId: String, mimeType: String, filePath: String, promise: Promise) {
+    CoroutineScope(Dispatchers.IO).launch {
+      try {
+        val byteArrayOutputStream = storageClient.exportFile(fileId, mimeType)
+
+        writeToFile(filePath, byteArrayOutputStream.toByteArray())
+
+        promise.resolve(null)
+      } catch (e: Exception) {
+        promise.reject(e, ErrorUtils.createPayload(e))
+      }
+    }
+  }
+
+  private fun writeToFile(filePath: String, bytes: ByteArray) {
+    val file = File(filePath)
+
+    FileOutputStream(file).use { fileOutputStream ->
+      fileOutputStream.write(bytes)
+    }
   }
 }

@@ -1,5 +1,3 @@
-import type { FetchResult } from 'react-native-file-access';
-
 import { mapNativeStorageEntity } from './mappers/mapNativeStorageEntity';
 import {
   StorageEntityMetadata,
@@ -156,15 +154,29 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
   }
 
   async exportFile(
-    _file: StorageEntity,
-    _mimeType: string,
-    _fileExtension: string
-  ): Promise<FetchResult> {
-    throw new UnsupportedOperationException();
+    file: StorageEntity,
+    mimeType: string,
+    fileExtension: string,
+    saveDirectory: string
+  ) {
+    try {
+      const fileName = `${file.name}.${fileExtension}`;
+      const filePath = `${saveDirectory}/${fileName}`;
+
+      return this.nativeStorageModule.exportFile(file.id, mimeType, filePath);
+    } catch (exception) {
+      return Promise.reject(mapNativeException(exception));
+    }
   }
 
-  async downloadFile(_file: StorageEntity): Promise<FetchResult> {
-    throw new UnsupportedOperationException();
+  async downloadFile(file: StorageEntity, saveDirectory: string) {
+    try {
+      const filePath = `${saveDirectory}/${file.name}`;
+
+      return this.nativeStorageModule.downloadFile(file.id, filePath);
+    } catch (exception) {
+      return Promise.reject(mapNativeException(exception));
+    }
   }
 
   async updateFile(file: LocalFile, fileId: string): Promise<StorageEntity> {
@@ -188,7 +200,7 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
   async downloadFileVersion(
     _file: StorageEntity,
     _versionId: string
-  ): Promise<FetchResult> {
+  ): Promise<void> {
     throw new UnsupportedOperationException();
   }
 }
