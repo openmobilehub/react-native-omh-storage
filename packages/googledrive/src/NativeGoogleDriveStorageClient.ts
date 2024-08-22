@@ -18,6 +18,11 @@ type NativeStorageEntity = {
 export interface Spec extends TurboModule {
   initializeStorageClient(): void;
   listFiles(folderId: string): Promise<NativeStorageEntity[]>;
+  uploadFile(
+    fileName: string,
+    uri: string,
+    folderId: string
+  ): Promise<NativeStorageEntity>;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>(

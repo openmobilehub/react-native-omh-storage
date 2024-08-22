@@ -79,11 +79,17 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
     return this.fallbackClient.createFolder(name, parentId);
   }
 
-  async localFileUpload(
-    _file: LocalFile,
-    _folderId: string
-  ): Promise<StorageEntity> {
-    throw new UnsupportedOperationException();
+  async localFileUpload(file: LocalFile, folderId: string) {
+    try {
+      const nativeStorageEntity = await this.nativeStorageModule.uploadFile(
+        file.name,
+        file.uri,
+        folderId
+      );
+      return mapNativeStorageEntity(nativeStorageEntity);
+    } catch (exception) {
+      return Promise.reject(mapNativeException(exception));
+    }
   }
 
   async deleteFile(fileId: string) {
