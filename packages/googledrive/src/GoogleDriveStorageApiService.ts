@@ -1,5 +1,6 @@
 import {
   ApiException,
+  DeveloperErrorException,
   InvalidCredentialsException,
   StorageEntity,
   type IStorageAuthClient,
@@ -18,6 +19,7 @@ import type { PermissionRemote } from './data/response/PermissionRemote';
 import type { VersionListRemote } from './data/response/VersionListRemote';
 import type { WebUrlRemote } from './data/response/WebUrlRemote';
 import type { GoogleDriveStorageApiClient } from './GoogleDriveStorageApiClient';
+import { isGoogleWorkspaceFile } from './utils/isGoogleWorkspaceFile';
 
 const FILES_PARTICLE = 'drive/v3/files';
 const UPLOAD_PARTICLE = 'upload/drive/v3/files';
@@ -144,6 +146,12 @@ export class GoogleDriveStorageApiService {
     versionId: string,
     saveDirectory: string
   ) {
+    if (isGoogleWorkspaceFile(file.mimeType)) {
+      throw new DeveloperErrorException(
+        'Cannot download versions of Google Workspace files'
+      );
+    }
+
     const url = `${BASE_URL}${FILES_PARTICLE}/${file.id}/revisions/${versionId}?alt=media`;
     const filePath = `${saveDirectory}/${file.name}`;
 

@@ -1,4 +1,5 @@
 import {
+  ApiException,
   StorageEntityMetadata,
   type LocalFile,
   type PermissionRecipient,
@@ -13,7 +14,10 @@ import {
   mapRoleToRemoteRole,
   mapToInviteRequestBody,
 } from './data/mappers/mapToInviteRequestBody';
+import { mapVersionRemoteToFileVersion } from './data/mappers/mapVersionRemoteToFileVersion';
 import type { OneDriveStorageApiService } from './OneDriveStorageApiService';
+
+const PRECONDITION_ERROR_STATUS_CODE = 412;
 
 export class OneDriveStorageRepository {
   private apiService: OneDriveStorageApiService;
@@ -34,22 +38,19 @@ export class OneDriveStorageRepository {
     return response.data.value.map(mapDriveItemToStorageEntity);
   }
 
-  async downloadFile(file: StorageEntity, saveDirectory: string) {
-    return this.apiService.downloadFile(file, saveDirectory);
+  async downloadFile(file: StorageEntity) {
+    const downloadUrl = await this.apiService.getDownloadFileUrl(file.id);
+
+    return this.apiService.downloadFile(downloadUrl, file.name);
   }
 
   async localFileUpload(file: LocalFile, folderId: string) {
-    const response = await this.apiService.localFileUpload(
-      file.uri,
-      file.name,
+    const uploadUrl = await this.apiService.initializeResumableUpload(
+      file,
       folderId
     );
 
-    if (!response) {
-      throw new Error('Upload failed, no response received');
-    }
-
-    return response;
+    return this.apiService.uploadFile(uploadUrl, file);
   }
 
   async getFileMetadata(fileId: string) {
@@ -93,6 +94,65 @@ export class OneDriveStorageRepository {
     );
 
     return mapDriveItemToStorageEntity(response.data);
+  }
+
+  async getFileVersions(fileId: string) {
+    const response = await this.apiService.getFileVersions(fileId);
+
+    return response.data.value.map((versionRemote) =>
+      mapVersionRemoteToFileVersion(versionRemote, fileId)
+    );
+  }
+
+  async downloadFileVersion(file: StorageEntity, versionId: string) {
+    const downloadUrl = await this.apiService.getDownloadVersionFileUrl(
+      file.id,
+      versionId
+    );
+
+    return this.apiService.downloadFile(downloadUrl, file.name);
+  }
+
+  private async renameFile(
+    fileId: string,
+    fileName: string,
+    retry: boolean
+  ): Promise<StorageEntity> {
+    try {
+      const response = await this.apiService.updateFileMetadata(fileId, {
+        name: fileName,
+      });
+
+      return mapDriveItemToStorageEntity(response.data);
+    } catch (error) {
+      // This is a workaround for the OneDrive API issue where the file name is not updated
+      // when uploading a new file version. The reason is related to the race condition when
+      // uploading a new file version and renaming the file at the same time.
+      if (
+        error instanceof ApiException &&
+        error.code === PRECONDITION_ERROR_STATUS_CODE &&
+        retry
+      ) {
+        return this.renameFile(fileId, fileName, false);
+      } else {
+        throw error;
+      }
+    }
+  }
+
+  async updateFile(file: LocalFile, fileId: string) {
+    const uploadUrl = await this.apiService.initializeResumableUpdate(fileId);
+
+    const uploadResponse = await this.apiService.uploadFile(uploadUrl, file);
+
+    // By default, the file name is not updated when uploading a new file version.
+    if (uploadResponse?.name === file.name) {
+      return mapDriveItemToStorageEntity(uploadResponse);
+    }
+
+    const renameResponse = await this.renameFile(fileId, file.name, true);
+
+    return mapDriveItemToStorageEntity(renameResponse);
   }
 
   async getPermissions(fileId: string) {

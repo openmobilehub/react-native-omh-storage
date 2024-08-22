@@ -13,6 +13,7 @@ import { GoogleDriveStorageApiClient } from './GoogleDriveStorageApiClient';
 import { GoogleDriveStorageApiService } from './GoogleDriveStorageApiService';
 import { GoogleDriveStorageRepository } from './GoogleDriveStorageRepository';
 
+//TODO: [Fallback]: Rename file to GoogleDriveStorageClient.ts
 export class GoogleDriveStorageClient implements IStorageClient {
   private client: GoogleDriveStorageApiClient;
   private repository: GoogleDriveStorageRepository;

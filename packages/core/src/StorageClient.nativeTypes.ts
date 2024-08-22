@@ -12,9 +12,25 @@ export type NativeStorageEntity = {
   size?: number;
 };
 
+export type NativeStorageEntityMetadata = {
+  entity: NativeStorageEntity;
+  originalMetadata: string;
+};
+
 export interface NativeStorageClient {
   initializeStorageClient(): void;
   listFiles(folderId: string): Promise<NativeStorageEntity[]>;
+  getFileMetadata(fileId: string): Promise<NativeStorageEntityMetadata>;
+  uploadFile(
+    fileName: string,
+    uri: string,
+    folderId: string
+  ): Promise<NativeStorageEntity>;
+  updateFile(
+    fileName: string,
+    uri: string,
+    fileId: string
+  ): Promise<NativeStorageEntity>;
   downloadFile(fileId: string, filePath: string): Promise<void>;
   exportFile(fileId: string, mimeType: string, filePath: string): Promise<void>;
 }

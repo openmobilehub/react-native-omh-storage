@@ -13,12 +13,27 @@ class StorageGoogleDriveModule(
 
   @ReactMethod
   override fun initializeStorageClient() {
-    return moduleImpl.initialize()
+    moduleImpl.initialize()
   }
 
   @ReactMethod
   override fun listFiles(folderId: String, promise: Promise) {
-    return moduleImpl.listFiles(folderId, promise)
+    moduleImpl.listFiles(folderId, promise)
+  }
+
+  @ReactMethod
+  override fun uploadFile(fileName: String, uri: String, folderId: String, promise: Promise) {
+    moduleImpl.uploadFile(fileName, uri, folderId, promise)
+  }
+
+  @ReactMethod
+  override fun getFileMetadata(fileId: String, promise: Promise) {
+    moduleImpl.getFileMetadata(fileId, promise)
+  }
+
+  @ReactMethod
+  override fun updateFile(fileName: String, uri: String, fileId: String, promise: Promise) {
+    moduleImpl.updateFile(fileName, uri, fileId, promise)
   }
 
   @ReactMethod

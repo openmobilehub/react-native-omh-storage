@@ -7,13 +7,13 @@ import {
   type PermissionRole,
   type StorageEntity,
 } from '@openmobilehub/storage-core';
-import type { FileVersion } from 'packages/core/src/model/FileVersion';
 
 import { ROOT_FOLDER } from './data/constants/constants';
 import { DropboxStorageApiClient } from './DropboxStorageApiClient';
 import { DropboxStorageApiService } from './DropboxStorageApiService';
 import { DropboxStorageRepository } from './DropboxStorageRepository';
 
+//TODO: [Fallback]: Rename file to DropboxStorageClient.ts
 export class DropboxStorageClient implements IStorageClient {
   private client: DropboxStorageApiClient;
   private repository: DropboxStorageRepository;
@@ -126,7 +126,7 @@ export class DropboxStorageClient implements IStorageClient {
     return this.repository.updateFile(file, fileId);
   }
 
-  async getFileVersions(fileId: string): Promise<FileVersion[]> {
+  async getFileVersions(fileId: string) {
     return this.repository.getFileVersions(fileId);
   }
 

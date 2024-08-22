@@ -7,7 +7,6 @@ import {
   type PermissionRole,
   type StorageEntity,
 } from '@openmobilehub/storage-core';
-import type { FileVersion } from 'packages/core/src/model/FileVersion';
 
 import { ROOT_FOLDER } from './data/constants/constants';
 import {
@@ -17,6 +16,7 @@ import {
 import { OneDriveStorageApiService } from './OneDriveStorageApiService';
 import { OneDriveStorageRepository } from './OneDriveStorageRepository';
 
+// TODO: [Fallback]: Rename file to OneDriveStorageClient.ts
 export class OneDriveStorageClient implements IStorageClient {
   private client: OneDriveStorageApiClient;
   private clientNoAuth: OneDriveStorageApiClientNoAuth;
@@ -128,19 +128,19 @@ export class OneDriveStorageClient implements IStorageClient {
     throw new UnsupportedOperationException();
   }
 
-  async downloadFile(file: StorageEntity, saveDirectory: string) {
-    return this.repository.downloadFile(file, saveDirectory);
+  async downloadFile(file: StorageEntity) {
+    return this.repository.downloadFile(file);
   }
 
-  updateFile(_file: LocalFile, _fileId: string): Promise<StorageEntity> {
-    throw new Error('Method not implemented.');
+  async updateFile(file: LocalFile, fileId: string) {
+    return this.repository.updateFile(file, fileId);
   }
 
-  getFileVersions(_fileId: string): Promise<FileVersion[]> {
-    throw new Error('Method not implemented.');
+  async getFileVersions(fileId: string) {
+    return this.repository.getFileVersions(fileId);
   }
 
-  downloadFileVersion(_file: StorageEntity, _versionId: string): Promise<void> {
-    throw new Error('Method not implemented.');
+  async downloadFileVersion(file: StorageEntity, versionId: string) {
+    return this.repository.downloadFileVersion(file, versionId);
   }
 }

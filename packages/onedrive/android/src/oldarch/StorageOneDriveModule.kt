@@ -14,12 +14,27 @@ class StorageOneDriveModule(
 
   @ReactMethod
   fun initializeStorageClient() {
-    return moduleImpl.initialize()
+    moduleImpl.initialize()
   }
 
   @ReactMethod
   fun listFiles(folderId: String, promise: Promise) {
-    return moduleImpl.listFiles(folderId, promise)
+    moduleImpl.listFiles(folderId, promise)
+  }
+
+  @ReactMethod
+  fun uploadFile(fileName: String, uri: String, folderId: String, promise: Promise) {
+    moduleImpl.uploadFile(fileName, uri, folderId, promise)
+  }
+
+  @ReactMethod
+  fun getFileMetadata(fileId: String, promise: Promise) {
+    moduleImpl.getFileMetadata(fileId, promise)
+  }
+
+  @ReactMethod
+  fun updateFile(fileName: String, uri: String, fileId: String, promise: Promise) {
+    moduleImpl.updateFile(fileName, uri, fileId, promise)
   }
 
   @ReactMethod

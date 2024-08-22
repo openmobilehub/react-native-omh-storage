@@ -1,12 +1,14 @@
-import { ApiException, type StorageEntity } from '@openmobilehub/storage-core';
-import { FileSystem } from 'react-native-file-access';
+import { ApiException, type LocalFile } from '@openmobilehub/storage-core';
+import { Dirs, FileSystem } from 'react-native-file-access';
 
 import type { CreateFolderBody } from './data/body/CreateFolderBody';
 import type { InviteRequestBody } from './data/body/InviteRequestBody';
+import { mapDriveItemToStorageEntity } from './data/mappers/mapDriveItemToStorageEntity';
 import type { DriveItem } from './data/response/DriveItem';
 import { type FileListRemote } from './data/response/FileListRemote';
 import type { PermissionListRemote } from './data/response/PermissionListRemote';
 import type { PermissionRemote } from './data/response/PermissionRemote';
+import { type VersionListRemote } from './data/response/VersionListRemote';
 import type {
   OneDriveStorageApiClient,
   OneDriveStorageApiClientNoAuth,
@@ -50,17 +52,32 @@ export class OneDriveStorageApiService {
     await this.client.axiosClient.delete(`${ITEMS_PARTICLE}/${fileId}`);
   }
 
-  async downloadFile(file: StorageEntity, saveDirectory: string) {
-    const filePath = `${saveDirectory}/${file.name}`;
+  async getDownloadFileUrl(fileId: string) {
+    const response = await this.client.axiosClient.get<{
+      ['@microsoft.graph.downloadUrl']: string;
+    }>(`${ITEMS_PARTICLE}/${fileId}`, {
+      params: {
+        select: 'id,@microsoft.graph.downloadUrl',
+      },
+    });
 
-    const response = await this.client.axiosClient.get(
-      `${ITEMS_PARTICLE}/${file.id}/content`,
-      {
-        responseType: 'blob',
-      }
-    );
+    return response.data['@microsoft.graph.downloadUrl'];
+  }
 
-    const downloadUrl = response.request.responseURL;
+  async getDownloadVersionFileUrl(fileId: string, versionId: string) {
+    const response = await this.client.axiosClient.get<{
+      ['@microsoft.graph.downloadUrl']: string;
+    }>(`${ITEMS_PARTICLE}/${fileId}/versions/${versionId}`, {
+      params: {
+        select: 'id,@microsoft.graph.downloadUrl',
+      },
+    });
+
+    return response.data['@microsoft.graph.downloadUrl'];
+  }
+
+  async downloadFile(downloadUrl: string, fileName: string) {
+    const filePath = `${Dirs.DocumentDir}/${fileName}`;
 
     const fileResponse = await FileSystem.fetch(downloadUrl, {
       path: filePath,
@@ -72,29 +89,36 @@ export class OneDriveStorageApiService {
     }
   }
 
-  private async initializeResumableUpload(fileName: string, folderId: string) {
-    const initResponse = await this.client.axiosClient.post(
-      `${ITEMS_PARTICLE}/${folderId}:/${fileName}:/createUploadSession`,
+  async initializeResumableUpload(file: LocalFile, folderId: string) {
+    const response = await this.client.axiosClient.post<{ uploadUrl: string }>(
+      `${ITEMS_PARTICLE}/${folderId}:/${file.name}:/createUploadSession`,
       {
         item: {
           '@microsoft.graph.conflictBehavior': 'rename',
-          'name': fileName,
-        },
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
+          'name': file.name,
         },
       }
     );
 
-    return initResponse.data.uploadUrl;
+    return response.data.uploadUrl;
   }
 
-  async localFileUpload(fileName: string, filePath: string, folderId: string) {
-    const fileStats = await FileSystem.stat(filePath);
+  async initializeResumableUpdate(fileId: string) {
+    const response = await this.client.axiosClient.post<{ uploadUrl: string }>(
+      `${ITEMS_PARTICLE}/${fileId}/createUploadSession`,
+      {
+        item: {
+          '@microsoft.graph.conflictBehavior': 'replace',
+        },
+      }
+    );
+
+    return response.data.uploadUrl;
+  }
+
+  async uploadFile(uploadUrl: string, file: LocalFile) {
+    const fileStats = await FileSystem.stat(file.uri);
     const fileLength = fileStats.size;
-    let uploadUrl = await this.initializeResumableUpload(fileName, folderId);
     let uploadedBytes = 0;
 
     while (uploadedBytes < fileLength) {
@@ -103,7 +127,7 @@ export class OneDriveStorageApiService {
         remainingBytes < UPLOAD_CHUNK_SIZE ? remainingBytes : UPLOAD_CHUNK_SIZE;
 
       const chunk = await FileSystem.readFileChunk(
-        filePath,
+        file.uri,
         uploadedBytes,
         bytesToRead,
         'base64'
@@ -117,7 +141,7 @@ export class OneDriveStorageApiService {
 
       const bytesRead = buffer.byteLength;
 
-      const response = await this.clientNoAuth.axiosClient.put(
+      const response = await this.clientNoAuth.axiosClient.put<DriveItem>(
         uploadUrl,
         buffer,
         {
@@ -128,14 +152,16 @@ export class OneDriveStorageApiService {
         }
       );
 
-      uploadedBytes += bytesRead;
+      if (response.status === 202) {
+        uploadedBytes += bytesRead;
+      }
 
       if (response.status === 201 || response.status === 200) {
-        return response.data;
+        return mapDriveItemToStorageEntity(response.data);
       }
     }
 
-    return null;
+    throw new ApiException('Failed to upload file');
   }
 
   async createFile(fileName: string, parentId: string) {
@@ -156,6 +182,19 @@ export class OneDriveStorageApiService {
     return await this.client.axiosClient.post<DriveItem>(
       `${ITEMS_PARTICLE}/${parentId}/children`,
       body
+    );
+  }
+
+  async getFileVersions(fileId: string) {
+    return await this.client.axiosClient.get<VersionListRemote>(
+      `${ITEMS_PARTICLE}/${fileId}/versions`
+    );
+  }
+
+  async updateFileMetadata(fileId: string, body: DriveItem) {
+    return await this.client.axiosClient.patch<DriveItem>(
+      `${ITEMS_PARTICLE}/${fileId}`,
+      { ...body, '@microsoft.graph.conflictBehavior': 'rename' }
     );
   }
 
