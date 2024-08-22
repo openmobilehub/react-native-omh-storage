@@ -46,6 +46,10 @@ class StorageOneDriveModuleImpl(private val reactContext: ReactApplicationContex
   fun search(query: String, promise: Promise) {
     moduleImpl.search(query, promise)
   }
+  
+  fun updateFile(fileName: String, uri: String, fileId: String, promise: Promise) {
+    moduleImpl.updateFile(fileName, uri, fileId, promise)
+  }
 
   companion object {
     const val NAME = "StorageOneDriveModule"

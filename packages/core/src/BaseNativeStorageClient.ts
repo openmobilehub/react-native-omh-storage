@@ -173,8 +173,17 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
     throw new UnsupportedOperationException();
   }
 
-  async updateFile(_file: LocalFile, _fileId: string): Promise<StorageEntity> {
-    throw new UnsupportedOperationException();
+  async updateFile(file: LocalFile, fileId: string): Promise<StorageEntity> {
+    try {
+      const nativeStorageEntity = await this.nativeStorageModule.updateFile(
+        file.name,
+        file.uri,
+        fileId
+      );
+      return mapNativeStorageEntity(nativeStorageEntity);
+    } catch (exception) {
+      return Promise.reject(mapNativeException(exception));
+    }
   }
 
   async getFileVersions(fileId: string) {

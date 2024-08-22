@@ -27,6 +27,11 @@ export interface NativeStorageClient {
     folderId: string
   ): Promise<NativeStorageEntity>;
   search(query: string): Promise<NativeStorageEntity[]>;
+  updateFile(
+    fileName: string,
+    uri: string,
+    fileId: string
+  ): Promise<NativeStorageEntity>;
 }
 
 export type NativeStorageException = Error & {

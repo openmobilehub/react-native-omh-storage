@@ -51,6 +51,10 @@ class StorageGoogleDriveModuleImpl(private val reactContext: ReactApplicationCon
     moduleImpl.search(query, promise)
   }
 
+  fun updateFile(fileName: String, uri: String, fileId: String, promise: Promise) {
+    moduleImpl.updateFile(fileName, uri, fileId, promise)
+  }
+
   companion object {
     const val NAME = "StorageGoogleDriveModule"
   }

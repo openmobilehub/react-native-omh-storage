@@ -36,6 +36,11 @@ class StorageOneDriveModule(
     moduleImpl.search(query, promise)
   }
 
+  @ReactMethod
+  override fun updateFile(fileName: String, uri: String, fileId: String, promise: Promise) {
+    moduleImpl.updateFile(fileName, uri, fileId, promise)
+  }
+
   override fun getName() = NAME
 
   companion object {

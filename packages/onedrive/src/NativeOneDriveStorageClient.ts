@@ -30,6 +30,11 @@ export interface Spec extends TurboModule {
     folderId: string
   ): Promise<NativeStorageEntity>;
   search(query: string): Promise<NativeStorageEntity[]>;
+  updateFile(
+    fileName: string,
+    uri: string,
+    fileId: string
+  ): Promise<NativeStorageEntity>;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>('StorageOneDriveModule');

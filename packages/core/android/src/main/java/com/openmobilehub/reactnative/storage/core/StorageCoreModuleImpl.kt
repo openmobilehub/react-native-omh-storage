@@ -75,8 +75,26 @@ class StorageCoreModuleImpl(
     }
   }
 
+  fun updateFile(fileName: String, uri: String, fileId: String, promise: Promise) {
+    CoroutineScope(Dispatchers.IO).launch {
+      val file = getFile(Uri.parse(uri), fileName)
+      try {
+        val updatedFile = storageClient.updateFile(file, fileId)
+        promise.resolve(updatedFile?.toWritableMap())
+      } catch (e: Exception) {
+        promise.reject(e, ErrorUtils.createPayload(e))
+      } finally {
+        file.delete()
+      }
+    }
+  }
+
   private fun getFile(uri: Uri, fileName: String): File {
-    val tempFile = File(context.cacheDir, fileName)
+    val omhCacheDir = File(context.cacheDir, "omh-storage")
+    if (!omhCacheDir.exists()) {
+      omhCacheDir.mkdirs()
+    }
+    val tempFile = File(omhCacheDir, fileName)
 
     context.contentResolver.openInputStream(uri)?.use { inputStream ->
       tempFile.outputStream().use { output ->
