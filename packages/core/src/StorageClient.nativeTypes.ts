@@ -21,6 +21,11 @@ export interface NativeStorageClient {
   initializeStorageClient(): void;
   listFiles(folderId: string): Promise<NativeStorageEntity[]>;
   getFileMetadata(fileId: string): Promise<NativeStorageEntityMetadata>;
+  uploadFile(
+    fileName: string,
+    uri: string,
+    folderId: string
+  ): Promise<NativeStorageEntity>;
 }
 
 export type NativeStorageException = Error & {

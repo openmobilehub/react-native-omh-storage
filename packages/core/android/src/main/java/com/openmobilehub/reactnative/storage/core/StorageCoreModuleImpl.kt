@@ -1,6 +1,7 @@
 package com.openmobilehub.reactnative.storage.core
 
 import com.facebook.react.bridge.Arguments
+import android.net.Uri
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.openmobilehub.android.storage.core.OmhStorageClient
@@ -11,9 +12,10 @@ import com.openmobilehub.reactnative.storage.core.utils.ErrorUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
 
 class StorageCoreModuleImpl(
-  context: ReactApplicationContext,
+  private val context: ReactApplicationContext,
   private val createStorageClient: () -> OmhStorageClient
 ) {
   private var _storageClient: OmhStorageClient? = null
@@ -57,5 +59,31 @@ class StorageCoreModuleImpl(
         promise.reject(e, ErrorUtils.createPayload(e))
       }
     }
+  }
+  
+  fun uploadFile(fileName: String, uri: String, folderId: String, promise: Promise) {
+    CoroutineScope(Dispatchers.IO).launch {
+      val file = getFile(Uri.parse(uri), fileName)
+      try {
+        val uploadedFile = storageClient.uploadFile(file, folderId)
+        promise.resolve(uploadedFile?.toWritableMap())
+      } catch (e: Exception) {
+        promise.reject(e, ErrorUtils.createPayload(e))
+      } finally {
+        file.delete()
+      }
+    }
+  }
+
+  private fun getFile(uri: Uri, fileName: String): File {
+    val tempFile = File(context.cacheDir, fileName)
+
+    context.contentResolver.openInputStream(uri)?.use { inputStream ->
+      tempFile.outputStream().use { output ->
+        inputStream.copyTo(output)
+      }
+    }
+
+    return tempFile
   }
 }

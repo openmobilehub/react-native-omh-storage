@@ -7,22 +7,21 @@ import {
   type PermissionRole,
   type StorageEntity,
 } from '@openmobilehub/storage-core';
-import type { FetchResult } from 'react-native-file-access';
 
 import { ROOT_FOLDER } from './data/constants/constants';
-import { GoogleDriveStorageApiClient } from './GoogleDriveStorageApiClient';
-import { GoogleDriveStorageApiService } from './GoogleDriveStorageApiService';
-import { GoogleDriveStorageRepository } from './GoogleDriveStorageRepository';
+import { DropboxStorageApiClient } from './DropboxStorageApiClient';
+import { DropboxStorageApiService } from './DropboxStorageApiService';
+import { DropboxStorageRepository } from './DropboxStorageRepository';
 
-export class GoogleDriveStorageClient implements IStorageClient {
-  private client: GoogleDriveStorageApiClient;
-  private repository: GoogleDriveStorageRepository;
+//TODO: [Fallback]: Rename file to DropboxStorageClient.ts
+export class DropboxStorageClient implements IStorageClient {
+  private client: DropboxStorageApiClient;
+  private repository: DropboxStorageRepository;
 
   constructor(authClient: IStorageAuthClient) {
-    this.client = new GoogleDriveStorageApiClient(authClient);
-
-    const service = new GoogleDriveStorageApiService(this.client, authClient);
-    this.repository = new GoogleDriveStorageRepository(service);
+    this.client = new DropboxStorageApiClient(authClient);
+    const service = new DropboxStorageApiService(this.client, authClient);
+    this.repository = new DropboxStorageRepository(service);
   }
 
   readonly rootFolderId = ROOT_FOLDER;
@@ -35,36 +34,32 @@ export class GoogleDriveStorageClient implements IStorageClient {
     return this.repository.getFileMetadata(fileId);
   }
 
-  async search(query: string) {
-    return this.repository.search(query);
+  async search(query: string): Promise<StorageEntity[]> {
+    return this.repository.searchFiles(query);
   }
 
-  async createFileWithExtension(): Promise<StorageEntity> {
+  createFileWithMimeType(
+    _name: string,
+    _mimeType: string,
+    _parentId?: string
+  ): Promise<StorageEntity> {
     throw new UnsupportedOperationException();
   }
 
-  async createFileWithMimeType(
+  async createFileWithExtension(
     name: string,
-    mimeType: string,
+    fileExtension: string,
     parentId?: string
-  ) {
-    return this.repository.createFileWithMimeType(name, mimeType, parentId);
+  ): Promise<StorageEntity> {
+    return this.repository.createFileWithExtension(
+      name,
+      fileExtension,
+      parentId
+    );
   }
 
   async createFolder(name: string, parentId?: string): Promise<StorageEntity> {
     return this.repository.createFolder(name, parentId);
-  }
-
-  async exportFile(
-    file: StorageEntity,
-    mimeType: string,
-    fileExtension: string
-  ) {
-    return this.repository.exportFile(file, mimeType, fileExtension);
-  }
-
-  async downloadFile(file: StorageEntity) {
-    return this.repository.downloadFile(file);
   }
 
   async localFileUpload(file: LocalFile, folderId: string) {
@@ -75,16 +70,8 @@ export class GoogleDriveStorageClient implements IStorageClient {
     return this.repository.deleteFile(fileId);
   }
 
-  async permanentlyDeleteFile(fileId: string) {
-    return this.repository.permanentlyDeleteFile(fileId);
-  }
-
-  async getPermissions(fileId: string) {
-    return this.repository.getPermissions(fileId);
-  }
-
-  async getWebUrl(fileId: string) {
-    return this.repository.getWebUrl(fileId);
+  async permanentlyDeleteFile() {
+    throw new UnsupportedOperationException();
   }
 
   async createPermission(
@@ -107,6 +94,14 @@ export class GoogleDriveStorageClient implements IStorageClient {
     return this.repository.deletePermission(fileId, permissionId);
   }
 
+  async getPermissions(fileId: string) {
+    return this.repository.getPermissions(fileId);
+  }
+
+  async getWebUrl(fileId: string) {
+    return this.repository.getWebUrl(fileId);
+  }
+
   async updatePermission(
     fileId: string,
     permissionId: string,
@@ -115,7 +110,19 @@ export class GoogleDriveStorageClient implements IStorageClient {
     return this.repository.updatePermission(fileId, permissionId, role);
   }
 
-  async updateFile(file: LocalFile, fileId: string): Promise<StorageEntity> {
+  exportFile(
+    _file: StorageEntity,
+    _mimeType: string,
+    _fileExtension: string
+  ): Promise<any> {
+    throw new UnsupportedOperationException();
+  }
+
+  async downloadFile(file: StorageEntity) {
+    return this.repository.downloadFile(file);
+  }
+
+  async updateFile(file: LocalFile, fileId: string) {
     return this.repository.updateFile(file, fileId);
   }
 
@@ -123,10 +130,7 @@ export class GoogleDriveStorageClient implements IStorageClient {
     return this.repository.getFileVersions(fileId);
   }
 
-  async downloadFileVersion(
-    file: StorageEntity,
-    versionId: string
-  ): Promise<FetchResult> {
+  async downloadFileVersion(file: StorageEntity, versionId: string) {
     return this.repository.downloadFileVersion(file, versionId);
   }
 }

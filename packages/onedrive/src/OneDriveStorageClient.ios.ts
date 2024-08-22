@@ -7,21 +7,31 @@ import {
   type PermissionRole,
   type StorageEntity,
 } from '@openmobilehub/storage-core';
-import type { FileVersion } from 'packages/core/src/model/FileVersion';
 
 import { ROOT_FOLDER } from './data/constants/constants';
-import { DropboxStorageApiClient } from './DropboxStorageApiClient';
-import { DropboxStorageApiService } from './DropboxStorageApiService';
-import { DropboxStorageRepository } from './DropboxStorageRepository';
+import {
+  OneDriveStorageApiClient,
+  OneDriveStorageApiClientNoAuth,
+} from './OneDriveStorageApiClient';
+import { OneDriveStorageApiService } from './OneDriveStorageApiService';
+import { OneDriveStorageRepository } from './OneDriveStorageRepository';
 
-export class DropboxStorageClient implements IStorageClient {
-  private client: DropboxStorageApiClient;
-  private repository: DropboxStorageRepository;
+// TODO: [Fallback]: Rename file to OneDriveStorageClient.ts
+export class OneDriveStorageClient implements IStorageClient {
+  private client: OneDriveStorageApiClient;
+  private clientNoAuth: OneDriveStorageApiClientNoAuth;
+  private repository: OneDriveStorageRepository;
 
   constructor(authClient: IStorageAuthClient) {
-    this.client = new DropboxStorageApiClient(authClient);
-    const service = new DropboxStorageApiService(this.client, authClient);
-    this.repository = new DropboxStorageRepository(service);
+    this.client = new OneDriveStorageApiClient(authClient);
+    this.clientNoAuth = new OneDriveStorageApiClientNoAuth();
+
+    const service = new OneDriveStorageApiService(
+      this.client,
+      this.clientNoAuth
+    );
+
+    this.repository = new OneDriveStorageRepository(service);
   }
 
   readonly rootFolderId = ROOT_FOLDER;
@@ -30,12 +40,12 @@ export class DropboxStorageClient implements IStorageClient {
     return this.repository.listFiles(folderId);
   }
 
-  async getFileMetadata(fileId: string) {
+  getFileMetadata(fileId: string) {
     return this.repository.getFileMetadata(fileId);
   }
 
-  async search(query: string): Promise<StorageEntity[]> {
-    return this.repository.searchFiles(query);
+  async search(query: string) {
+    return this.repository.search(query);
   }
 
   createFileWithMimeType(
@@ -70,7 +80,7 @@ export class DropboxStorageClient implements IStorageClient {
     return this.repository.deleteFile(fileId);
   }
 
-  async permanentlyDeleteFile() {
+  permanentlyDeleteFile(_fileId: string): Promise<void> {
     throw new UnsupportedOperationException();
   }
 
@@ -126,7 +136,7 @@ export class DropboxStorageClient implements IStorageClient {
     return this.repository.updateFile(file, fileId);
   }
 
-  async getFileVersions(fileId: string): Promise<FileVersion[]> {
+  async getFileVersions(fileId: string) {
     return this.repository.getFileVersions(fileId);
   }
 

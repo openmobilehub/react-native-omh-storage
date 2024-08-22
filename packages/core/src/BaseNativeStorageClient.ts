@@ -4,12 +4,10 @@ import { mapNativeStorageEntity } from './mappers/mapNativeStorageEntity';
 import {
   StorageEntityMetadata,
   UnsupportedOperationException,
-  type Permission,
   type PermissionRecipient,
   type PermissionRole,
   type StorageEntity,
 } from './model';
-import type { FileVersion } from './model/FileVersion';
 import type { NativeStorageClient } from './StorageClient.nativeTypes';
 import type { IStorageClient, LocalFile } from './StorageClient.types';
 import { mapNativeException } from './utils/errorHandling';
@@ -18,9 +16,18 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
   nativeStorageModule: NativeStorageClient;
   readonly rootFolderId: string;
 
-  constructor(nativeStorageModule: NativeStorageClient, rootFolderId: string) {
+  //TODO: [Fallback] Remove fallbackClient
+  fallbackClient: IStorageClient;
+
+  constructor(
+    nativeStorageModule: NativeStorageClient,
+    rootFolderId: string,
+    fallbackClient: IStorageClient
+  ) {
     this.nativeStorageModule = nativeStorageModule;
     this.rootFolderId = rootFolderId;
+
+    this.fallbackClient = fallbackClient;
 
     this.nativeStorageModule.initializeStorageClient();
   }
@@ -48,96 +55,127 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
     });
   }
 
-  search(_query: string): Promise<StorageEntity[]> {
-    throw new UnsupportedOperationException();
+  async search(query: string) {
+    //TODO: [Fallback] Replace with native implementation
+    return this.fallbackClient.search(query);
   }
 
-  createFileWithMimeType(
-    _name: string,
-    _mimeType: string,
-    _parentId?: string
-  ): Promise<StorageEntity> {
-    throw new UnsupportedOperationException();
+  async createFileWithMimeType(
+    name: string,
+    mimeType: string,
+    parentId?: string
+  ) {
+    //TODO: [Fallback] Replace with native implementation
+    return this.fallbackClient.createFileWithMimeType(name, mimeType, parentId);
   }
 
-  createFileWithExtension(
-    _name: string,
-    _fileExtension: string,
-    _parentId?: string
-  ): Promise<StorageEntity> {
-    throw new UnsupportedOperationException();
+  async createFileWithExtension(
+    name: string,
+    fileExtension: string,
+    parentId?: string
+  ) {
+    //TODO: [Fallback] Replace with native implementation
+    return this.fallbackClient.createFileWithExtension(
+      name,
+      fileExtension,
+      parentId
+    );
   }
 
-  createFolder(_name: string, _parentId?: string): Promise<StorageEntity> {
-    throw new UnsupportedOperationException();
+  async createFolder(name: string, parentId?: string) {
+    //TODO: [Fallback] Replace with native implementation
+    return this.fallbackClient.createFolder(name, parentId);
   }
 
-  localFileUpload(_file: LocalFile, _folderId: string): Promise<StorageEntity> {
-    throw new UnsupportedOperationException();
+  async localFileUpload(file: LocalFile, folderId: string) {
+    try {
+      const nativeStorageEntity = await this.nativeStorageModule.uploadFile(
+        file.name,
+        file.uri,
+        folderId
+      );
+      return mapNativeStorageEntity(nativeStorageEntity);
+    } catch (exception) {
+      return Promise.reject(mapNativeException(exception));
+    }
   }
 
-  deleteFile(_fileId: string): Promise<void> {
-    throw new UnsupportedOperationException();
+  async deleteFile(fileId: string) {
+    //TODO: [Fallback] Replace with native implementation
+    return this.fallbackClient.deleteFile(fileId);
   }
 
-  permanentlyDeleteFile(_fileId: string): Promise<void> {
-    throw new UnsupportedOperationException();
+  async permanentlyDeleteFile(fileId: string) {
+    //TODO: [Fallback] Replace with native implementation
+    return this.fallbackClient.permanentlyDeleteFile(fileId);
   }
 
-  getPermissions(_fileId: string): Promise<Permission[]> {
-    throw new UnsupportedOperationException();
+  async getPermissions(fileId: string) {
+    //TODO: [Fallback] Replace with native implementation
+    return this.fallbackClient.getPermissions(fileId);
   }
 
-  getWebUrl(_fileId: string): Promise<string | undefined> {
-    throw new UnsupportedOperationException();
+  async getWebUrl(fileId: string) {
+    //TODO: [Fallback] Replace with native implementation
+    return this.fallbackClient.getWebUrl(fileId);
   }
 
-  createPermission(
-    _fileId: string,
-    _role: PermissionRole,
-    _recipient: PermissionRecipient,
-    _sendNotificationEmail: boolean,
-    _emailMessage?: string
-  ): Promise<Permission | undefined> {
-    throw new UnsupportedOperationException();
+  async createPermission(
+    fileId: string,
+    role: PermissionRole,
+    recipient: PermissionRecipient,
+    sendNotificationEmail: boolean,
+    emailMessage?: string
+  ) {
+    //TODO: [Fallback] Replace with native implementation
+    return this.fallbackClient.createPermission(
+      fileId,
+      role,
+      recipient,
+      sendNotificationEmail,
+      emailMessage
+    );
   }
 
-  deletePermission(_fileId: string, _permissionId: string): Promise<void> {
-    throw new UnsupportedOperationException();
+  async deletePermission(fileId: string, permissionId: string) {
+    //TODO: [Fallback] Replace with native implementation
+    return this.fallbackClient.deletePermission(fileId, permissionId);
   }
 
-  updatePermission(
-    _fileId: string,
-    _permissionId: string,
-    _role: PermissionRole
-  ): Promise<Permission | undefined> {
-    throw new UnsupportedOperationException();
+  async updatePermission(
+    fileId: string,
+    permissionId: string,
+    role: PermissionRole
+  ) {
+    //TODO: [Fallback] Replace with native implementation
+    return this.fallbackClient.updatePermission(fileId, permissionId, role);
   }
 
-  exportFile(
+  async exportFile(
     _file: StorageEntity,
     _mimeType: string,
     _fileExtension: string
   ): Promise<FetchResult> {
-    throw new Error('Method not implemented.');
+    throw new UnsupportedOperationException();
   }
 
-  downloadFile(_file: StorageEntity): Promise<FetchResult> {
-    throw new Error('Method not implemented.');
+  async downloadFile(_file: StorageEntity): Promise<FetchResult> {
+    throw new UnsupportedOperationException();
   }
 
-  updateFile(_file: LocalFile, _fileId: string): Promise<StorageEntity> {
-    throw new Error('Method not implemented.');
+  async updateFile(_file: LocalFile, _fileId: string): Promise<StorageEntity> {
+    throw new UnsupportedOperationException();
   }
 
-  getFileVersions(_fileId: string): Promise<FileVersion[]> {
-    throw new Error('Method not implemented.');
+  async getFileVersions(fileId: string) {
+    //TODO: [Fallback] Replace with native implementation
+    return this.fallbackClient.getFileVersions(fileId);
   }
 
-  downloadFileVersion(
+  async downloadFileVersion(
     _file: StorageEntity,
     _versionId: string
   ): Promise<FetchResult> {
-    throw new Error('Method not implemented.');
+    throw new UnsupportedOperationException();
   }
 }
