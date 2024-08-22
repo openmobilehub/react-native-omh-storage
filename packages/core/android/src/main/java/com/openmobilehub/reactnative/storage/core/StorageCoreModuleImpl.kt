@@ -1,5 +1,6 @@
 package com.openmobilehub.reactnative.storage.core
 
+import com.facebook.react.bridge.Arguments
 import android.net.Uri
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
@@ -37,6 +38,29 @@ class StorageCoreModuleImpl(
     }
   }
 
+  fun getFileMetadata(
+    fileId: String,
+    promise: Promise,
+    stringifyOriginalMetadata: (Any) -> String
+  ) {
+    CoroutineScope(Dispatchers.IO).launch {
+      try {
+        val metadata = storageClient.getFileMetadata(fileId)
+          ?: throw Exception("File metadata not found")
+
+        val writableMap = Arguments.createMap()
+        writableMap.apply {
+          putMap("entity", metadata.entity.toWritableMap())
+          putString("originalMetadata", stringifyOriginalMetadata(metadata.originalMetadata))
+        }
+
+        promise.resolve(writableMap)
+      } catch (e: Exception) {
+        promise.reject(e, ErrorUtils.createPayload(e))
+      }
+    }
+  }
+  
   fun uploadFile(fileName: String, uri: String, folderId: String, promise: Promise) {
     CoroutineScope(Dispatchers.IO).launch {
       val file = getFile(Uri.parse(uri), fileName)

@@ -2,6 +2,7 @@ import type { FetchResult } from 'react-native-file-access';
 
 import { mapNativeStorageEntity } from './mappers/mapNativeStorageEntity';
 import {
+  StorageEntityMetadata,
   UnsupportedOperationException,
   type PermissionRecipient,
   type PermissionRole,
@@ -43,8 +44,19 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
   }
 
   async getFileMetadata(fileId: string) {
-    //TODO: [Fallback] Replace with native implementation
-    return this.fallbackClient.getFileMetadata(fileId);
+    try {
+      const nativeStorageEntityMetadata =
+        await this.nativeStorageModule.getFileMetadata(fileId);
+
+      return new StorageEntityMetadata({
+        entity: mapNativeStorageEntity(nativeStorageEntityMetadata.entity),
+        originalMetadata: JSON.parse(
+          nativeStorageEntityMetadata.originalMetadata
+        ),
+      });
+    } catch (exception) {
+      return Promise.reject(mapNativeException(exception));
+    }
   }
 
   async search(query: string) {

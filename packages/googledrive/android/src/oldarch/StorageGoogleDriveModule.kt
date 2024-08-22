@@ -27,6 +27,11 @@ class StorageGoogleDriveModule(
     moduleImpl.uploadFile(fileName, uri, folderId, promise)
   }
 
+  @ReactMethod
+  fun getFileMetadata(fileId: String, promise: Promise) {
+    moduleImpl.getFileMetadata(fileId, promise)
+  }
+
   override fun getName() = NAME
 
   companion object {
