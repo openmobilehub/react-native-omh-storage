@@ -1,5 +1,5 @@
 import { ApiException, type LocalFile } from '@openmobilehub/storage-core';
-import { Dirs, FileSystem } from 'react-native-file-access';
+import { FileSystem } from 'react-native-file-access';
 
 import type { CreateFolderBody } from './data/body/CreateFolderBody';
 import type { InviteRequestBody } from './data/body/InviteRequestBody';
@@ -76,8 +76,12 @@ export class OneDriveStorageApiService {
     return response.data['@microsoft.graph.downloadUrl'];
   }
 
-  async downloadFile(downloadUrl: string, fileName: string) {
-    const filePath = `${Dirs.DocumentDir}/${fileName}`;
+  async downloadFile(
+    downloadUrl: string,
+    fileName: string,
+    saveDirectory: string
+  ) {
+    const filePath = `${saveDirectory}/${fileName}`;
 
     const fileResponse = await FileSystem.fetch(downloadUrl, {
       path: filePath,
