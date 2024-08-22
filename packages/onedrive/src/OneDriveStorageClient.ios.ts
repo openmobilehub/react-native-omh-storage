@@ -16,6 +16,7 @@ import {
 import { OneDriveStorageApiService } from './OneDriveStorageApiService';
 import { OneDriveStorageRepository } from './OneDriveStorageRepository';
 
+// TODO: [Fallback]: Rename file to OneDriveStorageClient.ts
 export class OneDriveStorageClient implements IStorageClient {
   private client: OneDriveStorageApiClient;
   private clientNoAuth: OneDriveStorageApiClientNoAuth;
