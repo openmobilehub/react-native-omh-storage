@@ -82,14 +82,18 @@ export class DropboxStorageApiService {
     );
   }
 
-  async downloadFile(fileName: string, remotePath: string, saveDir: string) {
+  async downloadFile(
+    fileName: string,
+    remotePath: string,
+    saveDirectory: string
+  ) {
     const accessToken = await this.authClient.getAccessToken();
 
     if (!accessToken) {
       throw new InvalidCredentialsException('Access token is not available');
     }
 
-    const filePath = `${saveDir}/${fileName}`;
+    const filePath = `${saveDirectory}/${fileName}`;
     const dropboxArgs = JSON.stringify({ path: remotePath });
 
     const fileResponse = await FileSystem.fetch(

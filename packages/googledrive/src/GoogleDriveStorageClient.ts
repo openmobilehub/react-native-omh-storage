@@ -58,13 +58,18 @@ export class GoogleDriveStorageClient implements IStorageClient {
     file: StorageEntity,
     mimeType: string,
     fileExtension: string,
-    saveDir: string
+    saveDirectory: string
   ) {
-    return this.repository.exportFile(file, mimeType, fileExtension, saveDir);
+    return this.repository.exportFile(
+      file,
+      mimeType,
+      fileExtension,
+      saveDirectory
+    );
   }
 
-  async downloadFile(file: StorageEntity, saveDir: string) {
-    return this.repository.downloadFile(file, saveDir);
+  async downloadFile(file: StorageEntity, saveDirectory: string) {
+    return this.repository.downloadFile(file, saveDirectory);
   }
 
   async localFileUpload(file: LocalFile, folderId: string) {
@@ -126,8 +131,8 @@ export class GoogleDriveStorageClient implements IStorageClient {
   async downloadFileVersion(
     file: StorageEntity,
     versionId: string,
-    saveDir: string
+    saveDirectory: string
   ) {
-    return this.repository.downloadFileVersion(file, versionId, saveDir);
+    return this.repository.downloadFileVersion(file, versionId, saveDirectory);
   }
 }

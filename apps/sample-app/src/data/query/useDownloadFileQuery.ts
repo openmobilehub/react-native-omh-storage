@@ -5,15 +5,12 @@ import {
   StorageEntity,
   StorageException,
 } from '@openmobilehub/storage-core';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { Dirs, FileSystem } from 'react-native-file-access';
 import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions';
 
-import { useSnackbar } from '@/contexts/snackbar/SnackbarContent';
 import { FileType } from '@/types/FileTypes';
 import { normalizeFileType } from '@/utils/normalizeFileType';
-
-import { QK_DOWNLOAD_FILE } from '../client/queryKeys';
 
 const requestAndroidPermission = async () => {
   const androidPermissions = [PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE];
@@ -44,67 +41,44 @@ const requestAndroidPermission = async () => {
 
 const downloadFile = async (
   storageClient: IStorageClient,
-  showSnackbar: (message: string) => void,
-  file?: StorageEntity
-): Promise<boolean> => {
-  if (!file) {
-    return false;
+  file: StorageEntity
+) => {
+  const saveDirectory = Dirs.DocumentDir;
+
+  const isGoogleWorkspaceFile = file?.mimeType?.includes(
+    'application/vnd.google-apps'
+  );
+  const normalizedGoogleFileType = normalizeFileType(file.mimeType as FileType);
+
+  let fileName;
+  let filePath;
+
+  if (isGoogleWorkspaceFile) {
+    fileName = `${file.name}.${normalizedGoogleFileType.fileExtension}`;
+    filePath = `${Dirs.DocumentDir}/${fileName}`;
+
+    await storageClient.exportFile(
+      file,
+      normalizedGoogleFileType.mimeType,
+      normalizedGoogleFileType.fileExtension,
+      saveDirectory
+    );
+  } else {
+    fileName = file.name;
+    filePath = `${Dirs.DocumentDir}/${fileName}`;
+
+    await storageClient.downloadFile(file, saveDirectory);
   }
 
-  const saveDir = Dirs.DocumentDir;
+  if (Platform.OS === 'android') {
+    await requestAndroidPermission();
 
-  try {
-    const isGoogleWorkspaceFile = file?.mimeType?.includes(
-      'application/vnd.google-apps'
-    );
-    const normalizedGoogleFileType = normalizeFileType(
-      file.mimeType as FileType
-    );
-
-    let fileName;
-    let filePath;
-
-    if (isGoogleWorkspaceFile) {
-      fileName = `${file.name}.${normalizedGoogleFileType.fileExtension}`;
-      filePath = `${Dirs.DocumentDir}/${fileName}`;
-
-      await storageClient.exportFile(
-        file,
-        normalizedGoogleFileType.mimeType,
-        normalizedGoogleFileType.fileExtension,
-        saveDir
-      );
-    } else {
-      fileName = file.name;
-      filePath = `${Dirs.DocumentDir}/${fileName}`;
-
-      await storageClient.downloadFile(file, saveDir);
-    }
-
-    if (Platform.OS === 'android') {
-      await requestAndroidPermission();
-
-      await FileSystem.cpExternal(filePath, fileName, 'downloads');
-    }
-
-    showSnackbar(`${file.name} file downloaded successfully!`);
-
-    return true;
-  } catch (error) {
-    console.error(error);
-    showSnackbar(`Failed to download ${file.name} file!`);
-    return false;
+    await FileSystem.cpExternal(filePath, fileName, 'downloads');
   }
 };
 
-export const useDownloadFileQuery = (
-  storageClient: IStorageClient,
-  file?: StorageEntity
-) => {
-  const { showSnackbar } = useSnackbar();
-  return useQuery<boolean, StorageException>({
-    queryKey: [QK_DOWNLOAD_FILE, file?.id],
-    queryFn: () => downloadFile(storageClient, showSnackbar, file),
-    enabled: !!file,
+export const useDownloadFileMutation = (storageClient: IStorageClient) => {
+  return useMutation<void, StorageException, StorageEntity>({
+    mutationFn: (file) => downloadFile(storageClient, file),
   });
 };

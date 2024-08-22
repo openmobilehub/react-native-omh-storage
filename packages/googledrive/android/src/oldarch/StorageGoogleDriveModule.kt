@@ -23,13 +23,13 @@ class StorageGoogleDriveModule(
   }
 
   @ReactMethod
-  fun downloadFile(folderId: String, promise: Promise) {
-    return moduleImpl.downloadFile(folderId, promise)
+  fun downloadFile(fileId: String, filePath: String, promise: Promise) {
+    moduleImpl.downloadFile(fileId, filePath, promise)
   }
   
   @ReactMethod
-  fun exportFile(folderId: String, mimeType: String, promise: Promise) {
-    return moduleImpl.exportFile(folderId, mimeType, promise)
+  fun exportFile(fileId: String, mimeType: String, filePath: String, promise: Promise) {
+    moduleImpl.exportFile(fileId, mimeType, filePath, promise)
   }
 
   override fun getName() = NAME

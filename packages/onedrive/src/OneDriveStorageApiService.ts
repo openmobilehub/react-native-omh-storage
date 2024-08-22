@@ -50,8 +50,8 @@ export class OneDriveStorageApiService {
     await this.client.axiosClient.delete(`${ITEMS_PARTICLE}/${fileId}`);
   }
 
-  async downloadFile(file: StorageEntity, saveDir: string) {
-    const filePath = `${saveDir}/${file.name}`;
+  async downloadFile(file: StorageEntity, saveDirectory: string) {
+    const filePath = `${saveDirectory}/${file.name}`;
 
     const response = await this.client.axiosClient.get(
       `${ITEMS_PARTICLE}/${file.id}/content`,

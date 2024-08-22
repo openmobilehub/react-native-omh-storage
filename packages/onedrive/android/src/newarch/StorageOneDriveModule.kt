@@ -22,13 +22,13 @@ class StorageOneDriveModule(
   }
 
   @ReactMethod
-  fun downloadFile(folderId: String, promise: Promise) {
-    return moduleImpl.downloadFile(folderId, promise)
+  override fun downloadFile(fileId: String, filePath: String, promise: Promise) {
+    moduleImpl.downloadFile(fileId, filePath, promise)
   }
   
   @ReactMethod
-  fun exportFile(folderId: String, mimeType: String, promise: Promise) {
-    return moduleImpl.exportFile(folderId, mimeType, promise)
+  override fun exportFile(fileId: String, mimeType: String, filePath: String, promise: Promise) {
+    moduleImpl.exportFile(fileId, mimeType, filePath, promise)
   }
 
   override fun getName() = NAME

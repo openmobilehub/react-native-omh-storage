@@ -31,9 +31,9 @@ export interface IStorageClient {
     file: StorageEntity,
     mimeType: string,
     fileExtension: string,
-    saveDir: string
+    saveDirectory: string
   ): Promise<void>;
-  downloadFile(file: StorageEntity, saveDir: string): Promise<void>;
+  downloadFile(file: StorageEntity, saveDirectory: string): Promise<void>;
   localFileUpload(file: LocalFile, folderId: string): Promise<StorageEntity>;
   deleteFile(fileId: string): Promise<void>;
   permanentlyDeleteFile(fileId: string): Promise<void>;
@@ -57,7 +57,7 @@ export interface IStorageClient {
   downloadFileVersion(
     file: StorageEntity,
     versionId: string,
-    saveDir: string
+    saveDirectory: string
   ): Promise<void>;
 }
 

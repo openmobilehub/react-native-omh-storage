@@ -18,8 +18,8 @@ type NativeStorageEntity = {
 export interface Spec extends TurboModule {
   initializeStorageClient(): void;
   listFiles(folderId: string): Promise<NativeStorageEntity[]>;
-  downloadFile(fileId: string): Promise<string>;
-  exportFile(fileId: string, mimeType: string): Promise<string>;
+  downloadFile(fileId: string, filePath: string): Promise<void>;
+  exportFile(fileId: string, mimeType: string, filePath: string): Promise<void>;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>('StorageDropboxModule');

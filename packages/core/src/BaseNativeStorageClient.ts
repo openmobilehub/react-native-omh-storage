@@ -1,5 +1,3 @@
-import { FileSystem } from 'react-native-file-access';
-
 import { mapNativeStorageEntity } from './mappers/mapNativeStorageEntity';
 import type {
   Permission,
@@ -110,30 +108,23 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
     file: StorageEntity,
     mimeType: string,
     fileExtension: string,
-    saveDir: string
+    saveDirectory: string
   ) {
     try {
-      const result = await this.nativeStorageModule.exportFile(
-        file.id,
-        mimeType
-      );
-
       const fileName = `${file.name}.${fileExtension}`;
-      const filePath = `${saveDir}/${fileName}`;
+      const filePath = `${saveDirectory}/${fileName}`;
 
-      await FileSystem.writeFile(filePath, result, 'base64');
+      return this.nativeStorageModule.exportFile(file.id, mimeType, filePath);
     } catch (exception) {
       return Promise.reject(mapNativeException(exception));
     }
   }
 
-  async downloadFile(file: StorageEntity, saveDir: string) {
+  async downloadFile(file: StorageEntity, saveDirectory: string) {
     try {
-      const result = await this.nativeStorageModule.downloadFile(file.id);
+      const filePath = `${saveDirectory}/${file.name}`;
 
-      const filePath = `${saveDir}/${file.name}`;
-
-      await FileSystem.writeFile(filePath, result, 'base64');
+      return this.nativeStorageModule.downloadFile(file.id, filePath);
     } catch (exception) {
       return Promise.reject(mapNativeException(exception));
     }

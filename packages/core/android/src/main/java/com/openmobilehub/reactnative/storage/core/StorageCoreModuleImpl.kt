@@ -9,7 +9,8 @@ import com.openmobilehub.reactnative.storage.core.utils.ErrorUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import android.util.Base64
+import java.io.File
+import java.io.FileOutputStream
 
 class StorageCoreModuleImpl(
   context: ReactApplicationContext,
@@ -35,29 +36,39 @@ class StorageCoreModuleImpl(
     }
   }
 
-  fun downloadFile(fileId: String, promise: Promise) {
+  fun downloadFile(fileId: String, filePath: String, promise: Promise) {
     CoroutineScope(Dispatchers.IO).launch {
       try {
-        val file = storageClient.downloadFile(fileId)
-        val base64 = Base64.encodeToString(file.toByteArray(), Base64.NO_WRAP)
+        val byteArrayOutputStream = storageClient.downloadFile(fileId)
 
-        promise.resolve(base64)
+        writeToFile(filePath, byteArrayOutputStream.toByteArray())
+
+        promise.resolve(null)
       } catch (e: Exception) {
         promise.reject(e, ErrorUtils.createPayload(e))
       }
     }
   }
 
-  fun exportFile(fileId: String, mimeType: String, promise: Promise) {
+  fun exportFile(fileId: String, mimeType: String, filePath: String, promise: Promise) {
     CoroutineScope(Dispatchers.IO).launch {
       try {
-        val file = storageClient.exportFile(fileId, mimeType)
-        val base64 = Base64.encodeToString(file.toByteArray(), Base64.NO_WRAP)
+        val byteArrayOutputStream = storageClient.exportFile(fileId, mimeType)
 
-        promise.resolve(base64)
+        writeToFile(filePath, byteArrayOutputStream.toByteArray())
+
+        promise.resolve(null)
       } catch (e: Exception) {
         promise.reject(e, ErrorUtils.createPayload(e))
       }
+    }
+  }
+
+  private fun writeToFile(filePath: String, bytes: ByteArray) {
+    val file = File(filePath)
+
+    FileOutputStream(file).use { fileOutputStream ->
+      fileOutputStream.write(bytes)
     }
   }
 }

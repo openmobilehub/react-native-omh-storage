@@ -37,12 +37,12 @@ class StorageGoogleDriveModuleImpl(private val reactContext: ReactApplicationCon
     moduleImpl.listFiles(folderId, promise)
   }
 
-  fun downloadFile(folderId: String, promise: Promise) {
-    moduleImpl.downloadFile(folderId, promise)
+  fun downloadFile(fileId: String, filePath: String, promise: Promise) {
+    moduleImpl.downloadFile(fileId, filePath, promise)
   }
   
-  fun exportFile(folderId: String, mimeType: String, promise: Promise) {
-    moduleImpl.exportFile(folderId, mimeType, promise)
+  fun exportFile(fileId: String, mimeType: String, filePath: String, promise: Promise) {
+    moduleImpl.exportFile(fileId, mimeType, filePath, promise)
   }
 
   companion object {

@@ -128,8 +128,8 @@ export class OneDriveStorageClient implements IStorageClient {
     throw new UnsupportedOperationException();
   }
 
-  async downloadFile(file: StorageEntity, saveDir: string) {
-    return this.repository.downloadFile(file, saveDir);
+  async downloadFile(file: StorageEntity, saveDirectory: string) {
+    return this.repository.downloadFile(file, saveDirectory);
   }
 
   updateFile(_file: LocalFile, _fileId: string): Promise<StorageEntity> {

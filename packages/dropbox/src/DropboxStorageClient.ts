@@ -118,8 +118,8 @@ export class DropboxStorageClient implements IStorageClient {
     throw new UnsupportedOperationException();
   }
 
-  async downloadFile(file: StorageEntity, saveDir: string) {
-    return this.repository.downloadFile(file, saveDir);
+  async downloadFile(file: StorageEntity, saveDirectory: string) {
+    return this.repository.downloadFile(file, saveDirectory);
   }
 
   async updateFile(file: LocalFile, fileId: string) {
@@ -133,8 +133,8 @@ export class DropboxStorageClient implements IStorageClient {
   async downloadFileVersion(
     file: StorageEntity,
     versionId: string,
-    saveDir: string
+    saveDirectory: string
   ) {
-    return this.repository.downloadFileVersion(file, versionId, saveDir);
+    return this.repository.downloadFileVersion(file, versionId, saveDirectory);
   }
 }

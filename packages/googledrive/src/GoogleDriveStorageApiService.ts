@@ -86,7 +86,7 @@ export class GoogleDriveStorageApiService {
     file: StorageEntity,
     mimeType: string,
     fileExtension: string,
-    saveDir: string
+    saveDirectory: string
   ) {
     const accessToken = await this.authClient.getAccessToken();
 
@@ -94,7 +94,7 @@ export class GoogleDriveStorageApiService {
       throw new InvalidCredentialsException('Access token is not available');
     }
 
-    const filePath = `${saveDir}/${file.name}.${fileExtension}`;
+    const filePath = `${saveDirectory}/${file.name}.${fileExtension}`;
 
     const fileResponse = await FileSystem.fetch(
       `${BASE_URL}${FILES_PARTICLE}/${file.id}?mimeType=${mimeType}`,
@@ -132,9 +132,9 @@ export class GoogleDriveStorageApiService {
     }
   }
 
-  async downloadFile(file: StorageEntity, saveDir: string) {
+  async downloadFile(file: StorageEntity, saveDirectory: string) {
     const url = `${BASE_URL}${FILES_PARTICLE}/${file.id}?alt=media`;
-    const filePath = `${saveDir}/${file.name}`;
+    const filePath = `${saveDirectory}/${file.name}`;
 
     return this.downloadFromUrl(url, filePath);
   }
@@ -142,10 +142,10 @@ export class GoogleDriveStorageApiService {
   async downloadFileVersion(
     file: StorageEntity,
     versionId: string,
-    saveDir: string
+    saveDirectory: string
   ) {
     const url = `${BASE_URL}${FILES_PARTICLE}/${file.id}/revisions/${versionId}?alt=media`;
-    const filePath = `${saveDir}/${file.name}`;
+    const filePath = `${saveDirectory}/${file.name}`;
 
     return this.downloadFromUrl(url, filePath);
   }
