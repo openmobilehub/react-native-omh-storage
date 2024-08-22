@@ -57,6 +57,11 @@ class StorageDropboxModule(
     moduleImpl.getFileVersions(fileId, promise)
   }
 
+  @ReactMethod
+  fun downloadFileVersion(fileId: String, versionId: String, filePath: String, promise: Promise) {
+    moduleImpl.downloadFileVersion(fileId, versionId, filePath, promise)
+  }
+
   override fun getName() = NAME
 
   companion object {

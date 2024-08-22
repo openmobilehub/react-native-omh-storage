@@ -63,6 +63,10 @@ class StorageOneDriveModuleImpl(private val reactContext: ReactApplicationContex
     moduleImpl.getFileVersions(fileId, promise)
   }
 
+  fun downloadFileVersion(fileId: String, versionId: String, filePath: String, promise: Promise) {
+    moduleImpl.downloadFileVersion(fileId, versionId, filePath, promise)
+  }
+
   companion object {
     const val NAME = "StorageOneDriveModule"
   }

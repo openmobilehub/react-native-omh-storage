@@ -157,6 +157,20 @@ class StorageCoreModuleImpl(
     }
   }
 
+  fun downloadFileVersion(fileId: String, versionId: String, filePath: String, promise: Promise) {
+    CoroutineScope(Dispatchers.IO).launch {
+      try {
+        val byteArrayOutputStream = storageClient.downloadFileVersion(fileId, versionId)
+
+        writeToFile(filePath, byteArrayOutputStream.toByteArray())
+
+        promise.resolve(null)
+      } catch (e: Exception) {
+        promise.reject(e, ErrorUtils.createPayload(e))
+      }
+    }
+  }
+
   private fun writeToFile(filePath: String, bytes: ByteArray) {
     val file = File(filePath)
 

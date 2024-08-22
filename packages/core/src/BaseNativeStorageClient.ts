@@ -2,7 +2,6 @@ import { mapNativeFileVersion } from './mappers/mapNativeFileVersion';
 import { mapNativeStorageEntity } from './mappers/mapNativeStorageEntity';
 import {
   StorageEntityMetadata,
-  UnsupportedOperationException,
   type PermissionRecipient,
   type PermissionRole,
   type StorageEntity,
@@ -211,9 +210,20 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
   }
 
   async downloadFileVersion(
-    _file: StorageEntity,
-    _versionId: string
+    file: StorageEntity,
+    versionId: string,
+    saveDirectory: string
   ): Promise<void> {
-    throw new UnsupportedOperationException();
+    try {
+      const filePath = `${saveDirectory}/${file.name}`;
+
+      return this.nativeStorageModule.downloadFileVersion(
+        file.id,
+        versionId,
+        filePath
+      );
+    } catch (exception) {
+      return Promise.reject(mapNativeException(exception));
+    }
   }
 }
