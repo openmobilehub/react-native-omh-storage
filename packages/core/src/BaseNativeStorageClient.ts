@@ -44,15 +44,19 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
   }
 
   async getFileMetadata(fileId: string) {
-    const nativeStorageEntityMetadata =
-      await this.nativeStorageModule.getFileMetadata(fileId);
+    try {
+      const nativeStorageEntityMetadata =
+        await this.nativeStorageModule.getFileMetadata(fileId);
 
-    return new StorageEntityMetadata({
-      entity: mapNativeStorageEntity(nativeStorageEntityMetadata.entity),
-      originalMetadata: JSON.parse(
-        nativeStorageEntityMetadata.originalMetadata
-      ),
-    });
+      return new StorageEntityMetadata({
+        entity: mapNativeStorageEntity(nativeStorageEntityMetadata.entity),
+        originalMetadata: JSON.parse(
+          nativeStorageEntityMetadata.originalMetadata
+        ),
+      });
+    } catch (exception) {
+      return Promise.reject(mapNativeException(exception));
+    }
   }
 
   async search(query: string) {
