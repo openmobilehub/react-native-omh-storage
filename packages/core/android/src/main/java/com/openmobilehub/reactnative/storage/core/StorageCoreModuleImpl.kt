@@ -90,7 +90,11 @@ class StorageCoreModuleImpl(
   }
 
   private fun getFile(uri: Uri, fileName: String): File {
-    val tempFile = File(context.cacheDir, fileName)
+    val omhCacheDir = File(context.cacheDir, "omh-storage")
+    if (!omhCacheDir.exists()) {
+      omhCacheDir.mkdirs()
+    }
+    val tempFile = File(omhCacheDir, fileName)
 
     context.contentResolver.openInputStream(uri)?.use { inputStream ->
       tempFile.outputStream().use { output ->
