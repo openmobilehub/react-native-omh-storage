@@ -1,6 +1,5 @@
 package com.openmobilehub.reactnative.storage.core
 
-import android.content.Context
 import android.net.Uri
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
@@ -40,7 +39,7 @@ class StorageCoreModuleImpl(
 
   fun uploadFile(fileName: String, uri: String, folderId: String, promise: Promise) {
     CoroutineScope(Dispatchers.IO).launch {
-      val file = getFile(context, Uri.parse(uri), fileName)
+      val file = getFile(Uri.parse(uri), fileName)
       try {
         val uploadedFile = storageClient.uploadFile(file, folderId)
         promise.resolve(uploadedFile?.toWritableMap())
@@ -52,7 +51,7 @@ class StorageCoreModuleImpl(
     }
   }
 
-  private fun getFile(context: Context, uri: Uri, fileName: String): File {
+  private fun getFile(uri: Uri, fileName: String): File {
     val tempFile = File(context.cacheDir, fileName)
 
     context.contentResolver.openInputStream(uri)?.use { inputStream ->
