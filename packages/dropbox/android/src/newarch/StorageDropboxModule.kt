@@ -31,6 +31,11 @@ class StorageDropboxModule(
     moduleImpl.getFileMetadata(fileId, promise)
   }
 
+  @ReactMethod
+  override fun search(query: String, promise: Promise) {
+    moduleImpl.search(query, promise)
+  }
+
   override fun getName() = NAME
 
   companion object {

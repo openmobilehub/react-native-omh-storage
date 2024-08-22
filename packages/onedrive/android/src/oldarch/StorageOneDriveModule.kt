@@ -32,6 +32,11 @@ class StorageOneDriveModule(
     moduleImpl.getFileMetadata(fileId, promise)
   }
 
+  @ReactMethod
+  fun search(query: String, promise: Promise) {
+    moduleImpl.search(query, promise)
+  }
+
   override fun getName() = NAME
 
   companion object {

@@ -33,9 +33,13 @@ class StorageDropboxModuleImpl(private val reactContext: ReactApplicationContext
       it.toString()
     }
   }
-  
+
   fun uploadFile(fileName: String, uri: String, folderId: String, promise: Promise) {
     moduleImpl.uploadFile(fileName, uri, folderId, promise)
+  }
+
+  fun search(query: String, promise: Promise) {
+    moduleImpl.search(query, promise)
   }
 
   companion object {
