@@ -1,6 +1,5 @@
 import {
   UnsupportedOperationException,
-  type FileVersion,
   type IStorageAuthClient,
   type IStorageClient,
   type LocalFile,
@@ -127,7 +126,7 @@ export class DropboxStorageClient implements IStorageClient {
     return this.repository.updateFile(file, fileId);
   }
 
-  async getFileVersions(fileId: string): Promise<FileVersion[]> {
+  async getFileVersions(fileId: string) {
     return this.repository.getFileVersions(fileId);
   }
 
