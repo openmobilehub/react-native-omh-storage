@@ -28,6 +28,12 @@
 #endif
 }
 
+- (BOOL)bridgelessEnabled
+{
+    // https://github.com/FormidableLabs/react-native-app-auth/issues/980
+    return NO;
+}
+
 // https://commerce.nearform.com/open-source/react-native-app-auth/docs#define-openurl-callback-in-appdelegate
 - (BOOL) application: (UIApplication *)application
              openURL: (NSURL *)url
