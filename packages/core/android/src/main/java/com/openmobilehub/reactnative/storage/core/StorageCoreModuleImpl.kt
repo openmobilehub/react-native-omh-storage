@@ -60,13 +60,27 @@ class StorageCoreModuleImpl(
       }
     }
   }
-  
+
   fun uploadFile(fileName: String, uri: String, folderId: String, promise: Promise) {
     CoroutineScope(Dispatchers.IO).launch {
       val file = getFile(Uri.parse(uri), fileName)
       try {
         val uploadedFile = storageClient.uploadFile(file, folderId)
         promise.resolve(uploadedFile?.toWritableMap())
+      } catch (e: Exception) {
+        promise.reject(e, ErrorUtils.createPayload(e))
+      } finally {
+        file.delete()
+      }
+    }
+  }
+
+  fun updateFile(fileName: String, uri: String, fileId: String, promise: Promise) {
+    CoroutineScope(Dispatchers.IO).launch {
+      val file = getFile(Uri.parse(uri), fileName)
+      try {
+        val updatedFile = storageClient.updateFile(file, fileId)
+        promise.resolve(updatedFile?.toWritableMap())
       } catch (e: Exception) {
         promise.reject(e, ErrorUtils.createPayload(e))
       } finally {

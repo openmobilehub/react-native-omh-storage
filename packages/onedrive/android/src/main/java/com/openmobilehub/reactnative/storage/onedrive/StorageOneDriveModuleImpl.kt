@@ -38,9 +38,13 @@ class StorageOneDriveModuleImpl(private val reactContext: ReactApplicationContex
       KiotaJsonSerialization.serializeAsString(it)
     }
   }
-  
+
   fun uploadFile(fileName: String, uri: String, folderId: String, promise: Promise) {
     moduleImpl.uploadFile(fileName, uri, folderId, promise)
+  }
+
+  fun updateFile(fileName: String, uri: String, fileId: String, promise: Promise) {
+    moduleImpl.updateFile(fileName, uri, fileId, promise)
   }
 
   companion object {
