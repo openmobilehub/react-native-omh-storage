@@ -33,6 +33,10 @@ class StorageDropboxModuleImpl(private val reactContext: ReactApplicationContext
       it.toString()
     }
   }
+  
+  fun uploadFile(fileName: String, uri: String, folderId: String, promise: Promise) {
+    moduleImpl.uploadFile(fileName, uri, folderId, promise)
+  }
 
   companion object {
     const val NAME = "StorageDropboxModule"

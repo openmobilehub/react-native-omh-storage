@@ -13,12 +13,17 @@ class StorageOneDriveModule(
 
   @ReactMethod
   override fun initializeStorageClient() {
-    return moduleImpl.initialize()
+    moduleImpl.initialize()
   }
 
   @ReactMethod
   override fun listFiles(folderId: String, promise: Promise) {
-    return moduleImpl.listFiles(folderId, promise)
+    moduleImpl.listFiles(folderId, promise)
+  }
+
+  @ReactMethod
+  override fun uploadFile(fileName: String, uri: String, folderId: String, promise: Promise) {
+    moduleImpl.uploadFile(fileName, uri, folderId, promise)
   }
 
   @ReactMethod

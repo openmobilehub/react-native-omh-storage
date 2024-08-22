@@ -3,17 +3,36 @@ import { Platform } from 'react-native';
 import { LocalFile } from '@openmobilehub/storage-core';
 import DocumentPicker from 'react-native-document-picker';
 import { launchImageLibrary } from 'react-native-image-picker';
-import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions';
+import {
+  check,
+  Permission,
+  PERMISSIONS,
+  request,
+  RESULTS,
+} from 'react-native-permissions';
+
+const ANDROID_33_AND_ABOVE_PERMISSIONS: Permission[] = [
+  PERMISSIONS.ANDROID.READ_MEDIA_IMAGES,
+  PERMISSIONS.ANDROID.READ_MEDIA_VIDEO,
+  PERMISSIONS.ANDROID.READ_MEDIA_AUDIO,
+  PERMISSIONS.ANDROID.READ_MEDIA_VISUAL_USER_SELECTED,
+];
+
+const ANDROID_32_AND_BELOW_PERMISSIONS: Permission[] = [
+  PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
+];
 
 export const usePickFile = () => {
   const requestStoragePermission = async () => {
+    const androidVersion = Number(Platform.Version);
+
+    const androidPermissions =
+      androidVersion >= 33
+        ? ANDROID_33_AND_ABOVE_PERMISSIONS
+        : ANDROID_32_AND_BELOW_PERMISSIONS;
+
     const permissions = Platform.select({
-      android: [
-        PERMISSIONS.ANDROID.READ_MEDIA_IMAGES,
-        PERMISSIONS.ANDROID.READ_MEDIA_VIDEO,
-        PERMISSIONS.ANDROID.READ_MEDIA_AUDIO,
-        PERMISSIONS.ANDROID.READ_MEDIA_VISUAL_USER_SELECTED,
-      ],
+      android: androidPermissions,
       ios: [PERMISSIONS.IOS.PHOTO_LIBRARY],
     });
 
@@ -58,7 +77,7 @@ export const usePickFile = () => {
 
       const { name, size, type, uri } = response;
 
-      if (!name || !size || !type || !uri) {
+      if (!name || size == null || !type || !uri) {
         throw Error('Missing required asset properties');
       }
 
@@ -94,7 +113,7 @@ export const usePickFile = () => {
 
           const { fileName, fileSize, type, uri } = asset;
 
-          if (!fileName || !fileSize || !type) {
+          if (!fileName || fileSize === undefined || !type) {
             reject('Missing required asset properties');
             return;
           }

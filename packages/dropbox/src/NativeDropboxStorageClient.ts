@@ -24,6 +24,11 @@ export interface Spec extends TurboModule {
   initializeStorageClient(): void;
   listFiles(folderId: string): Promise<NativeStorageEntity[]>;
   getFileMetadata(fileId: string): Promise<NativeStorageEntityMetadata>;
+  uploadFile(
+    fileName: string,
+    uri: string,
+    folderId: string
+  ): Promise<NativeStorageEntity>;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>('StorageDropboxModule');

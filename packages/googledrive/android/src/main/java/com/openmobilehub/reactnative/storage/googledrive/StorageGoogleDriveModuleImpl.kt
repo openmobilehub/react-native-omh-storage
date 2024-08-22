@@ -42,6 +42,10 @@ class StorageGoogleDriveModuleImpl(private val reactContext: ReactApplicationCon
       it.toString()
     }
   }
+  
+  fun uploadFile(fileName: String, uri: String, folderId: String, promise: Promise) {
+    moduleImpl.uploadFile(fileName, uri, folderId, promise)
+  }
 
   companion object {
     const val NAME = "StorageGoogleDriveModule"
