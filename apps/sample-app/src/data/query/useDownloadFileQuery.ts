@@ -6,38 +6,11 @@ import {
   StorageException,
 } from '@openmobilehub/storage-core';
 import { useMutation } from '@tanstack/react-query';
-import { Dirs, FileSystem } from 'react-native-file-access';
-import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions';
+import { Dirs } from 'react-native-file-access';
 
 import { FileType } from '@/types/FileTypes';
+import copyFileToDownloads from '@/utils/copyFileToDownloads';
 import { normalizeFileType } from '@/utils/normalizeFileType';
-
-const requestAndroidPermission = async () => {
-  const androidPermissions = [PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE];
-
-  try {
-    const statuses = await Promise.all(
-      androidPermissions.map((permission) => check(permission))
-    );
-
-    let allGranted = statuses.every((status) => status === RESULTS.GRANTED);
-
-    if (allGranted) {
-      return true;
-    }
-
-    const requestStatuses = await Promise.all(
-      androidPermissions.map((permission) => request(permission))
-    );
-
-    allGranted = requestStatuses.every((status) => status === RESULTS.GRANTED);
-
-    return allGranted;
-  } catch (error) {
-    console.error(error);
-    return false;
-  }
-};
 
 const downloadFile = async (
   storageClient: IStorageClient,
@@ -71,9 +44,7 @@ const downloadFile = async (
   }
 
   if (Platform.OS === 'android') {
-    await requestAndroidPermission();
-
-    await FileSystem.cpExternal(filePath, fileName, 'downloads');
+    copyFileToDownloads(fileName, filePath);
   }
 };
 

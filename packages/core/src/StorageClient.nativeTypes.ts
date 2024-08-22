@@ -1,3 +1,4 @@
+// @ts-ignore
 import type { Double } from 'react-native/Libraries/Types/CodegenTypes';
 
 export type NativeStorageEntity = {
