@@ -49,6 +49,17 @@ export interface Spec extends TurboModule {
     versionId: string,
     filePath: string
   ): Promise<void>;
+  createFileWithMimeType(
+    name: string,
+    mimeType: string,
+    parentId: string
+  ): Promise<NativeStorageEntity>;
+  createFileWithExtension(
+    name: string,
+    fileExtension: string,
+    parentId: string
+  ): Promise<NativeStorageEntity>;
+  createFolder(name: string, parentId: string): Promise<NativeStorageEntity>;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>('StorageDropboxModule');

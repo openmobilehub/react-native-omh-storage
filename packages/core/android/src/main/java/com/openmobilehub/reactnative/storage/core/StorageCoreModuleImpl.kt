@@ -171,6 +171,42 @@ class StorageCoreModuleImpl(
     }
   }
 
+  fun createFileWithMimeType(name: String, mimeType: String, parentId: String, promise: Promise) {
+    CoroutineScope(Dispatchers.IO).launch {
+      try {
+        val file = storageClient.createFileWithMimeType(name, mimeType, parentId)
+
+        promise.resolve(file?.toWritableMap())
+      } catch (e: Exception) {
+        promise.reject(e, ErrorUtils.createPayload(e))
+      }
+    }
+  }
+
+  fun createFileWithExtension(name: String, fileExtension: String, parentId: String, promise: Promise) {
+    CoroutineScope(Dispatchers.IO).launch {
+      try {
+        val file = storageClient.createFileWithExtension(name, fileExtension, parentId)
+
+        promise.resolve(file?.toWritableMap())
+      } catch (e: Exception) {
+        promise.reject(e, ErrorUtils.createPayload(e))
+      }
+    }
+  }
+
+  fun createFolder(name: String, parentId: String, promise: Promise) {
+    CoroutineScope(Dispatchers.IO).launch {
+      try {
+        val file = storageClient.createFolder(name, parentId)
+
+        promise.resolve(file?.toWritableMap())
+      } catch (e: Exception) {
+        promise.reject(e, ErrorUtils.createPayload(e))
+      }
+    }
+  }
+
   private fun writeToFile(filePath: String, bytes: ByteArray) {
     val file = File(filePath)
 

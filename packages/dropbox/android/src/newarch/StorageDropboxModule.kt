@@ -60,6 +60,21 @@ class StorageDropboxModule(
   override fun downloadFileVersion(fileId: String, versionId: String, filePath: String, promise: Promise) {
     moduleImpl.downloadFileVersion(fileId, versionId, filePath, promise)
   }
+  
+  @ReactMethod
+  override fun createFileWithMimeType(name: String, mimeType: String, parentId: String, promise: Promise) {
+    moduleImpl.createFileWithMimeType(name, mimeType, parentId, promise)
+  }
+
+  @ReactMethod
+  override fun createFileWithExtension(name: String, fileExtension: String, parentId: String, promise: Promise) {
+    moduleImpl.createFileWithExtension(name, fileExtension, parentId, promise)
+  }
+  
+  @ReactMethod
+  override fun createFolder(name: String, parentId: String, promise: Promise) {
+    moduleImpl.createFolder(name, parentId, promise)
+  }
 
   override fun getName() = NAME
 
