@@ -213,7 +213,7 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
     file: StorageEntity,
     versionId: string,
     saveDirectory: string
-  ): Promise<void> {
+  ) {
     try {
       const filePath = `${saveDirectory}/${file.name}`;
 

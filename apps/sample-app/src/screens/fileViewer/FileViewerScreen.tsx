@@ -53,14 +53,17 @@ export const FileViewerScreen = () => {
   );
 
   const onDownloadFile = (file: StorageEntity) => {
-    downloadFileMutation.mutate(file, {
-      onSuccess: () => {
-        showSnackbar(`${file.name} file downloaded successfully!`);
-      },
-      onError: () => {
-        showSnackbar(`Failed to download ${file.name} file!`);
-      },
-    });
+    downloadFileMutation.mutate(
+      { file },
+      {
+        onSuccess: () => {
+          showSnackbar(`${file.name} file downloaded successfully!`);
+        },
+        onError: () => {
+          showSnackbar(`Failed to download ${file.name} file!`);
+        },
+      }
+    );
   };
 
   const handleStorageEntityPress = (file: StorageEntity) => {
