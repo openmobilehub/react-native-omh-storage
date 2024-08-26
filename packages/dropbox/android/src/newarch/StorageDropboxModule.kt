@@ -45,7 +45,7 @@ class StorageDropboxModule(
   override fun downloadFile(fileId: String, filePath: String, promise: Promise) {
     moduleImpl.downloadFile(fileId, filePath, promise)
   }
-  
+
   @ReactMethod
   override fun exportFile(fileId: String, mimeType: String, filePath: String, promise: Promise) {
     moduleImpl.exportFile(fileId, mimeType, filePath, promise)
@@ -60,7 +60,7 @@ class StorageDropboxModule(
   override fun downloadFileVersion(fileId: String, versionId: String, filePath: String, promise: Promise) {
     moduleImpl.downloadFileVersion(fileId, versionId, filePath, promise)
   }
-  
+
   @ReactMethod
   override fun createFileWithMimeType(name: String, mimeType: String, parentId: String, promise: Promise) {
     moduleImpl.createFileWithMimeType(name, mimeType, parentId, promise)

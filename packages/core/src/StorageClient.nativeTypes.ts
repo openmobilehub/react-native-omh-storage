@@ -51,7 +51,7 @@ export interface NativeStorageClient {
     name: string,
     mimeType: string,
     parentId: string
-  ): Promise<NativeStorageEntity> | undefined;
+  ): Promise<NativeStorageEntity | undefined>;
   createFileWithExtension(
     name: string,
     fileExtension: string,

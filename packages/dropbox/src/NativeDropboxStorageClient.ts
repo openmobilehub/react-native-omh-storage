@@ -53,7 +53,7 @@ export interface Spec extends TurboModule {
     name: string,
     mimeType: string,
     parentId: string
-  ): Promise<NativeStorageEntity> | undefined;
+  ): Promise<NativeStorageEntity | undefined>;
   createFileWithExtension(
     name: string,
     fileExtension: string,
