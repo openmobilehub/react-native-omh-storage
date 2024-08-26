@@ -20,13 +20,16 @@ export interface IStorageClient {
     name: string,
     mimeType: string,
     parentId?: string
-  ): Promise<StorageEntity>;
+  ): Promise<StorageEntity | undefined>;
   createFileWithExtension(
     name: string,
     fileExtension: string,
     parentId?: string
-  ): Promise<StorageEntity>;
-  createFolder(name: string, parentId?: string): Promise<StorageEntity>;
+  ): Promise<StorageEntity | undefined>;
+  createFolder(
+    name: string,
+    parentId?: string
+  ): Promise<StorageEntity | undefined>;
   exportFile(
     file: StorageEntity,
     mimeType: string,

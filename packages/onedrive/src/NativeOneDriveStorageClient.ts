@@ -49,6 +49,20 @@ export interface Spec extends TurboModule {
     versionId: string,
     filePath: string
   ): Promise<void>;
+  createFileWithMimeType(
+    name: string,
+    mimeType: string,
+    parentId: string
+  ): Promise<NativeStorageEntity> | undefined;
+  createFileWithExtension(
+    name: string,
+    fileExtension: string,
+    parentId: string
+  ): Promise<NativeStorageEntity | undefined>;
+  createFolder(
+    name: string,
+    parentId: string
+  ): Promise<NativeStorageEntity | undefined>;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>('StorageOneDriveModule');

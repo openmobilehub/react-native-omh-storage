@@ -73,8 +73,18 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
     mimeType: string,
     parentId?: string
   ) {
-    //TODO: [Fallback] Replace with native implementation
-    return this.fallbackClient.createFileWithMimeType(name, mimeType, parentId);
+    try {
+      const nativeStorageEntity =
+        await this.nativeStorageModule.createFileWithMimeType(
+          name,
+          mimeType,
+          parentId ?? this.rootFolderId
+        );
+
+      return nativeStorageEntity && mapNativeStorageEntity(nativeStorageEntity);
+    } catch (exception) {
+      return Promise.reject(mapNativeException(exception));
+    }
   }
 
   async createFileWithExtension(
@@ -82,17 +92,31 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
     fileExtension: string,
     parentId?: string
   ) {
-    //TODO: [Fallback] Replace with native implementation
-    return this.fallbackClient.createFileWithExtension(
-      name,
-      fileExtension,
-      parentId
-    );
+    try {
+      const nativeStorageEntity =
+        await this.nativeStorageModule.createFileWithExtension(
+          name,
+          fileExtension,
+          parentId ?? this.rootFolderId
+        );
+
+      return nativeStorageEntity && mapNativeStorageEntity(nativeStorageEntity);
+    } catch (exception) {
+      return Promise.reject(mapNativeException(exception));
+    }
   }
 
   async createFolder(name: string, parentId?: string) {
-    //TODO: [Fallback] Replace with native implementation
-    return this.fallbackClient.createFolder(name, parentId);
+    try {
+      const nativeStorageEntity = await this.nativeStorageModule.createFolder(
+        name,
+        parentId ?? this.rootFolderId
+      );
+
+      return nativeStorageEntity && mapNativeStorageEntity(nativeStorageEntity);
+    } catch (exception) {
+      return Promise.reject(mapNativeException(exception));
+    }
   }
 
   async localFileUpload(file: LocalFile, folderId: string) {

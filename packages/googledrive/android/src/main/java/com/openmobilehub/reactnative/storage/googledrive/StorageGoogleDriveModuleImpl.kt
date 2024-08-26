@@ -70,6 +70,18 @@ class StorageGoogleDriveModuleImpl(private val reactContext: ReactApplicationCon
   fun downloadFileVersion(fileId: String, versionId: String, filePath: String, promise: Promise) {
     moduleImpl.downloadFileVersion(fileId, versionId, filePath, promise)
   }
+  
+  fun createFileWithMimeType(name: String, mimeType: String, parentId: String, promise: Promise) {
+    moduleImpl.createFileWithMimeType(name, mimeType, parentId, promise)
+  }
+
+  fun createFileWithExtension(name: String, fileExtension: String, parentId: String, promise: Promise) {
+    moduleImpl.createFileWithExtension(name, fileExtension, parentId, promise)
+  }
+  
+  fun createFolder(name: String, parentId: String, promise: Promise) {
+    moduleImpl.createFolder(name, parentId, promise)
+  }
 
   companion object {
     const val NAME = "StorageGoogleDriveModule"

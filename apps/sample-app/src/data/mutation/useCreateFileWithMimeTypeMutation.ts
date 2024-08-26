@@ -18,11 +18,13 @@ export const useCreateFileWithMimeTypeMutation = (
 ) => {
   const queryClient = useQueryClient();
 
-  return useMutation<StorageEntity, StorageException, MutationData>({
-    mutationFn: ({ name, mimeType, parentId }) =>
-      storageClient.createFileWithMimeType(name, mimeType, parentId),
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: [QK_LIST_FILES] });
-    },
-  });
+  return useMutation<StorageEntity | undefined, StorageException, MutationData>(
+    {
+      mutationFn: ({ name, mimeType, parentId }) =>
+        storageClient.createFileWithMimeType(name, mimeType, parentId),
+      onSettled: () => {
+        queryClient.invalidateQueries({ queryKey: [QK_LIST_FILES] });
+      },
+    }
+  );
 };

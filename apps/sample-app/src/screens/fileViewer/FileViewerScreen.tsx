@@ -13,8 +13,8 @@ import { FullScreenEmptyState } from '@/components/fullScreenEmptyState';
 import { FullScreenLoadingState } from '@/components/fullScreenLoadingState';
 import { useSnackbar } from '@/contexts/snackbar/SnackbarContent';
 import { useRequireStorageClient } from '@/contexts/storage/useRequireStorageClient';
+import { useDownloadFileMutation } from '@/data/mutation/useDownloadFileMutation';
 import { useFileListQuery } from '@/data/query/fileListQuery';
-import { useDownloadFileMutation } from '@/data/query/useDownloadFileQuery';
 import { useSearchFilesQuery } from '@/data/query/useSearchFilesQuery';
 import { type RootStackParamList } from '@/navigation/RootNavigationContainer';
 
