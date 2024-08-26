@@ -58,8 +58,14 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
   }
 
   async search(query: string) {
-    //TODO: [Fallback] Replace with native implementation
-    return this.fallbackClient.search(query);
+    try {
+      const nativeStorageEntities =
+        await this.nativeStorageModule.search(query);
+
+      return nativeStorageEntities.map(mapNativeStorageEntity);
+    } catch (exception) {
+      return Promise.reject(mapNativeException(exception));
+    }
   }
 
   async createFileWithMimeType(

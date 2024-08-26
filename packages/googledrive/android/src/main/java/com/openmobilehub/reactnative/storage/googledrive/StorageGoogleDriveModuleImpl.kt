@@ -47,6 +47,10 @@ class StorageGoogleDriveModuleImpl(private val reactContext: ReactApplicationCon
     moduleImpl.uploadFile(fileName, uri, folderId, promise)
   }
 
+  fun search(query: String, promise: Promise) {
+    moduleImpl.search(query, promise)
+  }
+
   fun updateFile(fileName: String, uri: String, fileId: String, promise: Promise) {
     moduleImpl.updateFile(fileName, uri, fileId, promise)
   }

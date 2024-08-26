@@ -44,7 +44,7 @@ export const AuthContextProvider = ({ children }: Props) => {
 
     setAuthClient(null);
 
-    storage.delete(SIGNED_WITH_PROVIDER);
+    await storage.delete(SIGNED_WITH_PROVIDER);
   }, [authClient]);
 
   const login = useCallback(
@@ -71,7 +71,7 @@ export const AuthContextProvider = ({ children }: Props) => {
         setAuthClient(initializedAuthClient);
       });
 
-      storage.set(SIGNED_WITH_PROVIDER, withProvider);
+      await storage.set(SIGNED_WITH_PROVIDER, withProvider);
     },
     [logout]
   );
@@ -92,7 +92,7 @@ export const AuthContextProvider = ({ children }: Props) => {
   const silentLogin = useCallback(async () => {
     setInitializationStatus('initializing');
 
-    const storedProvider = storage.getString(SIGNED_WITH_PROVIDER) as
+    const storedProvider = (await storage.get(SIGNED_WITH_PROVIDER)) as
       | Provider
       | undefined;
 

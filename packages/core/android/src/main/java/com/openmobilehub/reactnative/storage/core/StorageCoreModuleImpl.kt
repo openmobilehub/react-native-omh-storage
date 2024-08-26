@@ -31,7 +31,7 @@ class StorageCoreModuleImpl(
   fun listFiles(folderId: String, promise: Promise) {
     CoroutineScope(Dispatchers.IO).launch {
       try {
-        val files = storageClient.listFiles(parentId = folderId)
+        val files = storageClient.listFiles(folderId)
         promise.resolve(files.toWritableArray())
       } catch (e: Exception) {
         promise.reject(e, ErrorUtils.createPayload(e))
@@ -104,6 +104,17 @@ class StorageCoreModuleImpl(
     }
 
     return tempFile
+  }
+
+  fun search(query: String, promise: Promise) {
+    CoroutineScope(Dispatchers.IO).launch {
+      try {
+        val files = storageClient.search(query)
+        promise.resolve(files.toWritableArray())
+      } catch (e: Exception) {
+        promise.reject(e, ErrorUtils.createPayload(e))
+      }
+    }
   }
 
   fun downloadFile(fileId: String, filePath: String, promise: Promise) {
