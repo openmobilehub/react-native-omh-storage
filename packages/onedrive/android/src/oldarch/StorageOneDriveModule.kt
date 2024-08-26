@@ -77,6 +77,16 @@ class StorageOneDriveModule(
     moduleImpl.createFolder(name, parentId, promise)
   }
 
+  @ReactMethod
+  fun deleteFile(fileId: String, promise: Promise) {
+    moduleImpl.deleteFile(fileId, promise)
+  }
+
+  @ReactMethod
+  fun permanentlyDeleteFile(fileId: String, promise: Promise) {
+    moduleImpl.permanentlyDeleteFile(fileId, promise)
+  }
+
   override fun getName() = NAME
 
   companion object {

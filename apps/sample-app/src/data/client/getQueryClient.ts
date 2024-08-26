@@ -1,4 +1,7 @@
-import { ApiException } from '@openmobilehub/storage-core';
+import {
+  ApiException,
+  UnsupportedOperationException,
+} from '@openmobilehub/storage-core';
 import { MutationCache, QueryCache, QueryClient } from '@tanstack/react-query';
 
 import { showError } from '@/utils/showError';
@@ -8,6 +11,11 @@ interface QueryClientOptions {
 }
 
 const handleRetry = (failureCount: number, error: ApiException) => {
+  if (error instanceof UnsupportedOperationException) {
+    // If the error is an UnsupportedOperationException, we don't want to retry query
+    return false;
+  }
+
   if (error instanceof ApiException) {
     if (error.code === 401) {
       // If the error is a 401, we don't want to retry query

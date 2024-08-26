@@ -61,6 +61,8 @@ export interface NativeStorageClient {
     name: string,
     parentId: string
   ): Promise<NativeStorageEntity | undefined>;
+  deleteFile(fileId: string): Promise<void>;
+  permanentlyDeleteFile(fileId: string): Promise<void>;
 }
 
 export type NativeStorageException = Error & {
