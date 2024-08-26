@@ -24,6 +24,24 @@ export type NativeFileVersion = {
   lastModified: Double;
 };
 
+export type NativePermission = {
+  type: string;
+  id: string;
+  role: string;
+  isInherited?: boolean;
+  userId?: string;
+  displayName?: string;
+  emailAddress?: string;
+  expirationTime?: Double;
+  deleted?: boolean;
+  photoLink?: string;
+  pendingOwner?: boolean;
+  groupId?: string;
+  domain?: string;
+  deviceId?: string;
+  applicationId?: string;
+};
+
 export interface NativeStorageClient {
   initializeStorageClient(): void;
   listFiles(folderId: string): Promise<NativeStorageEntity[]>;
@@ -61,6 +79,7 @@ export interface NativeStorageClient {
     name: string,
     parentId: string
   ): Promise<NativeStorageEntity | undefined>;
+  getPermissions(fileId: string): Promise<NativePermission[]>;
 }
 
 export type NativeStorageException = Error & {

@@ -36,7 +36,7 @@ class StorageOneDriveModule(
   fun search(query: String, promise: Promise) {
     moduleImpl.search(query, promise)
   }
-  
+
   @ReactMethod
   fun updateFile(fileName: String, uri: String, fileId: String, promise: Promise) {
     moduleImpl.updateFile(fileName, uri, fileId, promise)
@@ -46,7 +46,7 @@ class StorageOneDriveModule(
   fun downloadFile(fileId: String, filePath: String, promise: Promise) {
     moduleImpl.downloadFile(fileId, filePath, promise)
   }
-  
+
   @ReactMethod
   fun exportFile(fileId: String, mimeType: String, filePath: String, promise: Promise) {
     moduleImpl.exportFile(fileId, mimeType, filePath, promise)
@@ -61,7 +61,7 @@ class StorageOneDriveModule(
   fun downloadFileVersion(fileId: String, versionId: String, filePath: String, promise: Promise) {
     moduleImpl.downloadFileVersion(fileId, versionId, filePath, promise)
   }
-  
+
   @ReactMethod
   fun createFileWithMimeType(name: String, mimeType: String, parentId: String, promise: Promise) {
     moduleImpl.createFileWithMimeType(name, mimeType, parentId, promise)
@@ -71,10 +71,15 @@ class StorageOneDriveModule(
   fun createFileWithExtension(name: String, fileExtension: String, parentId: String, promise: Promise) {
     moduleImpl.createFileWithExtension(name, fileExtension, parentId, promise)
   }
-  
+
   @ReactMethod
   fun createFolder(name: String, parentId: String, promise: Promise) {
     moduleImpl.createFolder(name, parentId, promise)
+  }
+
+  @ReactMethod
+  fun getPermissions(fileId: String, promise: Promise) {
+    moduleImpl.getPermissions(fileId, promise)
   }
 
   override fun getName() = NAME

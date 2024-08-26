@@ -58,7 +58,7 @@ class StorageGoogleDriveModuleImpl(private val reactContext: ReactApplicationCon
   fun downloadFile(fileId: String, filePath: String, promise: Promise) {
     moduleImpl.downloadFile(fileId, filePath, promise)
   }
-  
+
   fun exportFile(fileId: String, mimeType: String, filePath: String, promise: Promise) {
     moduleImpl.exportFile(fileId, mimeType, filePath, promise)
   }
@@ -70,7 +70,7 @@ class StorageGoogleDriveModuleImpl(private val reactContext: ReactApplicationCon
   fun downloadFileVersion(fileId: String, versionId: String, filePath: String, promise: Promise) {
     moduleImpl.downloadFileVersion(fileId, versionId, filePath, promise)
   }
-  
+
   fun createFileWithMimeType(name: String, mimeType: String, parentId: String, promise: Promise) {
     moduleImpl.createFileWithMimeType(name, mimeType, parentId, promise)
   }
@@ -78,9 +78,13 @@ class StorageGoogleDriveModuleImpl(private val reactContext: ReactApplicationCon
   fun createFileWithExtension(name: String, fileExtension: String, parentId: String, promise: Promise) {
     moduleImpl.createFileWithExtension(name, fileExtension, parentId, promise)
   }
-  
+
   fun createFolder(name: String, parentId: String, promise: Promise) {
     moduleImpl.createFolder(name, parentId, promise)
+  }
+
+  fun getPermissions(fileId: String, promise: Promise) {
+    moduleImpl.getPermissions(fileId, promise)
   }
 
   companion object {

@@ -8,6 +8,7 @@ import com.openmobilehub.android.storage.core.OmhStorageClient
 import com.openmobilehub.android.storage.core.model.OmhStorageException
 import com.openmobilehub.reactnative.storage.core.extensions.toWritableFileVersionArray
 import com.openmobilehub.reactnative.storage.core.extensions.toWritableMap
+import com.openmobilehub.reactnative.storage.core.extensions.toWritablePermissionArray
 import com.openmobilehub.reactnative.storage.core.extensions.toWritableStorageEntityArray
 import com.openmobilehub.reactnative.storage.core.utils.ErrorUtils
 import kotlinx.coroutines.CoroutineScope
@@ -201,6 +202,17 @@ class StorageCoreModuleImpl(
         val file = storageClient.createFolder(name, parentId)
 
         promise.resolve(file?.toWritableMap())
+      } catch (e: Exception) {
+        promise.reject(e, ErrorUtils.createPayload(e))
+      }
+    }
+  }
+
+  fun getPermissions(fileId: String, promise: Promise) {
+    CoroutineScope(Dispatchers.IO).launch {
+      try {
+        val permissions = storageClient.getFilePermissions(fileId)
+        promise.resolve(permissions.toWritablePermissionArray())
       } catch (e: Exception) {
         promise.reject(e, ErrorUtils.createPayload(e))
       }

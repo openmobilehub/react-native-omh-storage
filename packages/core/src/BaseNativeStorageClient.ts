@@ -1,5 +1,8 @@
-import { mapNativeFileVersion } from './mappers/mapNativeFileVersion';
-import { mapNativeStorageEntity } from './mappers/mapNativeStorageEntity';
+import {
+  mapNativeFileVersion,
+  mapNativePermissions,
+  mapNativeStorageEntity,
+} from './mappers';
 import {
   StorageEntityMetadata,
   type PermissionRecipient,
@@ -143,8 +146,14 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
   }
 
   async getPermissions(fileId: string) {
-    //TODO: [Fallback] Replace with native implementation
-    return this.fallbackClient.getPermissions(fileId);
+    try {
+      const nativePermissions =
+        await this.nativeStorageModule.getPermissions(fileId);
+
+      return nativePermissions.map(mapNativePermissions);
+    } catch (exception) {
+      return Promise.reject(mapNativeException(exception));
+    }
   }
 
   async getWebUrl(fileId: string) {
