@@ -48,6 +48,7 @@ export const BottomSheetOptions = ({
         onPress={() => setView(BottomSheetContentType.Metadata)}
         title="Metadata"
         style={styles.menuItem}
+        testID="bottom-sheet-options-metadata"
       />
       <Divider />
       <Menu.Item
@@ -55,6 +56,7 @@ export const BottomSheetOptions = ({
         onPress={() => setView(BottomSheetContentType.Permissions)}
         title="Permissions"
         style={styles.menuItem}
+        testID="bottom-sheet-options-permissions"
       />
       <Divider />
       {isFile && (
@@ -63,6 +65,7 @@ export const BottomSheetOptions = ({
           onPress={() => setView(BottomSheetContentType.Versions)}
           title="Versions"
           style={styles.menuItem}
+          testID="bottom-sheet-options-versions"
         />
       )}
       <Divider />
@@ -71,6 +74,7 @@ export const BottomSheetOptions = ({
         onPress={handleUpdatePress}
         title="Update"
         style={styles.menuItem}
+        testID="bottom-sheet-options-update"
       />
       <Divider />
       <Menu.Item
@@ -78,6 +82,7 @@ export const BottomSheetOptions = ({
         onPress={onDeletePress}
         title="Delete"
         style={styles.menuItem}
+        testID="bottom-sheet-options-delete"
       />
       <Divider />
       <Menu.Item
@@ -86,6 +91,7 @@ export const BottomSheetOptions = ({
         title="Permanently delete"
         style={styles.menuItem}
         titleStyle={styles.permanentDeleteItem}
+        testID="bottom-sheet-options-permanent-delete"
       />
     </BottomSheetContentWrapper>
   );
