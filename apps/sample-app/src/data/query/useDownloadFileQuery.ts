@@ -47,6 +47,7 @@ const downloadFile = async (
     await storageClient.downloadFile(file, saveDirectory);
   }
 
+  // On iOS, we expose the app's document directory to the user.
   if (Platform.OS === 'android') {
     await copyFileToDownloads(fileName, filePath);
   }
