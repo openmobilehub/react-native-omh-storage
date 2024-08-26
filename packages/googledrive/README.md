@@ -18,7 +18,7 @@
 
 ## Prerequisites
 
-Each plugin requires you to follow the [iOS](/getting-started#ios-configuration) and [Android](/getting-started#android-configuration) configuration prior to interacting with it. Additionally, for Google Drive integration, you must have the [`@openmobilehub/auth-google`](https://www.npmjs.com/package/@openmobilehub/auth-google) library installed and [configured](https://openmobilehub.github.io/react-native-omh-auth/docs/google).
+Each plugin requires you to follow the [iOS](https://openmobilehub.github.io) and [Android](https://openmobilehub.github.io) configuration prior to interacting with it. Additionally, for Google Drive integration, you must have the [`@openmobilehub/auth-google`](https://www.npmjs.com/package/@openmobilehub/auth-google) library installed and [configured](https://openmobilehub.github.io/react-native-omh-auth/docs/google).
 
 ## Installation
 
@@ -76,7 +76,7 @@ const googleDriveStorageClient = new GoogleDriveStorageClient(GoogleAuthClient);
 
 ### Other methods
 
-Interacting with the Google Drive storage provider follows the same pattern as other storage providers since they all implement the [`IStorageClient`](/api/interfaces/openmobilehub_storage_core.IStorageClient#methods) interface. This uniformity ensures consistent functionality across different storage providers, so you won’t need to learn new methods regardless of the storage provider you choose! For a comprehensive list of available methods, refer to the [Getting Started](/getting-started) guide.
+Interacting with the Google Drive storage provider follows the same pattern as other storage providers since they all implement the [`IStorageClient`](https://openmobilehub.github.io) interface. This uniformity ensures consistent functionality across different storage providers, so you won’t need to learn new methods regardless of the storage provider you choose! For a comprehensive list of available methods, refer to the [Getting Started](https://openmobilehub.github.io) guide.
 
 :::warning[CAVEATS]
 
