@@ -64,8 +64,8 @@ export class DropboxStorageRepository {
     });
   }
 
-  async downloadFile(file: StorageEntity) {
-    return this.apiService.downloadFile(file.name, file.id);
+  async downloadFile(file: StorageEntity, saveDirectory: string) {
+    return this.apiService.downloadFile(file.name, file.id, saveDirectory);
   }
 
   async localFileUpload(file: LocalFile, folderId: string) {
@@ -463,7 +463,15 @@ export class DropboxStorageRepository {
     return response.data.entries.map(mapFileVersionRemoteToFileVersion);
   }
 
-  async downloadFileVersion(file: StorageEntity, versionId: string) {
-    return this.apiService.downloadFile(file.name, `rev:${versionId}`);
+  async downloadFileVersion(
+    file: StorageEntity,
+    versionId: string,
+    saveDirectory: string
+  ) {
+    return this.apiService.downloadFile(
+      file.name,
+      `rev:${versionId}`,
+      saveDirectory
+    );
   }
 }

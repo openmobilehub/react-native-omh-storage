@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { FlatList, View } from 'react-native';
 
 import { File, StorageEntity } from '@openmobilehub/storage-core';
@@ -11,9 +11,10 @@ import { useDebounce } from 'use-debounce';
 import { FileListItem } from '@/components/FileListItem';
 import { FullScreenEmptyState } from '@/components/fullScreenEmptyState';
 import { FullScreenLoadingState } from '@/components/fullScreenLoadingState';
+import { useSnackbar } from '@/contexts/snackbar/SnackbarContent';
 import { useRequireStorageClient } from '@/contexts/storage/useRequireStorageClient';
 import { useFileListQuery } from '@/data/query/fileListQuery';
-import { useDownloadFileQuery } from '@/data/query/useDownloadFileQuery';
+import { useDownloadFileMutation } from '@/data/query/useDownloadFileQuery';
 import { useSearchFilesQuery } from '@/data/query/useSearchFilesQuery';
 import { type RootStackParamList } from '@/navigation/RootNavigationContainer';
 
@@ -26,6 +27,8 @@ type SignedInNavigationProp = Props['navigation'];
 
 export const FileViewerScreen = () => {
   const insets = useSafeAreaInsets();
+
+  const { showSnackbar } = useSnackbar();
 
   const route = useRoute<SignedInRouteProp>();
   const navigation = useNavigation<SignedInNavigationProp>();
@@ -42,24 +45,27 @@ export const FileViewerScreen = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearchQuery] = useDebounce(searchQuery, 300);
 
-  const [selectedFile, setSelectedFile] = useState<StorageEntity>();
-  const downloadFileQuery = useDownloadFileQuery(storageClient, selectedFile);
+  const downloadFileMutation = useDownloadFileMutation(storageClient);
   const searchFilesQuery = useSearchFilesQuery(
     storageClient,
     debouncedSearchQuery,
     debouncedSearchQuery.length > 0
   );
 
-  useEffect(() => {
-    if (downloadFileQuery.isSuccess || downloadFileQuery.isError) {
-      // Reset the selected file after the download is done, so the user can download the same file again
-      setSelectedFile(undefined);
-    }
-  }, [downloadFileQuery.isSuccess, downloadFileQuery.isError]);
+  const onDownloadFile = (file: StorageEntity) => {
+    downloadFileMutation.mutate(file, {
+      onSuccess: () => {
+        showSnackbar(`${file.name} file downloaded successfully!`);
+      },
+      onError: () => {
+        showSnackbar(`Failed to download ${file.name} file!`);
+      },
+    });
+  };
 
   const handleStorageEntityPress = (file: StorageEntity) => {
     if (file instanceof File) {
-      setSelectedFile(file);
+      onDownloadFile(file);
     } else {
       setSearchQuery('');
       navigation.push('FileViewer', {
@@ -78,7 +84,7 @@ export const FileViewerScreen = () => {
   }, [fileListQuery.isLoading, searchFilesQuery.isLoading]);
 
   const renderLoadingState = () => {
-    if (downloadFileQuery.isLoading) {
+    if (downloadFileMutation.isPending) {
       return (
         <Portal>
           <FullScreenLoadingState withBackground />

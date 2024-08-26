@@ -38,10 +38,10 @@ export class OneDriveStorageRepository {
     return response.data.value.map(mapDriveItemToStorageEntity);
   }
 
-  async downloadFile(file: StorageEntity) {
+  async downloadFile(file: StorageEntity, saveDirectory: string) {
     const downloadUrl = await this.apiService.getDownloadFileUrl(file.id);
 
-    return this.apiService.downloadFile(downloadUrl, file.name);
+    return this.apiService.downloadFile(downloadUrl, file.name, saveDirectory);
   }
 
   async localFileUpload(file: LocalFile, folderId: string) {
@@ -104,13 +104,17 @@ export class OneDriveStorageRepository {
     );
   }
 
-  async downloadFileVersion(file: StorageEntity, versionId: string) {
+  async downloadFileVersion(
+    file: StorageEntity,
+    versionId: string,
+    saveDirectory: string
+  ) {
     const downloadUrl = await this.apiService.getDownloadVersionFileUrl(
       file.id,
       versionId
     );
 
-    return this.apiService.downloadFile(downloadUrl, file.name);
+    return this.apiService.downloadFile(downloadUrl, file.name, saveDirectory);
   }
 
   private async renameFile(

@@ -42,6 +42,16 @@ class StorageDropboxModule(
     moduleImpl.updateFile(fileName, uri, fileId, promise)
   }
 
+  @ReactMethod
+  fun downloadFile(fileId: String, filePath: String, promise: Promise) {
+    moduleImpl.downloadFile(fileId, filePath, promise)
+  }
+  
+  @ReactMethod
+  fun exportFile(fileId: String, mimeType: String, filePath: String, promise: Promise) {
+    moduleImpl.exportFile(fileId, mimeType, filePath, promise)
+  }
+
   override fun getName() = NAME
 
   companion object {

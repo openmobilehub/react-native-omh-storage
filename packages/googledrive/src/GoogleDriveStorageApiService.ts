@@ -6,7 +6,7 @@ import {
   type IStorageAuthClient,
   type LocalFile,
 } from '@openmobilehub/storage-core';
-import { Dirs, FileSystem } from 'react-native-file-access';
+import { FileSystem } from 'react-native-file-access';
 
 import type { CommonRequestBody } from './data/body/CommonRequestBody';
 import type { CreateFileRequestBody } from './data/body/CreateFileRequestBody';
@@ -87,17 +87,18 @@ export class GoogleDriveStorageApiService {
   async exportFile(
     file: StorageEntity,
     mimeType: string,
-    fileExtension: string
+    fileExtension: string,
+    saveDirectory: string
   ) {
     const accessToken = await this.authClient.getAccessToken();
+
     if (!accessToken) {
       throw new InvalidCredentialsException('Access token is not available');
     }
 
-    const ext = !file?.extension ? `.${fileExtension}` : '';
-    const filePath = Dirs.DocumentDir + `/${file.name}${ext}`;
+    const filePath = `${saveDirectory}/${file.name}.${fileExtension}`;
 
-    return FileSystem.fetch(
+    const fileResponse = await FileSystem.fetch(
       `${BASE_URL}${FILES_PARTICLE}/${file.id}?mimeType=${mimeType}`,
       {
         path: filePath,
@@ -107,31 +108,44 @@ export class GoogleDriveStorageApiService {
         },
       }
     );
+
+    if (!fileResponse.ok) {
+      throw new ApiException(fileResponse.statusText, fileResponse.status);
+    }
   }
 
   private async downloadFromUrl(url: string, filePath: string) {
     const accessToken = await this.authClient.getAccessToken();
+
     if (!accessToken) {
       throw new InvalidCredentialsException('Access token is not available');
     }
 
-    return FileSystem.fetch(url, {
+    const fileResponse = await FileSystem.fetch(url, {
       path: filePath,
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
+
+    if (!fileResponse.ok) {
+      throw new ApiException(fileResponse.statusText, fileResponse.status);
+    }
   }
 
-  async downloadFile(file: StorageEntity) {
+  async downloadFile(file: StorageEntity, saveDirectory: string) {
     const url = `${BASE_URL}${FILES_PARTICLE}/${file.id}?alt=media`;
-    const filePath = `${Dirs.DocumentDir}/${file.name}`;
+    const filePath = `${saveDirectory}/${file.name}`;
 
     return this.downloadFromUrl(url, filePath);
   }
 
-  async downloadFileVersion(file: StorageEntity, versionId: string) {
+  async downloadFileVersion(
+    file: StorageEntity,
+    versionId: string,
+    saveDirectory: string
+  ) {
     if (isGoogleWorkspaceFile(file.mimeType)) {
       throw new DeveloperErrorException(
         'Cannot download versions of Google Workspace files'
@@ -139,7 +153,7 @@ export class GoogleDriveStorageApiService {
     }
 
     const url = `${BASE_URL}${FILES_PARTICLE}/${file.id}/revisions/${versionId}?alt=media`;
-    const filePath = `${Dirs.DocumentDir}/${file.name}`;
+    const filePath = `${saveDirectory}/${file.name}`;
 
     return this.downloadFromUrl(url, filePath);
   }
