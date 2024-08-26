@@ -99,6 +99,7 @@ export const FileListItem = ({ file, onPress }: Props) => {
           resizeMode="contain"
           source={{ uri: icon }}
           style={[props.style, styles.leftIcon]}
+          testID="file-list-item-icon"
         />
       );
     },
@@ -112,6 +113,7 @@ export const FileListItem = ({ file, onPress }: Props) => {
           {...props}
           icon="dots-vertical"
           onPress={handleRightIconPress}
+          testID="file-list-item-options"
         />
       );
     },
@@ -125,6 +127,7 @@ export const FileListItem = ({ file, onPress }: Props) => {
         title={file.name}
         left={renderLeftIcon}
         right={renderRightIcon}
+        testID="file-list-item"
       />
       <BottomSheet ref={bottomSheetModalRef}>
         {
