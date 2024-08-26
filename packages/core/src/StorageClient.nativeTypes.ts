@@ -51,13 +51,16 @@ export interface NativeStorageClient {
     name: string,
     mimeType: string,
     parentId: string
-  ): Promise<NativeStorageEntity>;
+  ): Promise<NativeStorageEntity> | undefined;
   createFileWithExtension(
     name: string,
     fileExtension: string,
     parentId: string
-  ): Promise<NativeStorageEntity>;
-  createFolder(name: string, parentId: string): Promise<NativeStorageEntity>;
+  ): Promise<NativeStorageEntity | undefined>;
+  createFolder(
+    name: string,
+    parentId: string
+  ): Promise<NativeStorageEntity | undefined>;
 }
 
 export type NativeStorageException = Error & {

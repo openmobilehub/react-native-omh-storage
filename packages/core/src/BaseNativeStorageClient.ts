@@ -73,14 +73,18 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
     mimeType: string,
     parentId?: string
   ) {
-    const nativeStorageEntity =
-      await this.nativeStorageModule.createFileWithMimeType(
-        name,
-        mimeType,
-        parentId ?? this.rootFolderId
-      );
+    try {
+      const nativeStorageEntity =
+        await this.nativeStorageModule.createFileWithMimeType(
+          name,
+          mimeType,
+          parentId ?? this.rootFolderId
+        );
 
-    return mapNativeStorageEntity(nativeStorageEntity);
+      return nativeStorageEntity && mapNativeStorageEntity(nativeStorageEntity);
+    } catch (exception) {
+      return Promise.reject(mapNativeException(exception));
+    }
   }
 
   async createFileWithExtension(
@@ -88,23 +92,31 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
     fileExtension: string,
     parentId?: string
   ) {
-    const nativeStorageEntity =
-      await this.nativeStorageModule.createFileWithExtension(
-        name,
-        fileExtension,
-        parentId ?? this.rootFolderId
-      );
+    try {
+      const nativeStorageEntity =
+        await this.nativeStorageModule.createFileWithExtension(
+          name,
+          fileExtension,
+          parentId ?? this.rootFolderId
+        );
 
-    return mapNativeStorageEntity(nativeStorageEntity);
+      return nativeStorageEntity && mapNativeStorageEntity(nativeStorageEntity);
+    } catch (exception) {
+      return Promise.reject(mapNativeException(exception));
+    }
   }
 
   async createFolder(name: string, parentId?: string) {
-    const nativeStorageEntity = await this.nativeStorageModule.createFolder(
-      name,
-      parentId ?? this.rootFolderId
-    );
+    try {
+      const nativeStorageEntity = await this.nativeStorageModule.createFolder(
+        name,
+        parentId ?? this.rootFolderId
+      );
 
-    return mapNativeStorageEntity(nativeStorageEntity);
+      return nativeStorageEntity && mapNativeStorageEntity(nativeStorageEntity);
+    } catch (exception) {
+      return Promise.reject(mapNativeException(exception));
+    }
   }
 
   async localFileUpload(file: LocalFile, folderId: string) {

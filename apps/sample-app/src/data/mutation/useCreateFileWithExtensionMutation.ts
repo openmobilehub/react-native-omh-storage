@@ -18,11 +18,13 @@ export const useCreateFileWithExtensionMutation = (
 ) => {
   const queryClient = useQueryClient();
 
-  return useMutation<StorageEntity, StorageException, MutationData>({
-    mutationFn: ({ name, fileExtension, parentId }) =>
-      storageClient.createFileWithExtension(name, fileExtension, parentId),
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: [QK_LIST_FILES] });
-    },
-  });
+  return useMutation<StorageEntity | undefined, StorageException, MutationData>(
+    {
+      mutationFn: ({ name, fileExtension, parentId }) =>
+        storageClient.createFileWithExtension(name, fileExtension, parentId),
+      onSettled: () => {
+        queryClient.invalidateQueries({ queryKey: [QK_LIST_FILES] });
+      },
+    }
+  );
 };

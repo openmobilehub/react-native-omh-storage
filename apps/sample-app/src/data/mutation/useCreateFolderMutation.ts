@@ -15,11 +15,13 @@ type MutationData = {
 export const useCreateFolderMutation = (storageClient: IStorageClient) => {
   const queryClient = useQueryClient();
 
-  return useMutation<StorageEntity, StorageException, MutationData>({
-    mutationFn: ({ name, parentId }) =>
-      storageClient.createFolder(name, parentId),
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: [QK_LIST_FILES] });
-    },
-  });
+  return useMutation<StorageEntity | undefined, StorageException, MutationData>(
+    {
+      mutationFn: ({ name, parentId }) =>
+        storageClient.createFolder(name, parentId),
+      onSettled: () => {
+        queryClient.invalidateQueries({ queryKey: [QK_LIST_FILES] });
+      },
+    }
+  );
 };
