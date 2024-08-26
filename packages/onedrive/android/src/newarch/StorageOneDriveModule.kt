@@ -50,6 +50,16 @@ class StorageOneDriveModule(
   override fun exportFile(fileId: String, mimeType: String, filePath: String, promise: Promise) {
     moduleImpl.exportFile(fileId, mimeType, filePath, promise)
   }
+  
+  @ReactMethod
+  override fun getFileVersions(fileId: String, promise: Promise) {
+    moduleImpl.getFileVersions(fileId, promise)
+  }
+
+  @ReactMethod
+  override fun downloadFileVersion(fileId: String, versionId: String, filePath: String, promise: Promise) {
+    moduleImpl.downloadFileVersion(fileId, versionId, filePath, promise)
+  }
 
   override fun getName() = NAME
 

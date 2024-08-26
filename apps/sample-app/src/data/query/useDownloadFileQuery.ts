@@ -12,6 +12,10 @@ import { FileType } from '@/types/FileTypes';
 import copyFileToDownloads from '@/utils/copyFileToDownloads';
 import { normalizeFileType } from '@/utils/normalizeFileType';
 
+type MutationData = {
+  file: StorageEntity;
+};
+
 const downloadFile = async (
   storageClient: IStorageClient,
   file: StorageEntity
@@ -43,13 +47,14 @@ const downloadFile = async (
     await storageClient.downloadFile(file, saveDirectory);
   }
 
+  // On iOS, we expose the app's document directory to the user.
   if (Platform.OS === 'android') {
-    copyFileToDownloads(fileName, filePath);
+    await copyFileToDownloads(fileName, filePath);
   }
 };
 
 export const useDownloadFileMutation = (storageClient: IStorageClient) => {
-  return useMutation<void, StorageException, StorageEntity>({
-    mutationFn: (file) => downloadFile(storageClient, file),
+  return useMutation<void, StorageException, MutationData>({
+    mutationFn: ({ file }) => downloadFile(storageClient, file),
   });
 };

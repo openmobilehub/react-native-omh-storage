@@ -15,6 +15,12 @@ type NativeStorageEntity = {
   size?: number;
 };
 
+type NativeFileVersion = {
+  fileId: string;
+  versionId: string;
+  lastModified: Double;
+};
+
 export type NativeStorageEntityMetadata = {
   entity: NativeStorageEntity;
   originalMetadata: string;
@@ -37,6 +43,12 @@ export interface Spec extends TurboModule {
   ): Promise<NativeStorageEntity>;
   downloadFile(fileId: string, filePath: string): Promise<void>;
   exportFile(fileId: string, mimeType: string, filePath: string): Promise<void>;
+  getFileVersions(fileId: string): Promise<NativeFileVersion[]>;
+  downloadFileVersion(
+    fileId: string,
+    versionId: string,
+    filePath: string
+  ): Promise<void>;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>('StorageDropboxModule');

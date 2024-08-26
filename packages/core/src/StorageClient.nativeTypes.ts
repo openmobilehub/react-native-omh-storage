@@ -18,6 +18,12 @@ export type NativeStorageEntityMetadata = {
   originalMetadata: string;
 };
 
+export type NativeFileVersion = {
+  fileId: string;
+  versionId: string;
+  lastModified: Double;
+};
+
 export interface NativeStorageClient {
   initializeStorageClient(): void;
   listFiles(folderId: string): Promise<NativeStorageEntity[]>;
@@ -35,6 +41,12 @@ export interface NativeStorageClient {
   ): Promise<NativeStorageEntity>;
   downloadFile(fileId: string, filePath: string): Promise<void>;
   exportFile(fileId: string, mimeType: string, filePath: string): Promise<void>;
+  getFileVersions(fileId: string): Promise<NativeFileVersion[]>;
+  downloadFileVersion(
+    fileId: string,
+    versionId: string,
+    filePath: string
+  ): Promise<void>;
 }
 
 export type NativeStorageException = Error & {
