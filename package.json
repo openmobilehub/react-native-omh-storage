@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "sample-app": "yarn workspace react-native-omh-storage-sample-app",
+    "docs": "yarn workspace react-native-omh-storage-docs",
     "test": "yarn workspaces foreach -A -p run test",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "typecheck": "yarn workspaces foreach -A -p run typecheck",
@@ -30,7 +31,8 @@
   },
   "workspaces": [
     "apps/sample-app",
-    "packages/*"
+    "packages/*",
+    "docs"
   ],
   "packageManager": "yarn@3.6.1",
   "commitlint": {
