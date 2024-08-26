@@ -111,7 +111,7 @@ class StorageCoreModuleImpl(
     CoroutineScope(Dispatchers.IO).launch {
       try {
         val files = storageClient.search(query)
-        promise.resolve(files.toWritableArray())
+        promise.resolve(files.toWritableStorageEntityArray())
       } catch (e: Exception) {
         promise.reject(e, ErrorUtils.createPayload(e))
       }
