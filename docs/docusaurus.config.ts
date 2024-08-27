@@ -64,12 +64,12 @@ const config: Config = {
           position: 'left',
           label: 'Getting started',
         },
-        // {
-        //   type: 'docSidebar',
-        //   sidebarId: 'apiSidebar',
-        //   position: 'left',
-        //   label: 'API',
-        // },
+        {
+          type: 'docSidebar',
+          sidebarId: 'apiSidebar',
+          position: 'left',
+          label: 'API',
+        },
         {
           type: 'docSidebar',
           sidebarId: 'contributingSidebar',
@@ -95,15 +95,15 @@ const config: Config = {
             },
           ],
         },
-        // {
-        //   title: 'API Reference',
-        //   items: [
-        //     {
-        //       label: 'API Reference',
-        //       to: '/docs/api',
-        //     },
-        //   ],
-        // },
+        {
+          title: 'API Reference',
+          items: [
+            {
+              label: 'API Reference',
+              to: '/docs/api',
+            },
+          ],
+        },
         {
           title: 'Community',
           items: [
@@ -142,6 +142,21 @@ const config: Config = {
       darkTheme: prismThemes.dracula,
     },
   } satisfies Preset.ThemeConfig,
+  plugins: [
+    [
+      'docusaurus-plugin-typedoc',
+      {
+        entryPoints: [
+          '../packages/core/src/index.tsx',
+          '../packages/googledrive/src/index.tsx',
+          '../packages/onedrive/src/index.tsx',
+          '../packages/dropbox/src/index.tsx',
+        ],
+        tsconfig: '../package-tsconfig.json',
+        skipErrorChecking: true,
+      },
+    ],
+  ],
 };
 
 export default config;
