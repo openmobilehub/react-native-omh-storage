@@ -38,6 +38,7 @@ export const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
         backdropComponent={BottomSheetBackdrop}
         enableDynamicSizing={enableDynamicSizing}
         maxDynamicContentSize={maxDynamicContentSize}
+        accessible={false}
       >
         <BottomSheetScrollView
           keyboardShouldPersistTaps="handled"
