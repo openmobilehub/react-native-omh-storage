@@ -10,6 +10,7 @@ import com.openmobilehub.reactnative.storage.core.extensions.toWritableFileVersi
 import com.openmobilehub.reactnative.storage.core.extensions.toWritableMap
 import com.openmobilehub.reactnative.storage.core.extensions.toWritablePermissionArray
 import com.openmobilehub.reactnative.storage.core.extensions.toWritableStorageEntityArray
+import com.openmobilehub.reactnative.storage.core.mappers.mapToCreatePermission
 import com.openmobilehub.reactnative.storage.core.utils.ErrorUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -184,7 +185,12 @@ class StorageCoreModuleImpl(
     }
   }
 
-  fun createFileWithExtension(name: String, fileExtension: String, parentId: String, promise: Promise) {
+  fun createFileWithExtension(
+    name: String,
+    fileExtension: String,
+    parentId: String,
+    promise: Promise
+  ) {
     CoroutineScope(Dispatchers.IO).launch {
       try {
         val file = storageClient.createFileWithExtension(name, fileExtension, parentId)
@@ -213,6 +219,62 @@ class StorageCoreModuleImpl(
       try {
         val permissions = storageClient.getFilePermissions(fileId)
         promise.resolve(permissions.toWritablePermissionArray())
+      } catch (e: Exception) {
+        promise.reject(e, ErrorUtils.createPayload(e))
+      }
+    }
+  }
+
+  fun getWebUrl(fileId: String, promise: Promise) {
+    CoroutineScope(Dispatchers.IO).launch {
+      try {
+        val webUrl = storageClient.getWebUrl(fileId)
+        promise.resolve(webUrl)
+      } catch (e: Exception) {
+        promise.reject(e, ErrorUtils.createPayload(e))
+      }
+    }
+  }
+
+  fun createPermission(
+    fileId: String,
+    role: String,
+    sendNotificationEmail: Boolean,
+    recipientType: String,
+    emailMessage: String?,
+    recipientEmail: String?,
+    recipientDomain: String?,
+    recipientObjectId: String?,
+    recipientAlias: String?,
+    promise: Promise
+  ) {
+    CoroutineScope(Dispatchers.IO).launch {
+      try {
+        val permission = storageClient.createPermission(
+          fileId,
+          mapToCreatePermission(
+            role,
+            recipientType,
+            recipientEmail,
+            recipientDomain,
+            recipientObjectId,
+            recipientAlias,
+          ),
+          sendNotificationEmail,
+          emailMessage
+        )
+        promise.resolve(permission?.toWritableMap())
+      } catch (e: Exception) {
+        promise.reject(e, ErrorUtils.createPayload(e))
+      }
+    }
+  }
+
+  fun deletePermission(fileId: String, permissionId: String, promise: Promise) {
+    CoroutineScope(Dispatchers.IO).launch {
+      try {
+        storageClient.deletePermission(fileId, permissionId)
+        promise.resolve(null)
       } catch (e: Exception) {
         promise.reject(e, ErrorUtils.createPayload(e))
       }

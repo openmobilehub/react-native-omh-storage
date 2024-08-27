@@ -75,7 +75,12 @@ class StorageGoogleDriveModuleImpl(private val reactContext: ReactApplicationCon
     moduleImpl.createFileWithMimeType(name, mimeType, parentId, promise)
   }
 
-  fun createFileWithExtension(name: String, fileExtension: String, parentId: String, promise: Promise) {
+  fun createFileWithExtension(
+    name: String,
+    fileExtension: String,
+    parentId: String,
+    promise: Promise
+  ) {
     moduleImpl.createFileWithExtension(name, fileExtension, parentId, promise)
   }
 
@@ -85,6 +90,40 @@ class StorageGoogleDriveModuleImpl(private val reactContext: ReactApplicationCon
 
   fun getPermissions(fileId: String, promise: Promise) {
     moduleImpl.getPermissions(fileId, promise)
+  }
+
+  fun getWebUrl(fileId: String, promise: Promise) {
+    moduleImpl.getWebUrl(fileId, promise)
+  }
+
+  fun createPermission(
+    fileId: String,
+    role: String,
+    sendNotificationEmail: Boolean,
+    recipientType: String,
+    emailMessage: String?,
+    recipientEmail: String?,
+    recipientDomain: String?,
+    recipientObjectId: String?,
+    recipientAlias: String?,
+    promise: Promise
+  ) {
+    moduleImpl.createPermission(
+      fileId,
+      role,
+      sendNotificationEmail,
+      recipientType,
+      emailMessage,
+      recipientEmail,
+      recipientDomain,
+      recipientObjectId,
+      recipientAlias,
+      promise,
+    )
+  }
+
+  fun deletePermission(fileId: String, permissionId: String, promise: Promise) {
+    moduleImpl.deletePermission(fileId, permissionId, promise)
   }
 
   companion object {

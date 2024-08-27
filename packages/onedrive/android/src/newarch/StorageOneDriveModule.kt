@@ -81,6 +81,43 @@ class StorageOneDriveModule(
     moduleImpl.getPermissions(fileId, promise)
   }
 
+  @ReactMethod
+  override fun getWebUrl(fileId: String, promise: Promise) {
+    moduleImpl.getWebUrl(fileId, promise)
+  }
+
+  @ReactMethod
+  override fun createPermission(
+    fileId: String,
+    role: String,
+    sendNotificationEmail: Boolean,
+    recipientType: String,
+    emailMessage: String?,
+    recipientEmail: String?,
+    recipientDomain: String?,
+    recipientObjectId: String?,
+    recipientAlias: String?,
+    promise: Promise
+  ) {
+    moduleImpl.createPermission(
+      fileId,
+      role,
+      sendNotificationEmail,
+      recipientType,
+      emailMessage,
+      recipientEmail,
+      recipientDomain,
+      recipientObjectId,
+      recipientAlias,
+      promise,
+    )
+  }
+
+  @ReactMethod
+  override fun deletePermission(fileId: String, permissionId: String, promise: Promise) {
+    moduleImpl.deletePermission(fileId, permissionId, promise)
+  }
+
   override fun getName() = NAME
 
   companion object {

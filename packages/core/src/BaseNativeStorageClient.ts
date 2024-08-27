@@ -1,6 +1,6 @@
 import {
   mapNativeFileVersion,
-  mapNativePermissions,
+  mapNativePermission,
   mapNativeStorageEntity,
 } from './mappers';
 import {
@@ -150,15 +150,18 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
       const nativePermissions =
         await this.nativeStorageModule.getPermissions(fileId);
 
-      return nativePermissions.map(mapNativePermissions);
+      return nativePermissions.map(mapNativePermission);
     } catch (exception) {
       return Promise.reject(mapNativeException(exception));
     }
   }
 
   async getWebUrl(fileId: string) {
-    //TODO: [Fallback] Replace with native implementation
-    return this.fallbackClient.getWebUrl(fileId);
+    try {
+      return await this.nativeStorageModule.getWebUrl(fileId);
+    } catch (exception) {
+      return Promise.reject(mapNativeException(exception));
+    }
   }
 
   async createPermission(
@@ -168,19 +171,45 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
     sendNotificationEmail: boolean,
     emailMessage?: string
   ) {
-    //TODO: [Fallback] Replace with native implementation
-    return this.fallbackClient.createPermission(
-      fileId,
-      role,
-      recipient,
-      sendNotificationEmail,
-      emailMessage
-    );
+    try {
+      const recipientEmail =
+        recipient.type === 'user' || recipient.type === 'group'
+          ? recipient.email
+          : undefined;
+      const recipientDomain =
+        recipient.type === 'domain' ? recipient.domain : undefined;
+      const recipientObjectId =
+        recipient.type === 'objectId' ? recipient.objectId : undefined;
+      const recipientAlias =
+        recipient.type === 'alias' ? recipient.alias : undefined;
+
+      const nativePermission = await this.nativeStorageModule.createPermission(
+        fileId,
+        role,
+        sendNotificationEmail,
+        recipient.type,
+        emailMessage,
+        recipientEmail,
+        recipientDomain,
+        recipientObjectId,
+        recipientAlias
+      );
+
+      return nativePermission && mapNativePermission(nativePermission);
+    } catch (exception) {
+      return Promise.reject(mapNativeException(exception));
+    }
   }
 
   async deletePermission(fileId: string, permissionId: string) {
-    //TODO: [Fallback] Replace with native implementation
-    return this.fallbackClient.deletePermission(fileId, permissionId);
+    try {
+      return await this.nativeStorageModule.deletePermission(
+        fileId,
+        permissionId
+      );
+    } catch (exception) {
+      return Promise.reject(mapNativeException(exception));
+    }
   }
 
   async updatePermission(

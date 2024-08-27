@@ -12,7 +12,7 @@ import {
 
 import type { NativePermission } from '../StorageClient.nativeTypes';
 
-export const mapNativePermissions = (
+export const mapNativePermission = (
   nativePermission: NativePermission
 ): Permission => {
   const role = mapNativeRole(nativePermission.role);

@@ -57,17 +57,32 @@ class StorageDropboxModule(
   }
 
   @ReactMethod
-  override fun downloadFileVersion(fileId: String, versionId: String, filePath: String, promise: Promise) {
+  override fun downloadFileVersion(
+    fileId: String,
+    versionId: String,
+    filePath: String,
+    promise: Promise
+  ) {
     moduleImpl.downloadFileVersion(fileId, versionId, filePath, promise)
   }
 
   @ReactMethod
-  override fun createFileWithMimeType(name: String, mimeType: String, parentId: String, promise: Promise) {
+  override fun createFileWithMimeType(
+    name: String,
+    mimeType: String,
+    parentId: String,
+    promise: Promise
+  ) {
     moduleImpl.createFileWithMimeType(name, mimeType, parentId, promise)
   }
 
   @ReactMethod
-  override fun createFileWithExtension(name: String, fileExtension: String, parentId: String, promise: Promise) {
+  override fun createFileWithExtension(
+    name: String,
+    fileExtension: String,
+    parentId: String,
+    promise: Promise
+  ) {
     moduleImpl.createFileWithExtension(name, fileExtension, parentId, promise)
   }
 
@@ -79,6 +94,43 @@ class StorageDropboxModule(
   @ReactMethod
   override fun getPermissions(fileId: String, promise: Promise) {
     moduleImpl.getPermissions(fileId, promise)
+  }
+
+  @ReactMethod
+  override fun getWebUrl(fileId: String, promise: Promise) {
+    moduleImpl.getWebUrl(fileId, promise)
+  }
+
+  @ReactMethod
+  override fun createPermission(
+    fileId: String,
+    role: String,
+    sendNotificationEmail: Boolean,
+    recipientType: String,
+    emailMessage: String?,
+    recipientEmail: String?,
+    recipientDomain: String?,
+    recipientObjectId: String?,
+    recipientAlias: String?,
+    promise: Promise
+  ) {
+    moduleImpl.createPermission(
+      fileId,
+      role,
+      sendNotificationEmail,
+      recipientType,
+      emailMessage,
+      recipientEmail,
+      recipientDomain,
+      recipientObjectId,
+      recipientAlias,
+      promise,
+    )
+  }
+
+  @ReactMethod
+  override fun deletePermission(fileId: String, permissionId: String, promise: Promise) {
+    moduleImpl.deletePermission(fileId, permissionId, promise)
   }
 
   override fun getName() = NAME

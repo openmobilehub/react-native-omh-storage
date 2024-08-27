@@ -80,6 +80,19 @@ export interface NativeStorageClient {
     parentId: string
   ): Promise<NativeStorageEntity | undefined>;
   getPermissions(fileId: string): Promise<NativePermission[]>;
+  getWebUrl(fileId: string): Promise<string>;
+  createPermission(
+    fileId: string,
+    role: string,
+    sendNotificationEmail: boolean,
+    recipientType: string,
+    emailMessage?: string,
+    recipientEmail?: string,
+    recipientDomain?: string,
+    recipientObjectId?: string,
+    recipientAlias?: string
+  ): Promise<NativePermission | undefined>;
+  deletePermission(fileId: string, permissionId: string): Promise<void>;
 }
 
 export type NativeStorageException = Error & {

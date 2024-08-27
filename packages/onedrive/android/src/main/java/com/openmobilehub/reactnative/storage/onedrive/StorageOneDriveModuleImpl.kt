@@ -83,6 +83,40 @@ class StorageOneDriveModuleImpl(private val reactContext: ReactApplicationContex
     moduleImpl.getPermissions(fileId, promise)
   }
 
+  fun getWebUrl(fileId: String, promise: Promise) {
+    moduleImpl.getWebUrl(fileId, promise)
+  }
+
+  fun createPermission(
+    fileId: String,
+    role: String,
+    sendNotificationEmail: Boolean,
+    recipientType: String,
+    emailMessage: String?,
+    recipientEmail: String?,
+    recipientDomain: String?,
+    recipientObjectId: String?,
+    recipientAlias: String?,
+    promise: Promise
+  ) {
+    moduleImpl.createPermission(
+      fileId,
+      role,
+      sendNotificationEmail,
+      recipientType,
+      emailMessage,
+      recipientEmail,
+      recipientDomain,
+      recipientObjectId,
+      recipientAlias,
+      promise,
+    )
+  }
+
+  fun deletePermission(fileId: String, permissionId: String, promise: Promise) {
+    moduleImpl.deletePermission(fileId, permissionId, promise)
+  }
+
   companion object {
     const val NAME = "StorageOneDriveModule"
   }
