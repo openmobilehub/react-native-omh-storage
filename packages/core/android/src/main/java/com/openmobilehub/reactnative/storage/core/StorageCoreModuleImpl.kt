@@ -207,6 +207,28 @@ class StorageCoreModuleImpl(
     }
   }
 
+  fun deleteFile(fileId: String, promise: Promise) {
+    CoroutineScope(Dispatchers.IO).launch {
+      try {
+        storageClient.deleteFile(fileId)
+        promise.resolve(null)
+      } catch (e: Exception) {
+        promise.reject(e, ErrorUtils.createPayload(e))
+      }
+    }
+  }
+
+  fun permanentlyDeleteFile(fileId: String, promise: Promise) {
+    CoroutineScope(Dispatchers.IO).launch {
+      try {
+        storageClient.permanentlyDeleteFile(fileId)
+        promise.resolve(null)
+      } catch (e: Exception) {
+        promise.reject(e, ErrorUtils.createPayload(e))
+      }
+    }
+  }
+
   private fun writeToFile(filePath: String, bytes: ByteArray) {
     val file = File(filePath)
 

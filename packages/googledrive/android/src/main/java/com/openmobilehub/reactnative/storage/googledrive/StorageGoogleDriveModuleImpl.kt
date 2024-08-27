@@ -83,6 +83,14 @@ class StorageGoogleDriveModuleImpl(private val reactContext: ReactApplicationCon
     moduleImpl.createFolder(name, parentId, promise)
   }
 
+  fun deleteFile(fileId: String, promise: Promise) {
+    moduleImpl.deleteFile(fileId, promise)
+  }
+
+  fun permanentlyDeleteFile(fileId: String, promise: Promise) {
+    moduleImpl.permanentlyDeleteFile(fileId, promise)
+  }
+
   companion object {
     const val NAME = "StorageGoogleDriveModule"
   }

@@ -25,6 +25,10 @@ object ErrorUtils {
         payload.putString("message", e.message)
       }
 
+      is UnsupportedOperationException -> {
+        payload.putString("type", "UnsupportedOperationException")
+      }
+
       else -> {
         payload.putString("type", "UnknownException")
         payload.putString("message", e.message)
