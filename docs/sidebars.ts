@@ -13,11 +13,10 @@ import type { SidebarsConfig } from '@docusaurus/plugin-content-docs';
 const sidebars: SidebarsConfig = {
   // By default, Docusaurus generates a sidebar from the docs folder structure
   gettingStartedSidebar: [
-    { type: 'doc', id: 'getting-started', label: 'Getting Started' },
-    { type: 'doc', id: 'core', label: 'Core' },
-    { type: 'doc', id: 'googledrive', label: 'Google Drive' },
-    { type: 'doc', id: 'onedrive', label: 'OneDrive' },
-    { type: 'doc', id: 'dropbox', label: 'Dropbox' },
+    { type: 'doc', id: 'getting-started' },
+    { type: 'doc', id: 'googledrive' },
+    { type: 'doc', id: 'onedrive' },
+    { type: 'doc', id: 'dropbox' },
   ],
   apiSidebar: [
     {

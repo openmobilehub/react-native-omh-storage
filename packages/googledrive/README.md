@@ -18,7 +18,13 @@
 
 ## Prerequisites
 
-Each plugin requires you to follow the [iOS](https://openmobilehub.github.io) and [Android](https://openmobilehub.github.io) configuration prior to interacting with it. Additionally, for Google Drive integration, you must have the [`@openmobilehub/auth-google`](https://www.npmjs.com/package/@openmobilehub/auth-google) library installed and [configured](https://openmobilehub.github.io/react-native-omh-auth/docs/google).
+Before starting the integration, make sure the following packages are installed:
+
+- `@openmobilehub/storage-core`
+- `react-native-file-access`
+- `@openmobilehub/auth-google`
+
+For Google Drive integration, you'll also need to make sure that the [`@openmobilehub/auth-google`](https://www.npmjs.com/package/@openmobilehub/auth-google) library is [configured](https://openmobilehub.github.io/react-native-omh-auth/docs/google) properly.
 
 ## Installation
 
@@ -76,13 +82,13 @@ const googleDriveStorageClient = new GoogleDriveStorageClient(GoogleAuthClient);
 
 ### Other methods
 
-Interacting with the Google Drive storage provider follows the same pattern as other storage providers since they all implement the [`IStorageClient`](https://openmobilehub.github.io) interface. This uniformity ensures consistent functionality across different storage providers, so you won’t need to learn new methods regardless of the storage provider you choose! For a comprehensive list of available methods, refer to the [Getting Started](https://openmobilehub.github.io) guide.
+Interacting with the Google Drive storage provider follows the same pattern as other storage providers since they all implement the [`IStorageClient`](https://ideal-doodle-m69lynw.pages.github.io/docs/api/core/src/interfaces/IStorageClient#methods) interface. This uniformity ensures consistent functionality across different storage providers, so you won’t need to learn new methods regardless of the storage provider you choose! For a comprehensive list of available methods, refer to the [Getting Started](https://ideal-doodle-m69lynw.pages.github.io/docs/getting-started) guide.
 
 :::warning[CAVEATS]
 
-> The methods `downloadFile` and `downloadFileVersion` do not support [Google Workspace documents](https://developers.google.com/drive/api/guides/about-files#types:~:text=Google%20Workspace%20document,MIME%20types.) (Google Docs, Google Sheets, and Google Slides). To download Google Workspace documents, please use the `exportFile` method to export the file to a supported format.
+The methods `downloadFile` and `downloadFileVersion` do not support [Google Workspace documents](https://developers.google.com/drive/api/guides/about-files#types:~:text=Google%20Workspace%20document,MIME%20types.) (Google Docs, Google Sheets, and Google Slides). To download Google Workspace documents, please use the `exportFile` method to export the file to a supported format.
 
-> The method `createPermission` will override `sendNotificationEmail` parameter to `true` when creating permission with `owner` role.
+The method `createPermission` will override `sendNotificationEmail` parameter to `true` when creating permission with `owner` role.
 
 :::
 
