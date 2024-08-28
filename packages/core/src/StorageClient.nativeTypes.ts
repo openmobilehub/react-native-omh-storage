@@ -99,7 +99,7 @@ export interface NativeStorageClient {
     fileId: string,
     permissionId: string,
     role: string
-  ): Promise<NativePermission | void>;
+  ): Promise<NativePermission | undefined>;
 }
 
 export type NativeStorageException = Error & {

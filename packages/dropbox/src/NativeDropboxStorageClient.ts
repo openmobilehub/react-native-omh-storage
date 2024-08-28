@@ -101,7 +101,7 @@ export interface Spec extends TurboModule {
     fileId: string,
     permissionId: string,
     role: string
-  ): Promise<NativePermission | void>;
+  ): Promise<NativePermission | undefined>;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>('StorageDropboxModule');
