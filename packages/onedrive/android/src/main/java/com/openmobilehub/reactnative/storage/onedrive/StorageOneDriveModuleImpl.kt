@@ -117,6 +117,10 @@ class StorageOneDriveModuleImpl(private val reactContext: ReactApplicationContex
     moduleImpl.deletePermission(fileId, permissionId, promise)
   }
 
+  fun updatePermission(fileId: String, permissionId: String, role: String, promise: Promise) {
+    moduleImpl.updatePermission(fileId, permissionId, role, promise)
+  }
+
   companion object {
     const val NAME = "StorageOneDriveModule"
   }

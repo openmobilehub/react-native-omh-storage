@@ -133,6 +133,11 @@ class StorageDropboxModule(
     moduleImpl.deletePermission(fileId, permissionId, promise)
   }
 
+  @ReactMethod
+  override fun updatePermission(fileId: String, permissionId: String, role: String, promise: Promise) {
+    moduleImpl.updatePermission(fileId, permissionId, role, promise)
+  }
+
   override fun getName() = NAME
 
   companion object {

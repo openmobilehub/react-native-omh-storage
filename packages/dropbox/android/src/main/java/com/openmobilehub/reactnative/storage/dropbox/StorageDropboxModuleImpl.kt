@@ -117,7 +117,11 @@ class StorageDropboxModuleImpl(private val reactContext: ReactApplicationContext
     moduleImpl.deletePermission(fileId, permissionId, promise)
   }
 
-  companion object {
+  fun updatePermission(fileId: String, permissionId: String, role: String, promise: Promise) {
+    moduleImpl.updatePermission(fileId, permissionId, role, promise)
+  }
+
+    companion object {
     const val NAME = "StorageDropboxModule"
   }
 }

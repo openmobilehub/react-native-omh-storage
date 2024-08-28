@@ -93,6 +93,11 @@ export interface NativeStorageClient {
     recipientAlias?: string
   ): Promise<NativePermission | undefined>;
   deletePermission(fileId: string, permissionId: string): Promise<void>;
+  updatePermission(
+    fileId: string,
+    permissionId: string,
+    role: string
+  ): Promise<NativePermission | void>;
 }
 
 export type NativeStorageException = Error & {

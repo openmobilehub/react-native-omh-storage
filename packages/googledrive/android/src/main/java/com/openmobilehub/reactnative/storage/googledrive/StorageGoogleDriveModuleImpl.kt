@@ -126,6 +126,10 @@ class StorageGoogleDriveModuleImpl(private val reactContext: ReactApplicationCon
     moduleImpl.deletePermission(fileId, permissionId, promise)
   }
 
+  fun updatePermission(fileId: String, permissionId: String, role: String, promise: Promise) {
+    moduleImpl.updatePermission(fileId, permissionId, role, promise)
+  }
+
   companion object {
     const val NAME = "StorageGoogleDriveModule"
   }

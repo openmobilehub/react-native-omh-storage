@@ -68,7 +68,12 @@ class StorageDropboxModule(
   }
 
   @ReactMethod
-  fun createFileWithExtension(name: String, fileExtension: String, parentId: String, promise: Promise) {
+  fun createFileWithExtension(
+    name: String,
+    fileExtension: String,
+    parentId: String,
+    promise: Promise
+  ) {
     moduleImpl.createFileWithExtension(name, fileExtension, parentId, promise)
   }
 
@@ -117,6 +122,11 @@ class StorageDropboxModule(
   @ReactMethod
   fun deletePermission(fileId: String, permissionId: String, promise: Promise) {
     moduleImpl.deletePermission(fileId, permissionId, promise)
+  }
+
+  @ReactMethod
+  fun updatePermission(fileId: String, permissionId: String, role: String, promise: Promise) {
+    moduleImpl.updatePermission(fileId, permissionId, role, promise)
   }
 
   override fun getName() = NAME

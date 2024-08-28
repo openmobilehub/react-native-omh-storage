@@ -10,6 +10,7 @@ import com.openmobilehub.reactnative.storage.core.extensions.toWritableFileVersi
 import com.openmobilehub.reactnative.storage.core.extensions.toWritableMap
 import com.openmobilehub.reactnative.storage.core.extensions.toWritablePermissionArray
 import com.openmobilehub.reactnative.storage.core.extensions.toWritableStorageEntityArray
+import com.openmobilehub.reactnative.storage.core.mappers.mapStringToRole
 import com.openmobilehub.reactnative.storage.core.mappers.mapToCreatePermission
 import com.openmobilehub.reactnative.storage.core.utils.ErrorUtils
 import kotlinx.coroutines.CoroutineScope
@@ -275,6 +276,17 @@ class StorageCoreModuleImpl(
       try {
         storageClient.deletePermission(fileId, permissionId)
         promise.resolve(null)
+      } catch (e: Exception) {
+        promise.reject(e, ErrorUtils.createPayload(e))
+      }
+    }
+  }
+
+  fun updatePermission(fileId: String, permissionId: String, role: String, promise: Promise) {
+    CoroutineScope(Dispatchers.IO).launch {
+      try {
+        val permission = storageClient.updatePermission(fileId, permissionId, mapStringToRole(role))
+        promise.resolve(permission?.toWritableMap())
       } catch (e: Exception) {
         promise.reject(e, ErrorUtils.createPayload(e))
       }

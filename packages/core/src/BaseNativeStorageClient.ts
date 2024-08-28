@@ -217,8 +217,17 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
     permissionId: string,
     role: PermissionRole
   ) {
-    //TODO: [Fallback] Replace with native implementation
-    return this.fallbackClient.updatePermission(fileId, permissionId, role);
+    try {
+      const nativePermission = await this.nativeStorageModule.updatePermission(
+        fileId,
+        permissionId,
+        role
+      );
+
+      return nativePermission && mapNativePermission(nativePermission);
+    } catch (exception) {
+      return Promise.reject(mapNativeException(exception));
+    }
   }
 
   async exportFile(
