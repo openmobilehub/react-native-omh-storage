@@ -9,29 +9,19 @@ import {
 } from '@openmobilehub/storage-core';
 
 import { ROOT_FOLDER } from './data/constants/constants';
-import {
-  OneDriveStorageApiClient,
-  OneDriveStorageApiClientNoAuth,
-} from './OneDriveStorageApiClient';
-import { OneDriveStorageApiService } from './OneDriveStorageApiService';
-import { OneDriveStorageRepository } from './OneDriveStorageRepository';
+import { GoogleDriveStorageApiClient } from './GoogleDriveStorageApiClient';
+import { GoogleDriveStorageApiService } from './GoogleDriveStorageApiService';
+import { GoogleDriveStorageRepository } from './GoogleDriveStorageRepository';
 
-// TODO: [Fallback]: Rename file to OneDriveStorageClient.ts
-export class OneDriveStorageClient implements IStorageClient {
-  private client: OneDriveStorageApiClient;
-  private clientNoAuth: OneDriveStorageApiClientNoAuth;
-  private repository: OneDriveStorageRepository;
+export class GoogleDriveStorageClient implements IStorageClient {
+  private client: GoogleDriveStorageApiClient;
+  private repository: GoogleDriveStorageRepository;
 
   constructor(authClient: IStorageAuthClient) {
-    this.client = new OneDriveStorageApiClient(authClient);
-    this.clientNoAuth = new OneDriveStorageApiClientNoAuth();
+    this.client = new GoogleDriveStorageApiClient(authClient);
 
-    const service = new OneDriveStorageApiService(
-      this.client,
-      this.clientNoAuth
-    );
-
-    this.repository = new OneDriveStorageRepository(service);
+    const service = new GoogleDriveStorageApiService(this.client, authClient);
+    this.repository = new GoogleDriveStorageRepository(service);
   }
 
   readonly rootFolderId = ROOT_FOLDER;
@@ -40,7 +30,7 @@ export class OneDriveStorageClient implements IStorageClient {
     return this.repository.listFiles(folderId);
   }
 
-  getFileMetadata(fileId: string) {
+  async getFileMetadata(fileId: string) {
     return this.repository.getFileMetadata(fileId);
   }
 
@@ -48,28 +38,38 @@ export class OneDriveStorageClient implements IStorageClient {
     return this.repository.search(query);
   }
 
-  createFileWithMimeType(
-    _name: string,
-    _mimeType: string,
-    _parentId?: string
-  ): Promise<StorageEntity> {
+  async createFileWithExtension(): Promise<StorageEntity> {
     throw new UnsupportedOperationException();
   }
 
-  async createFileWithExtension(
+  async createFileWithMimeType(
     name: string,
-    fileExtension: string,
+    mimeType: string,
     parentId?: string
-  ): Promise<StorageEntity> {
-    return this.repository.createFileWithExtension(
-      name,
-      fileExtension,
-      parentId
-    );
+  ) {
+    return this.repository.createFileWithMimeType(name, mimeType, parentId);
   }
 
   async createFolder(name: string, parentId?: string): Promise<StorageEntity> {
     return this.repository.createFolder(name, parentId);
+  }
+
+  async exportFile(
+    file: StorageEntity,
+    mimeType: string,
+    fileExtension: string,
+    saveDirectory: string
+  ) {
+    return this.repository.exportFile(
+      file,
+      mimeType,
+      fileExtension,
+      saveDirectory
+    );
+  }
+
+  async downloadFile(file: StorageEntity, saveDirectory: string) {
+    return this.repository.downloadFile(file, saveDirectory);
   }
 
   async localFileUpload(file: LocalFile, folderId: string) {
@@ -80,8 +80,16 @@ export class OneDriveStorageClient implements IStorageClient {
     return this.repository.deleteFile(fileId);
   }
 
-  permanentlyDeleteFile(_fileId: string): Promise<void> {
-    throw new UnsupportedOperationException();
+  async permanentlyDeleteFile(fileId: string) {
+    return this.repository.permanentlyDeleteFile(fileId);
+  }
+
+  async getPermissions(fileId: string) {
+    return this.repository.getPermissions(fileId);
+  }
+
+  async getWebUrl(fileId: string) {
+    return this.repository.getWebUrl(fileId);
   }
 
   async createPermission(
@@ -104,14 +112,6 @@ export class OneDriveStorageClient implements IStorageClient {
     return this.repository.deletePermission(fileId, permissionId);
   }
 
-  async getPermissions(fileId: string) {
-    return this.repository.getPermissions(fileId);
-  }
-
-  async getWebUrl(fileId: string) {
-    return this.repository.getWebUrl(fileId);
-  }
-
   async updatePermission(
     fileId: string,
     permissionId: string,
@@ -120,19 +120,7 @@ export class OneDriveStorageClient implements IStorageClient {
     return this.repository.updatePermission(fileId, permissionId, role);
   }
 
-  exportFile(
-    _file: StorageEntity,
-    _mimeType: string,
-    _fileExtension: string
-  ): Promise<any> {
-    throw new UnsupportedOperationException();
-  }
-
-  async downloadFile(file: StorageEntity, saveDirectory: string) {
-    return this.repository.downloadFile(file, saveDirectory);
-  }
-
-  async updateFile(file: LocalFile, fileId: string) {
+  async updateFile(file: LocalFile, fileId: string): Promise<StorageEntity> {
     return this.repository.updateFile(file, fileId);
   }
 

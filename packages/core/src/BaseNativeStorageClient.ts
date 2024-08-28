@@ -17,19 +17,9 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
   nativeStorageModule: NativeStorageClient;
   readonly rootFolderId: string;
 
-  //TODO: [Fallback] Remove fallbackClient
-  fallbackClient: IStorageClient;
-
-  constructor(
-    nativeStorageModule: NativeStorageClient,
-    rootFolderId: string,
-    fallbackClient: IStorageClient
-  ) {
+  constructor(nativeStorageModule: NativeStorageClient, rootFolderId: string) {
     this.nativeStorageModule = nativeStorageModule;
     this.rootFolderId = rootFolderId;
-
-    this.fallbackClient = fallbackClient;
-
     this.nativeStorageModule.initializeStorageClient();
   }
 
