@@ -69,7 +69,7 @@ export interface NativeStorageClient {
     name: string,
     mimeType: string,
     parentId: string
-  ): Promise<NativeStorageEntity> | undefined;
+  ): Promise<NativeStorageEntity | undefined>;
   createFileWithExtension(
     name: string,
     fileExtension: string,
@@ -79,6 +79,8 @@ export interface NativeStorageClient {
     name: string,
     parentId: string
   ): Promise<NativeStorageEntity | undefined>;
+  deleteFile(fileId: string): Promise<void>;
+  permanentlyDeleteFile(fileId: string): Promise<void>;
   getPermissions(fileId: string): Promise<NativePermission[]>;
   getWebUrl(fileId: string): Promise<string>;
   createPermission(

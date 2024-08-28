@@ -136,13 +136,19 @@ export abstract class BaseNativeStorageClient implements IStorageClient {
   }
 
   async deleteFile(fileId: string) {
-    //TODO: [Fallback] Replace with native implementation
-    return this.fallbackClient.deleteFile(fileId);
+    try {
+      await this.nativeStorageModule.deleteFile(fileId);
+    } catch (exception) {
+      return Promise.reject(mapNativeException(exception));
+    }
   }
 
   async permanentlyDeleteFile(fileId: string) {
-    //TODO: [Fallback] Replace with native implementation
-    return this.fallbackClient.permanentlyDeleteFile(fileId);
+    try {
+      await this.nativeStorageModule.permanentlyDeleteFile(fileId);
+    } catch (exception) {
+      return Promise.reject(mapNativeException(exception));
+    }
   }
 
   async getPermissions(fileId: string) {

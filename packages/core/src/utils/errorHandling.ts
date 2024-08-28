@@ -2,6 +2,7 @@ import {
   ApiException,
   DeveloperErrorException,
   InvalidCredentialsException,
+  UnsupportedOperationException,
 } from '../model';
 import type { NativeStorageException } from '../StorageClient.nativeTypes';
 
@@ -46,6 +47,10 @@ export const mapNativeException = (exception: any) => {
       exception.userInfo.message,
       exception
     );
+  }
+
+  if (exception.userInfo.type === 'UnsupportedOperationException') {
+    return new UnsupportedOperationException();
   }
 
   return exception;

@@ -79,6 +79,14 @@ class StorageDropboxModuleImpl(private val reactContext: ReactApplicationContext
     moduleImpl.createFolder(name, parentId, promise)
   }
 
+  fun deleteFile(fileId: String, promise: Promise) {
+    moduleImpl.deleteFile(fileId, promise)
+  }
+
+  fun permanentlyDeleteFile(fileId: String, promise: Promise) {
+    moduleImpl.permanentlyDeleteFile(fileId, promise)
+  }
+
   fun getPermissions(fileId: String, promise: Promise) {
     moduleImpl.getPermissions(fileId, promise)
   }
@@ -121,7 +129,7 @@ class StorageDropboxModuleImpl(private val reactContext: ReactApplicationContext
     moduleImpl.updatePermission(fileId, permissionId, role, promise)
   }
 
-    companion object {
+  companion object {
     const val NAME = "StorageDropboxModule"
   }
 }

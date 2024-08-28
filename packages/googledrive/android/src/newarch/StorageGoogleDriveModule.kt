@@ -77,6 +77,16 @@ class StorageGoogleDriveModule(
   }
 
   @ReactMethod
+  override fun deleteFile(fileId: String, promise: Promise) {
+    moduleImpl.deleteFile(fileId, promise)
+  }
+
+  @ReactMethod
+  override fun permanentlyDeleteFile(fileId: String, promise: Promise) {
+    moduleImpl.permanentlyDeleteFile(fileId, promise)
+  }
+
+  @ReactMethod
   override fun getPermissions(fileId: String, promise: Promise) {
     moduleImpl.getPermissions(fileId, promise)
   }

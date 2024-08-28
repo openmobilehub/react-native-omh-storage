@@ -78,6 +78,16 @@ class StorageOneDriveModule(
   }
 
   @ReactMethod
+  fun deleteFile(fileId: String, promise: Promise) {
+    moduleImpl.deleteFile(fileId, promise)
+  }
+
+  @ReactMethod
+  fun permanentlyDeleteFile(fileId: String, promise: Promise) {
+    moduleImpl.permanentlyDeleteFile(fileId, promise)
+  }
+
+  @ReactMethod
   fun getPermissions(fileId: String, promise: Promise) {
     moduleImpl.getPermissions(fileId, promise)
   }
