@@ -26,6 +26,24 @@ export type NativeStorageEntityMetadata = {
   originalMetadata: string;
 };
 
+export type NativePermission = {
+  type: string;
+  id: string;
+  role: string;
+  isInherited?: boolean;
+  userId?: string;
+  displayName?: string;
+  emailAddress?: string;
+  expirationTime?: Double;
+  deleted?: boolean;
+  photoLink?: string;
+  pendingOwner?: boolean;
+  groupId?: string;
+  domain?: string;
+  deviceId?: string;
+  applicationId?: string;
+};
+
 export interface Spec extends TurboModule {
   initializeStorageClient(): void;
   listFiles(folderId: string): Promise<NativeStorageEntity[]>;
@@ -65,6 +83,25 @@ export interface Spec extends TurboModule {
   ): Promise<NativeStorageEntity | undefined>;
   deleteFile(fileId: string): Promise<void>;
   permanentlyDeleteFile(fileId: string): Promise<void>;
+  getPermissions(fileId: string): Promise<NativePermission[]>;
+  getWebUrl(fileId: string): Promise<string>;
+  createPermission(
+    fileId: string,
+    role: string,
+    sendNotificationEmail: boolean,
+    recipientType: string,
+    emailMessage?: string,
+    recipientEmail?: string,
+    recipientDomain?: string,
+    recipientObjectId?: string,
+    recipientAlias?: string
+  ): Promise<NativePermission | undefined>;
+  deletePermission(fileId: string, permissionId: string): Promise<void>;
+  updatePermission(
+    fileId: string,
+    permissionId: string,
+    role: string
+  ): Promise<NativePermission | undefined>;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>(

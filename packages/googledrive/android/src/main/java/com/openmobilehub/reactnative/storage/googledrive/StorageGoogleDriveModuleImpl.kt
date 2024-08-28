@@ -58,7 +58,7 @@ class StorageGoogleDriveModuleImpl(private val reactContext: ReactApplicationCon
   fun downloadFile(fileId: String, filePath: String, promise: Promise) {
     moduleImpl.downloadFile(fileId, filePath, promise)
   }
-  
+
   fun exportFile(fileId: String, mimeType: String, filePath: String, promise: Promise) {
     moduleImpl.exportFile(fileId, mimeType, filePath, promise)
   }
@@ -70,15 +70,20 @@ class StorageGoogleDriveModuleImpl(private val reactContext: ReactApplicationCon
   fun downloadFileVersion(fileId: String, versionId: String, filePath: String, promise: Promise) {
     moduleImpl.downloadFileVersion(fileId, versionId, filePath, promise)
   }
-  
+
   fun createFileWithMimeType(name: String, mimeType: String, parentId: String, promise: Promise) {
     moduleImpl.createFileWithMimeType(name, mimeType, parentId, promise)
   }
 
-  fun createFileWithExtension(name: String, fileExtension: String, parentId: String, promise: Promise) {
+  fun createFileWithExtension(
+    name: String,
+    fileExtension: String,
+    parentId: String,
+    promise: Promise
+  ) {
     moduleImpl.createFileWithExtension(name, fileExtension, parentId, promise)
   }
-  
+
   fun createFolder(name: String, parentId: String, promise: Promise) {
     moduleImpl.createFolder(name, parentId, promise)
   }
@@ -89,6 +94,48 @@ class StorageGoogleDriveModuleImpl(private val reactContext: ReactApplicationCon
 
   fun permanentlyDeleteFile(fileId: String, promise: Promise) {
     moduleImpl.permanentlyDeleteFile(fileId, promise)
+  }
+
+  fun getPermissions(fileId: String, promise: Promise) {
+    moduleImpl.getPermissions(fileId, promise)
+  }
+
+  fun getWebUrl(fileId: String, promise: Promise) {
+    moduleImpl.getWebUrl(fileId, promise)
+  }
+
+  fun createPermission(
+    fileId: String,
+    role: String,
+    sendNotificationEmail: Boolean,
+    recipientType: String,
+    emailMessage: String?,
+    recipientEmail: String?,
+    recipientDomain: String?,
+    recipientObjectId: String?,
+    recipientAlias: String?,
+    promise: Promise
+  ) {
+    moduleImpl.createPermission(
+      fileId,
+      role,
+      sendNotificationEmail,
+      recipientType,
+      emailMessage,
+      recipientEmail,
+      recipientDomain,
+      recipientObjectId,
+      recipientAlias,
+      promise,
+    )
+  }
+
+  fun deletePermission(fileId: String, permissionId: String, promise: Promise) {
+    moduleImpl.deletePermission(fileId, permissionId, promise)
+  }
+
+  fun updatePermission(fileId: String, permissionId: String, role: String, promise: Promise) {
+    moduleImpl.updatePermission(fileId, permissionId, role, promise)
   }
 
   companion object {
