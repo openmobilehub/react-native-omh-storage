@@ -14,10 +14,10 @@ const HOMEPAGE_LINKS: HomepageLink[] = [
     text: 'Get started 🚀',
     link: '/docs/getting-started',
   },
-  // {
-  //   text: 'API reference 📚',
-  //   link: '/docs/api',
-  // },
+  {
+    text: 'API reference 📚',
+    link: '/docs/api',
+  },
   {
     text: 'Contribute 🤝',
     link: '/docs/contributing',

@@ -82,6 +82,8 @@ Interacting with the OneDrive storage provider follows the same pattern as other
 
 :::warning[CAVEATS]
 
+When updating a file, if the new file has a different name than the updated file, two additional versions might sometimes appear in the system. One version comes from updating the content of the file, and the other comes from updating the file name.
+
 The [Sharing Links](https://learn.microsoft.com/en-us/graph/api/resources/permission?view=graph-rest-1.0#sharing-links) permissions are not supported.
 
 The [search](https://learn.microsoft.com/en-us/graph/api/driveitem-search?view=graph-rest-1.0&tabs=java) query takes several fields including filename, metadata, and file content when searching.
