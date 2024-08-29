@@ -18,13 +18,14 @@
 
 ## Prerequisites
 
-Before starting the integration, make sure the following packages are installed:
+Before starting the integration, make sure the following packages are installed and configured:
 
 - `@openmobilehub/storage-core`
 - `react-native-file-access`
-- `@openmobilehub/auth-google`
-
-For Google Drive integration, you'll also need to make sure that the [`@openmobilehub/auth-google`](https://www.npmjs.com/package/@openmobilehub/auth-google) library is [configured](https://openmobilehub.github.io/react-native-omh-auth/docs/google) properly.
+- `@react-native-async-storage/async-storage`
+- `react-native-app-auth` - [Configuration](https://openmobilehub.github.io/react-native-omh-auth/docs/getting-started#ios-configuration)
+- `@openmobilehub/auth-core` - [Configuration](https://openmobilehub.github.io/react-native-omh-auth/docs/getting-started#android-configuration)
+- `@openmobilehub/auth-google` - [Configuration](https://openmobilehub.github.io/react-native-omh-auth/docs/google#configuration)
 
 ## Installation
 

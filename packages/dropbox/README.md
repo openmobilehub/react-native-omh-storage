@@ -18,13 +18,14 @@
 
 ## Prerequisites
 
-Before starting the integration, make sure the following packages are installed:
+Before starting the integration, make sure the following packages are installed and configured:
 
 - `@openmobilehub/storage-core`
 - `react-native-file-access`
-- `@openmobilehub/auth-dropbox`
-
-For Dropbox integration, you'll also need to make sure that the [`@openmobilehub/auth-dropbox`](https://www.npmjs.com/package/@openmobilehub/auth-dropbox) library is [configured](https://openmobilehub.github.io/react-native-omh-auth/docs/dropbox) properly.
+- `@react-native-async-storage/async-storage`
+- `react-native-app-auth` - [Configuration](https://openmobilehub.github.io/react-native-omh-auth/docs/getting-started#ios-configuration)
+- `@openmobilehub/auth-core` - [Configuration](https://openmobilehub.github.io/react-native-omh-auth/docs/getting-started#android-configuration)
+- `@openmobilehub/auth-dropbox` - [Configuration](https://openmobilehub.github.io/react-native-omh-auth/docs/dropbox#configuration)
 
 ## Installation
 

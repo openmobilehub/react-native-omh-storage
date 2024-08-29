@@ -206,7 +206,7 @@ const updatedPermission = await storageClient.updatePermission(
 
 ### Delete file permission
 
-Delete a permission from a file.
+Delete a permission for a file.
 
 ```typescript
 await storageClient.deletePermission('fileId', 'permissionId');

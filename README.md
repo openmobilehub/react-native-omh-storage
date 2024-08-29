@@ -16,7 +16,7 @@
 
 ---
 
-**React Native OMH Storage** streamlines connecting your React Native app to various cloud storage providers by providing lightweight bridges to native OMH Storage SDKs on both iOS and Android. It supports both Google Mobile Services (GMS) and non-GMS configurations, making it easy to incorporate Google Drive, OneDrive, Dropbox, and other supported third-party storage providers.
+**React Native OMH Storage** streamlines connecting your React Native app to various cloud storage providers by providing lightweight bridges to native OMH Storage SDKs on both iOS and Android. It supports both Google Mobile Services (GMS) and non-GMS configurations, making it easy to incorporate Google Drive, OneDrive and Dropbox storage providers.
 
 ## Features
 
@@ -183,7 +183,7 @@ This is the main directory of the mono-repo for React Native OMH Storage. If you
 
 ## Contributing
 
-- [Overview](https://github.com/openmobilehub/react-native-omh-storage/blob/main/CONTRIBUTING.md)
+- [Overview](https://ideal-doodle-m69lynw.pages.github.io/docs/contributing)
 - [Issues](https://github.com/openmobilehub/react-native-omh-storage/issues)
 - [PRs](https://github.com/openmobilehub/react-native-omh-storage/pulls)
 
