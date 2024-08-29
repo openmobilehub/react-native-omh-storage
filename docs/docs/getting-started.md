@@ -14,7 +14,7 @@ Before getting started, the documentation assumes you are able to create a proje
 
 [React Native - Setting up the development environment](https://reactnative.dev/docs/environment-setup)
 
-Additionally, the current versions of the Android OMH libraries require a minimum Android API level of **23**. To ensure your Android application builds successfully, set the `minSdkVersion` to at least **23** for Google Drive and Dropbox, or **26** for OneDrive, in your [**android/build.gradle**](https://github.com/openmobilehub/react-native-omh-storage/blob/main/apps/sample-app/android/build.gradle#L4) file, depending on the storage providers you plan to support.
+Additionally, the current versions of the Android OMH libraries require a minimum Android API level of **23** or **26** depending on chosen provider. To ensure your Android application builds successfully, set the `minSdkVersion` to at least **23** for Google Drive and Dropbox, or **26** for OneDrive, in your [**android/build.gradle**](https://github.com/openmobilehub/react-native-omh-storage/blob/main/apps/sample-app/android/build.gradle#L4) file, depending on the storage providers you plan to support.
 
 ## Installation
 
