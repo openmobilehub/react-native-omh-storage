@@ -3,36 +3,12 @@ import { Platform } from 'react-native';
 import { LocalFile } from '@openmobilehub/storage-core';
 import DocumentPicker from 'react-native-document-picker';
 import { launchImageLibrary } from 'react-native-image-picker';
-import {
-  check,
-  Permission,
-  PERMISSIONS,
-  request,
-  RESULTS,
-} from 'react-native-permissions';
-
-const ANDROID_33_AND_ABOVE_PERMISSIONS: Permission[] = [
-  PERMISSIONS.ANDROID.READ_MEDIA_IMAGES,
-  PERMISSIONS.ANDROID.READ_MEDIA_VIDEO,
-  PERMISSIONS.ANDROID.READ_MEDIA_AUDIO,
-  PERMISSIONS.ANDROID.READ_MEDIA_VISUAL_USER_SELECTED,
-];
-
-const ANDROID_32_AND_BELOW_PERMISSIONS: Permission[] = [
-  PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
-];
+import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions';
 
 export const usePickFile = () => {
   const requestStoragePermission = async () => {
-    const androidVersion = Number(Platform.Version);
-
-    const androidPermissions =
-      androidVersion >= 33
-        ? ANDROID_33_AND_ABOVE_PERMISSIONS
-        : ANDROID_32_AND_BELOW_PERMISSIONS;
-
     const permissions = Platform.select({
-      android: androidPermissions,
+      android: [],
       ios: [PERMISSIONS.IOS.PHOTO_LIBRARY],
     });
 
