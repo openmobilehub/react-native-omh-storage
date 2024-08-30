@@ -104,7 +104,7 @@ This is the main directory of the mono-repo for React Native OMH Storage. If you
 
 <summary>Show details</summary>
 
-[`Permission`](https://ideal-doodle-m69lynw.pages.github.io/docs/api/core/src/classes/Permission#properties)
+[`Permission#properties`](https://ideal-doodle-m69lynw.pages.github.io/docs/api/core/src/classes/Permission#properties)
 
 | Property    | Google Drive (GMS) | Google Drive (non-GMS) | OneDrive | Dropbox |
 | ----------- | :----------------: | :--------------------: | :------: | :-----: |
@@ -117,7 +117,7 @@ This is the main directory of the mono-repo for React Native OMH Storage. If you
 
 > **Dropbox**: The `id` corresponds to the underlying identity ID.
 
-[`Permission`](https://ideal-doodle-m69lynw.pages.github.io/docs/api/core/src/classes/Permission#extended-by)
+[`Permission#extended-by`](https://ideal-doodle-m69lynw.pages.github.io/docs/api/core/src/classes/Permission#extended-by)
 
 | Type        | Google Drive (GMS) | Google Drive (non-GMS) | OneDrive | Dropbox |
 | ----------- | :----------------: | :--------------------: | :------: | :-----: |
@@ -170,14 +170,14 @@ This is the main directory of the mono-repo for React Native OMH Storage. If you
 
 | Type         | Google Drive (GMS) | Google Drive (non-GMS) | OneDrive | Dropbox |
 | ------------ | :----------------: | :--------------------: | :------: | :-----: |
-| User         |         ✅         |           ✅           |    ✅    |   ✅    |
-| Group        |         ✅         |           ✅           |    ✅    |   ❌    |
-| Domain       |         ✅         |           ✅           |    ❌    |   ❌    |
-| Anyone       |         ✅         |           ✅           |    ❌    |   ❌    |
-| WithObjectId |         ❌         |           ❌           |    ✅    |   ✅    |
-| WithAlias    |         ❌         |           ❌           |    ✅    |   ❌    |
+| user         |         ✅         |           ✅           |    ✅    |   ✅    |
+| group        |         ✅         |           ✅           |    ✅    |   ❌    |
+| domain       |         ✅         |           ✅           |    ❌    |   ❌    |
+| anyone       |         ✅         |           ✅           |    ❌    |   ❌    |
+| objectId     |         ❌         |           ❌           |    ✅    |   ✅    |
+| alias        |         ❌         |           ❌           |    ✅    |   ❌    |
 
-> **Dropbox**: To invite a group, use `WithObjectId` and provide the group ID.
+> **Dropbox**: To invite a group, use `objectId` and provide the group ID.
 
 </details>
 
