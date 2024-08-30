@@ -281,7 +281,7 @@ export class GoogleDriveStorageApiService {
     throw new ApiException('Failed to upload file');
   }
 
-  async simplyUploadFile(file: LocalFile, folderId: string) {
+  async uploadSmallFile(file: LocalFile, folderId: string) {
     const metadata = {
       name: file.name,
       mimeType: file.type,
@@ -313,7 +313,7 @@ export class GoogleDriveStorageApiService {
     return response.data;
   }
 
-  async simplyUpdateFile(file: LocalFile, fileId: string) {
+  async updateSmallFile(file: LocalFile, fileId: string) {
     const metadata = {
       name: file.name,
       mimeType: file.type,

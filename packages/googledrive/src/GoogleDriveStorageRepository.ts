@@ -91,7 +91,7 @@ export class GoogleDriveStorageRepository {
   async localFileUpload(file: LocalFile, folderId: string) {
     let fileRemote: FileRemote;
     if (file.size < 1) {
-      fileRemote = await this.apiService.simplyUploadFile(file, folderId);
+      fileRemote = await this.apiService.uploadSmallFile(file, folderId);
     } else {
       const uploadUrl = await this.apiService.initializeResumableUpload(
         file,
@@ -183,7 +183,7 @@ export class GoogleDriveStorageRepository {
   async updateFile(file: LocalFile, fileId: string) {
     let fileRemote: FileRemote;
     if (file.size < 1) {
-      fileRemote = await this.apiService.simplyUpdateFile(file, fileId);
+      fileRemote = await this.apiService.updateSmallFile(file, fileId);
     } else {
       const uploadUrl = await this.apiService.initializeResumableUpdate(
         file,

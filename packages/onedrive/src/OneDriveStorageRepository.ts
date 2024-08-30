@@ -49,7 +49,7 @@ export class OneDriveStorageRepository {
     let driveItem: DriveItem;
 
     if (file.size < 1) {
-      driveItem = await this.apiService.simplyUploadFile(file, folderId);
+      driveItem = await this.apiService.uploadSmallFile(file, folderId);
     } else {
       const uploadUrl = await this.apiService.initializeResumableUpload(
         file,
@@ -156,7 +156,7 @@ export class OneDriveStorageRepository {
   async updateFile(file: LocalFile, fileId: string) {
     let uploadedDriveItem: DriveItem;
     if (file.size < 1) {
-      uploadedDriveItem = await this.apiService.simplyUpdateFile(file, fileId);
+      uploadedDriveItem = await this.apiService.updateSmallFile(file, fileId);
     } else {
       const uploadUrl = await this.apiService.initializeResumableUpdate(fileId);
 

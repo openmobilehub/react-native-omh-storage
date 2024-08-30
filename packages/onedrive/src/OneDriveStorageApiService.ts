@@ -119,7 +119,7 @@ export class OneDriveStorageApiService {
     return response.data.uploadUrl;
   }
 
-  async simplyUploadFile(file: LocalFile, folderId: string) {
+  async uploadSmallFile(file: LocalFile, folderId: string) {
     const binaryStreamBody = new Uint8Array(file.size);
 
     const response = await this.client.axiosClient.put<DriveItem>(
@@ -138,7 +138,7 @@ export class OneDriveStorageApiService {
     return response.data;
   }
 
-  async simplyUpdateFile(file: LocalFile, fileId: string) {
+  async updateSmallFile(file: LocalFile, fileId: string) {
     const binaryStreamBody = new Uint8Array(file.size);
 
     const response = await this.client.axiosClient.put<DriveItem>(
