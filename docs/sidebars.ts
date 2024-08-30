@@ -27,7 +27,8 @@ const sidebars: SidebarsConfig = {
     },
   ],
   contributingSidebar: [
-    { type: 'doc', id: 'contributing', label: 'Contributing' },
+    { type: 'doc', id: 'contributing' },
+    { type: 'doc', id: 'sample-app' },
   ],
 
   // But you can create a sidebar manually

@@ -10,7 +10,8 @@
     "clean": "del-cli apps/sample-app/android/build apps/sample-app/android/app/build apps/sample-app/ios/build packages/googledrive/lib packages/googledrive/android/build packages/onedrive/lib packages/onedrive/android/build",
     "prepare": "yarn workspaces foreach -A -p --exclude react-native-omh-storage-sample-app run prepare",
     "release": "yarn workspaces foreach -A -p --exclude react-native-omh-storage-sample-app run release",
-    "codegen:android": "./apps/sample-app/android/gradlew -p apps/sample-app/android generateCodegenArtifactsFromSchema -t android"
+    "codegen:android": "./apps/sample-app/android/gradlew -p apps/sample-app/android generateCodegenArtifactsFromSchema -t android",
+    "create-release": "./.github/scripts/create-release.sh"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^17.0.2",

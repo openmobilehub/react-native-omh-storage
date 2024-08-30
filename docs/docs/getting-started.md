@@ -20,9 +20,9 @@ Additionally, the current versions of the Android OMH libraries require a minimu
 
 To integrate a storage provider into your React Native project, follow the specific steps for each provider:
 
-- [Google Drive](https://ideal-doodle-m69lynw.pages.github.io/docs/googledrive#configuration)
-- [OneDrive](https://ideal-doodle-m69lynw.pages.github.io/docs/onedrive#configuration)
-- [Dropbox](https://ideal-doodle-m69lynw.pages.github.io/docs/dropbox#configuration)
+- [Google Drive](https://ideal-doodle-m69lynw.pages.github.io/docs/googledrive)
+- [OneDrive](https://ideal-doodle-m69lynw.pages.github.io/docs/onedrive)
+- [Dropbox](https://ideal-doodle-m69lynw.pages.github.io/docs/dropbox)
 
 ## Usage
 
@@ -226,4 +226,4 @@ For a more in depth view on the available methods, access the [Reference API](ht
 
 ## Sample app
 
-Explore the [sample app](https://ideal-doodle-m69lynw.pages.github.io/docs/contributing#sample-app) included in the repository to see the implementation of storage with Google Drive and other storage providers. The sample app demonstrates the integration and usage of the various storage providers, providing a practical example to help you get started quickly.
+Explore the [sample app](https://ideal-doodle-m69lynw.pages.github.io/docs/sample-app) included in the repository to see the implementation of storage with Google Drive and other storage providers. The sample app demonstrates the integration and usage of the various storage providers, providing a practical example to help you get started quickly.

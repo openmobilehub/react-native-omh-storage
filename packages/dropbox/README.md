@@ -83,7 +83,7 @@ const dropboxStorageClient = new DropboxStorageClient(DropboxAuth);
 
 ### Other methods
 
-Interacting with the Dropbox storage provider follows the same pattern as other storage providers since they all implement the [`IStorageClient`](https://ideal-doodle-m69lynw.pages.github.io/docs/api/core/src/interfaces/IStorageClient#methods) interface. This uniformity ensures consistent functionality across different storage providers, so you won’t need to learn new methods regardless of the storage provider you choose! For a comprehensive list of available methods, refer to the [Getting Started](https://ideal-doodle-m69lynw.pages.github.io/docs/getting-started) guide.
+Interacting with the Dropbox storage provider follows the same pattern as other storage providers since they all implement the [`IStorageClient`](https://ideal-doodle-m69lynw.pages.github.io/docs/api/core/src/interfaces/IStorageClient#methods) interface. This uniformity ensures consistent functionality across different storage providers, so you won’t need to learn new methods regardless of the storage provider you choose! For a comprehensive list of available methods, refer to the [Getting Started](https://ideal-doodle-m69lynw.pages.github.io/docs/getting-started#usage) guide.
 
 :::warning[CAVEATS]
 
