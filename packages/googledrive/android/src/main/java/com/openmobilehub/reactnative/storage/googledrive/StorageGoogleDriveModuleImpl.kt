@@ -21,7 +21,7 @@ class StorageGoogleDriveModuleImpl(private val reactContext: ReactApplicationCon
       ?: throw OmhStorageException.DeveloperErrorException("Google auth client is not initialized")
 
     val storageClient = OmhStorageProvider.Builder()
-      .addGmsPath(GoogleDriveGmsConstants.IMPLEMENTATION_PATH)
+      .addGmsPath(GoogleDriveNonGmsConstants.IMPLEMENTATION_PATH)
       .addNonGmsPath(GoogleDriveNonGmsConstants.IMPLEMENTATION_PATH)
       .build()
       .provideStorageClient(authClient, reactContext)
