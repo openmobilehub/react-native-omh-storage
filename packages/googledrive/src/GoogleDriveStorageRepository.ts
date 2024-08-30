@@ -17,6 +17,7 @@ import {
 } from './data/mappers/mapPermissionRecipientToRequestBody';
 import { mapPermissionRemoteToStoragePermission } from './data/mappers/mapPermissionRemoteToStoragePermission';
 import { mapVersionRemoteToFileVersion } from './data/mappers/mapVersionRemoteToFileViersion';
+import type { FileRemote } from './data/response/FileRemote';
 import type { GoogleDriveStorageApiService } from './GoogleDriveStorageApiService';
 
 export class GoogleDriveStorageRepository {
@@ -88,12 +89,19 @@ export class GoogleDriveStorageRepository {
   }
 
   async localFileUpload(file: LocalFile, folderId: string) {
-    const uploadUrl = await this.apiService.initializeResumableUpload(
-      file,
-      folderId
-    );
+    let fileRemote: FileRemote;
+    if (file.size < 1) {
+      fileRemote = await this.apiService.simplyUploadFile(file, folderId);
+    } else {
+      const uploadUrl = await this.apiService.initializeResumableUpload(
+        file,
+        folderId
+      );
 
-    return this.apiService.uploadFile(uploadUrl, file);
+      fileRemote = await this.apiService.resumableUploadFile(uploadUrl, file);
+    }
+
+    return mapFileRemoteToStorageEntity(fileRemote);
   }
 
   async deleteFile(fileId: string) {
@@ -173,12 +181,19 @@ export class GoogleDriveStorageRepository {
   }
 
   async updateFile(file: LocalFile, fileId: string) {
-    const uploadUrl = await this.apiService.initializeResumableUpdate(
-      file,
-      fileId
-    );
+    let fileRemote: FileRemote;
+    if (file.size < 1) {
+      fileRemote = await this.apiService.simplyUpdateFile(file, fileId);
+    } else {
+      const uploadUrl = await this.apiService.initializeResumableUpdate(
+        file,
+        fileId
+      );
 
-    return this.apiService.uploadFile(uploadUrl, file);
+      fileRemote = await this.apiService.resumableUploadFile(uploadUrl, file);
+    }
+
+    return mapFileRemoteToStorageEntity(fileRemote);
   }
 
   async getFileVersions(fileId: string) {

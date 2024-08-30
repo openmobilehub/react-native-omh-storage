@@ -15,6 +15,7 @@ import {
   mapToInviteRequestBody,
 } from './data/mappers/mapToInviteRequestBody';
 import { mapVersionRemoteToFileVersion } from './data/mappers/mapVersionRemoteToFileVersion';
+import type { DriveItem } from './data/response/DriveItem';
 import type { OneDriveStorageApiService } from './OneDriveStorageApiService';
 
 const PRECONDITION_ERROR_STATUS_CODE = 412;
@@ -45,12 +46,20 @@ export class OneDriveStorageRepository {
   }
 
   async localFileUpload(file: LocalFile, folderId: string) {
-    const uploadUrl = await this.apiService.initializeResumableUpload(
-      file,
-      folderId
-    );
+    let driveItem: DriveItem;
 
-    return this.apiService.uploadFile(uploadUrl, file);
+    if (file.size < 1) {
+      driveItem = await this.apiService.simplyUploadFile(file, folderId);
+    } else {
+      const uploadUrl = await this.apiService.initializeResumableUpload(
+        file,
+        folderId
+      );
+
+      driveItem = await this.apiService.resumableUploadFile(uploadUrl, file);
+    }
+
+    return mapDriveItemToStorageEntity(driveItem);
   }
 
   async getFileMetadata(fileId: string) {
@@ -145,13 +154,21 @@ export class OneDriveStorageRepository {
   }
 
   async updateFile(file: LocalFile, fileId: string) {
-    const uploadUrl = await this.apiService.initializeResumableUpdate(fileId);
+    let uploadedDriveItem: DriveItem;
+    if (file.size < 1) {
+      uploadedDriveItem = await this.apiService.simplyUpdateFile(file, fileId);
+    } else {
+      const uploadUrl = await this.apiService.initializeResumableUpdate(fileId);
 
-    const uploadResponse = await this.apiService.uploadFile(uploadUrl, file);
+      uploadedDriveItem = await this.apiService.resumableUploadFile(
+        uploadUrl,
+        file
+      );
+    }
 
     // By default, the file name is not updated when uploading a new file version.
-    if (uploadResponse?.name === file.name) {
-      return mapDriveItemToStorageEntity(uploadResponse);
+    if (uploadedDriveItem?.name === file.name) {
+      return mapDriveItemToStorageEntity(uploadedDriveItem);
     }
 
     const renameResponse = await this.renameFile(fileId, file.name, true);
