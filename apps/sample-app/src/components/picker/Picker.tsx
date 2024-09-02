@@ -55,6 +55,7 @@ export default function Picker<T>({
           value: choice.value,
           key: choice.key,
           color: theme.colors.onSurface,
+          testID: `create-file-picker-item-${choice.key}`,
         }))}
         disabled={disabled}
         style={{

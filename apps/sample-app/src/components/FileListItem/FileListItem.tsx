@@ -128,6 +128,7 @@ export const FileListItem = ({ file, onPress }: Props) => {
         left={renderLeftIcon}
         right={renderRightIcon}
         testID="file-list-item"
+        accessible={false}
       />
       <BottomSheet ref={bottomSheetModalRef}>
         {
