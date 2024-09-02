@@ -23,6 +23,13 @@ jobs:
         run: |
           bash .github/scripts/env-secrets.sh "${{ secrets.GOOGLE_CLIENT_ID}}" "${{ secrets.MICROSOFT_CLIENT_ID }}" "${{ secrets.MICROSOFT_SIGNATURE_HASH }}" "${{ secrets.DROPBOX_CLIENT_ID }}" "${{ secrets.DROPBOX_CLIENT_SECRET }}"
 
+      - name: Decode debug.keystore
+        uses: timheuer/base64-to-file@v1
+        with:
+          fileDir: ${{ env.SAMPLE_APP_PATH }}/android/app
+          fileName: debug.keystore
+          encodedString: ${{ secrets.DEBUG_KEYSTORE_BASE64 }}
+
       - name: Cache turborepo for Android
         uses: actions/cache@v4
         with:
