@@ -14,11 +14,14 @@ import type { CreatePermissionRequestBody } from './data/body/CreatePermissionRe
 import type { UpdatePermissionRequestBody } from './data/body/UpdatePermissionRequestBody';
 import { BASE_URL } from './data/constants/constants';
 import { type FileListRemote } from './data/response/FileListRemote';
+import type { FileRemote } from './data/response/FileRemote';
 import type { PermissionListRemote } from './data/response/PermissionListRemote';
 import type { PermissionRemote } from './data/response/PermissionRemote';
 import type { VersionListRemote } from './data/response/VersionListRemote';
 import type { WebUrlRemote } from './data/response/WebUrlRemote';
 import type { GoogleDriveStorageApiClient } from './GoogleDriveStorageApiClient';
+import { createMultipartUploadBody } from './utils/createMultipartUploadBody';
+import { generateUniqId } from './utils/generateUniqId';
 import { isGoogleWorkspaceFile } from './utils/isGoogleWorkspaceFile';
 
 const FILES_PARTICLE = 'drive/v3/files';
@@ -222,7 +225,7 @@ export class GoogleDriveStorageApiService {
     return uploadUrl;
   }
 
-  async uploadFile(uploadUrl: string, file: LocalFile) {
+  async resumableUploadFile(uploadUrl: string, file: LocalFile) {
     let uploadedBytes = 0;
     const filePath = file.uri;
     const fileStats = await FileSystem.stat(filePath);
@@ -250,7 +253,7 @@ export class GoogleDriveStorageApiService {
       const contentRange = `bytes ${uploadedBytes}-${uploadedBytes + bytesRead - 1}/${fileLength}`;
 
       try {
-        const uploadResponse = await this.client.axiosClient.put(
+        const uploadResponse = await this.client.axiosClient.put<FileRemote>(
           uploadUrl,
           buffer,
           {
@@ -265,9 +268,7 @@ export class GoogleDriveStorageApiService {
           }
         );
 
-        if (uploadResponse.status === 200) {
-          return uploadResponse.data;
-        }
+        return uploadResponse.data;
       } catch (error) {
         if (error instanceof ApiException && error.code === 308) {
           uploadedBytes += bytesRead;
@@ -276,6 +277,71 @@ export class GoogleDriveStorageApiService {
         }
       }
     }
+
+    throw new ApiException('Failed to upload file');
+  }
+
+  async uploadSmallFile(file: LocalFile, folderId: string) {
+    const metadata = {
+      name: file.name,
+      mimeType: file.type,
+      parents: [folderId],
+    };
+
+    const boundaryString = generateUniqId();
+
+    const body = await createMultipartUploadBody(
+      file,
+      metadata,
+      boundaryString
+    );
+
+    const response = await this.client.axiosClient.post<FileRemote>(
+      UPLOAD_PARTICLE,
+      body,
+      {
+        headers: {
+          'Content-Type': `multipart/related; boundary=${boundaryString}`,
+        },
+        params: {
+          uploadType: 'multipart',
+          fields: this.fieldsSelection,
+        },
+      }
+    );
+
+    return response.data;
+  }
+
+  async updateSmallFile(file: LocalFile, fileId: string) {
+    const metadata = {
+      name: file.name,
+      mimeType: file.type,
+    };
+
+    const boundaryString = generateUniqId();
+
+    const body = await createMultipartUploadBody(
+      file,
+      metadata,
+      boundaryString
+    );
+
+    const response = await this.client.axiosClient.patch<FileRemote>(
+      `${UPLOAD_PARTICLE}/${fileId}`,
+      body,
+      {
+        headers: {
+          'Content-Type': `multipart/related; boundary=${boundaryString}`,
+        },
+        params: {
+          uploadType: 'multipart',
+          fields: this.fieldsSelection,
+        },
+      }
+    );
+
+    return response.data;
   }
 
   async updateFileMetadata(fileId: string, body: CommonRequestBody) {

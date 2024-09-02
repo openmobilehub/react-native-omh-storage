@@ -130,6 +130,7 @@ export const CreateFileBottomSheet = ({ folderId }: Props) => {
           label="Name"
           value={fileName}
           onChangeText={setFileName}
+          testID="create-file-name-input"
         />
         <Picker
           value={selectedFileType}
@@ -145,6 +146,7 @@ export const CreateFileBottomSheet = ({ folderId }: Props) => {
           onPress={handleCreateFilePress}
           mode="contained"
           loading={createFileWithMimeTypeMutation.isPending}
+          testID="create-file-button"
         >
           Create File
         </Button>

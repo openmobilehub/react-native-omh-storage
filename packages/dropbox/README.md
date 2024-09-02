@@ -18,7 +18,14 @@
 
 ## Prerequisites
 
-Each plugin requires you to follow the [iOS](/getting-started#ios-configuration) and [Android](/getting-started#android-configuration) configuration prior to interacting with it. Additionally, for Google Drive integration, you must have the [`@openmobilehub/auth-dropbox`](https://www.npmjs.com/package/@openmobilehub/auth-dropbox) library installed and [configured](https://openmobilehub.github.io/react-native-omh-auth/docs/dropbox).
+Before starting the integration, make sure the following packages are installed and configured:
+
+- `@openmobilehub/storage-core`
+- `react-native-file-access`
+- `@react-native-async-storage/async-storage`
+- `react-native-app-auth` - [Configuration](https://openmobilehub.github.io/react-native-omh-auth/docs/getting-started#ios-configuration)
+- `@openmobilehub/auth-core` - [Configuration](https://openmobilehub.github.io/react-native-omh-auth/docs/getting-started#android-configuration)
+- `@openmobilehub/auth-dropbox` - [Configuration](https://openmobilehub.github.io/react-native-omh-auth/docs/dropbox#configuration)
 
 ## Installation
 
@@ -76,11 +83,19 @@ const dropboxStorageClient = new DropboxStorageClient(DropboxAuth);
 
 ### Other methods
 
-Interacting with the Dropbox storage provider follows the same pattern as other storage providers since they all implement the [`IStorageClient`](/api/interfaces/openmobilehub_storage_core.IStorageClient#methods) interface. This uniformity ensures consistent functionality across different storage providers, so you won’t need to learn new methods regardless of the storage provider you choose! For a comprehensive list of available methods, refer to the [Getting Started](/getting-started) guide.
+Interacting with the Dropbox storage provider follows the same pattern as other storage providers since they all implement the [`IStorageClient`](https://ideal-doodle-m69lynw.pages.github.io/docs/api/core/src/interfaces/IStorageClient#methods) interface. This uniformity ensures consistent functionality across different storage providers, so you won’t need to learn new methods regardless of the storage provider you choose! For a comprehensive list of available methods, refer to the [Getting Started](https://ideal-doodle-m69lynw.pages.github.io/docs/getting-started#usage) guide.
 
 :::warning[CAVEATS]
 
-> When updating a file, if the new file has a different name than the updated file, two additional versions might sometimes appear in the system. One version comes from updating the content of the file, and the other comes from updating the file name. However, this behavior is non-deterministic, and sometimes only one new version is added. This is why it is listed under the Caveats section.
+When updating a file, if the new file has a different name than the updated file, two additional versions might sometimes appear in the system. One version comes from updating the content of the file, and the other comes from updating the file name.
+
+The `createPermission` method returns `null` when a permission is successfully created.
+
+The `updatePermission` method returns `null` when a permission is successfully updated.
+
+The `getWebUrl` method requires the folder to be a shared folder to return a web URL.
+
+The `getFilePermissions` method requires the folder to be a shared folder to retrieve any permissions, including `owner` permission.
 
 :::
 
