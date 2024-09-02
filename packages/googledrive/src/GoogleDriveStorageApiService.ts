@@ -8,6 +8,7 @@ import {
 } from '@openmobilehub/storage-core';
 import { FileSystem } from 'react-native-file-access';
 
+import { DEFAULT_MIME_TYPE } from './constants/mimeTypes';
 import type { CommonRequestBody } from './data/body/CommonRequestBody';
 import type { CreateFileRequestBody } from './data/body/CreateFileRequestBody';
 import type { CreatePermissionRequestBody } from './data/body/CreatePermissionRequestBody';
@@ -169,7 +170,7 @@ export class GoogleDriveStorageApiService {
     return {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
-        'X-Upload-Content-Type': file.type,
+        'X-Upload-Content-Type': file.type || DEFAULT_MIME_TYPE,
         'X-Upload-Content-Length': byteLength,
       },
       params: {
@@ -183,7 +184,7 @@ export class GoogleDriveStorageApiService {
 
     const metadata = {
       name: file.name,
-      mimeType: file.type,
+      mimeType: file.type || DEFAULT_MIME_TYPE,
       parents: [folderId],
     };
 
@@ -207,7 +208,7 @@ export class GoogleDriveStorageApiService {
 
     const metadata = {
       name: file.name,
-      mimeType: file.type,
+      mimeType: file.type || DEFAULT_MIME_TYPE,
     };
 
     const response = await this.client.axiosClient.patch(
@@ -258,7 +259,7 @@ export class GoogleDriveStorageApiService {
           buffer,
           {
             headers: {
-              'Content-Type': file.type,
+              'Content-Type': file.type || DEFAULT_MIME_TYPE,
               'Content-Length': bytesRead,
               'Content-Range': contentRange,
             },
@@ -284,7 +285,7 @@ export class GoogleDriveStorageApiService {
   async uploadSmallFile(file: LocalFile, folderId: string) {
     const metadata = {
       name: file.name,
-      mimeType: file.type,
+      mimeType: file.type || DEFAULT_MIME_TYPE,
       parents: [folderId],
     };
 
@@ -316,7 +317,7 @@ export class GoogleDriveStorageApiService {
   async updateSmallFile(file: LocalFile, fileId: string) {
     const metadata = {
       name: file.name,
-      mimeType: file.type,
+      mimeType: file.type || DEFAULT_MIME_TYPE,
     };
 
     const boundaryString = generateUniqId();

@@ -8,8 +8,6 @@ import DocumentPicker from 'react-native-document-picker';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions';
 
-import { DEFAULT_MIME_TYPE } from '@/constants/mimeTypes';
-
 export const usePickFile = () => {
   const requestStoragePermission = async () => {
     const permissions = Platform.select({
@@ -96,7 +94,7 @@ export const usePickFile = () => {
           const { fileName, fileSize, uri } = asset;
           const type = getTypeOrFromExtension(asset.type, fileName);
 
-          if (!fileName || fileSize === undefined || !type) {
+          if (!fileName || fileSize === undefined) {
             reject('Missing required asset properties');
             return;
           }
@@ -125,7 +123,7 @@ const getTypeOrFromExtension = (type?: string | null, name?: string | null) => {
     return type;
   }
 
-  return name
-    ? getMimeTypeFromExtension(name) || DEFAULT_MIME_TYPE
-    : DEFAULT_MIME_TYPE;
+  if (name) {
+    return getMimeTypeFromExtension(name);
+  }
 };
