@@ -1,6 +1,9 @@
 import { Platform } from 'react-native';
 
-import { LocalFile } from '@openmobilehub/storage-core';
+import {
+  getMimeTypeFromExtension,
+  LocalFile,
+} from '@openmobilehub/storage-core';
 import DocumentPicker from 'react-native-document-picker';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { check, PERMISSIONS, request, RESULTS } from 'react-native-permissions';
@@ -51,7 +54,8 @@ export const usePickFile = () => {
         mode: 'open',
       });
 
-      const { name, size, type, uri } = response;
+      const { name, size, uri } = response;
+      const type = getTypeOrFromExtension(response.type, name);
 
       if (!name || size == null || !type || !uri) {
         throw Error('Missing required asset properties');
@@ -87,7 +91,8 @@ export const usePickFile = () => {
             return;
           }
 
-          const { fileName, fileSize, type, uri } = asset;
+          const { fileName, fileSize, uri } = asset;
+          const type = getTypeOrFromExtension(asset.type, fileName);
 
           if (!fileName || fileSize === undefined || !type) {
             reject('Missing required asset properties');
@@ -111,4 +116,17 @@ export const usePickFile = () => {
     pickFromFiles,
     pickFromPhotoGallery,
   };
+};
+
+const getTypeOrFromExtension = (
+  type: string | undefined | null,
+  name: string | undefined | null
+) => {
+  if (type) {
+    return type;
+  }
+
+  if (name) {
+    return getMimeTypeFromExtension(name);
+  }
 };
