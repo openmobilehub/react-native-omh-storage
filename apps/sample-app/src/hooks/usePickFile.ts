@@ -57,7 +57,7 @@ export const usePickFile = () => {
       const { name, size, uri } = response;
       const type = getTypeOrFromExtension(response.type, name);
 
-      if (!name || size == null || !type || !uri) {
+      if (!name || size == null || !uri) {
         throw Error('Missing required asset properties');
       }
 
@@ -94,7 +94,7 @@ export const usePickFile = () => {
           const { fileName, fileSize, uri } = asset;
           const type = getTypeOrFromExtension(asset.type, fileName);
 
-          if (!fileName || fileSize === undefined || !type) {
+          if (!fileName || fileSize === undefined) {
             reject('Missing required asset properties');
             return;
           }
@@ -118,10 +118,7 @@ export const usePickFile = () => {
   };
 };
 
-const getTypeOrFromExtension = (
-  type: string | undefined | null,
-  name: string | undefined | null
-) => {
+const getTypeOrFromExtension = (type?: string | null, name?: string | null) => {
   if (type) {
     return type;
   }

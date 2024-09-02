@@ -7,7 +7,7 @@ import type { StorageEntityMetadata } from './model/StorageEntityMetadata';
 export type LocalFile = {
   name: string;
   size: number;
-  type: string;
+  type?: string;
   uri: string;
 };
 
