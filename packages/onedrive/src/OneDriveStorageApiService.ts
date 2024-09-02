@@ -3,7 +3,6 @@ import { FileSystem } from 'react-native-file-access';
 
 import type { CreateFolderBody } from './data/body/CreateFolderBody';
 import type { InviteRequestBody } from './data/body/InviteRequestBody';
-import { mapDriveItemToStorageEntity } from './data/mappers/mapDriveItemToStorageEntity';
 import type { DriveItem } from './data/response/DriveItem';
 import { type FileListRemote } from './data/response/FileListRemote';
 import type { PermissionListRemote } from './data/response/PermissionListRemote';
@@ -120,7 +119,45 @@ export class OneDriveStorageApiService {
     return response.data.uploadUrl;
   }
 
-  async uploadFile(uploadUrl: string, file: LocalFile) {
+  async uploadSmallFile(file: LocalFile, folderId: string) {
+    const binaryStreamBody = new Uint8Array(file.size);
+
+    const response = await this.client.axiosClient.put<DriveItem>(
+      `${ITEMS_PARTICLE}/${folderId}:/${file.name}:/content`,
+      binaryStreamBody,
+      {
+        params: {
+          '@microsoft.graph.conflictBehavior': 'rename',
+        },
+        headers: {
+          'Content-Type': 'text/plain',
+        },
+      }
+    );
+
+    return response.data;
+  }
+
+  async updateSmallFile(file: LocalFile, fileId: string) {
+    const binaryStreamBody = new Uint8Array(file.size);
+
+    const response = await this.client.axiosClient.put<DriveItem>(
+      `${ITEMS_PARTICLE}/${fileId}/content`,
+      binaryStreamBody,
+      {
+        params: {
+          '@microsoft.graph.conflictBehavior': 'replace',
+        },
+        headers: {
+          'Content-Type': 'text/plain',
+        },
+      }
+    );
+
+    return response.data;
+  }
+
+  async resumableUploadFile(uploadUrl: string, file: LocalFile) {
     const fileStats = await FileSystem.stat(file.uri);
     const fileLength = fileStats.size;
     let uploadedBytes = 0;
@@ -161,7 +198,7 @@ export class OneDriveStorageApiService {
       }
 
       if (response.status === 201 || response.status === 200) {
-        return mapDriveItemToStorageEntity(response.data);
+        return response.data;
       }
     }
 
