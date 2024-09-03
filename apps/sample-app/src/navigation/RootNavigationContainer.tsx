@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
-import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { FullScreenLoadingState } from '@/components/fullScreenLoadingState/FullScreenLoadingState';
 import { useAuthContext } from '@/contexts/auth/AuthContext';
+import useCreateAdaptiveTheme from '@/hooks/useCreateAdaptiveTheme.ts';
 import { ContextMenu } from '@/navigation/contextMenu/ContexMenu';
 import { FileViewerScreen } from '@/screens/fileViewer/FileViewerScreen';
 import { LoginScreen } from '@/screens/login/LoginScreen';
@@ -15,14 +16,6 @@ export type RootStackParamList = {
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
-
-const MyTheme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    background: 'white',
-  },
-};
 
 const headerRight = (folderId?: string) => <ContextMenu folderId={folderId} />;
 
@@ -36,6 +29,20 @@ const RootStack = () => {
     }
   }, [silentLogin, initializationStatus]);
 
+  const theme = useCreateAdaptiveTheme();
+
+  const screenOptions = useMemo(
+    () => ({
+      contentStyle: {
+        backgroundColor: theme.colors.background,
+      },
+      headerStyle: {
+        backgroundColor: theme.colors.primary,
+      },
+    }),
+    [theme.colors]
+  );
+
   if (
     initializationStatus === 'initializing' ||
     initializationStatus === 'idle'
@@ -44,18 +51,22 @@ const RootStack = () => {
   }
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={screenOptions}>
       {!authClient ? (
         <Stack.Screen
           name="Login"
           component={LoginScreen}
-          options={{ title: 'Sign in' }}
+          options={{
+            ...screenOptions,
+            title: 'Sign in',
+          }}
         />
       ) : (
         <Stack.Screen
           name="FileViewer"
           component={FileViewerScreen}
           options={({ route }) => ({
+            ...screenOptions,
             title: route.params.folderName || provider || 'File Viewer',
             headerRight: () => headerRight(route.params.folderId),
           })}
@@ -68,7 +79,7 @@ const RootStack = () => {
 
 export const RootNavigationContainer = () => {
   return (
-    <NavigationContainer theme={MyTheme}>
+    <NavigationContainer>
       <RootStack />
     </NavigationContainer>
   );

@@ -1,4 +1,4 @@
-import { forwardRef, ReactNode } from 'react';
+import { forwardRef, ReactNode, useMemo } from 'react';
 import { Dimensions, ViewStyle } from 'react-native';
 
 import {
@@ -6,6 +6,8 @@ import {
   BottomSheetModalProps,
   BottomSheetScrollView,
 } from '@gorhom/bottom-sheet';
+
+import useCreateAdaptiveTheme from '@/hooks/useCreateAdaptiveTheme.ts';
 
 import { styles } from './BottomSheet.styles';
 import { BottomSheetBackdrop } from './parts/BottomSheetBackdrop';
@@ -30,6 +32,14 @@ export const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
     },
     ref
   ) => {
+    const theme = useCreateAdaptiveTheme();
+    const bottomSheetStyle = useMemo(
+      () => ({
+        backgroundColor: theme.colors.background,
+      }),
+      [theme.colors.background]
+    );
+
     return (
       <BottomSheetModal
         {...props}
@@ -42,7 +52,13 @@ export const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
       >
         <BottomSheetScrollView
           keyboardShouldPersistTaps="handled"
-          style={[styles.contentContainer, contentContainerStyle]}
+          style={[
+            {
+              ...bottomSheetStyle,
+              ...styles.contentContainer,
+            },
+            contentContainerStyle,
+          ]}
         >
           {children}
         </BottomSheetScrollView>

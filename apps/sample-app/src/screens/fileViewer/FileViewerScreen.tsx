@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { FlatList, View } from 'react-native';
 
 import { File, StorageEntity } from '@openmobilehub/storage-core';
@@ -16,6 +16,7 @@ import { useRequireStorageClient } from '@/contexts/storage/useRequireStorageCli
 import { useDownloadFileMutation } from '@/data/mutation/useDownloadFileMutation';
 import { useFileListQuery } from '@/data/query/fileListQuery';
 import { useSearchFilesQuery } from '@/data/query/useSearchFilesQuery';
+import useCreateAdaptiveTheme from '@/hooks/useCreateAdaptiveTheme.ts';
 import { type RootStackParamList } from '@/navigation/RootNavigationContainer';
 
 import { styles } from './FileViewerScreen.styles';
@@ -78,6 +79,14 @@ export const FileViewerScreen = () => {
     }
   };
 
+  const theme = useCreateAdaptiveTheme();
+  const searchBarStyle = useMemo(
+    () => ({
+      backgroundColor: theme.colors.background,
+    }),
+    [theme.colors.background]
+  );
+
   const renderEmptyListComponent = useCallback(() => {
     if (fileListQuery.isLoading || searchFilesQuery.isLoading) {
       return <FullScreenLoadingState />;
@@ -106,7 +115,7 @@ export const FileViewerScreen = () => {
         <Searchbar
           placeholder="Search"
           onChangeText={setSearchQuery}
-          style={styles.searchBar}
+          style={searchBarStyle}
           value={searchQuery}
         />
         <Divider />
