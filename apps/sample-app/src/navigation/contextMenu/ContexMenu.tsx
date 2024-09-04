@@ -12,6 +12,7 @@ import { useSnackbar } from '@/contexts/snackbar/SnackbarContent';
 import { useRequireStorageClient } from '@/contexts/storage/useRequireStorageClient';
 import { useUIContext } from '@/contexts/ui/UIContext';
 import { useLocalFileUploadMutation } from '@/data/mutation/useLocalFileUploadMutation';
+import useCreateAdaptiveTheme from '@/hooks/useCreateAdaptiveTheme.ts';
 
 import { styles } from './ContextMenu.styles';
 
@@ -32,6 +33,8 @@ export const ContextMenu = ({ folderId }: ContextMenuProps) => {
   );
   const bottomSheetRef = useRef<BottomSheetModal>(null);
   const [visible, setVisible] = useState(false);
+
+  const theme = useCreateAdaptiveTheme();
 
   const handleMenuOpen = () => setVisible(true);
 
@@ -77,7 +80,12 @@ export const ContextMenu = ({ folderId }: ContextMenuProps) => {
         visible={visible}
         onDismiss={handleMenuClose}
         anchor={
-          <IconButton icon="dots-vertical" size={24} onPress={handleMenuOpen} />
+          <IconButton
+            iconColor={theme.colors.onSurface}
+            icon="dots-vertical"
+            size={24}
+            onPress={handleMenuOpen}
+          />
         }
         style={styles.menu}
       >
