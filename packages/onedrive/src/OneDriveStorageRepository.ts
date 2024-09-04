@@ -19,6 +19,7 @@ import type { DriveItem } from './data/response/DriveItem';
 import type { OneDriveStorageApiService } from './OneDriveStorageApiService';
 
 const PRECONDITION_ERROR_STATUS_CODE = 412;
+const CONFLICT_ERROR_STATUS_CODE = 409;
 
 export class OneDriveStorageRepository {
   private apiService: OneDriveStorageApiService;
@@ -143,7 +144,8 @@ export class OneDriveStorageRepository {
       // uploading a new file version and renaming the file at the same time.
       if (
         error instanceof ApiException &&
-        error.code === PRECONDITION_ERROR_STATUS_CODE &&
+        (error.code === PRECONDITION_ERROR_STATUS_CODE ||
+          error.code === CONFLICT_ERROR_STATUS_CODE) &&
         retry
       ) {
         return this.renameFile(fileId, fileName, false);
