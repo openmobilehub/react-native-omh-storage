@@ -99,7 +99,7 @@ export const FileViewerScreen = () => {
     if (downloadFileMutation.isPending) {
       return (
         <Portal>
-          <FullScreenLoadingState withBackground />
+          <FullScreenLoadingState overlay />
         </Portal>
       );
     }

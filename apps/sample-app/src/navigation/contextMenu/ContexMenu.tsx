@@ -70,7 +70,7 @@ export const ContextMenu = ({ folderId }: ContextMenuProps) => {
   if (isPending) {
     return (
       <Portal>
-        <FullScreenLoadingState withBackground />
+        <FullScreenLoadingState overlay />
       </Portal>
     );
   }

@@ -33,7 +33,7 @@ export const UpdateContent = ({ file, closeBottomSheet }: Props) => {
   if (fileUpdateMutation.isPending) {
     return (
       <Portal>
-        <FullScreenLoadingState withBackground />
+        <FullScreenLoadingState overlay />
       </Portal>
     );
   }
