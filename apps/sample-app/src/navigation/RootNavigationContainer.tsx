@@ -78,8 +78,9 @@ const RootStack = () => {
 };
 
 export const RootNavigationContainer = () => {
+  const theme = useCreateAdaptiveTheme();
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={theme}>
       <RootStack />
     </NavigationContainer>
   );
