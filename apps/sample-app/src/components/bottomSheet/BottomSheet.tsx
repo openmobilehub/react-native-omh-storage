@@ -39,10 +39,18 @@ export const BottomSheet = forwardRef<BottomSheetModal, BottomSheetProps>(
       }),
       [theme.colors.background]
     );
+    const handleIndicatorStyle = useMemo(
+      () => ({
+        backgroundColor: theme.colors.onSurface,
+      }),
+      [theme.colors.onSurface]
+    );
 
     return (
       <BottomSheetModal
         {...props}
+        handleIndicatorStyle={handleIndicatorStyle}
+        handleStyle={bottomSheetStyle}
         ref={ref}
         snapPoints={snapPoints}
         backdropComponent={BottomSheetBackdrop}
