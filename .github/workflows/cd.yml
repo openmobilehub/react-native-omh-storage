@@ -222,81 +222,80 @@ jobs:
           debug: true
           gitReleaseNotes: true
 
-  # TODO: Uncomment when ready to publish
-  # check-packages-version:
-  #   runs-on: ubuntu-latest
-  #   outputs:
-  #     package_version: ${{ steps.check_version.outputs.package_version }}
-  #     version_changed: ${{ steps.check_version.outputs.version_changed }}
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
+  check-packages-version:
+    runs-on: ubuntu-latest
+    outputs:
+      package_version: ${{ steps.check_version.outputs.package_version }}
+      version_changed: ${{ steps.check_version.outputs.version_changed }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  #     - name: Check packages version
-  #       id: check_version
-  #       run: |
-  #         .github/scripts/check-packages-version.sh
+      - name: Check packages version
+        id: check_version
+        run: |
+          .github/scripts/check-packages-version.sh
 
-  # publish-packages:
-  #   runs-on: ubuntu-latest
-  #   needs: check-packages-version
-  #   if: needs.check-packages-version.outputs.version_changed == 'true'
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
+  publish-packages:
+    runs-on: ubuntu-latest
+    needs: check-packages-version
+    if: needs.check-packages-version.outputs.version_changed == 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  #     - name: Setup
-  #       uses: ./.github/actions/setup
+      - name: Setup
+        uses: ./.github/actions/setup
 
-  #     - name: Build packages
-  #       run: yarn prepare
+      - name: Build packages
+        run: yarn prepare
 
-  #     - name: Setup NPM token
-  #       run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
-  #       env:
-  #         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Setup NPM token
+        run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-  #     - name: Publish packages to NPM
-  #       run: |
-  #         yarn lerna publish from-package --no-changelog --yes
+      - name: Publish packages to NPM
+        run: |
+          yarn lerna publish from-package --no-changelog --yes
 
-  # create-release:
-  #   runs-on: ubuntu-latest
-  #   needs:
-  #     - build-android
-  #     - build-ios
-  #     - check-packages-version
-  #   if: needs.check-packages-version.outputs.version_changed == 'true'
-  #   env:
-  #     TAG_NAME: v${{ needs.check-packages-version.outputs.package_version }}
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
+  create-release:
+    runs-on: ubuntu-latest
+    needs:
+      - build-android
+      - build-ios
+      - check-packages-version
+    if: needs.check-packages-version.outputs.version_changed == 'true'
+    env:
+      TAG_NAME: v${{ needs.check-packages-version.outputs.package_version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  #     - name: Setup git user
-  #       run: |
-  #         git config user.name "${{ github.actor }}"
-  #         git config user.email "openmobilehub@users.noreply.github.com"
+      - name: Setup git user
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "openmobilehub@users.noreply.github.com"
 
-  #     - name: Create new tag
-  #       run: |
-  #         git tag ${{ env.TAG_NAME }}
-  #         git push origin ${{ env.TAG_NAME }}
+      - name: Create new tag
+        run: |
+          git tag ${{ env.TAG_NAME }}
+          git push origin ${{ env.TAG_NAME }}
 
-  #     - name: Download .apk & .ipa files
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         merge-multiple: true
+      - name: Download .apk & .ipa files
+        uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
 
-  #     - name: Rename .apk & .ipa files
-  #       run: |
-  #         mv app-release.apk sample-app.apk
-  #         mv RNStorageSample.ipa sample-app.ipa
+      - name: Rename .apk & .ipa files
+        run: |
+          mv app-release.apk sample-app.apk
+          mv RNStorageSample.ipa sample-app.ipa
 
-  #     - name: Create GitHub release
-  #       uses: softprops/action-gh-release@v2
-  #       with:
-  #         tag_name: ${{ env.TAG_NAME }}
-  #         files: |
-  #           sample-app.apk
-  #           sample-app.ipa
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.TAG_NAME }}
+          files: |
+            sample-app.apk
+            sample-app.ipa

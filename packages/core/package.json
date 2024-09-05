@@ -1,7 +1,7 @@
 {
   "name": "@openmobilehub/storage-core",
-  "version": "1.0.0",
-  "description": "React Native OMH Storage - Core",
+  "version": "1.0.0-alpha.0",
+  "description": "Core package for React Native OMH Storage, providing a unified interface for integrating with various cloud storage providers.",
   "scripts": {
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "typecheck": "tsc --noEmit",
@@ -13,12 +13,13 @@
     "url": "git+https://github.com/openmobilehub/react-native-omh-storage.git"
   },
   "author": "OpenMobileHub <contact@openmobilehub.org> (https://openmobilehub.org)",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/openmobilehub/react-native-omh-storage/issues"
   },
   "homepage": "https://github.com/openmobilehub/react-native-omh-storage#readme",
   "publishConfig": {
+    "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
   "keywords": [
