@@ -83,7 +83,7 @@ const googleDriveStorageClient = new GoogleDriveStorageClient(GoogleAuthClient);
 
 ### Other methods
 
-Interacting with the Google Drive storage provider follows the same pattern as other storage providers since they all implement the [`IStorageClient`](https://ideal-doodle-m69lynw.pages.github.io/docs/api/core/src/interfaces/IStorageClient#methods) interface. This uniformity ensures consistent functionality across different storage providers, so you won’t need to learn new methods regardless of the storage provider you choose! For a comprehensive list of available methods, refer to the [Getting Started](https://ideal-doodle-m69lynw.pages.github.io/docs/getting-started#usage) guide.
+Interacting with the Google Drive storage provider follows the same pattern as other storage providers since they all implement the [`IStorageClient`](https://openmobilehub.github.io/react-native-omh-storage/docs/api/core/src/interfaces/IStorageClient#methods) interface. This uniformity ensures consistent functionality across different storage providers, so you won’t need to learn new methods regardless of the storage provider you choose! For a comprehensive list of available methods, refer to the [Getting Started](https://openmobilehub.github.io/react-native-omh-storage/docs/getting-started#usage) guide.
 
 :::warning[CAVEATS]
 
