@@ -36,9 +36,9 @@ cd apps/sample-app/ios && pod install
 
 Before proceeding with the setup, ensure you have created an app for each service provider:
 
-- [Google Drive](https://ideal-doodle-m69lynw.pages.github.io/docs/googledrive)
-- [OneDrive](https://ideal-doodle-m69lynw.pages.github.io/docs/onedrive)
-- [Dropbox](https://ideal-doodle-m69lynw.pages.github.io/docs/dropbox)
+- [Google Drive](https://openmobilehub.github.io/react-native-omh-storage/docs/googledrive)
+- [OneDrive](https://openmobilehub.github.io/react-native-omh-storage/docs/onedrive)
+- [Dropbox](https://openmobilehub.github.io/react-native-omh-storage/docs/dropbox)
 
 If you don't want to set up certain providers, you can leave their values empty.
 
