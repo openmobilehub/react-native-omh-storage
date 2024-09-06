@@ -16,7 +16,7 @@ Since the project relies on Yarn workspaces, you cannot use [npm](https://github
 
 ## Sample App
 
-The [Sample App](https://github.com/openmobilehub/react-native-omh-storage/tree/main/apps/sample-app) demonstrates usage of the library. To run the application, follow the instructions [here](https://ideal-doodle-m69lynw.pages.github.io/docs/sample-app).
+The [Sample App](https://github.com/openmobilehub/react-native-omh-storage/tree/main/apps/sample-app) demonstrates usage of the library. To run the application, follow the instructions [here](https://openmobilehub.github.io/react-native-omh-storage/docs/sample-app).
 
 ## Linting
 
@@ -43,7 +43,7 @@ You can create a new plugin by following the existing plugin structure:
 - [OneDrive](https://github.com/openmobilehub/react-native-omh-storage/tree/main/packages/onedrive)
 - [Dropbox](https://github.com/openmobilehub/react-native-omh-storage/tree/main/packages/dropbox)
 
-All providers should inherit the [`IStorageClient`](https://ideal-doodle-m69lynw.pages.github.io/docs/api/core/src/interfaces/IStorageClient) from the [@openmobilehub/storage-core](https://github.com/openmobilehub/react-native-omh-storage/tree/main/packages/core), to ensure consistency across different providers.
+All providers should inherit the [`IStorageClient`](https://openmobilehub.github.io/react-native-omh-storage/docs/api/core/src/interfaces/IStorageClient) from the [@openmobilehub/storage-core](https://github.com/openmobilehub/react-native-omh-storage/tree/main/packages/core), to ensure consistency across different providers.
 
 ## Writing documentation
 
