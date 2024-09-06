@@ -30,9 +30,9 @@
 
 This is the main directory of the mono-repo for React Native OMH Storage. If you're searching for a particular package, please click on the corresponding package link below.
 
-- [Google Drive](https://ideal-doodle-m69lynw.pages.github.io/docs/googledrive)
-- [OneDrive](https://ideal-doodle-m69lynw.pages.github.io/docs/onedrive)
-- [Dropbox](https://ideal-doodle-m69lynw.pages.github.io/docs/dropbox)
+- [Google Drive](https://openmobilehub.github.io/react-native-omh-storage/docs/googledrive)
+- [OneDrive](https://openmobilehub.github.io/react-native-omh-storage/onedrive)
+- [Dropbox](https://openmobilehub.github.io/react-native-omh-storage/dropbox)
 
 ## Documentation
 
@@ -69,7 +69,7 @@ This is the main directory of the mono-repo for React Native OMH Storage. If you
 
 <summary>Show details</summary>
 
-[`File`](https://ideal-doodle-m69lynw.pages.github.io/docs/api/core/src/classes/File#properties)
+[`File`](https://openmobilehub.github.io/react-native-omh-storage/docs/api/core/src/classes/File#properties)
 
 | Property     | Google Drive (GMS) | Google Drive (non-GMS) | OneDrive | Dropbox |
 | ------------ | :----------------: | :--------------------: | :------: | :-----: |
@@ -84,7 +84,7 @@ This is the main directory of the mono-repo for React Native OMH Storage. If you
 
 > **OneDrive, Dropbox**: On Android, the `createdTime` property cannot be retrieved for files.
 
-[`Folder`](https://ideal-doodle-m69lynw.pages.github.io/docs/api/core/src/classes/Folder#properties)
+[`Folder`](https://openmobilehub.github.io/react-native-omh-storage/docs/api/core/src/classes/Folder#properties)
 
 | Property     | Google Drive (GMS) | Google Drive (non-GMS) | OneDrive | Dropbox |
 | ------------ | :----------------: | :--------------------: | :------: | :-----: |
@@ -104,7 +104,7 @@ This is the main directory of the mono-repo for React Native OMH Storage. If you
 
 <summary>Show details</summary>
 
-[`Permission#properties`](https://ideal-doodle-m69lynw.pages.github.io/docs/api/core/src/classes/Permission#properties)
+[`Permission#properties`](https://openmobilehub.github.io/react-native-omh-storage/api/core/src/classes/Permission#properties)
 
 | Property    | Google Drive (GMS) | Google Drive (non-GMS) | OneDrive | Dropbox |
 | ----------- | :----------------: | :--------------------: | :------: | :-----: |
@@ -117,7 +117,7 @@ This is the main directory of the mono-repo for React Native OMH Storage. If you
 
 > **Dropbox**: The `id` corresponds to the underlying identity ID.
 
-[`Permission#extended-by`](https://ideal-doodle-m69lynw.pages.github.io/docs/api/core/src/classes/Permission#extended-by)
+[`Permission#extended-by`](https://openmobilehub.github.io/react-native-omh-storage/docs/api/core/src/classes/Permission#extended-by)
 
 | Type        | Google Drive (GMS) | Google Drive (non-GMS) | OneDrive | Dropbox |
 | ----------- | :----------------: | :--------------------: | :------: | :-----: |
@@ -128,7 +128,7 @@ This is the main directory of the mono-repo for React Native OMH Storage. If you
 | Device      |         ❌         |           ❌           |    ✅    |   ❌    |
 | Application |         ❌         |           ❌           |    ✅    |   ❌    |
 
-[`UserPermission`](https://ideal-doodle-m69lynw.pages.github.io/docs/api/core/src/classes/UserPermission#properties)
+[`UserPermission`](https://openmobilehub.github.io/react-native-omh-storage/docs/api/core/src/classes/UserPermission#properties)
 
 | Property       | Google Drive (GMS) | Google Drive (non-GMS) | OneDrive | Dropbox |
 | -------------- | :----------------: | :--------------------: | :------: | :-----: |
@@ -142,7 +142,7 @@ This is the main directory of the mono-repo for React Native OMH Storage. If you
 
 > **Dropbox**: Invited users who do not have a Dropbox account will not have a `displayName`.
 
-[`GroupPermission`](https://ideal-doodle-m69lynw.pages.github.io/docs/api/core/src/classes/GroupPermission#properties)
+[`GroupPermission`](https://openmobilehub.github.io/react-native-omh-storage/docs/api/core/src/classes/GroupPermission#properties)
 
 | Property       | Google Drive (GMS) | Google Drive (non-GMS) | OneDrive | Dropbox |
 | -------------- | :----------------: | :--------------------: | :------: | :-----: |
@@ -152,7 +152,7 @@ This is the main directory of the mono-repo for React Native OMH Storage. If you
 | expirationTime |         ✅         |           ✅           |    ✅    |   ❌    |
 | deleted        |         ✅         |           ✅           |    ❌    |   ❌    |
 
-[`PermissionRole`](https://ideal-doodle-m69lynw.pages.github.io/docs/api/core/src/type-aliases/PermissionRole)
+[`PermissionRole`](https://openmobilehub.github.io/react-native-omh-storage/docs/api/core/src/type-aliases/PermissionRole)
 
 | Role      | Google Drive (GMS) | Google Drive (non-GMS) | OneDrive | Dropbox |
 | --------- | :----------------: | :--------------------: | :------: | :-----: |
@@ -166,7 +166,7 @@ This is the main directory of the mono-repo for React Native OMH Storage. If you
 > - While the `reader` role is documented in the API, Dropbox does not support granting this role. Attempting to do so will throw an exception with the user message: `viewer_no_comment isn’t yet supported`.
 > - Dropbox also does not support granting the `writer` role for uploaded files. Any attempt will result in an exception with the user message: `You don’t have permission to perform this action`.
 
-[`PermissionRecipient`](https://ideal-doodle-m69lynw.pages.github.io/docs/api/core/src/type-aliases/PermissionRecipient)
+[`PermissionRecipient`](https://openmobilehub.github.io/react-native-omh-storage/docs/api/core/src/type-aliases/PermissionRecipient)
 
 | Type         | Google Drive (GMS) | Google Drive (non-GMS) | OneDrive | Dropbox |
 | ------------ | :----------------: | :--------------------: | :------: | :-----: |
@@ -183,7 +183,7 @@ This is the main directory of the mono-repo for React Native OMH Storage. If you
 
 ## Contributing
 
-- [Overview](https://ideal-doodle-m69lynw.pages.github.io/docs/contributing)
+- [Overview](https://openmobilehub.github.io/react-native-omh-storage/docs/contributing)
 - [Issues](https://github.com/openmobilehub/react-native-omh-storage/issues)
 - [PRs](https://github.com/openmobilehub/react-native-omh-storage/pulls)
 
