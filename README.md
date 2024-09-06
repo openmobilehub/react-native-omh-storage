@@ -36,8 +36,8 @@ This is the main directory of the mono-repo for React Native OMH Storage. If you
 
 ## Documentation
 
-- [Getting Started](https://ideal-doodle-m69lynw.pages.github.io/docs/getting-started)
-- [Reference API](https://ideal-doodle-m69lynw.pages.github.io/docs/api)
+- [Getting Started](https://openmobilehub.github.io/react-native-omh-storage/docs/getting-started)
+- [Reference API](https://openmobilehub.github.io/react-native-omh-storage/docs/api/)
 
 ## Supported functionality
 
