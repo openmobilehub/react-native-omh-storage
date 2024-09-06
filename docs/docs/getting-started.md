@@ -20,9 +20,9 @@ Additionally, the current versions of the Android OMH libraries require a minimu
 
 To integrate a storage provider into your React Native project, follow the specific steps for each provider:
 
-- [Google Drive](https://ideal-doodle-m69lynw.pages.github.io/docs/googledrive)
-- [OneDrive](https://ideal-doodle-m69lynw.pages.github.io/docs/onedrive)
-- [Dropbox](https://ideal-doodle-m69lynw.pages.github.io/docs/dropbox)
+- [Google Drive](https://openmobilehub.github.io/react-native-omh-storage/docs/googledrive)
+- [OneDrive](https://openmobilehub.github.io/react-native-omh-storage/docs/onedrive)
+- [Dropbox](https://openmobilehub.github.io/react-native-omh-storage/docs/dropbox)
 
 ## Usage
 
@@ -222,8 +222,8 @@ const fileUrl = await storageClient.getWebUrl('fileId');
 
 ---
 
-For a more in depth view on the available methods, access the [Reference API](https://ideal-doodle-m69lynw.pages.github.io/docs/api/core/src/interfaces/IStorageClient).
+For a more in depth view on the available methods, access the [Reference API](https://openmobilehub.github.io/react-native-omh-storage/docs/api/core/src/interfaces/IStorageClient).
 
 ## Sample app
 
-Explore the [sample app](https://ideal-doodle-m69lynw.pages.github.io/docs/sample-app) included in the repository to see the implementation of storage with Google Drive and other storage providers. The sample app demonstrates the integration and usage of the various storage providers, providing a practical example to help you get started quickly.
+Explore the [sample app](https://openmobilehub.github.io/react-native-omh-storage/docs/sample-app) included in the repository to see the implementation of storage with Google Drive and other storage providers. The sample app demonstrates the integration and usage of the various storage providers, providing a practical example to help you get started quickly.
