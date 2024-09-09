@@ -74,6 +74,7 @@ export class DropboxStorageRepository {
       mode: 'add',
       autorename: true,
       mute: false,
+      strict_conflict: true,
     };
 
     const response = await this.apiService.localFileUpload(file, commitInfo);
@@ -103,6 +104,7 @@ export class DropboxStorageRepository {
       mode: 'add',
       autorename: true,
       mute: false,
+      strict_conflict: true,
     };
 
     try {
@@ -424,6 +426,7 @@ export class DropboxStorageRepository {
       autorename: false,
       mode: 'overwrite',
       mute: false,
+      strict_conflict: false,
     };
 
     const uploadResponse = await this.apiService.localFileUpload(

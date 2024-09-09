@@ -119,7 +119,7 @@ dependencies {
   implementation project(':openmobilehub_auth-dropbox')
 
   implementation project(':openmobilehub_storage-core')
-  implementation "com.openmobilehub.android.storage:plugin-dropbox:2.0.2-alpha"
+  implementation "com.openmobilehub.android.storage:plugin-dropbox:2.0.4-alpha"
 }
 
 if (isNewArchitectureEnabled()) {

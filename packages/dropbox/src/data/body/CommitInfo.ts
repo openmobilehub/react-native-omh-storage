@@ -5,4 +5,5 @@ export type CommitInfo = {
   mode: WriteMode;
   autorename: boolean;
   mute: boolean;
+  strict_conflict: boolean;
 };
