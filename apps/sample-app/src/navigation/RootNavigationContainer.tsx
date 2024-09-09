@@ -39,6 +39,7 @@ const RootStack = () => {
       headerStyle: {
         backgroundColor: theme.colors.primary,
       },
+      headerTintColor: theme.colors.onSurface,
     }),
     [theme.colors]
   );
