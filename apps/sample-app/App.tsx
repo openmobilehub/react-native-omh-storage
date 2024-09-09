@@ -8,6 +8,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ContextsProvider } from '@/contexts/provider/ContextsProvider';
 import { QueryClientProvider } from '@/data/client/QueryClientProvider';
+import useCreateAdaptiveTheme from '@/hooks/useCreateAdaptiveTheme.ts';
 import { RootNavigationContainer } from '@/navigation/RootNavigationContainer';
 
 import { styles } from './App.styles';
@@ -21,10 +22,12 @@ interface ProvidersProps {
 }
 
 const Providers = ({ children }: ProvidersProps) => {
+  const theme = useCreateAdaptiveTheme();
+
   return (
     <RootSiblingParent>
       <GestureHandlerRootView style={styles.gestureHanlderContainer}>
-        <PaperProvider>
+        <PaperProvider theme={theme}>
           <BottomSheetModalProvider>{children}</BottomSheetModalProvider>
         </PaperProvider>
       </GestureHandlerRootView>

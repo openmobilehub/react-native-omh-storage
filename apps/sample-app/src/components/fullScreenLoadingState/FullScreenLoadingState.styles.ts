@@ -6,7 +6,10 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  background: {
+  backgroundWhite: {
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
+  },
+  backgroundBlack: {
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
   },
 });
