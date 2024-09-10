@@ -119,8 +119,8 @@ dependencies {
   implementation project(':openmobilehub_auth-google')
 
   implementation project(':openmobilehub_storage-core')
-  implementation "com.openmobilehub.android.storage:plugin-googledrive-gms:2.0.2-alpha"
-  implementation "com.openmobilehub.android.storage:plugin-googledrive-non-gms:2.0.2-alpha"
+  implementation "com.openmobilehub.android.storage:plugin-googledrive-gms:2.0.4-alpha"
+  implementation "com.openmobilehub.android.storage:plugin-googledrive-non-gms:2.0.4-alpha"
 }
 
 if (isNewArchitectureEnabled()) {
