@@ -153,6 +153,7 @@ const config: Config = {
         ],
         tsconfig: '../package-tsconfig.json',
         skipErrorChecking: true,
+        readme: 'none',
       },
     ],
   ],
