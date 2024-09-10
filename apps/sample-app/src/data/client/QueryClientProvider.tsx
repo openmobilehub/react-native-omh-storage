@@ -18,7 +18,7 @@ export const QueryClientProvider = ({ children }: Props) => {
       await refreshToken();
     } catch (error) {
       showError(error);
-      logout();
+      await logout();
     }
   }, [logout, refreshToken]);
 
