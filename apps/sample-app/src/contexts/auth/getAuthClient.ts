@@ -45,7 +45,7 @@ export const initAuthClient = async (provider: Provider) => {
           configFileName: 'ms_auth_config',
         },
         ios: {
-          scopes: ['User.Read', 'Files.ReadWrite.All'],
+          scopes: ['User.Read', 'offline_access', 'Files.ReadWrite.All'],
           clientId: MICROSOFT_CLIENT_ID,
           redirectUrl:
             'msauth.com.openmobilehub.reactnative.storage.sample://auth/',
