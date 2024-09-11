@@ -119,7 +119,7 @@ dependencies {
   implementation project(':openmobilehub_auth-microsoft')
 
   implementation project(':openmobilehub_storage-core')
-  implementation "com.openmobilehub.android.storage:plugin-onedrive:2.0.4-alpha"
+  implementation "com.openmobilehub.android.storage:plugin-onedrive:2.0.5-alpha"
 }
 
 if (isNewArchitectureEnabled()) {
