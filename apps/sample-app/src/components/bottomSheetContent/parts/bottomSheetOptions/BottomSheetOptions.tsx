@@ -1,4 +1,4 @@
-import { File, StorageEntity } from '@openmobilehub/storage-core';
+import { File, Folder, StorageEntity } from '@openmobilehub/storage-core';
 import { Divider, Icon, Menu } from 'react-native-paper';
 
 import { Provider } from '@/constants/provider';
@@ -26,15 +26,27 @@ export const BottomSheetOptions = ({
   const { provider } = useAuthContext();
 
   const isFile = file instanceof File;
+  const isFolder = file instanceof Folder;
 
   const handleUpdatePress = () => {
     const isFolderUpdateSupported = provider === Provider.GOOGLEDRIVE;
 
-    if (isFile || isFolderUpdateSupported) {
-      setView(BottomSheetContentType.Update);
-    } else {
+    if (isFolder && !isFolderUpdateSupported) {
       showSnackbar('Updating folders is not supported by provider');
+      return;
     }
+
+    if (isFile) {
+      const isGoogleWorkspaceFile = file?.mimeType?.includes(
+        'application/vnd.google-apps'
+      );
+      if (isGoogleWorkspaceFile) {
+        showSnackbar('Updating Google Workspace files is not supported');
+        return;
+      }
+    }
+
+    setView(BottomSheetContentType.Update);
   };
 
   const leadingIcon = (props: any) => (

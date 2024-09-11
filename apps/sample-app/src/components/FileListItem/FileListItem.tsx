@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef } from 'react';
+import { useCallback, useRef } from 'react';
 import { Alert, Image } from 'react-native';
 
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
@@ -52,22 +52,16 @@ export const FileListItem = ({ file, onPress }: Props) => {
     bottomSheetModalRef.current?.present();
   }, []);
 
-  const deleteHandlers = useMemo(() => {
-    return {
-      onSuccess: () => {
-        showSnackbar('File deleted');
-      },
-      onError: () => {
-        showSnackbar('Failed to delete file');
-      },
-    };
-  }, [showSnackbar]);
-
   const handleDeletePress = () => {
     deleteFileMutation.mutate(
       { fileId: file.id },
       {
-        ...deleteHandlers,
+        onSuccess: () => {
+          showSnackbar('File deleted');
+        },
+        onError: () => {
+          showSnackbar('Failed to delete file');
+        },
       }
     );
   };
@@ -85,7 +79,17 @@ export const FileListItem = ({ file, onPress }: Props) => {
           text: 'Delete',
           style: 'destructive',
           onPress: () => {
-            permanentDeleteFileMutation.mutate({ fileId: file.id });
+            permanentDeleteFileMutation.mutate(
+              { fileId: file.id },
+              {
+                onSuccess: () => {
+                  showSnackbar('File permanently deleted');
+                },
+                onError: () => {
+                  showSnackbar('Failed to permanently delete file');
+                },
+              }
+            );
           },
         },
       ]
