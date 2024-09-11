@@ -93,7 +93,6 @@ The method `createPermission` will override `sendNotificationEmail` parameter to
 
 The method `updateFile` does not support [Google Workspace documents](https://developers.google.com/drive/api/guides/about-files#types:~:text=Google%20Workspace%20document,MIME%20types). It throws an error for Google Sheets and Slides and for Google Docs, it does not update the metadata (apart from file name) which can lead to unexpected behavior.
 
-
 :::
 
 ## License
