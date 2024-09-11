@@ -117,7 +117,7 @@ android {
         debug {
             def isCi = providers.environmentVariable("CI").getOrElse("false").toBoolean()
             def debugKeystorePath = isCi
-            ? "${rootProject.projectDir}/debug.keystore"
+            ? "${rootProject.projectDir}/app/debug.keystore"
             : "${System.getenv('HOME')}/.android/debug.keystore"
             storeFile file(debugKeystorePath)
             storePassword 'android'
