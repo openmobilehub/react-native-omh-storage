@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, ViewProps } from 'react-native';
+import { Platform, View, ViewProps } from 'react-native';
 
-import { Text, useTheme } from 'react-native-paper';
+import { Icon, Text, useTheme } from 'react-native-paper';
 import RNPickerSelect from 'react-native-picker-select';
 
 import { styles } from '@/components/picker/Picker.styles';
@@ -28,6 +28,23 @@ export default function Picker<T>({
 }: PickerProps<T>) {
   const theme = useTheme();
 
+  const renderIcon = () => {
+    if (Platform.OS === 'android') {
+      // Android displays icon natively
+      return null;
+    }
+
+    return (
+      <Icon
+        source="menu-down"
+        size={24}
+        color={
+          disabled ? theme.colors.onSurfaceDisabled : theme.colors.onSurface
+        }
+      />
+    );
+  };
+
   return (
     <View style={[styles.wrapper, style]}>
       <Text style={[styles.label, disabled && styles.disabled]}>{label}</Text>
@@ -50,6 +67,7 @@ export default function Picker<T>({
           // empty object to disable placeholder
           {}
         }
+        Icon={renderIcon}
         items={choices.map((choice) => ({
           label: choice.label,
           value: choice.value,
@@ -61,6 +79,10 @@ export default function Picker<T>({
         style={{
           viewContainer: {
             flex: 3,
+            justifyContent: 'center',
+          },
+          inputIOSContainer: {
+            height: 24,
             justifyContent: 'center',
           },
           inputAndroid: disabled ? styles.disabled : undefined,
