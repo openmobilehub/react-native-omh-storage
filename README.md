@@ -26,6 +26,91 @@
 - 🚀 Easy configuration and setup
 - 💨 Lightweight modules
 
+### A single codebase, running seamlessly on any device
+
+For instance, the following screenshots showcase multiple devices with Android, both with GMS and Non-GMS, and iOS. The same app works without changing a single line of code, supporting multiple map provider implementations (Google Drive, OneDrive and Dropbox).
+
+Android:
+
+<div align="center">
+
+| Google Drive                                                                                                                           | Dropbox                                                                                                                                 | OneDrive                                                                                                                                 |
+|----------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------|
+| File listing                                                                                                                           |
+| <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_google_1.gif"> | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_dropbox_1.gif"> | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_onedrive_1.gif"> |
+
+</div>
+
+iOS:
+
+<div align="center">
+
+| Google Drive                                                                                                                       | Dropbox                                                                                                                             | OneDrive                                                                                                                             |
+|------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
+| File listing                                                                                                                       |
+| <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_google_1.gif"> | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_dropbox_1.gif"> | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_onedrive_1.gif"> |
+
+</div>
+
+<details>
+  <summary>Show more</summary>
+
+Android:
+
+<div align="center">
+
+| Google Drive                                                                                                                            | Dropbox                                                                                                                                  | OneDrive                                                                                                                                  |
+|-----------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| File searching                                                                                                                          |
+| <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_google_2.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_dropbox_2.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_onedrive_2.gif">  |
+| File creation                                                                                                                           |
+| <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_google_3.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_dropbox_3.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_onedrive_3.gif">  |
+| File update                                                                                                                             |
+| <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_google_4.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_dropbox_4.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_onedrive_4.gif">  |
+| File deletion                                                                                                                           |
+| <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_google_5.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_dropbox_5.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_onedrive_5.gif">  |
+| File upload                                                                                                                             |
+| <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_google_6.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_dropbox_6.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_onedrive_6.gif">  |
+| File download                                                                                                                           |
+| <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_google_7.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_dropbox_7.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_onedrive_7.gif">  |
+| File metadata                                                                                                                           |
+| <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_google_8.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_dropbox_8.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_onedrive_8.gif">  |
+| File versioning                                                                                                                         |
+| <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_google_9.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_dropbox_9.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_onedrive_9.gif">  |
+| File permissions                                                                                                                        |
+| <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_google_10.gif"> | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_dropbox_10.gif"> | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/android/storage_onedrive_10.gif"> |
+
+</div>
+
+iOS:
+
+<div align="center">
+
+| Google Drive                                                                                                                        | Dropbox                                                                                                                              | OneDrive                                                                                                                              |
+|-------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
+| File searching                                                                                                                      |
+| <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_google_2.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_dropbox_2.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_onedrive_2.gif">  |
+| File creation                                                                                                                       |
+| <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_google_3.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_dropbox_3.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_onedrive_3.gif">  |
+| File update                                                                                                                         |
+| <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_google_4.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_dropbox_4.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_onedrive_4.gif">  |
+| File deletion                                                                                                                       |
+| <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_google_5.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_dropbox_5.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_onedrive_5.gif">  |
+| File upload                                                                                                                         |
+| <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_google_6.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_dropbox_6.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_onedrive_6.gif">  |
+| File download                                                                                                                       |
+| <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_google_7.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_dropbox_7.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_onedrive_7.gif">  |
+| File metadata                                                                                                                       |
+| <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_google_8.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_dropbox_8.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_onedrive_8.gif">  |
+| File versioning                                                                                                                     |
+| <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_google_9.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_dropbox_9.gif">  | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_onedrive_9.gif">  |
+| File permissions                                                                                                                    |
+| <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_google_10.gif"> | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_dropbox_10.gif"> | <img src="https://raw.githubusercontent.com/openmobilehub/omh-assets/main/react-native-omh-storage/demo/ios/storage_onedrive_10.gif"> |
+
+</div>
+
+</details>
+
 ## OMH Storage Modules
 
 This is the main directory of the mono-repo for React Native OMH Storage. If you're searching for a particular package, please click on the corresponding package link below.
