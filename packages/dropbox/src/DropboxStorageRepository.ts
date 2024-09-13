@@ -195,7 +195,7 @@ export class DropboxStorageRepository {
       custom_message: emailMessage,
       file: fileId,
       members: [mapPermissionRecipientToMemberSelector(recipient)],
-      quiet: sendNotificationEmail,
+      quiet: !sendNotificationEmail,
     };
 
     await this.apiService.addFileMember(body);
@@ -217,7 +217,7 @@ export class DropboxStorageRepository {
           member: mapPermissionRecipientToMemberSelector(recipient),
         },
       ],
-      quiet: sendNotificationEmail,
+      quiet: !sendNotificationEmail,
     };
 
     await this.apiService.addFolderMember(body);
