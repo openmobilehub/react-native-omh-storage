@@ -35,7 +35,7 @@ Operations that can be performed on files can also be applied to folders.
 Retrieve the root folder ID of the storage service. Useful for listing files in the root folder.
 
 ```typescript
-const rootFolderId = await storageClient.rootFolderId;
+const rootFolderId = storageClient.rootFolderId;
 ```
 
 ### List files
