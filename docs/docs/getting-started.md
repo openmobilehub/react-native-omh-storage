@@ -30,6 +30,11 @@ To integrate a storage provider into your React Native project, follow the speci
 Operations that can be performed on files can also be applied to folders.
 :::
 
+Note:
+
+_Below examples are referencing `storageClient`. You can see example initialization and usage in our Example App. 
+Please refer to [getStorageClient](https://github.com/openmobilehub/react-native-omh-storage/blob/main/apps/sample-app/src/contexts/storage/getStorageClient.ts) and [useRequireStorageClient](https://github.com/openmobilehub/react-native-omh-storage/blob/main/apps/sample-app/src/contexts/storage/useRequireStorageClient.ts) files for example implementation._
+
 ### Get root folder path
 
 Retrieve the root folder ID of the storage service. Useful for listing files in the root folder.
