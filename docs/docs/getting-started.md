@@ -40,7 +40,7 @@ Please refer to [getStorageClient](https://github.com/openmobilehub/react-native
 Retrieve the root folder ID of the storage service. Useful for listing files in the root folder.
 
 ```typescript
-const rootFolderId = await storageClient.rootFolderId;
+const rootFolderId = storageClient.rootFolderId;
 ```
 
 ### List files
